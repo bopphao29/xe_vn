@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
+import { HomeComponent } from '../home/home.component';
 
 
 @Component({
@@ -10,7 +11,8 @@ import {TranslateModule, TranslateService} from '@ngx-translate/core';
   styleUrls: ['./home-default.component.scss'],
   imports: [
     NzButtonModule,
-    TranslateModule
+    TranslateModule,
+    HomeComponent
   ]
 })
 export class HomeDefaultComponent implements OnInit {

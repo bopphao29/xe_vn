@@ -1,0 +1,38 @@
+.form-control {
+    border: none;
+}
+
+::ng-deep {
+    nz-form-label.ant-form-item-label.form-label.ant-col {
+        margin-bottom: -5px;
+    }
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector{
+        height: 50px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-radius: 5px;
+    }
+
+    nz-select-item.ant-select-selection-item.ng-star-inserted {
+        font-weight: 600;
+    }
+
+    .form-input {
+        height: 50px;
+        border-radius: 5px;
+    }
+
+    .ant-picker {
+        height: 50px;
+        border-radius: 5px;
+    }
+
+    .button {
+        padding: 25px 61px;
+        display: flex;
+        border-radius: 10px;
+        align-items: center;
+        font-size: 18px;
+    }
+}

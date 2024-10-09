@@ -1,0 +1,408 @@
+<form nz-form nzGutter="16" class="w-full" nzLayout="vertical">
+
+  <!-- Mã thiết bị -->
+  <div nz-col nzSpan="4" class="">
+    <nz-form-item class="form-control">
+      <nz-form-label class="form-label">Loại xe</nz-form-label>
+      <nz-form-control>
+        <nz-select nzPlaceHolder="Chọn loại xe">
+          <nz-option nzValue="limousine" nzLabel="Limousine"></nz-option>
+          <nz-option nzValue="solati" nzLabel="Solati"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
+  <h4>Hồ sơ phương tiện</h4>
+  <div style="background-color: #fff; border-radius: 5px;">
+
+    <div class="p-4 pb-0" nz-row>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" [nzSm]="12" [nzXs]="24" nzRequired>Tình trạng xe</nz-form-label>
+          <nz-form-control>
+            <nz-select nzPlaceHolder="Chọn loại xe">
+              <nz-option nzValue="limousine" nzLabel="Limousine"></nz-option>
+              <nz-option nzValue="solati" nzLabel="Solati"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>BKS</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" class="form-input" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">Số khung</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">Số máy</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Năm sản xuất</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Hãng sản xuất</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">Loại xe</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div class="px-4" nz-row>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Số chỗ</nz-form-label>
+          <nz-form-control>
+            <nz-select nzPlaceHolder="Chọn loại xe">
+              <nz-option nzValue="limousine" nzLabel="Limousine"></nz-option>
+              <nz-option nzValue="solati" nzLabel="Solati"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">Hình ảnh phương tiện</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">Mục đích sử dụng xe</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Định biên tuyến</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Số KH hiện tại</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày hoạt động lần đầu</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+    <div style="border-bottom: 1px solid #dddddd;margin-left: 30px; margin-bottom: 15px;"></div>
+    <div class="px-4" nz-row>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày đăng ký </nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày đăng kiểm</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">Ngày hết hạn đăng kiểm</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">Ngày cấp bảo hiểm TNDS</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày hết hạn bảo hiểm TNDS</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày cấp bảo hiểm vật chất xe</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày hết hạn bảo hiểm vật chất xe</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+
+    <div class="px-4" nz-row>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày cấp phù hiệu </nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày hết hạn phù hiệu</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">Ngày cấp giấy đi đường</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">Ngày hết hạn giấy đi đường</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Phí bảo trì đường bộ</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" type="number" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày đóng </nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày hết hạn</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+
+    <div class="px-4" nz-row>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Gói cước di động</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" type="number" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Nhà mạng</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" type="number" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">Ngày đăng ký</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">Ngày hết hạn</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Thiết bị định vị</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" type="number" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày lắp</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+
+    <div style="border-bottom: 1px solid #dddddd;margin-left: 30px; margin-bottom: 15px;"></div>
+
+    <div nz-row [nzGutter]="16" class="mx-4">
+      <div nz-col nzSpan="8">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">Lái xe chính</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" placeholder="03256659" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">SDT</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" placeholder="03256659" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="12">
+        <nz-form-label class="form-label">Tình trạng giao xe</nz-form-label>
+        <div nz-row nzGutter="8" style="border: 1px solid #d9d9d9;border-radius: 5px;padding: 10px;">
+          <div nz-col nzSpan="4">
+            <nz-form-item class="form-control">
+              <nz-form-control>
+                <nz-radio-group>
+                  <label nz-radio nzValue="fixed">Cố định</label>
+                  <br />
+                  <label nz-radio nzValue="temporary" class="mt-2">Tạm thời</label>
+                </nz-radio-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div nzGutter="4" nz-row style="margin-top: 33px;">
+            <div nz-col nzSpan="8">
+              <nz-form-item class="form-control">
+                <nz-form-label class="form-label">Từ ngày</nz-form-label>
+                <nz-form-control>
+                  <nz-date-picker nzPlaceHolder="01/01/2021"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="8">
+              <nz-form-item class="form-control">
+                <nz-form-label class="form-label">Đến ngày</nz-form-label>
+                <nz-form-control>
+                  <nz-date-picker nzPlaceHolder="01/01/2021"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="flex justify-end m-2">
+    <span>
+      <button class="button" nz-button nzType="default">Sửa</button>
+    </span>
+    <span class="ml-2">
+      <button class="button" nz-button nzType="default" [disabled]="true">Xác nhận</button>
+    </span>
+  </div>
+</form>
