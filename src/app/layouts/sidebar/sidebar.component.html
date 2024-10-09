@@ -1,0 +1,25 @@
+<div *ngIf="!isCollapsed" class="flex justify-center items-center py-6">
+    <img loading="lazy" routerLink="/" style="cursor: pointer;" src="../../../assets/images/favicon.ico" alt="customs_vietnam">
+</div>
+
+<ul nz-menu nzMode="inline" [nzInlineCollapsed]="isCollapsed" class="sidebar-menu border-0">
+    <ng-container [ngTemplateOutlet]="menuTpl" [ngTemplateOutletContext]="{$implicit: menus}"></ng-container>
+    <ng-template #menuTpl let-menus>
+        <ng-container *ngFor="let menu of menus">
+            <ng-container *ngIf="menu.children; else menuItem">
+                <li nz-submenu [nzTitle]="menu.title|translate" [(nzOpen)]="menu.open" [className]="this.urls === menu.router ? 'submenu-active' : ''">
+                    <ul *ngFor="let child of menu.children">
+                        <li nz-menu-item nzMatchRouter>
+                            <a [routerLink]="child.router">{{child.title|translate}}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ng-container>
+            <ng-template #menuItem>
+                <li nz-menu-item nzMatchRouter [className]="this.urls === menu.router ? 'menu-item-active' : ''">
+                    <a [routerLink]="menu.router">{{menu.title|translate}}</a>
+                </li>
+            </ng-template>
+        </ng-container>
+    </ng-template>
+</ul>
