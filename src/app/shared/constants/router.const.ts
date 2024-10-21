@@ -1,5 +1,6 @@
 export const ROUTERS = {
     LOGIN: 'login',
     AUTH: 'auth',
-    HOME_DEFAULT: 'home-default'
+    HOME_DEFAULT: 'home-default',
+    EMPLOYEE_DEFAULT: 'employee-management'
 }
