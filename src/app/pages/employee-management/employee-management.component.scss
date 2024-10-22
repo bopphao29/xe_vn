@@ -1,0 +1,9 @@
+.form-control {
+    border: none;
+}
+
+::ng-deep {
+    nz-form-label.ant-form-item-label.form-label.ant-col {
+        margin-bottom: -5px;
+    }
+}
