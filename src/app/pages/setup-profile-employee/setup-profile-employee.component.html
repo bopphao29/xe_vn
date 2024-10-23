@@ -178,7 +178,7 @@
                                     <label nz-radio nzValue="fixed" style="margin-bottom: 38px !important;">Chính
                                         thức</label>
                                     <br>
-                                    <label nz-radio nzValue="temporary" style="margin-top: 38px !important;">Thử
+                                    <label nz-radio nzValue="temporary" style="margin-top: 32px !important;">Thử
                                         việc</label>
                                 </nz-radio-group>
                             </nz-form-control>
@@ -197,7 +197,7 @@
                         </div>
 
                         <div nz-row>
-                            <div nz-col nzSpan="10">
+                            <div nz-col nzSpan="11">
                                 <nz-form-item class="form-control">
                                     <nz-form-label class="form-label">Từ ngày</nz-form-label>
                                     <nz-form-control>
@@ -206,7 +206,7 @@
                                 </nz-form-item>
                             </div>
 
-                            <div nz-col nzSpan="10">
+                            <div nz-col nzSpan="11" class="mx-2" >
                                 <nz-form-item class="form-control">
                                     <nz-form-label class="form-label">Đến ngày</nz-form-label>
                                     <nz-form-control>
@@ -573,10 +573,10 @@
                 
                 
             </div>
-            <div nz-col nzSpan="8" class="mx-4">
+            <div nz-col nzSpan="10">
                 <nz-form-label class="form-label">Trạng thái con cái</nz-form-label>
                 <div nz-row style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;">
-                    <div nz-row >
+                    <div nz-row class="w-full mx-2" style="height: 32px !important; line-height: 32px;">
                         <nz-form-item class="form-control">
                             <nz-form-control>
                                 <nz-radio-group>
@@ -589,7 +589,7 @@
                     </div>
                     <div nz-row formArrayName="childStatus">
                         <div nz-row style="display: flex; flex-wrap: nowrap;" *ngFor="let child of childStatus.controls; let childIndex = index" [formGroupName]="childIndex">
-                            <div nz-col nzSpan="8">
+                            <div nz-col nzSpan="10">
                                 <div class="mx-2">
                                     <nz-form-item class="form-control">
                                         <nz-form-label class="form-label">Tên con</nz-form-label>
@@ -623,12 +623,12 @@
                                 </div>
                             </div>
                             <div nz-col *ngIf="childStatus.length > 1" >
-                                <button type="button"  nz-button (click)="removeChildStatus(childIndex)" [hidden]="childIndex==0" style="margin-top: 32px; border: none;">
+                                <a nz-button (click)="removeChildStatus(childIndex)" [hidden]="childIndex==0" style="margin-top: 32px; border: none;">
                                     <svg width="16" height="19" viewBox="0 0 16 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M3 18.5C2.45 18.5 1.97917 18.3042 1.5875 17.9125C1.19583 17.5208 1 17.05 1 16.5V3.5H0V1.5H5V0.5H11V1.5H16V3.5H15V16.5C15 17.05 14.8042 17.5208 14.4125 17.9125C14.0208 18.3042 13.55 18.5 13 18.5H3ZM5 14.5H7V5.5H5V14.5ZM9 14.5H11V5.5H9V14.5Z" fill="#EF4444"/>
                                         </svg>
                                         
-                                  </button>
+                                  </a>
                             </div>
                            
                         </div>
@@ -655,54 +655,317 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <div class="flex justify-end m-2">
         <span>
             <button class="button" nz-button style="color: #274EA1;" nzType="default">Hủy</button>
         </span>
         <span class="ml-2">
             <button class="button" style="background-color: #274EA1; color: white;" nz-button nzType="default"
-                [disabled]="true">Lưu</button>
+                (click)="showModalInforEmployee()">Lưu</button>
         </span>
     </div>
 </form>
+
+<nz-modal [(nzVisible)]="isModalInforEmployee" 
+    (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()"
+    [nzContent]="modalContent" [nzFooter]="null"
+    [nzStyle]="{'min-width' : '1200px', 'min-height':'1080px'}"
+    >
+    <ng-template #modalContent>
+        <div class="headmodal">
+            <span>Thông tin nhân sự</span>
+        </div>
+        <div nz-row>
+            <div nz-col nzSpan="12">
+                <div nz-col nzSpan="21" class="mx-4">
+                    <table class="custom-table">
+                        <tbody>
+                          <tr>
+                            <td class="col-1">Tên nhân viên</td>
+                            <td class="col-2">{{ 'Phạm Gia Bách' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Năm sinh</td>
+                            <td class="col-2">{{ '1999' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Giới tính</td>
+                            <td class="col-2">{{ 'Nam' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Dân tộc</td>
+                            <td class="col-2">{{ 'kinh' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Tôn giáo</td>
+                            <td class="col-2">{{ 'Không' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Địa chỉ thường trú</td>
+                            <td class="col-2">{{ '128A, Nguyễn Thái Học, Ba Đình, Hà Nội' }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+            <div nz-col nzSpan="12">
+                <div nz-col nzSpan="21" class="mx-4">
+                    <table class="custom-table">
+                        <tbody>
+                          <tr>
+                            <td class="col-1">Số điện thoại</td>
+                            <td class="col-2">{{ '0365656564' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Zalo</td>
+                            <td class="col-2">{{ '0235968654' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Email</td>
+                            <td class="col-2">{{ 'giabach@gmail.com' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">CCCD</td>
+                            <td class="col-2">{{ '0012263365326' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Id nhân viên</td>
+                            <td class="col-2" style="color: #274ea1;">{{ 'LXT02356' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Địa chỉ tạm trú</td>
+                            <td class="col-2">{{ '175 Xã Đàn, Đống Đa, Hà Nội' }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 36px;">
+        </div>
+        <div nz-row>
+            <div nz-col nzSpan="12">
+                <div nz-col nzSpan="21" class="mx-4">
+                    <table class="custom-table">
+                        <tbody>
+                          <tr>
+                            <td class="col-1">Trình độ chuyên môn</td>
+                            <td class="col-2">{{ 'Trung cấp' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Tình trạng hôn nhân</td>
+                            <td class="col-2">{{ 'Đã kết hôn' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Tình trạng con cái</td>
+                            <td class="col-2">{{ 'Đã có con' }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+            <div nz-col nzSpan="12">
+                <div nz-col nzSpan="21" class="mx-4">
+                    <table class="custom-table">
+                        <tbody>
+                          <tr>
+                            <td class="col-1">Người liên hệ</td>
+                            <td class="col-2">{{ 'Lê Ánh Ngọc' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">SĐT người LH</td>
+                            <td class="col-2">{{ '0365213652' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Quan hệ với NV</td>
+                            <td class="col-2">{{ 'Vợ' }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 36px;">
+        </div>
+        <div nz-row>
+            <div nz-col nzSpan="12">
+                <div nz-col nzSpan="21" class="mx-4">
+                    <table class="custom-table">
+                        <tbody>
+                          <tr>
+                            <td class="col-1">Trực thuộc quản lý</td>
+                            <td class="col-2">{{ 'Phòng VTHK' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Chi nhánh</td>
+                            <td class="col-2">{{ 'CN Nam định' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Bộ phận</td>
+                            <td class="col-2">{{ 'Nhân sự' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Chức vụ</td>
+                            <td class="col-2">{{ 'Nhân sự' }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+            <div nz-col nzSpan="12">
+                <div nz-col nzSpan="21" class="mx-4">
+                    <table class="custom-table">
+                        <tbody>
+                          <tr>
+                            <td class="col-1">Tình trạng làm việc</td>
+                            <td class="col-2">{{ 'Chính thức' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Từ ngày</td>
+                            <td class="col-2">{{'01/01/2024'}}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Định biên tuyến</td>
+                            <td class="col-2">{{'Nam định'}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 36px;">
+        </div>
+        <div nz-row>
+            <div nz-col nzSpan="12">
+                <div nz-col nzSpan="21" class="mx-4">
+                    <table class="custom-table">
+                        <tbody>
+                          <tr>
+                            <td class="col-1">Số thẻ nghiệp vụ</td>
+                            <td class="col-2">{{ '001097096263' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Ngày cấp</td>
+                            <td class="col-2">{{ '14/12/2001' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Ngày hết hạn</td>
+                            <td class="col-2">{{ '14/12/2028' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Ngày hết hạn GKSK</td>
+                            <td class="col-2">{{ '10/08/2026' }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+            <div nz-col nzSpan="12">
+                <div nz-col nzSpan="21" class="mx-4">
+                    <table class="custom-table">
+                        <tbody>
+                          <tr>
+                            <td class="col-1">Số GPLX</td>
+                            <td class="col-2">{{ '9861589621' }}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Hạng</td>
+                            <td class="col-2">{{'D'}}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Ngày cấp</td>
+                            <td class="col-2">{{'11/10/2018'}}</td>
+                          </tr>
+                          <tr>
+                            <td class="col-1">Ngày hết hạn</td>
+                            <td class="col-2">{{'11/10/2028'}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 36px;">
+        </div>
+        <div nz-row>
+            <div nz-col nzSpan="24">
+                <div nz-col nzSpan="23" class=" mx-4">
+                    <span style="font-size: 14px; color: #6b7280;">Danh sách giấy tờ</span>
+                    <table class="custom-table-list">
+                        <tbody>
+                          <tr style="background-color: #f4f7fb;">
+                            <th style="text-align: center;" class="list-col-1">STT</th>
+                            <th class="list-col-2">Tên giấy tờ</th>
+                            <th style="text-align: center;" class="list-col-3">Số hiệu</th>
+                            <th style="text-align: center;" class="list-col-4">Loại giấy tờ</th>
+                          </tr>
+                          <tr>
+                            <td style="text-align: center;" class="list-col-1">{{'-'}}</td>
+                            <td class="list-col-2">{{'-'}}</td>
+                            <td style="text-align: center;" class="list-col-3">{{'-'}}</td>
+                            <td style="text-align: center;" class="list-col-4">{{'-'}}</td>
+                          </tr>
+                          
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 36px;">
+        </div>
+        <div nz-row>
+            <div nz-col nzSpan="24">
+                <div nz-col nzSpan="23">
+                    <span class="mx-4" style="font-size: 14px; color: #6b7280;">Danh sách giấy tờ</span>
+                    <table class="custom-table-list mx-4">
+                        <tbody>
+                          <tr style="background-color: #f4f7fb;">
+                            <th style="text-align: center;" class="list-col-1">STT</th>
+                            <th class="list-col-2">Tên con</th>
+                            <th style="text-align: center;" class="list-col-3">Năm sinh</th>
+                            <th style="text-align: center;" class="list-col-4">Giới tính</th>
+                          </tr>
+                          <tr>
+                            <td style="text-align: center;" class="list-col-1">{{'1'}}</td>
+                            <td class="list-col-2">{{'Phạm Tú Anh'}}</td>
+                            <td style="text-align: center;" class="list-col-3">{{'2020'}}</td>
+                            <td style="text-align: center;" class="list-col-4">{{'Nam'}}</td>
+                          </tr>
+                          <tr>
+                            <td style="text-align: center;" class="list-col-1">{{'2'}}</td>
+                            <td class="list-col-2">{{'Phạm Tú Anh'}}</td>
+                            <td style="text-align: center;" class="list-col-3">{{'2022'}}</td>
+                            <td style="text-align: center;" class="list-col-4">{{'Nữ'}}</td>
+                          </tr>
+                          
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 42px;">
+        </div>
+        <div nz-row style="display: flex; justify-content: center;">
+            <div nz-rol>
+                <span>
+                    <button class="button-infor" nz-button style="color: #274EA1;" nzType="default" (click)="handleCancel()">Quay lại</button>
+                </span>
+            </div>
+            <div nz-rol class="ml-2">
+                <span>
+                    <button class="button-infor" nz-button style="color: #274EA1;" nzType="default">
+                        <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.6667 3.33333H2.33333C1.22667 3.33333 0.333332 4.22667 0.333332 5.33333V8C0.333332 8.73333 0.933332 9.33333 1.66667 9.33333H3V10.6667C3 11.4 3.6 12 4.33333 12H9.66667C10.4 12 11 11.4 11 10.6667V9.33333H12.3333C13.0667 9.33333 13.6667 8.73333 13.6667 8V5.33333C13.6667 4.22667 12.7733 3.33333 11.6667 3.33333ZM9 10.6667H5C4.63333 10.6667 4.33333 10.3667 4.33333 10V7.33333H9.66667V10C9.66667 10.3667 9.36667 10.6667 9 10.6667ZM11.6667 6C11.3 6 11 5.7 11 5.33333C11 4.96667 11.3 4.66667 11.6667 4.66667C12.0333 4.66667 12.3333 4.96667 12.3333 5.33333C12.3333 5.7 12.0333 6 11.6667 6ZM10.3333 0H3.66667C3.3 0 3 0.3 3 0.666667V2C3 2.36667 3.3 2.66667 3.66667 2.66667H10.3333C10.7 2.66667 11 2.36667 11 2V0.666667C11 0.3 10.7 0 10.3333 0Z" fill="#274EA1"/>
+                            </svg>
+                            <span>In</span>
+                    </button>
+                </span>
+            </div>
+            <div nz-rol class="ml-2">
+                <button class="button-infor" style="background-color: #274EA1; color: white;" nz-button nzType="default"
+                        (click)="showModalInforEmployee()">Xác nhận</button>
+            </div>
+        </div>
+    </ng-template>
+  </nz-modal>
+

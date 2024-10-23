@@ -34,6 +34,8 @@ import { IData } from '../../models-employee/setup-profile-employee/index.model'
     NzRadioModule,
     NzModalModule,
     NzDatePickerModule,
+    NzTabsModule,
+    
 
   ],
   templateUrl: './setup-profile-employee.component.html',
@@ -96,6 +98,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
   }
 
   file = true
+  isModalInforEmployee = false
 
   constructor(
     private fb: FormBuilder,
@@ -196,4 +199,17 @@ export class SetupProfileEmployeeComponent implements OnInit {
   removeChildStatus(index: number){
     this.childStatus.removeAt(index)
   }
+
+  showModalInforEmployee(){
+    this.isModalInforEmployee = true
+  }
+  
+  handleCancel(){
+    this.isModalInforEmployee = false
+  }
+
+  handleSubmit(): void {
+    this.isModalInforEmployee = false;
+  }
+
 }
