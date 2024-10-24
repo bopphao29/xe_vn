@@ -16,6 +16,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, FormArray,Val
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { IData } from '../../models-employee/setup-profile-employee/index.model';
 import { Observable, Observer } from 'rxjs';
+import { UserServiceService } from '../../shared/user-service/user-service.service';
 
 @Component({
   selector: 'app-setup-profile-employee',
@@ -106,10 +107,11 @@ export class SetupProfileEmployeeComponent implements OnInit {
   loading = false;
   avatarUrl?: string;
 
-
+  userId : number = 2
   constructor(
     private fb: FormBuilder,
-    private msg: NzMessageService
+    private msg: NzMessageService,
+    private userSevice: UserServiceService
   ){
     this.form = this.fb.group(this.data)
   }
@@ -166,6 +168,8 @@ export class SetupProfileEmployeeComponent implements OnInit {
     childStatus: this.fb.array([this.createChildStatus()]),
     })    
     this.checkDriver()
+
+    this.getUser(this.userId)
   }
 
   get documents(): FormArray{
@@ -295,6 +299,14 @@ export class SetupProfileEmployeeComponent implements OnInit {
         complete: ()=> {
           
         }
+      })
+    }
+
+    getUser(id: any){
+      this.userId =id
+      console.log(id)
+      this.userSevice.getDetailUser(id).subscribe((response: any)=> {
+        console.log(response.data)
       })
     }
 }

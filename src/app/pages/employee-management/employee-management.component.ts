@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { SetupProfileEmployeeComponent } from '../setup-profile-employee/setup-profile-employee.component';
+import { ListProfileEmployeeComponent } from '../list-profile-employee/list-profile-employee.component';
 
 
 @Component({
@@ -12,7 +13,8 @@ import { SetupProfileEmployeeComponent } from '../setup-profile-employee/setup-p
     FormsModule,
     TranslateModule,
     NzTabsModule,
-    SetupProfileEmployeeComponent
+    SetupProfileEmployeeComponent,
+    ListProfileEmployeeComponent
   ],
   templateUrl: './employee-management.component.html',
   styleUrl: './employee-management.component.scss'

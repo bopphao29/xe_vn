@@ -1,0 +1,163 @@
+<form nz-form nzGutter="16" class="w-full" nzLayout="vertical">
+    <div>
+
+        <div class="" nz-row>
+            <div nz-col nzSpan="3" style="margin-right: 8px;">
+                <nz-form-item class="form-control">
+                    <nz-form-label class="form-label">ID nhân sự</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input class="form-input" placeholder="Nhập" class="form-input" />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="3" class="mx-2">
+                <nz-form-item class="form-control">
+                    <nz-form-label class="form-label">Tên nhân sự</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input class="form-input" placeholder="Nhập" />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="3" class="mx-2">
+                <nz-form-item class="form-control">
+                    <nz-form-label class="form-label">SĐT</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input class="form-input" placeholder="Nhập" />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="3" class="mx-2">
+                <nz-form-item class="form-control">
+                    <nz-form-label class="form-label">Trực thuộc quản lý</nz-form-label>
+                    <nz-form-control>
+                        <nz-select nzPlaceHolder="Tất cả">
+                            <nz-option nzValue="1" nzLabel="Tất cả"></nz-option>
+                            <nz-option nzValue="2" nzLabel="Vận tải khách hàng"></nz-option>
+                            <nz-option nzValue="3" nzLabel="Vận tải hàng hóa"></nz-option>
+                            <nz-option nzValue="4" nzLabel="Kế toán chính"></nz-option>
+                            <nz-option nzValue="5" nzLabel="..."></nz-option>
+
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="3" class="mx-2">
+                <nz-form-item class="form-control">
+                    <nz-form-label class="form-label" [nzSm]="12" [nzXs]="24">Chi nhánh </nz-form-label>
+                    <nz-form-control>
+                        <nz-select nzPlaceHolder="Tất cả">
+                            <nz-option nzValue="1" nzLabel="Tất cả"></nz-option>
+                            <nz-option nzValue="2" nzLabel="Nam định"></nz-option>
+                            <nz-option nzValue="3" nzLabel="Phú thọ"></nz-option>
+                            <nz-option nzValue="4" nzLabel="Thái bình"></nz-option>
+                            <nz-option nzValue="5" nzLabel="Ninh bình"></nz-option>
+
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="3" class="mx-2">
+                <nz-form-item class="form-control">
+                    <nz-form-label class="form-label" [nzSm]="12" [nzXs]="24">Bộp phận</nz-form-label>
+                    <nz-form-control>
+                        <nz-select nzPlaceHolder="Tất cả">
+                            <nz-option nzValue="1" nzLabel="Tất cả"></nz-option>
+                            <nz-option nzValue="2" nzLabel="Điều hành vận tải"></nz-option>
+                            <nz-option nzValue="2" nzLabel="Tổng đài"></nz-option>
+                            <nz-option nzValue="2" nzLabel="Lái xe tuyến"></nz-option>
+                            <nz-option nzValue="2" nzLabel="Lái xe trung chuyển"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col nzSpan="3" class="mx-2">
+                <nz-form-item class="form-control">
+                    <nz-form-label class="form-label" [nzSm]="12" [nzXs]="24">Chức vụ</nz-form-label>
+                    <nz-form-control>
+                        <nz-select nzPlaceHolder="Tất cả">
+                            <nz-option nzValue="1" nzLabel="Tất cả"></nz-option>
+                            <nz-option nzValue="2" nzLabel="Lái xe dự phòng"></nz-option>
+                            <nz-option nzValue="3" nzLabel="Lái xe thử việc"></nz-option>
+                            <nz-option nzValue="4" nzLabel="Lái xe tải"></nz-option>
+                            <nz-option nzValue="5" nzLabel="Lái xe thời vụ"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex justify-center m-2" style="min-width: 335px;">
+        <span>
+            <button class="button" nz-button nzType="default" style="border-color: #274ea1; min-width: 160px;">
+                <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M9.66667 17.5V12.5H11.3333V14.1667H18V15.8333H11.3333V17.5H9.66667ZM3 15.8333V14.1667H8V15.8333H3ZM6.33333 12.5V10.8333H3V9.16667H6.33333V7.5H8V12.5H6.33333ZM9.66667 10.8333V9.16667H18V10.8333H9.66667ZM13 7.5V2.5H14.6667V4.16667H18V5.83333H14.6667V7.5H13ZM3 5.83333V4.16667H11.3333V5.83333H3Z"
+                        fill="#274EA1" />
+                </svg>
+
+                <span style="color: #274ea1;">
+                    Xóa bộ lọc
+                </span>
+            </button>
+        </span>
+        <span class="ml-2">
+            <button class="button" style="background-color: #274ea1; color:  #f7f7f7;" nz-button nzType="default">Tìm
+                kiếm</button>
+        </span>
+    </div>
+</form>
+
+<div nz-row style="margin-top: 32px;">
+    <div nz-col nzSpan="24">
+        <table class="custom-table-list" style="background-color: #FCFCFC; text-align: center;">
+            <tbody>
+                <tr style="background-color: #fcfcfc;">
+                    <th class="list-col-1">ID</th>
+                    <th class="list-col-2">Tên nhân viên</th>
+                    <th class="list-col-1">Năm sinh</th>
+                    <th class="list-col-2">SĐT</th>
+                    <th class="list-col-2">Trục thuộc quản lý</th>
+                    <th class="list-col-2">Chi nhánh</th>
+                    <th class="list-col-2">Bộ phận</th>
+                    <th class="list-col-2">Chức vụ</th>
+                    <th class="list-col-2">Tác vụ</th>
+
+                </tr>
+                <tr *ngFor="let data of pagedData, let i = index">
+                    <td class="list-col-1">{{data.id}}</td>
+                    <td class="list-col-2">{{data.name}}</td>
+                    <td class="list-col-1">{{data.yearOfBirth}}</td>
+                    <td class="list-col-2">{{data.phoneNumber}}</td>
+                    <td class="list-col-2">{{data.ofManagement}}</td>
+                    <td class="list-col-2">{{data.address}}</td>
+                    <td class="list-col-2">{{data.level}}</td>
+                    <td class="list-col-2">{{data.part}}</td>
+                    <td class="list-col-2">
+                        <a class="button_show_detail">
+                            Xem chi tiết
+                        </a>
+                    </td>
+                </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div style="display: flex; justify-content: center; margin-top: 16px;">
+    <nz-pagination
+  [(nzPageIndex)]="pageIndex"
+  [nzTotal]="total"
+  [nzPageSize]="pageSize"
+  (nzPageIndexChange)="onPageChange($event)"
+  class="custom-pagination">
+</nz-pagination>
+</div>

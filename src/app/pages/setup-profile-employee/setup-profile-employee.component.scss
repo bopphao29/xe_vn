@@ -1,10 +1,58 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+
 *{
-    font-family: Roboto Condensed;
+  font-family: Roboto Condensed;
 }
 
 .form-control {
     border: none;
 }
+
+.label_setup{
+font-size: 16px;
+font-weight: 500;
+line-height: 18.75px;
+text-align: left;
+color: rgba(37, 44, 50, 1);
+}
+
+::ng-deep .label_form{
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 15.23px;
+  text-align: left;
+  color: rgba(107, 114, 128, 1) !important;
+
+}
+
+::ng-deep .ant-row .ant-col nz-form-item nz-form-label label {
+  color: rgba(107, 114, 128, 1) !important;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 15.23px;
+  text-align: left;
+}
+
+::ng-deep .ant-row .ant-col nz-form-label label{
+  color: rgba(107, 114, 128, 1) !important;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 15.23px;
+  text-align: left;
+}
+
+
+::ng-deep .ant-row .ant-col .ant-form-item .ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .ant-radio-group .ant-radio-wrapper   span  {
+  color: rgba(37, 44, 50, 1);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16.41px;
+  text-align: left;
+
+}
+
 
 
 ::ng-deep {

@@ -1,13 +1,13 @@
 <form nz-form nzGutter="16" class="w-full" nzLayout="vertical" [formGroup]="form">
 
-    <h4>Thiết lập hồ sơ nhân sự</h4>
+    <span class="label_setup">Thiết lập hồ sơ nhân sự</span>
     <div style="background-color: #fff; border-radius: 5px;">
 
         <div class="p-4 pb-0" nz-row>
 
             <div nz-col nzSpan="3" class="mx-2">
                 <nz-form-item class="form-control">
-                    <nz-form-label class="form-label">Tên nhân viên</nz-form-label>
+                    <nz-form-label style="color: red; " class="form-label label_form" >Tên nhân viên</nz-form-label>
                     <nz-form-control>
                         <input nz-input class="form-input" formControlName="name" placeholder="Nguyễn văn A" class="form-input" />
                     </nz-form-control>
@@ -169,17 +169,15 @@
 
         <div nz-row class="mx-4">
             <div nz-col class="mx-2" style="width: calc(25% + 16px);">
-                <nz-form-label class="form-label">Tình trạng giao xe</nz-form-label>
+                <nz-form-label class="form-label label_form">Tình trạng giao xe</nz-form-label>
                 <div nz-row nzSpan="5" style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px">
                     <div nz-col nzSpan="6">
                         <nz-form-item class="form-control">
                             <nz-form-control>
                                 <nz-radio-group>
-                                    <label nz-radio nzValue="fixed" style="margin-bottom: 38px !important;">Chính
-                                        thức</label>
+                                    <label  nz-radio nzValue="fixed" style="margin-bottom: 30px !important;">Chính thức</label>
                                     <br>
-                                    <label nz-radio nzValue="temporary" style="margin-top: 32px !important;">Thử
-                                        việc</label>
+                                    <label nz-radio nzValue="temporary" style="margin-top: 32px !important;">Thử việc</label>
                                 </nz-radio-group>
                             </nz-form-control>
                         </nz-form-item>
@@ -278,7 +276,7 @@
                 </div>
             </div>
             <div nz-col style="width: calc(37.5% + 28px);" class="mx-2">
-                <nz-form-label class="form-label">Hợp đồng lao động</nz-form-label>
+                <nz-form-label class="form-label label_form">Hợp đồng lao động</nz-form-label>
                 <div nz-row style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;">
                     <div nz-col nzSpan="8">
                         <div class="mx-2" style="width: calc(100% - 16px);">
@@ -488,7 +486,7 @@
         <div style="border-bottom: 1px solid #dddddd;margin-left: 30px; margin-bottom: 15px;margin-top: 20px;"></div>
         <div nz-row class="mx-4">
             <div nz-col style="width: calc(50% + 70px); margin-left: 8px;" >
-                <nz-form-label class="form-label">Hợp đồng lưu trữ</nz-form-label>
+                <nz-form-label class="form-label label_form">Hợp đồng lưu trữ</nz-form-label>
                 <div nz-row formArrayName="documents"  style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;width: calc(100% - 16px);">
                     <div nz-row style="display: flex; flex-wrap: nowrap;" *ngFor="let doc of documents.controls; let docIndex = index" [formGroupName]="docIndex">
                         <div nz-col nzSpan="6">
@@ -542,8 +540,8 @@
                                 </nz-form-item>
                             </div>
                         </div>
-                        <div nz-col *ngIf="documents.length > 1">
-                            <button type="button"  nz-button (click)="removeArchivedRecord(docIndex)" [hidden]="docIndex==0" style="margin-top: 32px; border: none;">
+                        <div nz-col *ngIf="documents.length > 1" style="display: flex; justify-content: center; align-items: center;" >
+                            <button type="button"  nz-button (click)="removeArchivedRecord(docIndex)" [hidden]="docIndex==0" style=" border: none;">
                                 <svg width="16" height="19" viewBox="0 0 16 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M3 18.5C2.45 18.5 1.97917 18.3042 1.5875 17.9125C1.19583 17.5208 1 17.05 1 16.5V3.5H0V1.5H5V0.5H11V1.5H16V3.5H15V16.5C15 17.05 14.8042 17.5208 14.4125 17.9125C14.0208 18.3042 13.55 18.5 13 18.5H3ZM5 14.5H7V5.5H5V14.5ZM9 14.5H11V5.5H9V14.5Z" fill="#EF4444"/>
                                     </svg>
@@ -565,7 +563,7 @@
                 
             </div>
             <div nz-col style="width: calc(37.5% + 28px);">
-                <nz-form-label class="form-label">Trạng thái con cái</nz-form-label>
+                <nz-form-label class="form-label label_form">Trạng thái con cái</nz-form-label>
                 <div nz-row style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;">
                     <div nz-row class="w-full mx-2" style="height: 32px !important; line-height: 32px;">
                         <nz-form-item class="form-control">
@@ -613,8 +611,8 @@
                                     </nz-form-item>
                                 </div>
                             </div>
-                            <div nz-col *ngIf="childStatus.length > 1" >
-                                <a nz-button (click)="removeChildStatus(childIndex)" [hidden]="childIndex==0" style="margin-top: 32px; border: none;">
+                            <div nz-col *ngIf="childStatus.length > 1" style="display: flex; justify-content: center; align-items: center; margin-left: 7px;"  >
+                                <a (click)="removeChildStatus(childIndex)" [hidden]="childIndex==0" style=" border: none;">
                                     <svg width="16" height="19" viewBox="0 0 16 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M3 18.5C2.45 18.5 1.97917 18.3042 1.5875 17.9125C1.19583 17.5208 1 17.05 1 16.5V3.5H0V1.5H5V0.5H11V1.5H16V3.5H15V16.5C15 17.05 14.8042 17.5208 14.4125 17.9125C14.0208 18.3042 13.55 18.5 13 18.5H3ZM5 14.5H7V5.5H5V14.5ZM9 14.5H11V5.5H9V14.5Z" fill="#EF4444"/>
                                         </svg>
@@ -845,7 +843,7 @@
                             <td class="col-1">Từ ngày</td>
                             <td class="col-2">{{'01/01/2024'}}</td>
                           </tr>
-                          <tr>
+                          <tr *ngIf="isDriver">
                             <td class="col-1">Định biên tuyến</td>
                             <td class="col-2">{{'Nam định'}}</td>
                           </tr>
@@ -856,7 +854,7 @@
         </div>
         <div style="margin-top: 36px;">
         </div>
-        <div nz-row>
+        <div nz-row *ngIf="isDriver">
             <div nz-col nzSpan="12">
                 <div nz-col nzSpan="21" class="mx-4">
                     <table class="custom-table">

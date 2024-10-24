@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
 .form-control {
     border: none;
 }
@@ -6,4 +9,32 @@
     nz-form-label.ant-form-item-label.form-label.ant-col {
         margin-bottom: -5px;
     }
+}
+
+.label_management {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 23.44px;
+    text-align: left;
+    color: rgba(37, 44, 50, 1);
+    
+}
+
+/* Tùy chỉnh tab */
+.nz-tabset .ant-tabs-nav .ant-tabs-tab {
+    display: inline-block;
+    padding: 10px 20px; /* Điều chỉnh khoảng cách padding */
+    background-color: #007bff; /* Màu nền nút */
+    color: white; /* Màu chữ */
+    border-radius: 4px; /* Bo góc */
+    margin-right: 8px; /* Khoảng cách giữa các nút */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển đổi màu */
+}
+
+.nz-tabset .ant-tabs-nav .ant-tabs-tab-active {
+    background-color: #0056b3; /* Màu nền khi tab được chọn */
+}
+
+.nz-tabset .ant-tabs-nav .ant-tabs-tab:hover {
+    background-color: #0056b3; /* Màu nền khi hover */
 }
