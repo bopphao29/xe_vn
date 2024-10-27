@@ -14,12 +14,18 @@ export const routes: Routes = [
       {
         path: ROUTERS.EMPLOYEE_DEFAULT,
         loadComponent: () => 
-        // import('./pages/home-default/home-default.component').then(
-        //     (c) => c.HomeDefaultComponent
-        // )
         (
           import('./pages/employee-management-default/employee-management-default.component').then(
             (c)=> c.EmployeeManagementDefaultComponent
+          )
+        )
+      },
+      {
+        path: ROUTERS.DETAIL_EMPLOYEE,
+        loadComponent: () => 
+        (
+          import('./pages/detail-profile-employee/detail-profile-employee.component').then(
+            (c)=> c.DetailProfileEmployeeComponent
           )
         )
       },

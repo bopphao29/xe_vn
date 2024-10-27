@@ -1,11 +1,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 
-
-*{
-  font-family: Roboto Condensed;
-}
-
 .form-control {
     border: none;
 }
@@ -44,8 +39,8 @@ color: rgba(37, 44, 50, 1);
 }
 
 
-::ng-deep .ant-row .ant-col .ant-form-item .ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .ant-radio-group .ant-radio-wrapper   span  {
-  color: rgba(37, 44, 50, 1);
+::ng-deep .ant-row .ant-col .ant-form-item .ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .ant-radio-group .ant-radio-wrapper span  {
+  color: rgb(37, 50, 41);
   font-size: 14px;
   font-weight: 500;
   line-height: 16.41px;
@@ -110,6 +105,7 @@ color: rgba(37, 44, 50, 1);
     .custom-upload {
         display: flex;
         align-items: center;
+        width: 100% !important;
     }
 
     .upload-input {
@@ -178,7 +174,8 @@ color: rgba(37, 44, 50, 1);
   }
 
   .custom-table-list {
-    width: 98%;
+   
+    width: calc(98% + 6px);
     border-collapse: collapse;
   }
 
@@ -214,3 +211,37 @@ color: rgba(37, 44, 50, 1);
     justify-content: center;
      align-items: center;
     }
+
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    
+     .form-col{
+      width: calc(100%/3);
+
+      div{
+        width: calc(100% - 16px);
+
+        .ant-form-item .ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .div{
+          width: 100%;
+        }
+      }
+
+     
+    }
+    
+
+    @media (max-width: 1155px) {
+      .form-col {
+        width: calc(50% ); /* Mỗi item chiếm 1/2 dòng, trừ đi khoảng cách */
+      }
+    
+      /* Input thứ 3 bị đẩy xuống dòng dưới */
+      .form-col:nth-child(3) {
+        width: 100%; /* Chiếm hết chiều rộng khi bị đẩy xuống */
+      }
+    }
+
+    

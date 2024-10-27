@@ -1,6 +1,4 @@
 export interface IData {
-    id: string | number | null,
-    code: string | null,
     name: string | null,
     yearOfBirth: number | null,
     gender: string | null,
@@ -14,6 +12,7 @@ export interface IData {
     maritalStatus: number | null,
     contactPerson: string | null,
     contactPersonPhone: string | null,
+    officeId: string | null,
     staffRelation: string | null,
     permanentAddress: string | null,
     temporaryAddress: string | null,
@@ -24,7 +23,7 @@ export interface IData {
     signDate: string | null,
     fileContract: string | null,
     isLimitedTime: number | null,
-    branchId: string | null,
+    branchId: number | null,
     departmentId: string | null,
     positionId: string | null,
     routeId: string | null,
@@ -35,14 +34,26 @@ export interface IData {
     healthCertificate: string | null,
     hcEndDate: string | null,
     driverLicenseNumber: string | null,
+    contractDuration: string| null,
     driverLicenseType: string | null,
     dlStartDate: string | null,
     dlEndDate: string | null,
     dlImage: string | null,
-    status: string | null,
-    createdBy: string | null,
-    createdDate: string | null,
-    lastModifiedBy: string | null,
-    lastModifiedDate: string | null,
-
+    contractFile: string | null,
+    // archivedRecordFiles: string | null,
+    lstChildren:[
+        {
+            name: string | null,
+            yearOfBirth: string | null,
+            gender : string | null
+        }
+    ],
+    lstArchivedRecords: [
+        {
+            name: string| null,
+            code: string | null,
+            type: string| null,
+            file: string | null
+        }
+    ]
 }

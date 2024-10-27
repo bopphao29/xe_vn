@@ -18,7 +18,7 @@
                 <nz-form-item class="form-control">
                     <nz-form-label class="form-label">Năm sinh</nz-form-label>
                     <nz-form-control>
-                        <input nz-input class="form-input" placeholder="Nhập" formArrayName="yearOfBirth" class="form-input" />
+                        <input nz-input class="form-input" placeholder="Nhập" formControlName="yearOfBirth" class="form-input" />
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -57,7 +57,7 @@
                 <nz-form-item class="form-control">
                     <nz-form-label class="form-label">Zalo</nz-form-label>
                     <nz-form-control>
-                        <input nz-input class="form-input" formArrayName="zalo" placeholder="Nhập" />
+                        <input nz-input class="form-input" formControlName="zalo" placeholder="Nhập" />
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -87,7 +87,7 @@
                 <nz-form-item class="form-control">
                     <nz-form-label class="form-label">Tôn giáo</nz-form-label>
                     <nz-form-control>
-                        <input nz-input class="form-input" formArrayName="religion" placeholder="Nhập" />
+                        <input nz-input class="form-input" formControlName="religion" placeholder="Nhập" />
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -97,7 +97,7 @@
                         Trình độ chuyên môn
                     </nz-form-label>
                     <nz-form-control>
-                        <input nz-input class="form-input" formArrayName="professionalLevel" placeholder="Nhập" />
+                        <input nz-input class="form-input" formControlName="professionalLevel" placeholder="Nhập" />
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -107,8 +107,8 @@
                     <nz-form-label class="form-label">Tình trạng hôn nhân</nz-form-label>
                     <nz-form-control>
                         <nz-select nzPlaceHolder="Chưa kết hôn" formControlName="maritalStatus">
-                            <nz-option nzValue="1" nzLabel="Chưa kết hôn"></nz-option>
-                            <nz-option nzValue="2" nzLabel="Đã kết hôn"></nz-option>
+                            <nz-option nzValue="0" nzLabel="Chưa kết hôn"></nz-option>
+                            <nz-option nzValue="1" nzLabel="Đã kết hôn"></nz-option>
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
@@ -169,15 +169,15 @@
 
         <div nz-row class="mx-4">
             <div nz-col class="mx-2" style="width: calc(25% + 16px);">
-                <nz-form-label class="form-label label_form">Tình trạng giao xe</nz-form-label>
+                <nz-form-label class="form-label label_form">Tình trạng làm việc</nz-form-label>
                 <div nz-row nzSpan="5" style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px">
                     <div nz-col nzSpan="6">
                         <nz-form-item class="form-control">
                             <nz-form-control>
-                                <nz-radio-group>
-                                    <label  nz-radio nzValue="fixed" style="margin-bottom: 30px !important;">Chính thức</label>
+                                <nz-radio-group formControlName="contractType">
+                                    <label nz-radio nzValue="1" style="margin-bottom: 30px !important;">Chính thức</label>
                                     <br>
-                                    <label nz-radio nzValue="temporary" style="margin-top: 32px !important;">Thử việc</label>
+                                    <label nz-radio nzValue="2" style="margin-top: 32px !important;">Thử việc</label>
                                 </nz-radio-group>
                             </nz-form-control>
                         </nz-form-item>
@@ -187,7 +187,7 @@
                             <nz-form-item class="form-control">
                                 <nz-form-label class="form-label">Từ ngày</nz-form-label>
                                 <nz-form-control>
-                                    <nz-date-picker class="w-full" formControlName="fromDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
+                                    <nz-date-picker (ngModelChange)="onDateChange($event)" class="w-full" formControlName="fromDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -197,7 +197,7 @@
                                 <nz-form-item class="form-control">
                                     <nz-form-label class="form-label">Từ ngày</nz-form-label>
                                     <nz-form-control>
-                                        <nz-date-picker class="w-full" formControlName="toDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
+                                        <nz-date-picker class="w-full" (ngModelChange)="onDateChange($event)" formControlName="toDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
@@ -206,7 +206,7 @@
                                 <nz-form-item class="form-control">
                                     <nz-form-label class="form-label">Đến ngày</nz-form-label>
                                     <nz-form-control>
-                                        <nz-date-picker class="w-full" formControlName="contractDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
+                                        <nz-date-picker class="w-full" (ngModelChange)="onDateChange($event)" formControlName="contractDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
@@ -223,7 +223,7 @@
                             <nz-form-item class="form-control">
                                 <nz-form-label class="form-label">Trực thuộc quản lý</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select nzPlaceHolder="VTHK">
+                                    <nz-select nzPlaceHolder="VTHK" formControlName="departmentId">
                                         <nz-option nzValue="1" nzLabel="VTHK"></nz-option>
 
                                     </nz-select>
@@ -236,7 +236,7 @@
                             <nz-form-item class="form-control">
                                 <nz-form-label class="form-label">Chi nhánh</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select nzPlaceHolder="VTHK">
+                                    <nz-select nzPlaceHolder="VTHK" formControlName="branchId">
                                         <nz-option nzValue="1" nzLabel="VTHK"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
@@ -250,11 +250,9 @@
                             <nz-form-item class="form-control">
                                 <nz-form-label class="form-label">Bộ phận làm việc</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select nzPlaceHolder="Marketing" formControlName="departmentId">
+                                    <nz-select nzPlaceHolder="Marketing" formControlName="officeId">
                                         <nz-option nzValue="1" nzLabel="Marketing"></nz-option>
-                                        <nz-option nzValue="2" nzLabel="Sale"></nz-option>
-                                        <nz-option nzValue="3" nzLabel="Nhân viên"></nz-option>
-                                        <nz-option nzValue="4" nzLabel="Lái xe"></nz-option>
+                                        <nz-option nzValue="2" nzLabel="Lái xe"></nz-option>
 
                                     </nz-select>
                                 </nz-form-control>
@@ -266,8 +264,10 @@
                             <nz-form-item class="form-control">
                                 <nz-form-label class="form-label">Chức vụ</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select nzPlaceHolder="Lái xe tuyến">
+                                    <nz-select nzPlaceHolder="Lái xe tuyến" formControlName="positionId">
                                         <nz-option nzValue="1" nzLabel="Lái xe tuyến"></nz-option>
+                                        <nz-option nzValue="2" nzLabel="Lái xe thời vụ"></nz-option>
+
                                     </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
@@ -277,47 +277,43 @@
             </div>
             <div nz-col style="width: calc(37.5% + 28px);" class="mx-2">
                 <nz-form-label class="form-label label_form">Hợp đồng lao động</nz-form-label>
-                <div nz-row style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;">
-                    <div nz-col nzSpan="8">
-                        <div class="mx-2" style="width: calc(100% - 16px);">
+                <div nz-row class="form-row" style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;">
+                    <div class="form-col" nz-col>
+                        <div class="mx-2">
                             <nz-form-item class="form-control">
                                 <nz-form-label class="form-label">Ngày ký</nz-form-label>
                                 <nz-form-control>
-                                    <nz-date-picker formControlName="bcStartDate" class="w-full" formControlName="signDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
+                                    <nz-date-picker (ngModelChange)="onDateChange($event)" formControlName="signDate" class="w-full" nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
                     </div>
-                    <div nz-col nzSpan="8">
-                        <div class="mx-2" style="width: calc(100% - 16px) !important;">
+                    <div class="form-col" nz-col >
+                        <div style="margin-left: 12px;">
                             <nz-form-item class="form-control">
                                 <nz-form-label class="form-label">File hợp đồng Lao động</nz-form-label>
                                 <nz-form-control>
-                                    <!-- <nz-upload nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                        [nzHeaders]="{ authorization: 'authorization-text' }" nzShowUploadList="false" [nzFileList]="fileList"
-                        (nzChange)="handleChange($event)"> -->
-                                    <div nz-row nzGutter="8" class="custom-upload"
+                                    <div nz-row nzGutter="8" class="custom-upload" 
                                         style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
                                         <input nz-input placeholder="" readonly class="upload-input"
-                                            style="border: none; outline: none; flex: 1;" formControlName="fileContract"
-                                            [value]="fileCompressed.length > 0 ? fileCompressed[0].name : ''" />
+                                            style="border: none; outline: none; flex: 1;" formControlName="contractFile"
+                                            [value]="fileCompressed.contractFile.length > 0 ? fileCompressed.contractFile[0].name : ''" />
                                             <button nz-button nzType="default" nzShape="circle" class="upload-button"
                                             (click)="fileInput.click()" style="border: none; background: transparent;">
                                                 <i nz-icon nzType="paper-clip"></i>
-                                                <input type="file" #fileInput (change)="onFileChange($event)" style="display: none;" />
+                                                <input type="file" #fileInput (change)="onChange($event, 'contractFile')" style="display: none;" />
                                             </button>
                                     </div>
-                                    <!-- </nz-upload> -->
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
                     </div>
-                    <div nz-col nzSpan="8">
-                        <div class="mx-2" style="width: calc(100% - 16px);">
+                    <div nz-col class="form-col">
+                        <div class="mx-2">
                             <nz-form-item class="form-control">
                                 <nz-form-label class="form-label">Thời hạn</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select nzPlaceHolder="Hợp đồng 1 năm" formControlName="isLimitedTime">
+                                    <nz-select nzPlaceHolder="Hợp đồng 1 năm" formControlName="contractDuration">
                                         <nz-option nzValue="1" nzLabel="Hợp đồng 1 năm"></nz-option>
                                         <nz-option nzValue="2" nzLabel="Hợp đồng 2 năm"></nz-option>
                                         <nz-option nzValue="3" nzLabel="Hợp đồng vô thờ hạn"></nz-option>
@@ -331,11 +327,11 @@
         </div>
         <div class="p-4 pb-0" nz-row *ngIf="isDriver">
 
-            <div nz-col nzSpan="3" class="mx-2">
+            <div nz-col nzSpan="3" class="mx-2 ">
                 <nz-form-item class="form-control">
-                    <nz-form-label class="form-label" [nzSm]="12" [nzXs]="24" style="padding-left: none;">Định biên tuyến</nz-form-label>
+                    <nz-form-label class="form-label" style="padding-left: none;">Định biên tuyến</nz-form-label>
                     <nz-form-control>
-                        <nz-select nzPlaceHolder="Nam định" formControlName="gender">
+                        <nz-select nzPlaceHolder="Nam định" formControlName="routeId">
                             <nz-option nzValue="1" nzLabel="Nam định"></nz-option>
                             <nz-option nzValue="2" nzLabel="Hà Nam"></nz-option>
                         </nz-select>
@@ -347,25 +343,25 @@
                 <nz-form-item class="form-control">
                     <nz-form-label class="form-label">Số thẻ nghiệp vụ</nz-form-label>
                     <nz-form-control>
-                        <input nz-input class="form-input" formControlName="name" placeholder="Nguyễn văn A" class="form-input" />
+                        <input nz-input class="form-input" formControlName="businessCardNumber" placeholder="Nguyễn văn A" class="form-input" />
                     </nz-form-control>
                 </nz-form-item>
             </div>
 
             <div nz-col nzSpan="3" class="mx-2">
                 <nz-form-item class="form-control">
-                    <nz-form-label class="form-label" nzRequired>Ngày cấp </nz-form-label>
+                    <nz-form-label class="form-label" >Ngày cấp </nz-form-label>
                     <nz-form-control>
-                      <nz-date-picker class="w-full"  formArrayName="yearOfBirth" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                      <nz-date-picker class="w-full" (ngModelChange)="onDateChange($event)"  formControlName="bcStartDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                     </nz-form-control>
                   </nz-form-item>
             </div>
 
             <div nz-col nzSpan="3" class="mx-2">
                 <nz-form-item class="form-control">
-                    <nz-form-label class="form-label" nzRequired>Ngày hết hạn </nz-form-label>
+                    <nz-form-label class="form-label" >Ngày hết hạn </nz-form-label>
                     <nz-form-control>
-                      <nz-date-picker class="w-full"  formArrayName="yearOfBirth" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                      <nz-date-picker class="w-full" (ngModelChange)="onDateChange($event)" formControlName="bcEndDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                     </nz-form-control>
                   </nz-form-item>
             </div>
@@ -378,7 +374,7 @@
                         <div nz-row nzGutter="8" class="custom-upload"
                             style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
                             <input nz-input placeholder="" readonly class="upload-input"
-                                style="border: none; outline: none; flex: 1;"
+                                style="border: none; outline: none; flex: 1;" formControlName="bcImage"
                                 [value]="fileList.length > 0 ? fileList[0].name : ''" />
                             <button nz-button nzType="default" nzShape="circle" class="upload-button"
                             (click)="isShowModalUploadfile = true"  style="border: none; background: transparent;">
@@ -397,13 +393,13 @@
                         <div nz-row nzGutter="8" class="custom-upload"
                             style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
                             <input nz-input placeholder="" readonly class="upload-input"
-                                style="border: none; outline: none; flex: 1;"
-                                [value]="fileCompressed.length > 0 ? fileCompressed[0].name : ''" />
+                                style="border: none; outline: none; flex: 1;" formControlName="healthCertificate"
+                                [value]="fileCompressed.healthCertificate.length > 0 ? fileCompressed.healthCertificate[0].name : ''" />
                                 
                             <button nz-button nzType="default" nzShape="circle" class="upload-button"
                             (click)="fileInput.click()" style="border: none; background: transparent;">
                                 <i nz-icon nzType="paper-clip"></i>
-                                <input type="file" #fileInput (change)="onFileChange($event)" style="display: none;" />
+                                <input type="file" #fileInput (change)="onChange($event, 'healthCertificate')" style="display: none;" />
                             </button>
                         </div>
                     </nz-form-control>
@@ -412,9 +408,9 @@
 
             <div nz-col nzSpan="3" class="mx-2">
                 <nz-form-item class="form-control">
-                    <nz-form-label class="form-label" nzRequired>Ngày đăng ký </nz-form-label>
+                    <nz-form-label class="form-label" >Ngày hết hạn GKSK </nz-form-label>
                     <nz-form-control>
-                      <nz-date-picker class="w-full"  formArrayName="yearOfBirth" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                      <nz-date-picker class="w-full" (ngModelChange)="onDateChange($event)" formControlName="hcEndDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                     </nz-form-control>
                   </nz-form-item>
             </div>
@@ -425,16 +421,16 @@
                 <nz-form-item class="form-control">
                     <nz-form-label class="form-label">Số GPLX</nz-form-label>
                     <nz-form-control>
-                        <input nz-input class="form-input" formControlName="name" placeholder="Nguyễn văn A" class="form-input" />
+                        <input nz-input class="form-input" formControlName="driverLicenseNumber" placeholder="Nguyễn văn A" class="form-input" />
                     </nz-form-control>
                 </nz-form-item>
             </div>
 
             <div nz-col nzSpan="3" class="mx-2">
                 <nz-form-item class="form-control">
-                    <nz-form-label class="form-label" [nzSm]="12" [nzXs]="24" style="padding-left: none;">Hạng GPLX</nz-form-label>
+                    <nz-form-label class="form-label" style="padding-left: none;">Hạng GPLX</nz-form-label>
                     <nz-form-control>
-                        <nz-select nzPlaceHolder="D" formControlName="gender">
+                        <nz-select nzPlaceHolder="D" formControlName="driverLicenseType">
                             <nz-option nzValue="1" nzLabel="D"></nz-option>
                             <nz-option nzValue="2" nzLabel="E"></nz-option>
                             <nz-option nzValue="3" nzLabel="FB"></nz-option>
@@ -446,31 +442,31 @@
 
             <div nz-col nzSpan="3" class="mx-2">
                 <nz-form-item class="form-control">
-                    <nz-form-label class="form-label" nzRequired>Ngày cấp </nz-form-label>
+                    <nz-form-label class="form-label" >Ngày cấp </nz-form-label>
                     <nz-form-control>
-                      <nz-date-picker class="w-full"  formArrayName="yearOfBirth" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                      <nz-date-picker class="w-full" (ngModelChange)="onDateChange($event)" formControlName="dlStartDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                     </nz-form-control>
                   </nz-form-item>
             </div>
 
             <div nz-col nzSpan="3" class="mx-2">
                 <nz-form-item class="form-control">
-                    <nz-form-label class="form-label" nzRequired>Ngày hết hạn </nz-form-label>
+                    <nz-form-label class="form-label" >Ngày hết hạn </nz-form-label>
                     <nz-form-control>
-                      <nz-date-picker class="w-full"  formArrayName="yearOfBirth" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                      <nz-date-picker class="w-full" (ngModelChange)="onDateChange($event)" formControlName="dlEndDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                     </nz-form-control>
                   </nz-form-item>
             </div>
 
             <div nz-col nzSpan="3" class="mx-2">
                 <nz-form-item class="form-control">
-                    <nz-form-label class="form-label">Hình ảnh lấy phép lái xe</nz-form-label>
+                    <nz-form-label class="form-label">Hình ảnh GPLX</nz-form-label>
                     <nz-form-control>
                         
                         <div nz-row nzGutter="8" class="custom-upload"
                             style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
                             <input nz-input placeholder="" readonly class="upload-input"
-                                style="border: none; outline: none; flex: 1;"
+                                style="border: none; outline: none; flex: 1;" formControlName="dlImage"
                                 [value]="fileList.length > 0 ? fileList[0].name : ''" />
                             <button nz-button nzType="default" nzShape="circle" class="upload-button"
                             (click)="isShowModalUploadfile = true" style="border: none; background: transparent;">
@@ -487,14 +483,14 @@
         <div nz-row class="mx-4">
             <div nz-col style="width: calc(50% + 70px); margin-left: 8px;" >
                 <nz-form-label class="form-label label_form">Hợp đồng lưu trữ</nz-form-label>
-                <div nz-row formArrayName="documents"  style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;width: calc(100% - 16px);">
-                    <div nz-row style="display: flex; flex-wrap: nowrap;" *ngFor="let doc of documents.controls; let docIndex = index" [formGroupName]="docIndex">
+                <div nz-row formArrayName="lstArchivedRecords"  style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;width: calc(100% - 16px);">
+                    <div nz-row style="display: flex; flex-wrap: nowrap;" *ngFor="let doc of lstArchivedRecords.controls; let docIndex = index" [formGroupName]="docIndex">
                         <div nz-col nzSpan="6">
                             <div class="mx-2">
                                 <nz-form-item class="form-control">
                                     <nz-form-label class="form-label">Tên giấy tờ</nz-form-label>
                                     <nz-form-control>
-                                        <input nz-input class="form-input"  placeholder="Nhập" />
+                                        <input nz-input class="form-input" formControlName="name"  placeholder="Nhập" />
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
@@ -504,7 +500,7 @@
                                 <nz-form-item class="form-control">
                                     <nz-form-label class="form-label">Số hiệu</nz-form-label>
                                     <nz-form-control>
-                                        <input nz-input class="form-input"  placeholder="Nhập" />
+                                        <input nz-input class="form-input" formControlName="code"  placeholder="Nhập" />
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
@@ -514,7 +510,7 @@
                                 <nz-form-item class="form-control">
                                     <nz-form-label class="form-label">Loại giấy tờ</nz-form-label>
                                     <nz-form-control>
-                                        <input nz-input class="form-input" placeholder="Nhập" />
+                                        <input nz-input class="form-input" formControlName="type" placeholder="Nhập" />
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
@@ -528,19 +524,19 @@
                                         <div nz-row nzGutter="8" class="custom-upload"
                                             style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
                                             <input nz-input placeholder="" readonly class="upload-input"
-                                                style="border: none; outline: none; flex: 1;"
-                                                [value]="fileCompressed.length > 0 ? fileCompressed[0].name : ''" />
+                                                style="border: none; outline: none; flex: 1;" formControlName="file"
+                                                [value]="fileCompressed.file[docIndex] ? fileCompressed.file[docIndex]?.name : ''" />
                                                 <button nz-button nzType="default" nzShape="circle" class="upload-button"
                                                 (click)="fileInput.click()" style="border: none; background: transparent;">
                                                     <i nz-icon nzType="paper-clip"></i>
-                                                    <input type="file" #fileInput (change)="onFileChange($event)" style="display: none;" />
+                                                    <input type="file" #fileInput (change)="onFileChange($event,'file', docIndex)" style="display: none;" />
                                                 </button>
                                         </div>
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
                         </div>
-                        <div nz-col *ngIf="documents.length > 1" style="display: flex; justify-content: center; align-items: center;" >
+                        <div nz-col *ngIf="lstArchivedRecords.length > 1" style="display: flex; justify-content: center; align-items: center;" >
                             <button type="button"  nz-button (click)="removeArchivedRecord(docIndex)" [hidden]="docIndex==0" style=" border: none;">
                                 <svg width="16" height="19" viewBox="0 0 16 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M3 18.5C2.45 18.5 1.97917 18.3042 1.5875 17.9125C1.19583 17.5208 1 17.05 1 16.5V3.5H0V1.5H5V0.5H11V1.5H16V3.5H15V16.5C15 17.05 14.8042 17.5208 14.4125 17.9125C14.0208 18.3042 13.55 18.5 13 18.5H3ZM5 14.5H7V5.5H5V14.5ZM9 14.5H11V5.5H9V14.5Z" fill="#EF4444"/>
@@ -564,26 +560,25 @@
             </div>
             <div nz-col style="width: calc(37.5% + 28px);">
                 <nz-form-label class="form-label label_form">Trạng thái con cái</nz-form-label>
-                <div nz-row style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;">
+                <div nz-row formArrayName="lstChildren" style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;">
                     <div nz-row class="w-full mx-2" style="height: 32px !important; line-height: 32px;">
                         <nz-form-item class="form-control">
                             <nz-form-control>
                                 <nz-radio-group>
                                     <label nz-radio nzValue="fixed">Chưa có con</label>
-                                    
                                     <label nz-radio nzValue="temporary">Đã có con</label>
                                 </nz-radio-group>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
-                    <div formArrayName="childStatus"  class="w-full">
-                        <div nz-row style="display: flex; flex-wrap: nowrap;" *ngFor="let child of childStatus.controls; let childIndex = index" [formGroupName]="childIndex">
+                    <div class="w-full">
+                        <div nz-row style="display: flex; flex-wrap: nowrap;" *ngFor="let child of lstChildren.controls; let childIndex = index" [formGroupName]="childIndex">
                             <div nz-col nzSpan="10">
                                 <div class="mx-2">
                                     <nz-form-item class="form-control">
-                                        <nz-form-label class="form-label">Tên con</nz-form-label>
+                                        <nz-form-label class="form-label" >Tên con</nz-form-label>
                                         <nz-form-control>
-                                            <input nz-input class="form-input" placeholder="Nhập" />
+                                            <input nz-input class="form-input" formControlName="name" placeholder="Nhập" />
                                         </nz-form-control>
                                     </nz-form-item>
                                 </div>
@@ -593,7 +588,7 @@
                                     <nz-form-item class="form-control">
                                         <nz-form-label class="form-label">Năm sinh:</nz-form-label>
                                         <nz-form-control>
-                                            <input nz-input class="form-input" placeholder="Nhập" />
+                                            <input nz-input class="form-input" formControlName="yearOfBirth" placeholder="Nhập" />
                                         </nz-form-control>
                                     </nz-form-item>
                                 </div>
@@ -603,7 +598,7 @@
                                     <nz-form-item class="form-control">
                                         <nz-form-label class="form-label">Giới tính</nz-form-label>
                                         <nz-form-control>
-                                            <nz-select nzPlaceHolder="Nam">
+                                            <nz-select nzPlaceHolder="Nam" formControlName="gender">
                                                 <nz-option nzValue="1" nzLabel="Nam"></nz-option>
                                                 <nz-option nzValue="2" nzLabel="Nữ"></nz-option>
                                             </nz-select>
@@ -611,8 +606,8 @@
                                     </nz-form-item>
                                 </div>
                             </div>
-                            <div nz-col *ngIf="childStatus.length > 1" style="display: flex; justify-content: center; align-items: center; margin-left: 7px;"  >
-                                <a (click)="removeChildStatus(childIndex)" [hidden]="childIndex==0" style=" border: none;">
+                            <div nz-col *ngIf="lstChildren.length > 1" style="display: flex; justify-content: center; align-items: center; margin-left: 7px;"  >
+                                <a (click)="removelstChildren(childIndex)" [hidden]="childIndex==0" style=" border: none;">
                                     <svg width="16" height="19" viewBox="0 0 16 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M3 18.5C2.45 18.5 1.97917 18.3042 1.5875 17.9125C1.19583 17.5208 1 17.05 1 16.5V3.5H0V1.5H5V0.5H11V1.5H16V3.5H15V16.5C15 17.05 14.8042 17.5208 14.4125 17.9125C14.0208 18.3042 13.55 18.5 13 18.5H3ZM5 14.5H7V5.5H5V14.5ZM9 14.5H11V5.5H9V14.5Z" fill="#EF4444"/>
                                         </svg>
@@ -624,7 +619,7 @@
                     </div>
                     <div nz-row class="w-full">
                         <div>
-                            <button (click)="addChildStatus()" class="button_add mx-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <button (click)="addlstChildren()" class="button_add mx-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                               </svg>
                               </button>
@@ -688,7 +683,7 @@
 <nz-modal [(nzVisible)]="isModalInforEmployee" 
     (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()"
     [nzContent]="modalContent" [nzFooter]="null"
-    [nzStyle]="{'min-width' : '1200px', 'min-height':'1080px'}"
+    [nzStyle]="{'min-width' : '1024px', 'min-height':'1080px'}"
     >
     <ng-template #modalContent>
         <div class="headmodal">
@@ -701,27 +696,27 @@
                         <tbody>
                           <tr>
                             <td class="col-1">Tên nhân viên</td>
-                            <td class="col-2">{{ 'Phạm Gia Bách' }}</td>
+                            <td class="col-2">{{ inforEmployee.name || '' }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Năm sinh</td>
-                            <td class="col-2">{{ '1999' }}</td>
+                            <td class="col-2">{{ inforEmployee.yearOfBirth || '' }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Giới tính</td>
-                            <td class="col-2">{{ 'Nam' }}</td>
+                            <td class="col-2">{{ inforEmployee.gender || '' }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Dân tộc</td>
-                            <td class="col-2">{{ 'kinh' }}</td>
+                            <td class="col-2">{{ inforEmployee.ethnicGroup || '' }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Tôn giáo</td>
-                            <td class="col-2">{{ 'Không' }}</td>
+                            <td class="col-2">{{ inforEmployee.religion || '' }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Địa chỉ thường trú</td>
-                            <td class="col-2">{{ '128A, Nguyễn Thái Học, Ba Đình, Hà Nội' }}</td>
+                            <td class="col-2">{{ inforEmployee.permanentAddress || '' }}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -733,27 +728,27 @@
                         <tbody>
                           <tr>
                             <td class="col-1">Số điện thoại</td>
-                            <td class="col-2">{{ '0365656564' }}</td>
+                            <td class="col-2">{{ inforEmployee.phoneNumber || '' }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Zalo</td>
-                            <td class="col-2">{{ '0235968654' }}</td>
+                            <td class="col-2">{{ inforEmployee.zalo || '' }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Email</td>
-                            <td class="col-2">{{ 'giabach@gmail.com' }}</td>
+                            <td class="col-2">{{ inforEmployee.email  || '' }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">CCCD</td>
-                            <td class="col-2">{{ '0012263365326' }}</td>
+                            <td class="col-2">{{ inforEmployee.identifierId || '' }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Id nhân viên</td>
-                            <td class="col-2" style="color: #274ea1;">{{ 'LXT02356' }}</td>
+                            <td class="col-2" style="color: #274ea1;">{{ 'LXT02356?' }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Địa chỉ tạm trú</td>
-                            <td class="col-2">{{ '175 Xã Đàn, Đống Đa, Hà Nội' }}</td>
+                            <td class="col-2">{{ inforEmployee.temporaryAddress || '' }}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -769,15 +764,15 @@
                         <tbody>
                           <tr>
                             <td class="col-1">Trình độ chuyên môn</td>
-                            <td class="col-2">{{ 'Trung cấp' }}</td>
+                            <td class="col-2">{{ inforEmployee.professionalLevel || '' }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Tình trạng hôn nhân</td>
-                            <td class="col-2">{{ 'Đã kết hôn' }}</td>
+                            <td class="col-2">{{ inforEmployee.maritalStatus || '' }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Tình trạng con cái</td>
-                            <td class="col-2">{{ 'Đã có con' }}</td>
+                            <td class="col-2">{{ '?' }}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -789,15 +784,15 @@
                         <tbody>
                           <tr>
                             <td class="col-1">Người liên hệ</td>
-                            <td class="col-2">{{ 'Lê Ánh Ngọc' }}</td>
+                            <td class="col-2">{{ inforEmployee.contactPerson || '' }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">SĐT người LH</td>
-                            <td class="col-2">{{ '0365213652' }}</td>
+                            <td class="col-2">{{ inforEmployee.contactPersonPhone || '' }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Quan hệ với NV</td>
-                            <td class="col-2">{{ 'Vợ' }}</td>
+                            <td class="col-2">{{ inforEmployee.staffRelation || '' }}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -813,19 +808,19 @@
                         <tbody>
                           <tr>
                             <td class="col-1">Trực thuộc quản lý</td>
-                            <td class="col-2">{{ 'Phòng VTHK' }}</td>
+                            <td class="col-2">{{ getNameInput(inforEmployee.departmentId, 'department') }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Chi nhánh</td>
-                            <td class="col-2">{{ 'CN Nam định' }}</td>
+                            <td class="col-2">{{ getNameInput(inforEmployee.branchId, 'branch') }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Bộ phận</td>
-                            <td class="col-2">{{ 'Nhân sự' }}</td>
+                            <td class="col-2">{{ getNameInput(inforEmployee.officeId, 'office') }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Chức vụ</td>
-                            <td class="col-2">{{ 'Nhân sự' }}</td>
+                            <td class="col-2">{{ getNameInput(inforEmployee.positionId, 'position') }}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -837,15 +832,15 @@
                         <tbody>
                           <tr>
                             <td class="col-1">Tình trạng làm việc</td>
-                            <td class="col-2">{{ 'Chính thức' }}</td>
+                            <td class="col-2">{{ inforEmployee.contractType }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Từ ngày</td>
-                            <td class="col-2">{{'01/01/2024'}}</td>
+                            <td class="col-2">{{ inforEmployee.fromDate}}</td>
                           </tr>
                           <tr *ngIf="isDriver">
                             <td class="col-1">Định biên tuyến</td>
-                            <td class="col-2">{{'Nam định'}}</td>
+                            <td class="col-2">{{ getNameInput(inforEmployee.positionId, 'position')}}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -861,19 +856,19 @@
                         <tbody>
                           <tr>
                             <td class="col-1">Số thẻ nghiệp vụ</td>
-                            <td class="col-2">{{ '001097096263' }}</td>
+                            <td class="col-2">{{inforEmployee.businessCardNumber || '' }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Ngày cấp</td>
-                            <td class="col-2">{{ '14/12/2001' }}</td>
+                            <td class="col-2">{{ inforEmployee.bcStartDate || '' }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Ngày hết hạn</td>
-                            <td class="col-2">{{ '14/12/2028' }}</td>
+                            <td class="col-2">{{ inforEmployee.bcEndDate || '' }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Ngày hết hạn GKSK</td>
-                            <td class="col-2">{{ '10/08/2026' }}</td>
+                            <td class="col-2">{{ inforEmployee.hcEndDate || '' }}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -885,19 +880,19 @@
                         <tbody>
                           <tr>
                             <td class="col-1">Số GPLX</td>
-                            <td class="col-2">{{ '9861589621' }}</td>
+                            <td class="col-2">{{ inforEmployee.driverLicenseNumber|| '' }}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Hạng</td>
-                            <td class="col-2">{{'D'}}</td>
+                            <td class="col-2">{{ getNameInput(inforEmployee.driverLicenseType, 'driverLicense')}}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Ngày cấp</td>
-                            <td class="col-2">{{'11/10/2018'}}</td>
+                            <td class="col-2">{{inforEmployee.dlStartDate || ''}}</td>
                           </tr>
                           <tr>
                             <td class="col-1">Ngày hết hạn</td>
-                            <td class="col-2">{{'11/10/2028'}}</td>
+                            <td class="col-2">{{inforEmployee.dlEndDate || ''}}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -909,7 +904,7 @@
         <div nz-row>
             <div nz-col nzSpan="24">
                 <div nz-col nzSpan="23" class=" mx-4">
-                    <span style="font-size: 14px; color: #6b7280;">Danh sách giấy tờ</span>
+                    <span style="font-size: 14px; color: #6b7280;">Danh sách giấy tờ </span>
                     <table class="custom-table-list">
                         <tbody>
                           <tr style="background-color: #f4f7fb;">
@@ -934,9 +929,9 @@
         </div>
         <div nz-row>
             <div nz-col nzSpan="24">
-                <div nz-col nzSpan="23">
-                    <span class="mx-4" style="font-size: 14px; color: #6b7280;">Danh sách giấy tờ</span>
-                    <table class="custom-table-list mx-4">
+                <div nz-col nzSpan="23" class="mx-4" >
+                    <span style="font-size: 14px; color: #6b7280;">Danh sách con của nhân viên</span>
+                    <table class="custom-table-list">
                         <tbody>
                           <tr style="background-color: #f4f7fb;">
                             <th style="text-align: center;" class="list-col-1">STT</th>

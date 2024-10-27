@@ -13,6 +13,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { DetailProfileEmployeeComponent } from '../detail-profile-employee/detail-profile-employee.component';
+import { Route, Router, Routes } from '@angular/router';
 
 @Component({
   selector: 'app-list-profile-employee',
@@ -36,13 +38,15 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
     NzDatePickerModule,
     NzTabsModule,
     NzUploadModule,
-    NzPaginationModule
-
+    NzPaginationModule,
+    DetailProfileEmployeeComponent
   ],
 })
 export class ListProfileEmployeeComponent implements OnInit {
 
-  constructor(){
+  constructor(
+    private routes: Router
+  ){
 
   }
 
@@ -117,5 +121,9 @@ export class ListProfileEmployeeComponent implements OnInit {
     const startIndex = (this.pageIndex - 1) * this.pageSize;
     const endIndex = this.pageIndex * this.pageSize;
     this.pagedData = this.listData.slice(startIndex, endIndex);
+  }
+  
+  routerDetailEmployee(){
+    this.routes.navigate(['/employee-details/:id'])
   }
 }
