@@ -19,10 +19,10 @@ export interface IData {
     contractType: string | null,
     fromDate: string | null,
     toDate: string | null,
-    contractDate: string | null,
-    signDate: string | null,
-    fileContract: string | null,
-    isLimitedTime: number | null,
+    // contractDate: string | null,
+    // signDate: string | null,
+    // fileContract: string | null,
+    // isLimitedTime: number | null,
     branchId: number | null,
     departmentId: string | null,
     positionId: string | null,
@@ -40,6 +40,7 @@ export interface IData {
     dlEndDate: string | null,
     dlImage: string | null,
     contractFile: string | null,
+    archivedRecordFiles: [],
     // archivedRecordFiles: string | null,
     lstChildren:[
         {
@@ -55,5 +56,10 @@ export interface IData {
             type: string| null,
             file: string | null
         }
-    ]
+    ],
+    contract: {
+        id: string | null,
+        type: number | null,
+        signDate:string | null
+    }
 }

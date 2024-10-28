@@ -48,64 +48,65 @@ constructor(
   private fb: FormBuilder,
 
 ){
-  this.form = this.fb.group(this.data)
+  // this.form = this.fb.group(this.data)
 
 }
 
-  form: FormGroup;
+  // form: FormGroup;
 
-  data: IData = {
-    name: null,
-    yearOfBirth: null,
-    gender: null,
-    identifierId: null,
-    phoneNumber: null,
-    zalo: null,
-    contractDuration: null,
-    email: null,
-    ethnicGroup: null,
-    religion: null,
-    professionalLevel: null,
-    maritalStatus: null,
-    contactPerson: null,
-    contactPersonPhone: null,
-    staffRelation: null,
-    permanentAddress: null,
-    temporaryAddress: null,
-    contractType: null,
-    fromDate: null,
-    toDate: null,
-    contractDate: null,
-    signDate: null,
-    contractFile: null,
-    fileContract: null,
-    isLimitedTime: null,
-    branchId: 0,
-    departmentId: null,
-    positionId: null,
-    routeId: null,
-    businessCardNumber: null,
-    bcStartDate: null,
-    bcEndDate: null,
-    officeId: null,
-    bcImage: null,
-    healthCertificate: null,
-    hcEndDate: null,
-    driverLicenseNumber: null,
-    driverLicenseType: null,
-    dlStartDate: null,
-    dlEndDate: null,
-    dlImage: null,
-    lstChildren: [{
-      name: null,
-      yearOfBirth: null,
-      gender: null
-    }],
-    lstArchivedRecords: [{
-      name: null,
-      code: null,
-      type: null,
-      file: null
-    }]
-  }
+  // data: IData = {
+  //   name: null,
+  //   yearOfBirth: null,
+  //   gender: null,
+  //   identifierId: null,
+  //   phoneNumber: null,
+  //   zalo: null,
+  //   contractDuration: null,
+  //   email: null,
+  //   ethnicGroup: null,
+  //   religion: null,
+  //   professionalLevel: null,
+  //   maritalStatus: null,
+  //   contactPerson: null,
+  //   contactPersonPhone: null,
+  //   staffRelation: null,
+  //   permanentAddress: null,
+  //   temporaryAddress: null,
+  //   contractType: null,
+  //   fromDate: null,
+  //   toDate: null,
+  //   contractDate: null,
+  //   signDate: null,
+  //   contractFile: null,
+  //   fileContract: null,
+  //   isLimitedTime: null,
+  //   branchId: 0,
+  //   departmentId: null,
+  //   positionId: null,
+  //   routeId: null,
+  //   businessCardNumber: null,
+  //   bcStartDate: null,
+  //   bcEndDate: null,
+  //   officeId: null,
+  //   bcImage: null,
+  //   healthCertificate: null,
+  //   hcEndDate: null,
+  //   driverLicenseNumber: null,
+  //   driverLicenseType: null,
+  //   dlStartDate: null,
+  //   dlEndDate: null,
+  //   dlImage: null,
+  //   lstChildren: [{
+  //     name: null,
+  //     yearOfBirth: null,
+  //     gender: null
+  //   }],
+  //   lstArchivedRecords: [{
+  //     name: null,
+  //     code: null,
+  //     type: null,
+  //     file: null
+  //   }],
+
+  // }
 }

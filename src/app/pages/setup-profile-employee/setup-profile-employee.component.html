@@ -187,7 +187,7 @@
                             <nz-form-item class="form-control">
                                 <nz-form-label class="form-label">Từ ngày</nz-form-label>
                                 <nz-form-control>
-                                    <nz-date-picker (ngModelChange)="onDateChange($event)" class="w-full" formControlName="fromDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
+                                    <nz-date-picker (ngModelChange)="onDateChange($event)" class="w-full" formControlName="toDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -206,7 +206,7 @@
                                 <nz-form-item class="form-control">
                                     <nz-form-label class="form-label">Đến ngày</nz-form-label>
                                     <nz-form-control>
-                                        <nz-date-picker class="w-full" (ngModelChange)="onDateChange($event)" formControlName="contractDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
+                                        <nz-date-picker class="w-full" (ngModelChange)="onDateChange($event)" formControlName="fromDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
@@ -275,10 +275,10 @@
                     </div>
                 </div>
             </div>
-            <div nz-col style="width: calc(37.5% + 28px);" class="mx-2">
+            <div nz-col style="width: calc(37.5% + 28px);" class="mx-2" >
                 <nz-form-label class="form-label label_form">Hợp đồng lao động</nz-form-label>
                 <div nz-row class="form-row" style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;">
-                    <div class="form-col" nz-col>
+                    <div class="form-col" nz-col formGroupName="contract">
                         <div class="mx-2">
                             <nz-form-item class="form-control">
                                 <nz-form-label class="form-label">Ngày ký</nz-form-label>
@@ -308,12 +308,12 @@
                             </nz-form-item>
                         </div>
                     </div>
-                    <div nz-col class="form-col">
+                    <div nz-col class="form-col" formGroupName="contract">
                         <div class="mx-2">
                             <nz-form-item class="form-control">
                                 <nz-form-label class="form-label">Thời hạn</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select nzPlaceHolder="Hợp đồng 1 năm" formControlName="contractDuration">
+                                    <nz-select nzPlaceHolder="Hợp đồng 1 năm" formControlName="type">
                                         <nz-option nzValue="1" nzLabel="Hợp đồng 1 năm"></nz-option>
                                         <nz-option nzValue="2" nzLabel="Hợp đồng 2 năm"></nz-option>
                                         <nz-option nzValue="3" nzLabel="Hợp đồng vô thờ hạn"></nz-option>
@@ -375,9 +375,9 @@
                             style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
                             <input nz-input placeholder="" readonly class="upload-input"
                                 style="border: none; outline: none; flex: 1;" formControlName="bcImage"
-                                [value]="fileList.length > 0 ? fileList[0].name : ''" />
+                                [value]="bcImageName" />
                             <button nz-button nzType="default" nzShape="circle" class="upload-button"
-                            (click)="isShowModalUploadfile = true"  style="border: none; background: transparent;">
+                            (click)="openFileModal('bcImage')"  style="border: none; background: transparent;">
                                 <i nz-icon nzType="paper-clip"></i>
                             </button>
                         </div>
@@ -433,8 +433,7 @@
                         <nz-select nzPlaceHolder="D" formControlName="driverLicenseType">
                             <nz-option nzValue="1" nzLabel="D"></nz-option>
                             <nz-option nzValue="2" nzLabel="E"></nz-option>
-                            <nz-option nzValue="3" nzLabel="FB"></nz-option>
-                            <nz-option nzValue="4" nzLabel="FD"></nz-option>
+                            
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
@@ -467,9 +466,9 @@
                             style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
                             <input nz-input placeholder="" readonly class="upload-input"
                                 style="border: none; outline: none; flex: 1;" formControlName="dlImage"
-                                [value]="fileList.length > 0 ? fileList[0].name : ''" />
+                                [value]="dlImageName" />
                             <button nz-button nzType="default" nzShape="circle" class="upload-button"
-                            (click)="isShowModalUploadfile = true" style="border: none; background: transparent;">
+                            (click)="openFileModal('dlImage')" style="border: none; background: transparent;">
                                 <i nz-icon nzType="paper-clip"></i>
                             </button>
                         </div>
@@ -657,25 +656,27 @@
   <ng-template #modalTitle>Tải ảnh lên</ng-template>
 
   <ng-template #modalContentUploadfile>
-    <div class="upload-container flex justify-center items-center">
-      <nz-upload
-        class="avatar-uploader"
-        nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-        nzName="avatar"
-        nzListType="picture-card"
-        [nzShowUploadList]="false"
-        [nzBeforeUpload]="beforeUpload"
-        (nzChange)="handleChangeFile($event)"
-      >
+    <div class="upload-container justify-center items-center">
         <div class="upload-area">
-          <div class="upload-placeholder">
-            <i nz-icon nzType="picture" nzTheme="outline" style="font-size: 36px;"></i>
-          </div>
-          <div class="upload-text">
-            Kéo hình ảnh vào đây hoặc <a style="color: #1890ff;text-decoration: underline;">tải ảnh lên</a>
-          </div>
-        </div>
-      </nz-upload>
+            <!-- Input để chọn file -->
+            <div class="nz-row">
+                <div *ngIf="isBcImageVisible">
+                    <input type="file" (change)="handleFileInput($event, 'bcImage')" />
+                  </div>
+                        
+                  <div *ngIf="isDlImageVisible">
+                    <input type="file" (change)="handleFileInput($event, 'dlImage')" />
+                  </div>
+        
+                <!-- Vùng hiển thị ảnh khi đã chọn -->
+                <div *ngIf="previewUrl" class="image-preview">
+                  <img [src]="previewUrl" alt="Image Preview" class="preview-img" />
+                </div>
+              </div>
+            </div>
+          <!-- <div nz-row center> 
+            <button nz-button nzType="primary" (click)="isShowModalUploadfile =false">Đóng</button>
+          </div> -->
     </div>
   </ng-template>
 </nz-modal>
