@@ -18,10 +18,8 @@ import { Route, Router, Routes } from '@angular/router';
 import { UserServiceService } from '../../shared/user-service/user-service.service';
 
 @Component({
-  selector: 'app-list-profile-employee',
+  selector: 'app-list-employee-probation',
   standalone: true,
-  templateUrl: './list-profile-employee.component.html',
-  styleUrl: './list-profile-employee.component.scss',
   imports: [
     CommonModule,
     FormsModule,
@@ -40,19 +38,19 @@ import { UserServiceService } from '../../shared/user-service/user-service.servi
     NzTabsModule,
     NzUploadModule,
     NzPaginationModule,
-    DetailProfileEmployeeComponent
   ],
+  templateUrl: './list-employee-probation.component.html',
+  styleUrl: './list-employee-probation.component.scss'
 })
-export class ListProfileEmployeeComponent implements OnInit {
+export class ListEmployeeProbationComponent implements OnInit  {
 
   constructor(
     private routes: Router,
     private fb :FormBuilder,
     private userSevice: UserServiceService
   ){
-
+   
   }
-
   form!: FormGroup
 
 
@@ -62,7 +60,7 @@ export class ListProfileEmployeeComponent implements OnInit {
       // code: '',
       // name: '',
       // phoneNumber: '',
-      txtSearch: '',
+      txtSearch:'',
       officeId: '',
       branchId: '',
       departmentId: '',
@@ -119,11 +117,8 @@ export class ListProfileEmployeeComponent implements OnInit {
   }
 
   
-  // routerDetailEmployee(id: any){
-  //   this.routes.navigate(['/employee-details/', id])
-  // }
-  routerDetailEmployee(){
-    this.routes.navigate(['/employee-details/1'])
+  routerDetailEmployee(id: any){
+    this.routes.navigate(['/employee-details/', id])
   }
 
   dataEmployee: any[] = []
@@ -142,6 +137,7 @@ export class ListProfileEmployeeComponent implements OnInit {
 
   search(){
     const dataForm = {
+      type: 2,
       ...this.form.value
     }
 
@@ -156,5 +152,4 @@ export class ListProfileEmployeeComponent implements OnInit {
   resetForm(){
     this.form.reset()
   }
-
 }

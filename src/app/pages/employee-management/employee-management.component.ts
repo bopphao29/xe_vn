@@ -5,6 +5,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { SetupProfileEmployeeComponent } from '../setup-profile-employee/setup-profile-employee.component';
 import { ListProfileEmployeeComponent } from '../list-profile-employee/list-profile-employee.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { ListEmployeeProbationComponent } from '../list-employee-probation/list-employee-probation.component';
 
 
 @Component({
@@ -16,7 +17,8 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
     NzTabsModule,
     NzRadioModule,
     SetupProfileEmployeeComponent,
-    ListProfileEmployeeComponent
+    ListProfileEmployeeComponent,
+    ListEmployeeProbationComponent
   ],
   templateUrl: './employee-management.component.html',
   styleUrl: './employee-management.component.scss'

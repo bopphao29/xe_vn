@@ -10,9 +10,9 @@ export const routes: Routes = [
     path: '',
     component: MainLayoutComponent,
     children: [
-      {path: '', redirectTo: ROUTERS.HOME_DEFAULT, pathMatch: 'full'},
+      // {path: '', redirectTo: ROUTERS.HOME_DEFAULT, pathMatch: 'full'},
       {
-        path: ROUTERS.EMPLOYEE_DEFAULT,
+        path: '',
         loadComponent: () => 
         (
           import('./pages/employee-management-default/employee-management-default.component').then(

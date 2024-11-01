@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IApiOption } from '../models/common.model';
-import { environment } from '../../../environments/environment.pod';
+import { environment } from '../../../enviroments/enviroment.prod';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
