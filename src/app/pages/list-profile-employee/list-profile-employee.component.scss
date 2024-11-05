@@ -58,64 +58,6 @@
         display: none;
     }
 
-    // .upload-area {
-    //     border: 2px dashed #d9d9d9;
-    //     border-radius: 5px;
-    //     padding: 20px;
-    //     text-align: center;
-    // }
-
-    // .upload-placeholder {
-    //     width: 50px;
-    //     /* Adjust size as needed */
-    //     height: 50px;
-    //     /* Adjust size as needed */
-    // }
-
-    // .upload-text {
-    //     margin-top: 10px;
-    //     color: #1890ff;
-    //     /* Link color */
-    // }
-
-    // .upload-container {
-    //     display: flex;
-    //     justify-content: center;
-    //     align-items: center;
-    // }
-
-    // .upload-area-custom {
-    //     width: 350px;
-    //     /* Width of the upload box */
-    //     height: 250px;
-    //     /* Height of the upload box */
-    //     border: 1px dashed #d9d9d9;
-    //     display: flex;
-    //     flex-direction: column;
-    //     justify-content: center;
-    //     align-items: center;
-    //     background-color: #f5f7fb;
-    //     border-radius: 8px;
-    //     text-align: center;
-    // }
-
-    // .upload-icon-custom {
-    //     width: 50px;
-    //     /* Adjust this size to match the image icon size in the center */
-    //     height: 50px;
-    //     margin-bottom: 12px;
-    // }
-
-    // .upload-text-custom {
-    //     font-size: 14px;
-    //     color: #595959;
-    // }
-
-    // .upload-text-custom a {
-    //     color: #1890ff;
-    //     /* Blue color for the 'tải ảnh lên' link */
-    // }
-
     .ant-upload-picture-card-wrapper {
         display: flex;
         width: 100%;
@@ -127,6 +69,10 @@
     }
 
 }
+
+// .custom-table-list tr{
+//   height: 36px !important;  
+// }
 
 :host ::ng-deep .avatar-uploader>.ant-upload {
     width: 128px;
@@ -141,16 +87,24 @@
 
   .custom-table-list th, .custom-table-list td {
     border: 1px solid #d9d9d9;
-    padding: 8px;
+    // padding: 8px;
     height: 36px !important;    
   }
 
   .custom-table-list .list-col-1 {
     width: 6.25% !important;
+    text-align: center;
   }
 
   .custom-table-list .list-col-2 {
     width: 12.5% !important; 
+    text-align: center;
+  }
+
+  .custom-table-list .list-col-3 {
+    width: 12.5% !important; 
+    text-align: left;
+    padding-left: 10px;
   }
 
   ::ng-deep .custom-table-list tr:nth-child(2n+2){

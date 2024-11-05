@@ -17,6 +17,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable, Observer } from 'rxjs';
 import { NotificationService } from '../../shared/services/notification.service';
 import { UserServiceService } from '../../shared/user-service/user-service.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 interface FileCompressed {
   contractFile: File[];
@@ -61,6 +62,8 @@ export class DetailProfileEmployeeComponent implements OnInit {
     file: []
   };
   form: FormGroup;
+
+  driverLicense: any[] = [];
 
   data: IData = {
     name: null,
@@ -131,6 +134,8 @@ export class DetailProfileEmployeeComponent implements OnInit {
     private msg: NzMessageService,
     private userSevice: UserServiceService,
     private notification: NotificationService,
+    private router: Router,
+    private route: ActivatedRoute
 
   ) {
     this.form = this.fb.group(this.data)
@@ -178,34 +183,145 @@ export class DetailProfileEmployeeComponent implements OnInit {
       healthCertificate: [],
       dlImage: [],
       // archivedRecordFiles: [],
-      lstChildren: this.fb.array(this.data.lstChildren.map(child => this.createlstChildren(child))),
-      lstArchivedRecords: this.fb.array(this.data.lstArchivedRecords.map(record => this.createArchivedRecords(record))),
+      lstChildren: this.fb.array([]),
+      lstArchivedRecords: this.fb.array([]),
       contract: this.fb.group({
         id: '',
         type: 0,
         signDate: null
       })
     })
-    this.checkDriver()
+
+    this.route.params.subscribe((params: any)=> {
+      const id = params['id']
+      console.log(id)
+      this.getUser(id)
+    })
     this.checkChild()
     this.checkWork()
-    // this.getUser(this.userId)
     this.getBranch()
-    this.getDepartment()
     this.getOffice()
     this.getPossition()
-    this.getRoute()
-
+    this.getRoute() 
+    this.getDriverLicense()
+    this.getAchievementsStaffDetails()
 
   }
-
 
   listBranch: any[] = []
   listPosstion: any[] = []
   listOffice: any[] = []
   listDepartment: any[] = []
   listRoute: any[] = []
+  listAchievementsStaffDetails : any[] = []
+  getUser(id: any) {
+    this.userSevice.getDetailEmployee(id).subscribe((response: any) => {
+      this.office_id = response.data.officeId
+      console.log(this.office_id )
 
+      if(this.office_id){
+        this.userSevice.getDepartment(this.office_id).subscribe((response: any) => {
+        this.listDepartment = response.data
+        // console.log(response.data.name)
+        this.listDepartment.forEach((value: any)=> {
+          const isDriver = this.listDepartment.find(item => item.id = this.office_id)
+          const codeDriver = isDriver.code
+          console.log(codeDriver)
+          if(codeDriver == 'DRIVER'){
+            this.hasDriver = true
+          }
+        })
+      })}
+
+      Object.keys(response.data).forEach(key => {
+        console.log(`${key}:`, response.data[key]);
+      });
+
+      const contractData = {
+        signDate: response.data.signDate,
+        type: response.data.type,
+        contractFile: response.data.file 
+      };
+      // this.form.patchValue(response.data)
+      this.form.get('name')?.setValue(response.data.name.toString())
+      this.form.get('yearOfBirth')?.setValue(response.data.yearOfBirth.toString())
+      this.form.get('gender')?.setValue(response.data.gender.toString())
+      this.form.get('identifierId')?.setValue(response.data.identifierId.toString())
+      this.form.get('phoneNumber')?.setValue(response.data.phoneNumber.toString())
+      this.form.get('zalo')?.setValue(response.data.zalo.toString())
+      this.form.get('email')?.setValue(response.data.email.toString())
+      this.form.get('ethnicGroup')?.setValue(response.data.ethnicGroup.toString())
+      this.form.get('religion')?.setValue(response.data.religion.toString())
+      this.form.get('professionalLevel')?.setValue(response.data.professionalLevel.toString())
+      this.form.get('maritalStatus')?.setValue(response.data.maritalStatus.toString())
+      this.form.get('contactPerson')?.setValue(response.data.contactPerson.toString())
+      this.form.get('contactPersonPhone')?.setValue(response.data.contactPersonPhone.toString())
+      this.form.get('staffRelation')?.setValue(response.data.staffRelation.toString())
+      this.form.get('permanentAddress')?.setValue(response.data.permanentAddress.toString())
+      this.form.get('temporaryAddress')?.setValue(response.data.temporaryAddress.toString())
+
+      this.form.get('fromDate')?.setValue(response.data.fromDate.toString())
+      this.form.get('toDate')?.setValue(response.data.toDate.toString())
+      this.form.get('officeId')?.setValue(response.data.officeId)
+      this.form.get('departmentId')?.setValue(response.data.departmentId)
+      this.form.get('branchId')?.setValue(response.data.branchId)
+      this.form.get('positionId')?.setValue(response.data.positionId)
+
+      this.form.get('routeId')?.setValue(response.data.routeId)
+      this.form.get('businessCardNumber')?.setValue(response.data.businessCardNumber.toString())
+      this.form.get('bcStartDate')?.setValue(response.data.bcStartDate.toString())
+      this.form.get('bcEndDate')?.setValue(response.data.bcEndDate.toString())
+
+      ///////////////////////file///////////////////////////
+      this.form.get('bcImage')?.setValue(response.data.bcImage)
+      this.form.get('healthCertificate')?.setValue(response.data.healthCertificate)
+
+      const contractT = {
+        id: response.data.contract.id,
+        signDate: response.data.contract.signDate,
+        type: response.data.contract.type.toString(),
+      }
+      this.form.get('contract')?.setValue(contractT)
+
+
+      this.form.get('contractFile')?.setValue(response.data.contract.file)
+      this.form.get('hcEndDate')?.setValue(response.data.hcEndDate)
+      this.form.get('driverLicenseNumber')?.setValue(response.data.driverLicenseNumber)
+      this.form.get('driverLicenseType')?.setValue(response.data.driverLicenseType)
+      this.form.get('dlStartDate')?.setValue(response.data.dlStartDate)
+      this.form.get('dlEndDate')?.setValue(response.data.dlEndDate)
+      this.form.get('dlImage')?.setValue(response.data.dlImage)
+      
+
+      const arr = this.form.get('lstArchivedRecords') as FormArray;
+
+      response.data.lstArchivedRecords.map((ele: any) => (
+        arr.push(this.fb.group({
+          code: ele.code,
+            name: ele.name,
+            type: ele.type,
+            file: ele.file
+        }))
+      ))
+
+      const arrCh = this.form.get('lstChildren') as FormArray;
+      response.data.lstChildren.map((ele: any)=>{
+        arrCh.push(this.fb.group({
+          name: ele.name,
+          yearOfBirth: ele.yearOfBirth,
+          gender: ele.gender.toString()
+        }))
+      }) 
+
+      
+    })
+  }
+
+  getDriverLicense(){
+    this.userSevice.getDriverLicense().subscribe((response: any)=>{
+      this.driverLicense = response.data
+    })
+  }
 
   getBranch() {
     this.userSevice.getBranch().subscribe((response: any) => {
@@ -223,12 +339,30 @@ export class DetailProfileEmployeeComponent implements OnInit {
     this.userSevice.getOffice().subscribe((response: any) => {
       this.listOffice = response.data
     })
+
+    this.getDepartment()
+
+  }
+
+  getAchievementsStaffDetails(){
+    this.userSevice.getAchievementsStaffDetails().subscribe((response: any)=>{
+      console.log(response)
+    })
   }
 
   getDepartment() {
-    this.userSevice.getDepartment().subscribe((response: any) => {
-      this.listDepartment = response.data
+    console.log(this.office_id)
+    const idOffice :number =0
+    this.form.get('officeId')?.valueChanges.subscribe((value: any)=> {
+     idOffice == value
     })
+    if(this.office_id){
+      this.userSevice.getDepartment(this.office_id).subscribe((response: any) => {
+      this.listDepartment = response.data
+      console.log(this.listDepartment)
+    })}
+
+    this.checkDriver()
   }
 
   getRoute() {
@@ -308,23 +442,6 @@ export class DetailProfileEmployeeComponent implements OnInit {
   }
 
   // lấy giá trị trong các trường
-  getNameInput(name: string, type: 'driverLicense') {
-    const driverLicenseTypeData: { [key: string]: string } = {
-      '1': 'D',
-      '2': 'E'
-    };
-    let data;
-    switch (type) {
-      case 'driverLicense':
-        data = driverLicenseTypeData;
-        break;
-      default:
-        data = {};
-    }
-
-    return data[name] || '';// trả về tên
-  }
-
   handleCancel() {
     this.isModalInforEmployee = false
   }
@@ -333,21 +450,32 @@ export class DetailProfileEmployeeComponent implements OnInit {
     this.isModalInforEmployee = false;
   }
 
+  office_id :number = 0
   //check driver => show input
   idDriver: number = -10
   hasDriver : boolean = false
+  deparmentCode = '' 
   checkDriver() {
-    this.form.get('departmentId')?.valueChanges.subscribe((value: any) => {
-      
-      this.idDriver = value // 1
-      const isDriver= this.listDepartment.find(item => item.id ===  this.idDriver)
-      console.log(isDriver)
-      var nameDriver : any = isDriver.name
-      if(isDriver && nameDriver == 'Lái xe'){
-        this.hasDriver = true
-      }
-    })
+    console.log(this.office_id)
+    if(this.office_id != 0 ){
+      this.form.get('departmentId')?.valueChanges.subscribe((value: any) => {
+        console.log(value)
+        this.idDriver = value // 1
+        const isDriver = this.listDepartment.find(item => item.id === this.idDriver)
+        console.log(isDriver)
+        var codeDriver: any = isDriver.name
+        this.deparmentCode = codeDriver
+        console.log(this.deparmentCode)
+        if (isDriver && codeDriver == 'DRIVER' && codeDriver != null) {
+          this.hasDriver = true
+        }
+        else{
+          this.hasDriver = false
+        }
+      })
+    }
   }
+
 
   hasChildren: number = -10
 
@@ -366,8 +494,18 @@ export class DetailProfileEmployeeComponent implements OnInit {
     })
   }
 
+
+  disableIntoToDate = (toDate: Date): boolean => {
+    const fromDate = this.form.get('fromDate')?.value
+    return fromDate ? toDate <= fromDate : false
+
+  }
   
 
+  maxYearChild: number = 0
+  minYearChild: number = 0
+  maxYear: number = 0
+  minYear: number = 0
 
   // beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]): Observable<boolean> => {
   //   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -446,6 +584,29 @@ export class DetailProfileEmployeeComponent implements OnInit {
     this.selectedFile = null;// 
     this.previewUrl = null;//
   }
+
+  onChangeImage(event: Event, field: string) {
+    // this.isShowModalUploadfile = true;
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files.length > 0) {
+      const file = target.files[0];
+
+      if (field === 'bcImage') {
+        this.isBcImageVisible = true;
+        this.isDlImageVisible = false;
+        this.bcImageName = file.name
+        this.bcImgFile = [file]
+        this.form.patchValue({ bcImage: [file] })
+      } else if (field === 'dlImage') {
+        this.isBcImageVisible = false;
+        this.isDlImageVisible = true;
+        this.dlImageName = file.name
+        this.dlImage = [file]
+        this.form.patchValue({ dlImage: [file] })
+      }
+    }
+  }
+
 
   handleChangeFile(event: any, field: 'bcImage' | 'dlImage'): void {//
     const file = event.file.originFileObj;// tạo biến chứa file gốc đã chọn
@@ -564,7 +725,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
 
   // Hàm xử lý thay đổi ngày
   onDateChange(date: Date): void {
-    if (date) {
+    if (date instanceof Date) {
       this.isoDate = date.toISOString(); // Chuyển đổi sang ISO 8601
       console.log(this.isoDate)
     } else {
@@ -572,12 +733,8 @@ export class DetailProfileEmployeeComponent implements OnInit {
     }
   }
 
-  getUser(id: any) {
-    this.userId = id
-    console.log(id)
-    this.userSevice.getDetailEmployee(id).subscribe((response: any) => {
-      console.log(response.data)
-    })
+  onBack(){
+    this.router.navigate(['/employee-management'])
   }
 
   officeEmployee : any

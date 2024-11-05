@@ -68,10 +68,14 @@ export class ListEmployeeProbationComponent implements OnInit  {
 
     })
     // this.listData
+    const formData = {
+      page: this.pageIndex,
+      size: 12,
+      ...this.form.value}
     console.log(this.pageSize)
-    this.getListEmployee(this.pageIndex, this.pageSize, this.form.value)
+    this.getListEmployee(this.pageIndex, this.pageSize, formData)
     this.getBranch()
-    this.getDepartment()
+    // this.getDepartment()
     this.getOffice()
     this.getPossition()
   }
@@ -97,11 +101,22 @@ export class ListEmployeeProbationComponent implements OnInit  {
     this.userSevice.getOffice().subscribe((response: any) => {
       this.listOffice = response.data
     })
+    this.getDepartment()
+
   }
 
   getDepartment() {
-    this.userSevice.getDepartment().subscribe((response: any) => {
-      this.listDepartment = response.data
+    var idOffice :number =0
+    this.form.get('officeId')?.valueChanges.subscribe((value: any)=> {
+     idOffice = value
+      console.log(idOffice)
+     if(value){
+      this.userSevice.getDepartment(idOffice).subscribe((response: any) => {
+        this.listDepartment = response.data
+      })
+     }else{
+      this.listDepartment = []
+     }
     })
   }
 
@@ -126,7 +141,7 @@ export class ListEmployeeProbationComponent implements OnInit  {
   total = 1
 
   getListEmployee(page: number, size: number, data: any){
-    this.userSevice.searchEmployee(page,size,data ).subscribe((response: any)=>{
+    this.userSevice.searchEmployee(data ).subscribe((response: any)=>{
       // console.log(response)
       this.dataEmployee = response.data.content
       this.total = response.data.totalElements
@@ -138,11 +153,13 @@ export class ListEmployeeProbationComponent implements OnInit  {
   search(){
     const dataForm = {
       type: 2,
+      page:this.pageIndex,
+      size: 12,
       ...this.form.value
     }
 
     console.log(dataForm)
-    this.userSevice.searchEmployee(this.pageIndex, this.pageSize, dataForm).subscribe((response: any)=>{
+    this.userSevice.searchEmployee( dataForm).subscribe((response: any)=>{
       console.log(response)
       
     })

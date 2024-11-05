@@ -70,8 +70,13 @@ export class ListProfileEmployeeComponent implements OnInit {
 
     })
     // this.listData
-    console.log(this.pageSize)
-    this.getListEmployee(this.pageIndex, this.pageSize, this.form.value)
+    // const formData = {
+    //   page: this.pageIndex,
+    //   size: 12,
+    //   ...this.form.value}
+    // console.log(this.pageSize)
+    // this.getListEmployee(formData)
+    this.search()
     this.getBranch()
     this.getDepartment()
     this.getOffice()
@@ -99,39 +104,49 @@ export class ListProfileEmployeeComponent implements OnInit {
     this.userSevice.getOffice().subscribe((response: any) => {
       this.listOffice = response.data
     })
+    this.getDepartment()
   }
 
   getDepartment() {
-    this.userSevice.getDepartment().subscribe((response: any) => {
-      this.listDepartment = response.data
+    var idOffice :number =0
+    this.form.get('officeId')?.valueChanges.subscribe((value: any)=> {
+     idOffice = value
+      console.log(idOffice)
+     if(value){
+      this.userSevice.getDepartment(idOffice).subscribe((response: any) => {
+        this.listDepartment = response.data
+      })
+     }else{
+      this.listDepartment = []
+     }
     })
   }
 
 
-  pageIndex = 0
-  pageSize = 10
+  pageIndex = 1
+  pageSize = 12
 
   pagedData : any[] = []
 
   onPageChange(page: number): void {
     this.pageIndex = page;
-    this.getListEmployee(this.pageIndex, this.pageSize,this.form.value);
+    this.search();
   }
-
   
-  // routerDetailEmployee(id: any){
-  //   this.routes.navigate(['/employee-details/', id])
-  // }
-  routerDetailEmployee(){
-    this.routes.navigate(['/employee-details/1'])
+  
+  routerDetailEmployee(id: any){
+    this.routes.navigate(['/employee-details/', id])
   }
+  // routerDetailEmployee(){
+  //   this.routes.navigate(['/employee-details/1'])
+  // }
 
   dataEmployee: any[] = []
 
-  total = 1
+  total = 0
 
-  getListEmployee(page: number, size: number, data: any){
-    this.userSevice.searchEmployee(page,size,data ).subscribe((response: any)=>{
+  getListEmployee(data: any){
+    this.userSevice.searchEmployee(data ).subscribe((response: any)=>{
       // console.log(response)
       this.dataEmployee = response.data.content
       this.total = response.data.totalElements
@@ -140,17 +155,36 @@ export class ListProfileEmployeeComponent implements OnInit {
     })
   }
 
+  ///////////////////////////show dữ liệu không có/////////////////////
+  showEmpolyeeNoData(){
+    const numberData = 12
+    const data = {id: null, name: null, yearOfBirth: null, phoneNumber: null, officeName: null, branchName: null, departmentName: null, positionName: null}
+    
+    const dataRrows = this.dataEmployee.slice();
+    const currentData = dataRrows.length
+    if(currentData < numberData){
+      const isChangeData = numberData - currentData
+      for(let i = 0; i < isChangeData; i++){
+        dataRrows.push(data)
+      }
+    }
+    return dataRrows;
+  }
+
   search(){
     const dataForm = {
+      type: 1,
+      page:this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 ,
+      size: 12,
       ...this.form.value
     }
 
     console.log(dataForm)
-    this.userSevice.searchEmployee(this.pageIndex, this.pageSize, dataForm).subscribe((response: any)=>{
+    this.userSevice.searchEmployee(dataForm).subscribe((response: any)=>{
       console.log(response)
       
     })
-    this.getListEmployee(this.pageIndex , this.pageSize, dataForm)
+    this.getListEmployee(dataForm )
   }
 
   resetForm(){
