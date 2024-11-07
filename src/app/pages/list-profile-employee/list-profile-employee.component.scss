@@ -1,6 +1,7 @@
 .form-control {
     border: none;
-    background-color: rgb(243 243 243);
+  background-color: rgb(243 243 243);
+
 }
 
 ::ng-deep {
@@ -78,6 +79,29 @@
     width: 128px;
     height: 128px;
 }
+
+.headmodal{
+  font-size: 24px; 
+  height: 28px; 
+  line-height: 28px; 
+  margin: 25px 0 35px 0;
+  display: flex; 
+  justify-content: center;
+   align-items: center;
+  }
+
+  .custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    
+  }
+
+  .custom-table th, .custom-table td {
+    border: 1px solid #d9d9d9;
+    // padding: 8px;
+    height: 36px !important;    
+  }
+
 
 .custom-table-list {
     width: 100%;

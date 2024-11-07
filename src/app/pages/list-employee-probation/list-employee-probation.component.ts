@@ -51,31 +51,23 @@ export class ListEmployeeProbationComponent implements OnInit  {
   ){
    
   }
+  
   form!: FormGroup
 
 
   ngOnInit(): void {
 
     this.form = this.fb.group({
-      // code: '',
-      // name: '',
-      // phoneNumber: '',
-      txtSearch:'',
+      txtSearch: '',
       officeId: '',
       branchId: '',
       departmentId: '',
       positionId: '',
 
     })
-    // this.listData
-    const formData = {
-      page: this.pageIndex,
-      size: 12,
-      ...this.form.value}
-    console.log(this.pageSize)
-    this.getListEmployee(this.pageIndex, this.pageSize, formData)
+    this.search()
     this.getBranch()
-    // this.getDepartment()
+    this.getDepartment()
     this.getOffice()
     this.getPossition()
   }
@@ -102,7 +94,6 @@ export class ListEmployeeProbationComponent implements OnInit  {
       this.listOffice = response.data
     })
     this.getDepartment()
-
   }
 
   getDepartment() {
@@ -121,26 +112,29 @@ export class ListEmployeeProbationComponent implements OnInit  {
   }
 
 
-  pageIndex = 0
-  pageSize = 10
+  pageIndex = 1
+  pageSize = 12
 
   pagedData : any[] = []
 
   onPageChange(page: number): void {
     this.pageIndex = page;
-    this.getListEmployee(this.pageIndex, this.pageSize,this.form.value);
+    this.search();
   }
-
+  
   
   routerDetailEmployee(id: any){
     this.routes.navigate(['/employee-details/', id])
   }
+  // routerDetailEmployee(){
+  //   this.routes.navigate(['/employee-details/1'])
+  // }
 
   dataEmployee: any[] = []
 
-  total = 1
+  total = 0
 
-  getListEmployee(page: number, size: number, data: any){
+  getListEmployee(data: any){
     this.userSevice.searchEmployee(data ).subscribe((response: any)=>{
       // console.log(response)
       this.dataEmployee = response.data.content
@@ -150,20 +144,38 @@ export class ListEmployeeProbationComponent implements OnInit  {
     })
   }
 
+  ///////////////////////////show dữ liệu không có/////////////////////
+  
+  showEmpolyeeNoData(){
+    const numberData = 12
+    const data = {id: null, name: null, yearOfBirth: null, phoneNumber: null, officeName: null, branchName : null, departmentName: null, positionName: null}
+ 
+    const dataRows = this.dataEmployee.slice()
+    const currentData = dataRows.length
+    if(currentData < numberData){
+      const databefore = numberData - currentData
+      for(let i = 0;i < databefore; i++){
+        dataRows.push(data)
+      }
+    }
+
+    return dataRows
+  }
+
   search(){
     const dataForm = {
-      type: 2,
-      page:this.pageIndex,
+      type: 2 ,
+      page:this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 ,
       size: 12,
       ...this.form.value
     }
 
     console.log(dataForm)
-    this.userSevice.searchEmployee( dataForm).subscribe((response: any)=>{
+    this.userSevice.searchEmployee(dataForm).subscribe((response: any)=>{
       console.log(response)
       
     })
-    this.getListEmployee(this.pageIndex , this.pageSize, dataForm)
+    this.getListEmployee(dataForm )
   }
 
   resetForm(){

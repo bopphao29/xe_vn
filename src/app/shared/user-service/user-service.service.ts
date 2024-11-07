@@ -11,8 +11,11 @@ export class UserServiceService {
     private httpClient : HttpClient
   ) { }
 
-  url = environment.server
+  // url = environment.server
+  // url = 'http://103.92.25.158:8991/user-service/'
+  url = 'http://192.168.0.3:8991/user-service/'
   urlRoute = 'http://192.168.0.3:8991/'
+  // urlRoute = 'http://103.92.25.158:8991/'
   // urlRoute = 'https://vehicle-service.xevn.techasians.com/'
 
   getDetailEmployee(id: any){
@@ -24,6 +27,10 @@ export class UserServiceService {
       // headers: new HttpHeaders().set('Content-Type',"application/json"),
       // observe: 'response'
     })  
+  }
+
+  updateEmployee(fomrData: FormData){
+    return this.httpClient.put('http://192.168.0.3:8998/api/staff', fomrData)
   }
 
   getBranch(){
@@ -54,6 +61,7 @@ export class UserServiceService {
   searchEmployee( data: any){
     // tạo param
     // const params = 'page='+page.toString()+'&size='+size.toString()
+    // return this.httpClient.post('http://103.92.25.158:8998/api/staff/search' , data,{
     return this.httpClient.post('http://192.168.0.3:8998/api/staff/search' , data,{
       // headers: new HttpHeaders({'Origin':'http://localhost:4200'}),
       // observe: 'response'
@@ -64,4 +72,9 @@ export class UserServiceService {
     return this.httpClient.get(this.url + 'api/achievements/staff-details')
   }
 
+  updateStatusWork(data: any){
+    // return this.httpClient.post('http://103.92.25.158:8998/api/staff/update-working-status' , data)
+    return this.httpClient.post('http://192.168.0.3:8998/api/staff/update-working-status' , data)
+    
+  }
 }

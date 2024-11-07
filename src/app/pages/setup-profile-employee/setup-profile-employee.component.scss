@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 
+
 .form-control {
   border: none;
 }
@@ -280,10 +281,20 @@
 }
 
 .validate_input {
+  display: block;
+  height: 16px;
+  line-height: 16px;
   color: red;
   font-size: 13px;
 }
 
+::ng-deep .form-control nz-form-control {
+  margin-bottom: 8px; /* Khoảng cách giữa các ô nhập liệu */
+}
+
+.error-container {
+  height: 18px; /* Chiều cao cố định cho container của lỗi */
+}
 /* styles.css hoặc file CSS tương ứng */
 
 .disabled-input {
@@ -295,4 +306,8 @@
 /* Nếu bạn muốn thêm hiệu ứng khi mờ */
 .disabled-input:hover {
   cursor: not-allowed; /* Hiệu ứng con trỏ khi hover */
+}
+
+::ng-deep .ant-row .ant-col .ant-form-item {
+  margin: 0px 0px 0px !important;
 }

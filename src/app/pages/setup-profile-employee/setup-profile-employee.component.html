@@ -11,10 +11,11 @@
                     <nz-form-control>
                         <input nz-input class="form-input" formControlName="name" placeholder="Nguyễn văn A"
                             class="form-input" />
-                        <div
-                            *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)">
-                            <span class="validate_input" *ngIf="form.get('name')?.errors?.['required']">Phải nhập tên
-                                nhân viên</span>
+                        <div class="error-container" >
+                            <div *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)">
+                                <span class="validate_input" *ngIf="form.get('name')?.errors?.['required']">Phải nhập tên
+                                    nhân viên</span>
+                            </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -24,9 +25,10 @@
                 <nz-form-item class="form-control">
                     <nz-form-label class="form-label" nzRequired>Năm sinh</nz-form-label>
                     <nz-form-control>
-                        <input nz-input type="number" class="form-input" placeholder="Nhập năm"
+                        <input nz-input type="number" maxlength="4" class="form-input" placeholder="Nhập năm"
                             formControlName="yearOfBirth" class="form-input" />
-                        <div
+                        <div class="error-container">
+                            <div
                             *ngIf="form.get('yearOfBirth')?.invalid && (form.get('yearOfBirth')?.dirty) || form.get('yearOfBirth')?.touched">
                             <span class="validate_input" *ngIf="form.get('yearOfBirth')?.errors?.['required']">Phải nhập
                                 năm sinh</span>
@@ -34,6 +36,7 @@
                                 lớn hơn {{ minYear }}</span>
                             <span class="validate_input" *ngIf="form.get('yearOfBirth')?.errors?.['max']">Năm sinh phải
                                 nhỏ hơn {{ maxYear }}</span>
+                        </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -48,9 +51,11 @@
                             <nz-option nzValue="1" nzLabel="Nam"></nz-option>
                             <nz-option nzValue="2" nzLabel="Nữ"></nz-option>
                         </nz-select>
-                        <div *ngIf="form.get('gender')?.touched">
-                            <span class="validate_input" *ngIf="form.get('gender')?.hasError('required')">Phải chọn giới
-                                tính</span>
+                        <div class="error-container">
+                            <div *ngIf="form.get('gender')?.touched">
+                                <span class="validate_input" *ngIf="form.get('gender')?.hasError('required')">Phải chọn giới
+                                    tính</span>
+                            </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -60,12 +65,14 @@
                 <nz-form-item class="form-control">
                     <nz-form-label class="form-label" nzRequired>CCCD/CMND: </nz-form-label>
                     <nz-form-control>
-                        <input nz-input class="form-input" placeholder="Nhập" formControlName="identifierId" />
-                        <div
+                        <input nz-input class="form-input" maxlength="12" placeholder="Nhập" formControlName="identifierId" />
+                        <div class="error-container"> 
+                            <div
                             *ngIf="form.get('identifierId')?.invalid && (form.get('identifierId')?.dirty) || form.get('identifierId')?.touched">
                             <span class="validate_input" *ngIf="form.get('identifierId')?.errors?.['required']">Phải nhập CCCD</span>
                             <span class="validate_input" *ngIf="form.get('identifierId')?.errors?.['pattern']">CCCD/CMND nhập 12 số</span>
                             <!-- <span *ngIf="form.get('identifierId')?.errors?.['pattern']">Định dạng chưa đúng</span> -->
+                        </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -75,11 +82,13 @@
                 <nz-form-item class="form-control">
                     <nz-form-label class="form-label" nzRequired>SĐT</nz-form-label>
                     <nz-form-control>
-                        <input nz-input class="form-input" formControlName="phoneNumber" placeholder="03256659" />
-                        <div *ngIf="form.get('phoneNumber')?.invalid && (form.get('phoneNumber')?.dirty) || form.get('phoneNumber')?.touched">
-                            <span class="validate_input" *ngIf="form.get('phoneNumber')?.errors?.['required']">Phải nhập SĐT</span>
-                            <!-- <span class="validate_input" *ngIf="form.get('phoneNumber')?.errors?.['max']">SĐT đủ 10 số</span> -->
-                            <span class="validate_input" *ngIf="form.get('phoneNumber')?.errors?.['pattern']">SĐT dạng: 0123456789</span>
+                        <input nz-input class="form-input" maxlength="10" formControlName="phoneNumber" placeholder="03256659" />
+                        <div class="error-container">
+                            <div *ngIf="form.get('phoneNumber')?.invalid && (form.get('phoneNumber')?.dirty) || form.get('phoneNumber')?.touched">
+                                <span class="validate_input" *ngIf="form.get('phoneNumber')?.errors?.['required']">Phải nhập SĐT</span>
+                                <!-- <span class="validate_input" *ngIf="form.get('phoneNumber')?.errors?.['max']">SĐT đủ 10 số</span> -->
+                                <span class="validate_input" *ngIf="form.get('phoneNumber')?.errors?.['pattern']">SĐT dạng: 0123456789</span>
+                            </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -90,9 +99,11 @@
                     <nz-form-label class="form-label" nzRequired>Zalo</nz-form-label>
                     <nz-form-control>
                         <input nz-input class="form-input" formControlName="zalo" placeholder="Nhập" />
-                        <div
+                        <div class="error-container">
+                            <div
                             *ngIf="form.get('zalo')?.invalid && (form.get('zalo')?.dirty) || form.get('zalo')?.touched">
                             <span class="validate_input" *ngIf="form.get('zalo')?.errors?.['required']">Phải nhập tên zalo</span>
+                        </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -104,10 +115,12 @@
                     <nz-form-control>
                         <input nz-input class="form-input" type="email" formControlName="email"
                             placeholder="@gmail.com" />
-                        <div
+                        <div class="error-container">
+                            <div
                             *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty) || form.get('email')?.touched">
                             <span class="validate_input" *ngIf="form.get('email')?.errors?.['required']">Phải nhập email</span>
                             <span class="validate_input" *ngIf="form.get('email')?.errors?.['email']">Nhập đúng dạng email</span>
+                        </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -121,9 +134,11 @@
                     <nz-form-label class="form-label" nzRequired>Dân tộc</nz-form-label>
                     <nz-form-control>
                         <input nz-input class="form-input" formControlName="ethnicGroup" placeholder="Nhập" />
-                        <div
+                        <div class="error-container">
+                            <div
                             *ngIf="form.get('ethnicGroup')?.invalid && (form.get('ethnicGroup')?.dirty) || form.get('ethnicGroup')?.touched">
                             <span class="validate_input" *ngIf="form.get('ethnicGroup')?.errors?.['required']">Phải nhập dân tộc</span>
+                        </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -134,9 +149,11 @@
                     <nz-form-label class="form-label" nzRequired>Tôn giáo</nz-form-label>
                     <nz-form-control>
                         <input nz-input class="form-input" formControlName="religion" placeholder="Nhập" />
-                        <div
+                        <div class="error-container">
+                            <div
                             *ngIf="form.get('religion')?.invalid && (form.get('religion')?.dirty) || form.get('religion')?.touched">
                             <span class="validate_input" *ngIf="form.get('religion')?.errors?.['required']">Phải nhập tôn giáo</span>
+                        </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -146,10 +163,12 @@
                     <nz-form-label class="form-label" nzRequired>Trình độ chuyên môn</nz-form-label>
                     <nz-form-control>
                         <input nz-input class="form-input" formControlName="professionalLevel" placeholder="Nhập" />
-                        <div
+                        <div class="error-container">
+                            <div
                             *ngIf="form.get('professionalLevel')?.invalid && (form.get('professionalLevel')?.dirty) || form.get('professionalLevel')?.touched">
                             <span class="validate_input" *ngIf="form.get('professionalLevel')?.errors?.['required']">Phải nhập trình độ chuyên
                                 môn</span>
+                        </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -163,10 +182,12 @@
                             <nz-option nzValue="0" nzLabel="Chưa kết hôn"></nz-option>
                             <nz-option nzValue="1" nzLabel="Đã kết hôn"></nz-option>
                         </nz-select>
-                        <div
+                        <div class="error-container">
+                            <div
                             *ngIf=" form.get('maritalStatus')?.invalid && (form.get('maritalStatus')?.dirty) ||form.get('maritalStatus')?.touched">
                             <span class="validate_input" *ngIf="form.get('maritalStatus')?.hasError('required')">Phải
                                 chọn tình trạng hôn nhân</span>
+                        </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -177,10 +198,12 @@
                     <nz-form-label class="form-label" nzRequired>Người liên hệ</nz-form-label>
                     <nz-form-control>
                         <input nz-input class="form-input" formControlName="contactPerson" placeholder="Nhập" />
-                        <div
+                        <div class="error-container">
+                            <div
                             *ngIf="form.get('contactPerson')?.invalid && (form.get('contactPerson')?.dirty) || form.get('contactPerson')?.touched">
                             <span class="validate_input" *ngIf="form.get('contactPerson')?.errors?.['required']">Phải
                                 nhập người liên hệ</span>
+                        </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -190,14 +213,16 @@
                 <nz-form-item class="form-control">
                     <nz-form-label class="form-label" nzRequired>SĐT người liên hệ</nz-form-label>
                     <nz-form-control>
-                        <input nz-input class="form-input" formControlName="contactPersonPhone"
+                        <input nz-input class="form-input" maxlength="10" formControlName="contactPersonPhone"
                             placeholder="03256659" />
-                        <div
+                        <div class="error-container">
+                            <div
                             *ngIf="form.get('contactPersonPhone')?.invalid && (form.get('contactPersonPhone')?.dirty) || form.get('contactPersonPhone')?.touched">
                             <span class="validate_input" *ngIf="form.get('contactPersonPhone')?.errors?.['required']">Phải nhập SĐT</span>
                             <span class="validate_input" *ngIf="form.get('contactPersonPhone')?.errors?.['max']">SĐT đủ 10 số</span>
                             <span class="validate_input" *ngIf="form.get('contactPersonPhone')?.errors?.['pattern']">SĐT dạng:
                                 0123456789</span>
+                        </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -208,10 +233,12 @@
                     <nz-form-label class="form-label" nzRequired>Quan hệ với nhân viên </nz-form-label>
                     <nz-form-control>
                         <input nz-input class="form-input" formControlName="staffRelation" placeholder="Nhập" />
-                        <div
+                        <div class="error-container">
+                            <div
                             *ngIf="form.get('staffRelation')?.invalid && (form.get('staffRelation')?.dirty) || form.get('staffRelation')?.touched">
                             <span class="validate_input" *ngIf="form.get('staffRelation')?.errors?.['required']">Phải
                                 nhập quan hệ</span>
+                        </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -225,10 +252,12 @@
                     <nz-form-label class="form-label" nzRequired>Địa chỉ thường trú</nz-form-label>
                     <nz-form-control>
                         <input nz-input class="form-input" formControlName="permanentAddress" placeholder="Nhập" />
-                        <div
+                        <div class="error-container">
+                            <div
                             *ngIf="form.get('permanentAddress')?.invalid && (form.get('permanentAddress')?.dirty) || form.get('permanentAddress')?.touched">
                             <span class="validate_input" *ngIf="form.get('permanentAddress')?.errors?.['required']">Phải
                                 nhập địa chỉ thường trú</span>
+                        </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -239,10 +268,12 @@
                     <nz-form-label class="form-label" nzRequired>Tạm trú</nz-form-label>
                     <nz-form-control>
                         <input nz-input class="form-input" formControlName="temporaryAddress" placeholder="Nhập" />
-                        <div
+                        <div class="error-container">
+                            <div
                             *ngIf="form.get('temporaryAddress')?.invalid && (form.get('temporaryAddress')?.dirty) || form.get('temporaryAddress')?.touched">
                             <span class="validate_input" *ngIf="form.get('temporaryAddress')?.errors?.['required']">Phải
                                 nhập tạm trú</span>
+                        </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -258,9 +289,9 @@
                 <nz-form-label class="form-label label_form">Tình trạng làm việc</nz-form-label>
                 <div nz-row nzSpan="5" style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px">
                     <div nz-col nzSpan="6">
-                        <nz-form-item class="form-control">
+                        <nz-form-item class="form-control" >
                             <nz-form-control>
-                                <nz-radio-group formControlName="contractType">
+                                <nz-radio-group formControlName="contractType" (ngModelChange)="onContractTypeChange($event)">
                                     <label nz-radio nzValue="1" style="margin-bottom: 30px !important;">Chính thức</label>
                                     <br>
                                     <label nz-radio nzValue="2" style="margin-top: 32px !important;">Thử việc</label>
@@ -274,11 +305,13 @@
                                 <nz-form-label class="form-label" nzRequired>Từ ngày</nz-form-label>
                                 <nz-form-control>
                                     <nz-date-picker nzFormat="dd/MM/yyyy"
-                                        (ngModelChange)="onDateChange($event)" class="w-full" formControlName="fromDate"
+                                        (ngModelChange)="onDateChange($event)" class="w-full" formControlName="fromDateOfOffical"
                                         nzPlaceHolder="Chọn ngày"></nz-date-picker>
-                                        <div *ngIf="form.get('fromDate')?.touched && contract_type == 1">
-                                            <span class="validate_input"
-                                                *ngIf="form.get('fromDate')?.errors?.['required']">Phải chọn ngày</span>
+                                        <div class="error-container">
+                                            <!-- <div *ngIf="form.get('fromDateOfOffical')?.touched && contract_type == 1">
+                                                <span class="validate_input"
+                                                    *ngIf="form.get('fromDateOfOffical')?.errors?.['required']">Phải chọn ngày</span>
+                                            </div> -->
                                         </div>
                                 </nz-form-control>
                             </nz-form-item>
@@ -290,17 +323,19 @@
                                     <nz-form-label class="form-label" nzRequired>Từ ngày</nz-form-label>
                                     <nz-form-control>
                                         <nz-date-picker class="w-full"
-                                            nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange($event)"
-                                            formControlName="fromDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
-                                        <div *ngIf="form.get('fromDate')?.touched && contract_type == 2">
-                                            <span class="validate_input"
-                                                *ngIf="form.get('fromDate')?.errors?.['required']">Phải chọn ngày</span>
+                                            nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableFromDate"
+                                            formControlName="fromDateProbation" nzPlaceHolder="Chọn ngày"></nz-date-picker>
+                                        <div class="error-container">
+                                            <!-- <div *ngIf="form.get('fromDateProbation')?.touched && contract_type == 2">
+                                                <span class="validate_input"
+                                                    *ngIf="form.get('fromDateProbation')?.errors?.['required']">Phải chọn ngày</span>
+                                            </div> -->
                                         </div>
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
 
-                            <div style="width: calc(50% - 8px);" [class.disabled-input]="contract_type == 1"> <!-- Chiều rộng = 50% -->
+                            <div style="width: calc(50% - 8px);" [class.disabled-input]="contract_type == 1">
                                 <nz-form-item class="form-control">
                                     <nz-form-label class="form-label" nzRequired>Đến ngày</nz-form-label>
                                     <nz-form-control>
@@ -308,9 +343,11 @@
                                             nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange($event)"
                                             formControlName="toDate" nzPlaceHolder="Chọn ngày" ></nz-date-picker>
                                         <div *ngIf="contract_type == 2">
-                                            <div *ngIf="form.get('toDate')?.touched && contract_type == 2">
-                                                <span class="validate_input"
-                                                    *ngIf="form.get('toDate')?.errors?.['required']">Phải chọn ngày</span>
+                                            <div class="error-container">
+                                                <!-- <div *ngIf="form.get('toDate')?.touched && contract_type == 2">
+                                                    <span class="validate_input"
+                                                        *ngIf="form.get('toDate')?.errors?.['required']">Phải chọn ngày</span>
+                                                </div> -->
                                             </div>
                                         </div>
                                     </nz-form-control>
@@ -334,10 +371,12 @@
                                             [nzLabel]="office.name"></nz-option>
 
                                     </nz-select>
-                                    <div *ngIf="form.get('officeId')?.touched">
-                                        <span class="validate_input"
-                                            *ngIf="form.get('officeId')?.hasError('required')">Phải chọn thuộc quản
-                                            lý</span>
+                                    <div class="error-container">
+                                        <div *ngIf="form.get('officeId')?.touched">
+                                            <span class="validate_input"
+                                                *ngIf="form.get('officeId')?.hasError('required')">Phải chọn thuộc quản
+                                                lý</span>
+                                        </div>
                                     </div>
                                 </nz-form-control>
                             </nz-form-item>
@@ -352,10 +391,12 @@
                                         <nz-option *ngFor="let branch of listBranch, let i =index" [nzValue]="branch.id"
                                             [nzLabel]="branch.name"></nz-option>
                                     </nz-select>
-                                    <div *ngIf="form.get('branchId')?.touched">
-                                        <span class="validate_input"
-                                            *ngIf="form.get('branchId')?.hasError('required')">Phải chọn chi
-                                            nhánh</span>
+                                    <div class="error-container">
+                                        <div *ngIf="form.get('branchId')?.touched">
+                                            <span class="validate_input"
+                                                *ngIf="form.get('branchId')?.hasError('required')">Phải chọn chi
+                                                nhánh</span>
+                                        </div>
                                     </div>
                                 </nz-form-control>
                             </nz-form-item>
@@ -372,10 +413,12 @@
                                         <nz-option *ngFor="let department of listDepartment, let i =index"
                                             [nzValue]="department.id" [nzLabel]="department.name"></nz-option>
                                     </nz-select>
-                                    <div *ngIf="form.get('departmentId')?.touched">
-                                        <span class="validate_input"
-                                            *ngIf="form.get('departmentId')?.hasError('required')">Phải chọn bộ
-                                            phận</span>
+                                    <div class="error-container">
+                                        <div *ngIf="form.get('departmentId')?.touched">
+                                            <span class="validate_input"
+                                                *ngIf="form.get('departmentId')?.hasError('required')">Phải chọn bộ
+                                                phận</span>
+                                        </div>
                                     </div>
                                 </nz-form-control>
                             </nz-form-item>
@@ -390,10 +433,12 @@
                                         <nz-option *ngFor="let position of listPosstion, let i =index"
                                             [nzValue]="position.id" [nzLabel]="position.name"></nz-option>
                                     </nz-select>
-                                    <div *ngIf="form.get('positionId')?.touched">
-                                        <span class="validate_input"
-                                            *ngIf="form.get('positionId')?.hasError('required')">Phải chọn chức
-                                            vụ</span>
+                                    <div class="error-container">
+                                        <div *ngIf="form.get('positionId')?.touched">
+                                            <span class="validate_input"
+                                                *ngIf="form.get('positionId')?.hasError('required')">Phải chọn chức
+                                                vụ</span>
+                                        </div>
                                     </div>
 
                                 </nz-form-control>
@@ -403,21 +448,23 @@
                 </div>
             </div>
             <div nz-col style="width: calc(37.5% + 28px);" class="mx-2">
-                <nz-form-label class="form-label label_form" nzRequired>Hợp đồng lao động</nz-form-label>
+                <nz-form-label class="form-label label_form">Hợp đồng lao động</nz-form-label>
                 <div nz-row class="form-row"
                     style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;">
                     <div class="form-col" nz-col formGroupName="contract">
                         <div class="mx-2">
                             <nz-form-item class="form-control">
-                                <nz-form-label class="form-label">Ngày ký</nz-form-label>
+                                <nz-form-label class="form-label" nzRequired>Ngày ký</nz-form-label>
                                 <nz-form-control>
                                     <nz-date-picker nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange($event)"
                                         formControlName="signDate" class="w-full"
                                         nzPlaceHolder="Chọn ngày"></nz-date-picker>
-                                    <div
-                                        *ngIf="form.get('signDate')?.invalid && (form.get('signDate')?.dirty) || form.get('signDate')?.touched">
+                                    <div class="error-container">
+                                        <div
+                                        *ngIf="form.get('contract')?.get('signDate') && (form.get('contract')?.get('signDate')?.dirty) || form.get('contract')?.get('signDate')?.touched">
                                         <span class="validate_input"
-                                            *ngIf="form.get('signDate')?.hasError('required')">Phải chọn chức vụ</span>
+                                            *ngIf="form.get('contract')?.get('signDate')?.hasError('required')">Phải chọn ngày kí</span>
+                                    </div>
                                     </div>
                                 </nz-form-control>
                             </nz-form-item>
@@ -426,7 +473,7 @@
                     <div class="form-col" nz-col>
                         <div style="margin-left: 12px;">
                             <nz-form-item class="form-control">
-                                <nz-form-label class="form-label">File hợp đồng Lao động</nz-form-label>
+                                <nz-form-label class="form-label" nzRequired>File hợp đồng Lao động</nz-form-label>
                                 <nz-form-control>
                                     <div nz-row nzGutter="8" class="custom-upload"
                                         style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
@@ -440,9 +487,11 @@
                                                 style="display: none;" />
                                         </button>
                                     </div>
-                                    <div *ngIf="form.get('contractFile')?.touched">
-                                        <span class="validate_input"
-                                            *ngIf="form.get('contractFile')?.hasError('required')">Phải chọn file</span>
+                                    <div class="error-container">
+                                        <div *ngIf="form.get('contractFile')?.touched">
+                                            <span class="validate_input"
+                                                *ngIf="form.get('contractFile')?.hasError('required')">Phải chọn file</span>
+                                        </div>
                                     </div>
                                 </nz-form-control>
                             </nz-form-item>
@@ -451,15 +500,17 @@
                     <div nz-col class="form-col" formGroupName="contract">
                         <div class="mx-2">
                             <nz-form-item class="form-control">
-                                <nz-form-label class="form-label">Thời hạn</nz-form-label>
+                                <nz-form-label class="form-label" nzRequired>Thời hạn</nz-form-label>
                                 <nz-form-control>
                                     <nz-select nzPlaceHolder="Hợp đồng 1 năm" formControlName="type">
                                         <nz-option nzValue="1" nzLabel="Hợp đồng 1 năm"></nz-option>
                                         <nz-option nzValue="2" nzLabel="Hợp đồng 3 năm"></nz-option>
                                         <nz-option nzValue="3" nzLabel="Hợp đồng vô thờ hạn"></nz-option>
                                     </nz-select>
-                                    <div *ngIf="form.get(['contract','type'])?.invalid && (form.get('signDate')?.dirty) || form.get(['contract','type'])?.touched">
-                                        <span class="validate_input" *ngIf="form.get(['contract','type'])?.errors?.['required']">Phải chọn thời hạn</span>
+                                    <div class="error-container">
+                                        <div *ngIf="form.get('contract')?.get('type') && (form.get('contract')?.get('type')?.dirty) || form.get('contract')?.get('type')?.touched">
+                                            <span class="validate_input" *ngIf="form.get('contract')?.get('type')?.hasError('required')">Phải chọn thời hạn</span>
+                                        </div>
                                     </div>
                                 </nz-form-control>
                             </nz-form-item>
@@ -478,8 +529,10 @@
                             <nz-option *ngFor="let route of listRoute, let i =index" [nzValue]="route.id" [nzLabel]="route.name"></nz-option>
                                 
                         </nz-select>
-                        <div *ngIf="form.get('routeId')?.invalid && (form.get('routeId')?.dirty) || form.get('routeId')?.touched">
-                            <span class="validate_input" *ngIf="form.get('routeId')?.hasError('required')">Phải chọn tuyến</span>
+                        <div class="error-container">
+                            <div *ngIf="form.get('routeId')?.invalid && (form.get('routeId')?.dirty) || form.get('routeId')?.touched">
+                                <span class="validate_input" *ngIf="form.get('routeId')?.hasError('required')">Phải chọn tuyến</span>
+                            </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -491,10 +544,12 @@
                     <nz-form-control>
                         <input nz-input class="form-input" formControlName="businessCardNumber" placeholder="Nhập"
                             class="form-input" />
-                        <div
+                        <div class="error-container">
+                            <div
                             *ngIf="form.get('businessCardNumber')?.invalid && (form.get('businessCardNumber')?.dirty) || form.get('businessCardNumber')?.touched">
                             <span class="validate_input"
                                 *ngIf="form.get('businessCardNumber')?.errors?.['required']">Phải nhập quan hệ</span>
+                        </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -505,10 +560,13 @@
                     <nz-form-label class="form-label" nzRequired>Ngày cấp </nz-form-label>
                     <nz-form-control>
                         <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange($event)"
+                        [nzDisabledDate]="disableBcStartDate"
                             formControlName="bcStartDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
-                        <div *ngIf="form.get('bcStartDate')?.touched">
-                            <span class="validate_input" *ngIf="form.get('bcStartDate')?.errors?.['required']">Phải chọn
-                                ngày</span>
+                        <div class="error-container">
+                            <div *ngIf="form.get('bcStartDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('bcStartDate')?.errors?.['required']">Phải chọn
+                                    ngày</span>
+                            </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -519,11 +577,13 @@
                     <nz-form-label class="form-label" nzRequired>Ngày hết hạn </nz-form-label>
                     <nz-form-control>
                         <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange($event)"
-                            [nzDisabledDate]="disableIntobcStartDate"
+                            [nzDisabledDate]="disableIntobcEndDate"
                             formControlName="bcEndDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
-                        <div *ngIf="form.get('bcEndDate')?.touched">
-                            <span class="validate_input" *ngIf="form.get('bcEndDate')?.errors?.['required']">Phải chọn
-                                ngày</span>
+                        <div class="error-container">
+                            <div *ngIf="form.get('bcEndDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('bcEndDate')?.errors?.['required']">Phải chọn
+                                    ngày</span>
+                            </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -546,9 +606,11 @@
                                     style="display: none;" />
                             </button>
                         </div>
-                        <!-- <div *ngIf="form.get('bcImage')?.touched">
-                            <span class="validate_input" *ngIf="form.get('bcImage')?.hasError('required')">Phải chọn ảnh</span>
-                        </div> -->
+                        <div class="error-container">
+                            <div *ngIf="form.get('bcImage')?.touched">
+                                <span class="validate_input" *ngIf="form.get('bcImage')?.hasError('required')">Phải chọn ảnh</span>
+                            </div>
+                        </div>
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -571,9 +633,11 @@
                                     style="display: none;" />
                             </button>
                         </div>
-                        <div *ngIf="form.get('healthCertificate')?.touched">
-                            <span class="validate_input"
-                                *ngIf="form.get('healthCertificate')?.hasError('required')">Phải chọn file</span>
+                        <div class="error-container">
+                            <div *ngIf="form.get('healthCertificate')?.touched">
+                                <span class="validate_input"
+                                    *ngIf="form.get('healthCertificate')?.hasError('required')">Phải chọn file</span>
+                            </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -585,9 +649,11 @@
                     <nz-form-control>
                         <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange($event)"
                             formControlName="hcEndDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
-                        <div *ngIf="form.get('hcEndDate')?.touched">
-                            <span class="validate_input" *ngIf="form.get('hcEndDate')?.errors?.['required']">Phải chọn
-                                ngày</span>
+                        <div class="error-container">
+                            <div *ngIf="form.get('hcEndDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('hcEndDate')?.errors?.['required']">Phải chọn
+                                    ngày</span>
+                            </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -601,11 +667,13 @@
                     <nz-form-control>
                         <input nz-input class="form-input" formControlName="driverLicenseNumber" placeholder="Nhập"
                             class="form-input" />
+                       <div class="error-container">
                         <div
-                            *ngIf="form.get('driverLicenseNumber')?.invalid && (form.get('driverLicenseNumber')?.dirty) || form.get('driverLicenseNumber')?.touched">
-                            <span class="validate_input"
-                                *ngIf="form.get('driverLicenseNumber')?.errors?.['required']">Phải nhập số GPLX</span>
-                        </div>
+                        *ngIf="form.get('driverLicenseNumber')?.invalid && (form.get('driverLicenseNumber')?.dirty) || form.get('driverLicenseNumber')?.touched">
+                        <span class="validate_input"
+                            *ngIf="form.get('driverLicenseNumber')?.errors?.['required']">Phải nhập số GPLX</span>
+                    </div>
+                       </div>
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -618,12 +686,14 @@
                             <nz-option *ngFor="let driverL of driverLicense, let i = index"[nzValue]="driverL.id" [nzLabel]="driverL.value"></nz-option>
                             
                         </nz-select>
-                        <div
+                        <div class="error-container">
+                            <div
                                 *ngIf=" form.get('driverLicenseType')?.invalid && (form.get('driverLicenseType')?.dirty) ||form.get('driverLicenseType')?.touched">
                                 <span class="validate_input"
                                     *ngIf="form.get('driverLicenseType')?.hasError('required')">Phải chọn hạng
                                     GPLX</span>
                             </div>
+                        </div>
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -633,10 +703,14 @@
                     <nz-form-label class="form-label" nzRequired>Ngày cấp </nz-form-label>
                     <nz-form-control>
                         <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange($event)"
+                        [nzDisabledDate]="disabledlStartDate"
+
                             formControlName="dlStartDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
-                        <div *ngIf="form.get('dlStartDate')?.touched">
-                            <span class="validate_input" *ngIf="form.get('dlStartDate')?.errors?.['required']">Phải chọn
-                                ngày</span>
+                        <div class="error-container">
+                            <div *ngIf="form.get('dlStartDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('dlStartDate')?.errors?.['required']">Phải chọn
+                                    ngày</span>
+                            </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -647,10 +721,13 @@
                     <nz-form-label class="form-label" nzRequired>Ngày hết hạn </nz-form-label>
                     <nz-form-control>
                         <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange($event)"
+                        [nzDisabledDate]="disabledlEndDate"
                             formControlName="dlEndDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
-                        <div *ngIf="form.get('dlEndDate')?.touched">
-                            <span class="validate_input" *ngIf="form.get('dlEndDate')?.errors?.['required']">Phải chọn
-                                ngày</span>
+                        <div class="error-container">
+                            <div *ngIf="form.get('dlEndDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('dlEndDate')?.errors?.['required']">Phải chọn
+                                    ngày</span>
+                            </div>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -673,9 +750,9 @@
                                     style="display: none;" />
                             </button>
                         </div>
-                        <!-- <div *ngIf="form.get('dlImage')?.touched">
+                        <div *ngIf="form.get('dlImage')?.touched">
                             <span class="validate_input" *ngIf="form.get('dlImage')?.errors?.['required']">Phải chọn ảnh</span>
-                        </div> -->
+                        </div>
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -685,7 +762,7 @@
         <div style="border-bottom: 1px solid #dddddd;margin-left: 30px; margin-bottom: 15px;margin-top: 20px;"></div>
         <div nz-row class="mx-4">
             <div nz-col style="width: calc(50% + 70px); margin-left: 8px;">
-                <nz-form-label class="form-label label_form" nzRequired>Hồ sơ lưu trữ</nz-form-label>
+                <nz-form-label class="form-label label_form" >Hồ sơ lưu trữ</nz-form-label>
                 <div nz-row formArrayName="lstArchivedRecords"
                     style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;width: calc(100% - 16px);">
                     <div nz-row style="display: flex; flex-wrap: nowrap;"
@@ -697,9 +774,11 @@
                                     <nz-form-label class="form-label">Tên giấy tờ</nz-form-label>
                                     <nz-form-control>
                                         <input nz-input class="form-input" formControlName="name" placeholder="Nhập" />
-                                        <div *ngIf="doc.get('name')?.touched">
-                                            <span class="validate_input" *ngIf="doc.get('name')?.errors?.['required']">Phải chọn tên giấy tờ</span>
-                                        </div>
+                                       <div class="error-container">
+                                            <div *ngIf="doc.get('name')?.touched">
+                                                <span class="validate_input" *ngIf="doc.get('name')?.errors?.['required']">Phải chọn tên giấy tờ</span>
+                                            </div>
+                                       </div>
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
@@ -710,8 +789,10 @@
                                     <nz-form-label class="form-label">Số hiệu</nz-form-label>
                                     <nz-form-control>
                                         <input nz-input class="form-input" formControlName="code" placeholder="Nhập" />
-                                        <div *ngIf="doc.get('code')?.touched">
-                                            <span class="validate_input" *ngIf="doc.get('code')?.errors?.['required']">Phải chọn số hiệu</span>
+                                        <div class="error-container">
+                                            <div *ngIf="doc.get('code')?.touched">
+                                                <span class="validate_input" *ngIf="doc.get('code')?.errors?.['required']">Phải chọn số hiệu</span>
+                                            </div>
                                         </div>
                                     </nz-form-control>
                                 </nz-form-item>
@@ -723,8 +804,10 @@
                                     <nz-form-label class="form-label">Loại giấy tờ</nz-form-label>
                                     <nz-form-control>
                                         <input nz-input class="form-input" formControlName="type" placeholder="Nhập" />
-                                        <div *ngIf="doc.get('type')?.touched">
-                                            <span class="validate_input" *ngIf="doc.get('type')?.errors?.['required']">Phải chọn loại giấy tờ</span>
+                                        <div class="error-container">
+                                            <div *ngIf="doc.get('type')?.touched">
+                                                <span class="validate_input" *ngIf="doc.get('type')?.errors?.['required']">Phải chọn loại giấy tờ</span>
+                                            </div>
                                         </div>
                                     </nz-form-control>
                                 </nz-form-item>
@@ -750,9 +833,11 @@
                                                     style="display: none;" />
                                             </button>
                                         </div>
-                                        <div *ngIf="doc.get('file')?.touched">
-                                            <span class="validate_input"
-                                                *ngIf="doc.get('file')?.errors?.['required']">Phải chọn file</span>
+                                        <div class="error-container">
+                                            <div *ngIf="doc.get('file')?.touched">
+                                                <span class="validate_input"
+                                                    *ngIf="doc.get('file')?.errors?.['required']">Phải chọn file</span>
+                                            </div>
                                         </div>
                                     </nz-form-control>
                                 </nz-form-item>
@@ -788,7 +873,7 @@
 
             </div>
             <div nz-col style="width: calc(37.5% + 28px);">
-                <nz-form-label class="form-label label_form" nzRequired>Trạng thái con cái</nz-form-label>
+                <nz-form-label class="form-label label_form">Trạng thái con cái</nz-form-label>
                 <div nz-row style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;">
                     <div nz-row class="w-full mx-2" style="height: 32px !important; line-height: 32px;">
                         <nz-form-item class="form-control">
@@ -811,8 +896,10 @@
                                         <nz-form-control>
                                             <input nz-input class="form-input" formControlName="name"
                                                 placeholder="Nhập" />
-                                                <div *ngIf="child.get('name')?.touched && has_child == 1">
-                                                    <span class="validate_input" *ngIf="child.get('name')?.errors?.['required']">Phải nhập tên con</span>
+                                                <div class="error-container">
+                                                    <div *ngIf="child.get('name')?.touched && has_child == 1">
+                                                        <span class="validate_input" *ngIf="child.get('name')?.errors?.['required']">Phải nhập tên con</span>
+                                                    </div>
                                                 </div>
                                         </nz-form-control>
                                     </nz-form-item>
@@ -823,12 +910,14 @@
                                     <nz-form-item class="form-control">
                                         <nz-form-label class="form-label">Năm sinh:</nz-form-label>
                                         <nz-form-control>
-                                            <input nz-input class="form-input" type="number"
+                                            <input nz-input class="form-input" type="number" maxlength="4"
                                                 formControlName="yearOfBirth" placeholder="Nhập năm" />
-                                                <div *ngIf="child.get('yearOfBirth')?.touched && has_child == 1">
-                                                    <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['required']">Phải nhập năm sinh</span>
-                                                    <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['min']">Năm sinh phải lớn hơn {{minYearChild}}</span>
-                                                    <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['max']">Năm sinh phải nhỏ hơn {{maxYearChild}}</span>
+                                                <div class="error-container">
+                                                    <div *ngIf="child.get('yearOfBirth')?.touched && has_child == 1">
+                                                        <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['required']">Phải nhập năm sinh</span>
+                                                        <!-- <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['min']">Năm sinh phải lớn hơn {{minYearChild}}</span> -->
+                                                        <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['max']">Năm sinh phải nhỏ hơn {{maxYearChild}}</span>
+                                                    </div>
                                                 </div>
                                         </nz-form-control>
                                     </nz-form-item>
@@ -843,8 +932,10 @@
                                                 <nz-option nzValue="1" nzLabel="Nam"></nz-option>
                                                 <nz-option nzValue="2" nzLabel="Nữ"></nz-option>
                                             </nz-select>
-                                            <div *ngIf="child.get('gender')?.touched && has_child == 1">
-                                                <span class="validate_input" *ngIf="child.get('gender')?.hasError('required')">Phải chọn số hiệu</span>
+                                            <div class="error-container">
+                                                <div *ngIf="child.get('gender')?.touched && has_child == 1">
+                                                    <span class="validate_input" *ngIf="child.get('gender')?.hasError('required')">Phải chọn số hiệu</span>
+                                                </div>
                                             </div>
                                         </nz-form-control>
                                     </nz-form-item>
@@ -905,12 +996,10 @@
                 <div class="nz-row">
                     <div *ngIf="isBcImageVisible">
                         <input type="file" placeholder="bcImage"  (change)="handleFileInput($event, 'bcImage')" />
-                        <span>aaaa</span>
                     </div>
 
                     <div *ngIf="isDlImageVisible">
                         <input type="file" placeholder="dlImage" (change)="handleFileInput($event, 'dlImage')" />
-                        <span>bbbb</span>
                     </div>
 
                     <!-- Vùng hiển thị ảnh khi đã chọn -->
@@ -1088,7 +1177,7 @@
                             </tr>
                             <tr>
                                 <td class="col-1">Từ ngày</td>
-                                <td class="col-2">{{ inforEmployee.fromDate | date:'dd/MM/yyyy'}}</td>
+                                <td class="col-2">{{ inforEmployee.fromDateOfOffical  || inforEmployee.fromDateProbation | date:'dd/MM/yyyy'}}</td>
                             </tr>
                             <tr *ngIf="hasDriver == true">
                                 <td class="col-1">Định biên tuyến</td>
@@ -1167,10 +1256,13 @@
                                 <th style="text-align: center;" class="list-col-4">Loại giấy tờ</th>
                             </tr>
                             <tr *ngFor="let data of listAR, let i = index">
-                                <td style="text-align: center;" class="list-col-1">{{ i +1}}</td>
-                                <td class="list-col-2">{{data.name}}</td>
-                                <td style="text-align: center;" class="list-col-3">{{data.code}}</td>
-                                <td style="text-align: center;" class="list-col-4">{{data.type}}</td>
+                                <td style="text-align: center;" class="list-col-1">
+                                    <span *ngIf="data.code">{{ i +1}}</span>
+                                    <span *ngIf="!data.code">{{'-'}}</span>
+                                </td>
+                                <td class="list-col-2">{{data.name || '-'}}</td>
+                                <td style="text-align: center;" class="list-col-3">{{data.code || '-'}}</td>
+                                <td style="text-align: center;" class="list-col-4">{{data.type || '-'}}</td>
                             </tr>
 
                         </tbody>
