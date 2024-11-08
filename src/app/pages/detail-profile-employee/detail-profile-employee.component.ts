@@ -120,6 +120,11 @@ export class DetailProfileEmployeeComponent implements OnInit {
     }
   }
 
+
+
+  //////////////////////
+  ///a1
+  a = ''
   file = true
   isShowModalUploadfile = false
   isModalInforEmployee = false
