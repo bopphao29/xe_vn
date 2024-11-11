@@ -175,19 +175,7 @@ color: rgba(37, 44, 50, 1);
   }
 
   .custom-table-list .list-col-1{
-    width: 4%;
-  }
-
-  .custom-table-list .list-col-2{
-    width: 66%;
-  }
-
-  .custom-table-list .list-col-3{
-    width: 14.5%;
-  }
-
-  .custom-table-list .list-col-4{  
-    width: 14.5%;
+    width: calc(100%/31);
   }
   
 
@@ -249,4 +237,14 @@ color: rgba(37, 44, 50, 1);
     border-collapse: collapse;
   }
   
-  
+  .button_show_detail{
+    border: 1px solid #274ea1; 
+    padding: 4px 10px 4px 10px; 
+    border-radius: 21px; 
+    height: 24px !important; 
+    line-height: 24px ; 
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    color: #274EA1;
+  }

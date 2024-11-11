@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../enviroments/enviroment';
+import { environment } from '../../../../enviroments/enviroment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
@@ -7,12 +7,16 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 })
 export class UserServiceService {
 
+
   constructor(
     private httpClient : HttpClient
   ) { }
 
-  url = environment.server
-  urlRoute = 'http://192.168.0.3:8991/'
+  // url = environment.server
+  url = 'http://103.92.25.158:8991/user-service/'
+  // url = 'http://192.168.0.3:8991/user-service/'
+  // urlRoute = 'http://192.168.0.3:8991/'
+  urlRoute = 'http://103.92.25.158:8991/'
   // urlRoute = 'https://vehicle-service.xevn.techasians.com/'
 
   getDetailEmployee(id: any){
@@ -24,6 +28,10 @@ export class UserServiceService {
       // headers: new HttpHeaders().set('Content-Type',"application/json"),
       // observe: 'response'
     })  
+  }
+
+  updateEmployee(fomrData: FormData){
+    return this.httpClient.put(this.url+ '/api/staff', fomrData)
   }
 
   getBranch(){
@@ -54,14 +62,21 @@ export class UserServiceService {
   searchEmployee( data: any){
     // tạo param
     // const params = 'page='+page.toString()+'&size='+size.toString()
-    return this.httpClient.post('http://192.168.0.3:8998/api/staff/search' , data,{
+    // return this.httpClient.post('http://103.92.25.158:8998/api/staff/search' , data,{
+    return this.httpClient.post('http://103.92.25.158:8998/api/staff/search' , data,{
       // headers: new HttpHeaders({'Origin':'http://localhost:4200'}),
       // observe: 'response'
     })  
   }
+  
+  updateStatusWork(data: any){
+    // return this.httpClient.post('http://103.92.25.158:8998/api/staff/update-working-status' , data)
+    return this.httpClient.post('http://192.168.0.3:8998/api/staff/update-working-status' , data)
+    
+  }
 
-  getAchievementsStaffDetails(){
-    return this.httpClient.get(this.url + 'api/achievements/staff-details')
+  getAchievementsStaffDetails(id: any, month: any, year: number){
+    return this.httpClient.get(this.url + 'api/achievements/staff-details?staffId=' + id+'&month='+month+'&year='+year)
   }
 
 }

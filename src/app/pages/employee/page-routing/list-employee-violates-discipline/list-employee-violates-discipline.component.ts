@@ -13,15 +13,12 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
-import { DetailProfileEmployeeComponent } from '../detail-profile-employee/detail-profile-employee.component';
-import { Route, Router, Routes } from '@angular/router';
-import { UserServiceService } from '../../shared/user-service/user-service.service';
+import { Router } from '@angular/router';
+import { UserServiceService } from '../../../../shared/services/user-service/user-service.service';
 
 @Component({
-  selector: 'app-list-profile-employee',
+  selector: 'app-list-employee-violates-discipline',
   standalone: true,
-  templateUrl: './list-profile-employee.component.html',
-  styleUrl: './list-profile-employee.component.scss',
   imports: [
     CommonModule,
     FormsModule,
@@ -40,19 +37,19 @@ import { UserServiceService } from '../../shared/user-service/user-service.servi
     NzTabsModule,
     NzUploadModule,
     NzPaginationModule,
-    DetailProfileEmployeeComponent
   ],
+  templateUrl: './list-employee-violates-discipline.component.html',
+  styleUrl: './list-employee-violates-discipline.component.scss'
 })
-export class ListProfileEmployeeComponent implements OnInit {
+export class ListEmployeeViolatesDisciplineComponent implements OnInit{
 
   constructor(
     private routes: Router,
     private fb :FormBuilder,
     private userSevice: UserServiceService
   ){
-
+   
   }
-
   form!: FormGroup
 
 
@@ -62,7 +59,7 @@ export class ListProfileEmployeeComponent implements OnInit {
       // code: '',
       // name: '',
       // phoneNumber: '',
-      txtSearch: '',
+      txtSearch:'',
       officeId: '',
       branchId: '',
       departmentId: '',
@@ -70,15 +67,15 @@ export class ListProfileEmployeeComponent implements OnInit {
 
     })
     // this.listData
-    // const formData = {
-    //   page: this.pageIndex,
-    //   size: 12,
-    //   ...this.form.value}
-    // console.log(this.pageSize)
-    // this.getListEmployee(formData)
-    this.search()
+    const formData = {
+      type : 3,
+      page: this.pageIndex,
+      size: 12,
+      ...this.form.value}
+    console.log(this.pageSize)
+    this.getListEmployee(this.pageIndex, this.pageSize, formData)
     this.getBranch()
-    this.getDepartment()
+    // this.getDepartment()
     this.getOffice()
     this.getPossition()
   }
@@ -105,6 +102,7 @@ export class ListProfileEmployeeComponent implements OnInit {
       this.listOffice = response.data
     })
     this.getDepartment()
+
   }
 
   getDepartment() {
@@ -123,29 +121,26 @@ export class ListProfileEmployeeComponent implements OnInit {
   }
 
 
-  pageIndex = 1
-  pageSize = 12
+  pageIndex = 0
+  pageSize = 10
 
   pagedData : any[] = []
 
   onPageChange(page: number): void {
     this.pageIndex = page;
-    this.search();
+    this.getListEmployee(this.pageIndex, this.pageSize,this.form.value);
   }
-  
+
   
   routerDetailEmployee(id: any){
-    this.routes.navigate(['/employee-details/', id])
+    this.routes.navigate(['detail-employee/', id])
   }
-  // routerDetailEmployee(){
-  //   this.routes.navigate(['/employee-details/1'])
-  // }
 
-  dataEmployee: any[] = []
+  dataEmployee: any[] = [] 
 
-  total = 0
+  total = 1
 
-  getListEmployee(data: any){
+  getListEmployee(page: number, size: number, data: any){
     this.userSevice.searchEmployee(data ).subscribe((response: any)=>{
       // console.log(response)
       this.dataEmployee = response.data.content
@@ -155,40 +150,23 @@ export class ListProfileEmployeeComponent implements OnInit {
     })
   }
 
-  ///////////////////////////show dữ liệu không có/////////////////////
-  showEmpolyeeNoData(){
-    const numberData = 12
-    const data = {id: null, name: null, yearOfBirth: null, phoneNumber: null, officeName: null, branchName: null, departmentName: null, positionName: null}
-    
-    const dataRrows = this.dataEmployee.slice();
-    const currentData = dataRrows.length
-    if(currentData < numberData){
-      const isChangeData = numberData - currentData
-      for(let i = 0; i < isChangeData; i++){
-        dataRrows.push(data)
-      }
-    }
-    return dataRrows;
-  }
-
   search(){
     const dataForm = {
-      type: 1,
-      page:this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 ,
+      type: 3,
+      page:this.pageIndex,
       size: 12,
       ...this.form.value
     }
 
     console.log(dataForm)
-    this.userSevice.searchEmployee(dataForm).subscribe((response: any)=>{
+    this.userSevice.searchEmployee( dataForm).subscribe((response: any)=>{
       console.log(response)
       
     })
-    this.getListEmployee(dataForm )
+    this.getListEmployee(this.pageIndex , this.pageSize, dataForm)
   }
 
   resetForm(){
     this.form.reset()
   }
-
 }

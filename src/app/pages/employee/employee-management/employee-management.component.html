@@ -6,17 +6,15 @@
           </svg>
       </span>
       <span class="label_management mx-2">Quản lý nhân sự</span>
+      
   </div>
-    <nz-tabset>
+    <!-- <nz-tabset>
       <nz-tab nzTitle="Thiết lập hồ sơ nhân sự">
-        <app-setup-profile-employee></app-setup-profile-employee>
       </nz-tab>
       <nz-tab nzTitle="Danh sách hồ sơ nhân sự">
-        <app-list-profile-employee></app-list-profile-employee>
 
       </nz-tab>
       <nz-tab nzTitle="DS nhân viên thử việc">
-        <app-list-employee-probation></app-list-employee-probation>
 
       </nz-tab>
       <nz-tab nzTitle="DS nhân viên vi phạm kỷ luật"></nz-tab>
@@ -24,6 +22,16 @@
       <nz-tab nzTitle="Thiết lập lương cơ sở & BHXH"></nz-tab>
 
       
-    </nz-tabset>
+    </nz-tabset> -->
+
+    <nav>
+      <a (click)="routerEmployeeManagement()">Thiết lập hồ sơ nhân sự</a>
+      <a (click)="routerListEmployeeProfile()">Danh sách hồ sơ nhân sự</a>
+      <!-- <a routerLink="/admin" routerLinkActive="active">Admin</a> -->
+      <a (click)="routerListEmployeeProbation()">DS nhân viên thử việc</a>
+      <a (click)="routerListEmployeeViolatesDiscipline()">DS nhân viên vi phạm kỷ luật</a>
+      <a (click)="routerListEmployeeProbation()">DS nhân viên nghỉ việc</a>
+      <a (click)="routerListEmployeeProbation()">Thiết lập lương cơ sở và BHXH</a>
+    </nav>
   
   </div>

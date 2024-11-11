@@ -14,12 +14,13 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzUploadChangeParam, NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, FormArray, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { IData } from '../../models-employee/setup-profile-employee/index.model';
-import { Observable, Observer, of } from 'rxjs';
-import { UserServiceService } from '../../shared/user-service/user-service.service';
-import { NotificationService } from '../../shared/services/notification.service';
+import { from, Observable, Observer, of } from 'rxjs';
+import { IData } from '../../../../models/setup-profile-car/models-employee/setup-profile-employee/index.model';
+import { UserServiceService } from '../../../../shared/services/user-service/user-service.service';
+
+import { NotificationService } from '../../../../shared/services/notification.service';
 import { PDFDocument, rgb } from 'pdf-lib';
-import { PdfService } from '../../shared/pdf/pdf.service';
+import { PdfService } from '../../../../shared/pdf/pdf.service';
 
 interface FileCompressed {
   contractFile: File[];
@@ -142,7 +143,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
     private msg: NzMessageService,
     private userSevice: UserServiceService,
     private notification: NotificationService,
-    private pdfService: PdfService
+    private pdfService: PdfService,
 
   ) {
     this.form = this.fb.group(this.data)
@@ -151,7 +152,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
   maxYear: number = 0
   minYear: number = 0
   contract_type: number = 1
-  has_child : number = 1
+  has_child : any
   ngOnInit(): void {
     //khởi tạo form ban đầu
     var year = new Date()
@@ -179,9 +180,11 @@ export class SetupProfileEmployeeComponent implements OnInit {
       staffRelation: [null, Validators.required],
       permanentAddress: [null, Validators.required],
       temporaryAddress: [null, Validators.required],
-      contractType: [null, Validators.required],
-      fromDate: [null, Validators.required],
-      toDate: [null, Validators.required],
+      contractType: ['1', Validators.required],
+      fromDateOfOffical: [null],
+      fromDateProbation: [null],
+      // fromDate: [null, Validators.required],
+      toDate: [null],
       branchId: [null, Validators.required],
       departmentId: [null, Validators.required],
       officeId: [null, Validators.required],
@@ -195,7 +198,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
       driverLicenseType: [null, Validators.required],
       dlStartDate: [null, Validators.required],
       dlEndDate: [null, Validators.required],
-      hasChild: [null, Validators.required],
+      hasChild: ['0', Validators.required],
       bcImage: [[], Validators.required],
       healthCertificate: [[], Validators.required],
       dlImage: [[], Validators.required],
@@ -204,7 +207,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
       lstArchivedRecords: this.fb.array(this.data.lstArchivedRecords.map(record => this.createArchivedRecords(record))),
       contract: this.fb.group({
         id: '',
-        type: [0, Validators.required],
+        type: [null, Validators.required],
         signDate: [null, Validators.required]
       })
     })
@@ -234,6 +237,13 @@ export class SetupProfileEmployeeComponent implements OnInit {
   listDepartment: any[] = []
   listRoute: any[] = []
   driverLicense: any[] = []
+
+  listDuration = [
+    {id: 1, value:"Hợp đồng 1 năm"},
+    {id: 2, value:"Hợp đồng 3 năm"},
+    {id: 3, value:"Hợp đồng vô thời hạn"}
+
+  ]
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   getBranch() {
@@ -267,9 +277,10 @@ export class SetupProfileEmployeeComponent implements OnInit {
     this.form.get('officeId')?.valueChanges.subscribe((value: any)=> {
      idOffice = value
       console.log(idOffice)
-     if(value){
+     if(idOffice != null){
       this.userSevice.getDepartment(idOffice).subscribe((response: any) => {
         this.listDepartment = response.data
+        console.log(this.listDepartment)
       })
      }else{
       this.listDepartment = []
@@ -294,10 +305,10 @@ export class SetupProfileEmployeeComponent implements OnInit {
 
   createArchivedRecords(record: { name: string | null; code: string | null; type: string | null; file: string | null }): FormGroup {
     return this.fb.group({
-      name: ['', Validators.required],
-      code: ['', Validators.required],
-      type: ['', Validators.required],
-      file: ['', Validators.required]
+      name: [''],
+      code: [''],
+      type: [''],
+      file: ['']
     });
   }
 
@@ -310,11 +321,32 @@ export class SetupProfileEmployeeComponent implements OnInit {
     const minYear = (year.getFullYear() - 42)
     this.maxYearChild = maxYear
     this.minYearChild = minYear
-    return this.fb.group({
-      name: ['', Validators.required],
-      yearOfBirth: ['', [Validators.required, Validators.min(minYear), Validators.max(maxYear)]],
+
+    const ChildForm = this.fb.group({
+      name:  ['', Validators.required] ,
+      yearOfBirth: ['', [Validators.required, Validators.min(minYear), Validators.max(maxYear)]] ,
       gender: ['', Validators.required],
     });
+
+    this.form.get('hasChild')?.valueChanges.subscribe((value : any)=> {
+      console.log(value)
+      this.has_child = value
+      if(this.has_child === '1'){
+        ChildForm.get('name')?.setValidators(Validators.required)
+        ChildForm.get('yearOfBirth')?.setValidators(Validators.required)
+        ChildForm.get('gender')?.setValidators(Validators.required)
+      }else{
+        ChildForm.get('name')?.clearValidators()
+        ChildForm.get('yearOfBirth')?.clearValidators()
+        ChildForm.get('gender')?.clearValidators()
+      }
+      ChildForm.get('name')?.updateValueAndValidity();
+      ChildForm.get('yearOfBirth')?.updateValueAndValidity();
+      ChildForm.get('gender')?.updateValueAndValidity();
+
+    })
+
+    return ChildForm
   }
 
   addArchivedRecords() {
@@ -383,17 +415,19 @@ export class SetupProfileEmployeeComponent implements OnInit {
     this.form.get('departmentId')?.valueChanges.subscribe((value: any) => {
       console.log(value)
       this.idDriver = value // 1
-      const isDriver = this.listDepartment.find(item => item.id === this.idDriver)
+      const isDriver = this.listDepartment.find(item => item.id === Number(this.idDriver))
       console.log(isDriver)
-      var codeDriver: any = isDriver.code
-      this.deparmentCode = codeDriver
-      console.log(this.deparmentCode)
-      if (isDriver && codeDriver == 'DRIVER' && codeDriver != null) {
-        this.hasDriver = true
+      
+        var codeDriver: any = isDriver.code
+        this.deparmentCode = codeDriver
+        console.log(this.deparmentCode)
+        if (isDriver && codeDriver == 'DRIVER' && codeDriver != null) {
+          this.hasDriver = true
+        }
+        else{
+          this.hasDriver = false
       }
-      else{
-        this.hasDriver = false
-      }
+      
     })
   }
 
@@ -620,13 +654,33 @@ export class SetupProfileEmployeeComponent implements OnInit {
   endValue: Date | null = null
 
   disableIntoToDate = (toDate: Date): boolean => {
-    const fromDate = this.form.get('fromDate')?.value
-    return fromDate ? toDate <= fromDate : false
+    const fromDateProbation = this.form.get('fromDateProbation')?.value
+    return fromDateProbation ? toDate <= fromDateProbation : false
   }
 
-  disableIntobcStartDate = (bcEndDate: Date): boolean => {
+  disableFromDate = (fromDateProbation: Date): boolean => {
+    const toDate = this.form.get('toDate')?.value
+    return toDate ? fromDateProbation >= toDate :false
+  }
+
+  disableIntobcEndDate = (bcEndDate: Date): boolean => {
     const bcStartDate = this.form.get('bcStartDate')?.value
     return bcStartDate ? bcEndDate <= bcStartDate : false
+  }
+
+  disableBcStartDate = (bcStartDate: Date): boolean => {
+    const bcEndDate = this.form.get('bcEndDate')?.value
+    return bcEndDate ? bcStartDate >= bcEndDate : false
+  }
+
+  disabledlEndDate = (dlEndDate : Date) : boolean => {
+    const dlStartDate = this.form.get('dlStartDate')?.value
+    return dlStartDate ? dlEndDate <= dlStartDate : false
+  }
+
+  disabledlStartDate = (dlStartDate : Date) : boolean => {
+    const dlEndDate = this.form.get('dlEndDate')?.value
+    return dlEndDate ? dlStartDate >= dlEndDate : false
   }
   ///////////////////////////////////////////////////////////////////////SHOW DATA///////////////////////////////////////////////////////////////////////
   officeEmployee: any
@@ -643,6 +697,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
   listCh: any[] = []
 
   showDataEmployee() {
+    // this.form.markAllAsTouched();
     this.inforEmployee = this.form.value
     this.form.get('name')?.markAsTouched()
     this.form.get('yearOfBirth')?.markAsTouched()
@@ -662,7 +717,17 @@ export class SetupProfileEmployeeComponent implements OnInit {
     this.form.get('permanentAddress')?.markAsTouched()
     this.form.get('temporaryAddress')?.markAsTouched()
     this.form.get('contractType')?.markAsTouched()
-    this.form.get('fromDate')?.markAsTouched()
+
+    if(this.contract_type == 2){
+    this.form.get('fromDateProbation')?.markAsTouched()
+
+    }
+
+    if(this.contract_type == 1){
+      this.form.get('fromDateOfOffical')?.markAsTouched()
+
+    }
+
     this.form.get('toDate')?.markAsTouched()
     this.form.get('branchId')?.markAsTouched()
     this.form.get('departmentId')?.markAsTouched()
@@ -682,7 +747,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
       this.form.get('dlEndDate')?.markAsTouched()
       this.form.get('dlImage')?.markAsTouched()
       this.form.get('hcEndDate')?.markAsTouched()
-    }else if (this.hasDriver == false){
+    } else{
       this.form.get('routeId')?.clearValidators();
       this.form.get('businessCardNumber')?.clearValidators();
       this.form.get('bcStartDate')?.clearValidators();
@@ -697,13 +762,15 @@ export class SetupProfileEmployeeComponent implements OnInit {
       this.form.get('dlImage')?.clearValidators();
     }
     this.form.get('hasChild')?.markAsTouched()
-    this.lstArchivedRecords.controls.forEach((value: any) => {
-      value.get('name')?.markAsTouched();
-      value.get('code')?.markAsTouched();
-      value.get('type')?.markAsTouched();
-      value.get('file')?.markAsTouched();
-    })
-    if(this.has_child == 0){
+    // if(this.lstArchivedRecords.value){
+    //   this.lstArchivedRecords.controls.forEach((value: any) => {
+    //     value.get('name')?.markAsTouched();
+    //     value.get('code')?.markAsTouched();
+    //     value.get('type')?.markAsTouched();
+    //     value.get('file')?.markAsTouched();
+    //   })
+    // }
+    if(this.has_child && this.has_child  == '1' ){
       this.lstChildren.controls.forEach((value: any) => {
         value.get('name')?.markAsTouched();
         value.get('gender')?.markAsTouched();
@@ -712,17 +779,17 @@ export class SetupProfileEmployeeComponent implements OnInit {
     }
     const dataForm = {
       ...this.form.value,
-      lstArchivedRecords: this.form.value.lstArchivedRecords.map((record: any) => ({// trong form Array
+      lstArchivedRecords: this.form.value.lstArchivedRecords && this.form.value.lstArchivedRecords.length > 0 ?  this.form.value.lstArchivedRecords.map((record: any) => ({// trong form Array
         name: record.name,
         code: record.code,
         type: record.type,
         file: record.file.name,
-      })),
-      lstChildren: this.form.value.lstChildren.map((child: any) => ({
+      })): null,
+      lstChildren: this.form.value.lstChildren && this.form.value.lstChildren.length > 0 ?  this.form.value.lstChildren.map((child: any) => ({
         name: child.name,
         yearOfBirth: child.yearOfBirth,
         gender: child.gender,
-      })),
+      })): null,
 
     };
 
@@ -781,26 +848,26 @@ export class SetupProfileEmployeeComponent implements OnInit {
       this.routeName = routeIndex.name
     }
 
-    const formData = new FormData();
+    // const formData = new FormData();
 
-    formData.append('data', JSON.stringify(dataForm));
-    if (this.fileCompressed.healthCertificate.length > 0) {
-      formData.append('healthCertificate', this.fileCompressed.healthCertificate[0]);
-    }
-    if (this.fileCompressed.contractFile.length > 0) {
-      formData.append('contractFile', this.fileCompressed.contractFile[0]);
-    }
-    var archivedRecordFile: any = this.fileCompressed.file
+    // formData.append('data', JSON.stringify(dataForm));
+    // if (this.fileCompressed.healthCertificate.length > 0) {
+    //   formData.append('healthCertificate', this.fileCompressed.healthCertificate[0]);
+    // }
+    // if (this.fileCompressed.contractFile.length > 0) {
+    //   formData.append('contractFile', this.fileCompressed.contractFile[0]);
+    // }
+    // var archivedRecordFile: any = this.fileCompressed.file
 
-    archivedRecordFile.forEach((value: any) => {
-      formData.append('archivedRecordFiles', value)
-    })
-    if (this.dlImage[0]) {
-      formData.append('dlImage', this.dlImage[0]);
-    }
-    if (this.bcImgFile[0]) {
-      formData.append('bcImage', this.bcImgFile[0]);
-    }
+    // archivedRecordFile.forEach((value: any) => {
+    //   formData.append('archivedRecordFiles', value)
+    // })
+    // if (this.dlImage[0]) {
+    //   formData.append('dlImage', this.dlImage[0]);
+    // }
+    // if (this.bcImgFile[0]) {
+    //   formData.append('bcImage', this.bcImgFile[0]);
+    // }
 
     this.form.get('routeId')?.updateValueAndValidity()
     this.form.get('businessCardNumber')?.updateValueAndValidity()
@@ -818,7 +885,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
 
     if(this.form.invalid){
       this.isModalInforEmployee == false
-      this.form.markAllAsTouched();
+      // this.form.markAllAsTouched();
     }else{
       
       this.isModalInforEmployee == true
@@ -865,18 +932,56 @@ export class SetupProfileEmployeeComponent implements OnInit {
 
   }
 
+  fromDateOfOffical :any
+  fromDateProbation : any
+
+  onContractTypeChange(value: number) {
+    this.contract_type = value;
+
+    if (value === 1) { // Nếu chọn "Chính thức"
+        this.form.get('fromDateOfOffical')?.setValidators([Validators.required]);
+        this.form.get('fromDateProbation')?.clearValidators();
+        this.form.get('toDate')?.clearValidators();
+    } else if (value === 2) { // Nếu chọn "Thử việc"
+        this.form.get('fromDateOfOffical')?.clearValidators();
+        this.form.get('fromDateProbation')?.setValidators([Validators.required]);
+        this.form.get('toDate')?.setValidators([Validators.required]);
+    }
+
+    // Cập nhật lại giá trị và tình trạng của các control sau khi thay đổi validator
+    this.form.get('fromDateOfOffical')?.updateValueAndValidity();
+    this.form.get('fromDateProbation')?.updateValueAndValidity();
+    this.form.get('toDate')?.updateValueAndValidity();
+}
+
   saveDataEmployee() {
 
+    if(this.contract_type == 1){
+      this.fromDateOfOffical = this.form.value.fromDateOfOffical
+    }
+    if(this.contract_type == 2){
+      this.fromDateProbation = this.form.value.fromDateProbation
+    }
     const dataForm = {
       ...this.form.value,
+      fromDate : this.contract_type == 1 ? this.fromDateOfOffical : this.fromDateProbation ,
       departmentCode: this.deparmentCode,
-      lstArchivedRecords: this.form.value.lstArchivedRecords.map((record: any) => ({// trong form Array
+      lstArchivedRecords: this.form.value.lstArchivedRecords.length === 1 
+      && this.form.value.lstArchivedRecords[0].name === '' 
+      && this.form.value.lstArchivedRecords[0].code === '' 
+      && this.form.value.lstArchivedRecords[0].type === '' 
+      && this.form.value.lstArchivedRecords[0].file === '' 
+      ? null : this.form.value.lstArchivedRecords.map((record: any) => ({// trong form Array
         name: record.name,
         code: record.code,
         type: record.type,
         file: record.file.name,
       })),
-      lstChildren: this.form.value.lstChildren.map((child: any) => ({
+      lstChildren: this.form.value.lstChildren.length === 1
+      && this.form.value.lstChildren[0].name === '' 
+      && this.form.value.lstChildren[0].yearOfBirth === '' 
+      && this.form.value.lstChildren[0].gender === '' 
+      ? null :  this.form.value.lstChildren.map((child: any) => ({
         name: child.name,
         yearOfBirth: child.yearOfBirth,
         gender: child.gender,
@@ -884,23 +989,13 @@ export class SetupProfileEmployeeComponent implements OnInit {
 
     };
 
-    // console.log(this.lstArchivedRecords)
-    this.lstArchivedRecords.controls.forEach((value: any, index: number) => {
-      console.log(value.value)
-      this.listAR.push(value.value)
-    })
-
-    if (this.lstChildren) {
-      this.lstChildren.controls.forEach((value: any, index: number) => {
-        console.log(value.value)
-        this.listCh.push(value.value)
-      })
-    }
-
+    console.log(dataForm)
     delete dataForm.contractFile
     delete dataForm.bcImage
     delete dataForm.healthCertificate
     delete dataForm.dlImage
+    delete dataForm.fromDateOfOffical
+    delete dataForm.fromDateProbation
 
     const formData = new FormData();
 
@@ -925,12 +1020,12 @@ export class SetupProfileEmployeeComponent implements OnInit {
     // console.log(formData)
 
 
+   if(this.form.valid){
     this.userSevice.saveEmployee(formData).subscribe({
       next: (response) => {
         console.log('File đã được gửi đi thành công', response);
         this.notification.success('Lưu hồ sơ nhân viên thành công!')
-        // this.isModalInforEmployee = true
-        this.form.reset()
+
       },
       error: (error) => {
         // if(error.status === 400){
@@ -939,6 +1034,10 @@ export class SetupProfileEmployeeComponent implements OnInit {
 
       }
     })
+   }else{
+          this.notification.error('Có lỗi xảy ra')
+          this.listAR = []
+   }
 
     
   }

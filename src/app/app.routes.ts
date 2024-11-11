@@ -3,7 +3,8 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout.component
 import { ROUTERS } from './shared/constants/router.const';
 import { authGuard } from './core/auth.guard';
 import { HOME_ROUTES } from './pages/home/home.routes';
-import { EMPLOYEE_MANAGEMENT_ROUTES } from './pages/employee-management/employee-management.routes';
+import { EMPPLOYEE_ROUTES } from './pages/employee/employee-routing.module';
+// import { EMPLOYEE_MANAGEMENT_ROUTES } from './pages/employee/employee-management/employee-management.routes';
 
 export const routes: Routes = [
   {
@@ -11,25 +12,45 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       // {path: '', redirectTo: ROUTERS.HOME_DEFAULT, pathMatch: 'full'},
-      {
-        path: '',
-        loadComponent: () => 
-        (
-          import('./pages/employee-management-default/employee-management-default.component').then(
-            (c)=> c.EmployeeManagementDefaultComponent
-          )
-        )
-      },
-      {
-        path: ROUTERS.DETAIL_EMPLOYEE,
-        loadComponent: () => 
-        (
-          import('./pages/detail-profile-employee/detail-profile-employee.component').then(
-            (c)=> c.DetailProfileEmployeeComponent
-          )
-        )
-      },
-      ...EMPLOYEE_MANAGEMENT_ROUTES,
+      // {
+      //   path: '',
+      //   loadComponent: () => 
+      //   (
+      //     import('./pages/employee-management-default/employee-management-default.component').then(
+      //       (c)=> c.EmployeeManagementDefaultComponent
+      //     )
+      //   )
+      // },
+      // {
+      //   path: 'employee-management',
+      //   loadComponent: () => 
+      //   (
+      //     import('./pages/employee/setup-profile-employee/setup-profile-employee.component').then(
+      //       (c)=> c.SetupProfileEmployeaeComponent
+      //     )
+      //   )
+      // },
+      ...EMPPLOYEE_ROUTES,
+      // {
+      //   path: 'list-profile-employee',
+      //   loadComponent: () => 
+      //     (
+      //       import('../app/pages/employee/list-profile-employee/list-profile-employee.component').then(
+      //         (c)=> c.ListProfileEmployeeComponent
+      //       )
+      //     )
+
+      // },
+      // {
+      //   path: ROUTERS.DETAIL_EMPLOYEE,
+      //   loadComponent: () => 
+      //   (
+      //     import('./pages/detail-profile-employee/detail-profile-employee.component').then(
+      //       (c)=> c.DetailProfileEmployeeComponent
+      //     )
+      //   )
+      // },
+      // ...EMPLOYEE_MANAGEMENT_ROUTES,
       {
         path: ROUTERS.HOME_DEFAULT,
         loadComponent: () => 
