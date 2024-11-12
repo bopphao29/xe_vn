@@ -15,7 +15,8 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { DetailProfileEmployeeComponent } from '../../detail-profile-employee/detail-profile-employee.component';
 import { Route, Router, Routes } from '@angular/router';
-import { UserServiceService } from '../../../../shared/services/user-service/user-service.service';
+import { UserServiceService } from '../../../../shared/services/user-service.service';
+
 
 @Component({
   selector: 'app-list-employee-probation',
@@ -68,16 +69,11 @@ export class ListEmployeeProbationComponent implements OnInit  {
 
     })
     // this.listData
-    const formData = {
-      page: this.pageIndex,
-      size: 12,
-      ...this.form.value}
-    console.log(this.pageSize)
-    this.getListEmployee(this.pageIndex, this.pageSize, formData)
     this.getBranch()
     // this.getDepartment()
     this.getOffice()
     this.getPossition()
+    this.search()
   }
 
   listBranch: any[] = []
@@ -121,14 +117,14 @@ export class ListEmployeeProbationComponent implements OnInit  {
   }
 
 
-  pageIndex = 0
-  pageSize = 10
+  pageIndex = 1
+  pageSize = 12
 
   pagedData : any[] = []
 
   onPageChange(page: number): void {
     this.pageIndex = page;
-    this.getListEmployee(this.pageIndex, this.pageSize,this.form.value);
+    this.search()
   }
 
   
@@ -140,7 +136,23 @@ export class ListEmployeeProbationComponent implements OnInit  {
 
   total = 1
 
-  getListEmployee(page: number, size: number, data: any){
+  showEmpolyeeNoData(){
+    const numberData = 12
+    const data = {id: null, name: null, yearOfBirth: null, phoneNumber: null, officeName: null, branchName: null, departmentName: null, positionName: null}
+    
+    const dataRrows = this.dataEmployee.slice();
+    const currentData = dataRrows.length
+    if(currentData < numberData){
+      const isChangeData = numberData - currentData
+      for(let i = 0; i < isChangeData; i++){
+        dataRrows.push(data)
+      }
+    }
+    return dataRrows;
+  }
+
+
+  getListEmployeeProbation(page: number, size: number, data: any){
     this.userSevice.searchEmployee(data ).subscribe((response: any)=>{
       // console.log(response)
       this.dataEmployee = response.data.content
@@ -150,10 +162,11 @@ export class ListEmployeeProbationComponent implements OnInit  {
     })
   }
 
+  
   search(){
     const dataForm = {
       type: 2,
-      page:this.pageIndex,
+      page: this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 ,
       size: 12,
       ...this.form.value
     }
@@ -163,7 +176,7 @@ export class ListEmployeeProbationComponent implements OnInit  {
       console.log(response)
       
     })
-    this.getListEmployee(this.pageIndex , this.pageSize, dataForm)
+    this.getListEmployeeProbation(this.pageIndex , this.pageSize, dataForm)
   }
 
   resetForm(){

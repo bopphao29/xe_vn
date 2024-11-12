@@ -21,12 +21,12 @@
     }
 
     .form-input {
-        height: 50px;
+        height: 48px;
         border-radius: 5px;
     }
 
     .ant-picker {
-        height: 50px;
+        height: 48px;
         border-radius: 5px;
     }
 
@@ -170,4 +170,40 @@
   ::ng-deep .custom-pagination .ant-pagination-disabled {
     color: #bfbfbf; 
   }
+
+  .headmodal{
+    font-size: 24px; 
+    height: 28px; 
+    line-height: 28px; 
+    margin: 25px 0 35px 0;
+    display: flex; 
+    justify-content: center;
+     align-items: center;
+    }
   
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      
+    }
+  
+    .custom-table th, .custom-table td {
+      border: 1px solid #d9d9d9;
+      // padding: 8px;
+      height: 36px !important;    
+    }
+
+    .validate_input{
+      color: red;
+    }
+  
+    .button-infor{
+      width: 160px;
+      height: 48px;
+      padding: 14px 10px 14px 10px;
+      border-radius: 8px;
+      -webkit-border-radius: 8px;
+      -moz-border-radius: 8px;
+      -ms-border-radius: 8px;
+      -o-border-radius: 8px;
+}

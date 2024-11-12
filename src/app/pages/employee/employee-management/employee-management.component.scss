@@ -85,3 +85,29 @@
 .nz-tabset .ant-tabs-nav .ant-tabs-tab:hover {
     background-color: #0056b3; /* Màu nền khi hover */
 }
+
+.routerPage{
+    margin-top: 10px;
+    margin-left: 16px;
+    a{
+        color: rgba(107, 114, 128, 1);
+        padding: 10px 24px;
+        height: 36px;
+        font-size: 14px;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+}
+}
+
+.routerPage a:hover{
+    background-color: rgba(26, 105, 197, 0.1);
+}
+
+.routerPage a.active{
+    background-color: rgba(26, 105, 197, 0.1);
+    color: rgba(39, 78, 161, 1);
+}
+

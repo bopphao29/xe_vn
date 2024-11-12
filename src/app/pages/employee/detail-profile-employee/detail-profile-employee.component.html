@@ -1066,7 +1066,7 @@
                                 <th class="list-col-2">Nội dung khen thưởng</th>
                             </tr>
                             <tr *ngFor="let data of showEmpolyeeNoDataofLstPraises()">
-                                <td class="col-1">{{data.praiseDate | date: 'dd/MM/yyyy' || '-'}}</td>
+                                <td class="col-1">{{data.praiseDate ? (data.praiseDate | date: 'dd/MM/yyyy') : '-'}}</td>
                                 <td class="col-1">{{data.description || '-'}}</td>
                             </tr>
                             
@@ -1085,7 +1085,7 @@
                                 <th class="list-col-2">Nội dung kỉ luật</th>
                             </tr>
                             <tr *ngFor="let data of showEmpolyeeNoDataofLstPunishments()" >
-                                <td class="col-1">{{data.violationDate | date: 'dd/MM/yyyy' || '-'}}</td>
+                                <td class="col-1">{{data.violationDate ? (data.violationDate | date: 'dd/MM/yyyy') : '-'}}</td>
                                 <td class="col-1">{{data.content || '-'}}</td>
 
                             </tr>
@@ -1203,7 +1203,7 @@
 </nz-modal>
 
 
-<nz-modal [(nzVisible)]="isModalAchievements" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()"
+<nz-modal [(nzVisible)]="isModalAchievements" (nzOnCancel)="handleCancelAchive()" (nzOnOk)="handleSubmitAchive()"
     [nzContent]="modalContentAchi" [nzFooter]="null" [nzStyle]="{'min-width' : '1322px', 'min-height':'1080px'}">
     <ng-template #modalContentAchi>
         <div class="headmodal" style="margin-bottom: 32px;">
@@ -1220,17 +1220,16 @@
                     <div nz-col nzSpan="2">
 
                     </div>
-                    <div nz-col nzSpan="8">
-                        <span style="padding: 4px; background-color: rgba(244, 247, 251, 1);">Kết quả: <span style="color: rgba(37, 44, 50, 1);">Đạt</span></span>
+                    <div nz-col nzSpan="8" style="margin-top: 12px">
+                        <span style="padding: 12px 16px 12px 16px ; border-radius: 6px; border: 1px ;background-color: rgba(244, 247, 251, 1);">Kết quả: <span style="color: rgba(37, 44, 50, 1);">Đạt</span></span>
                     </div>
                 </div>
             </div>
 
         </div>
         <div nz-row class="w-full">
-            <div nz-col nzSpan="22" class="flex">
-                <div nz-col style="width: calc(100% - 56px) !important;" class=" mx-4">
-                    <span style="font-size: 14px; color: #6b7280;">Danh sách giấy tờ </span>
+            <div nz-col nzSpan="24" class="flex">
+                <div nz-col style="width: calc(100% - 56px) !important; margin-top: 20px" class=" mx-4">
                     <table class="custom-table-list">
                         <tbody>
                             <tr style="background-color: #f4f7fb;">
@@ -1274,13 +1273,19 @@
                                 <td style="text-align: center;" class="list-col-4">{{data.type}}</td>
                             </tr> -->
                             <tr style="background-color: #f4f7fb;">
-                                <th style="text-align: center;" class="list-col-1">054515</th>
-                                <th class="list-col-2">Tên nhân viên</th>
-                                <th style="text-align: center;" class="list-col-3">2000</th>
-                                <th style="text-align: center;" class="list-col-4">09856485</th>
-                                <th style="text-align: center;" class="list-col-4">VTHK</th>
-                                <th style="text-align: center;" class="list-col-4">Nam Định</th>
-                                <th style="text-align: center;" class="list-col-4">Lái xe</th>
+                                <th  style="text-align: center;" class="list-col-1" *ngFor="let data of listArchiOfStaff, let i = index"> 
+                                    <button (click)="changeDataOfTable(i)" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;" >
+                                        <span  *ngIf="data[1] === 1">
+                                            <svg width="16" height="13" viewBox="0 0 16 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5.59509 12.5L0 6.81185L1.39877 5.38981L5.59509 9.65592L14.6012 0.5L16 1.92204L5.59509 12.5Z" fill="#274EA1"/>
+                                              </svg>
+                                        </span>
+                                        <span *ngIf="data[1] === 0">
+                                            
+                                        </span>
+                                        
+                                    </button>
+                                </th>
                             </tr>
                         </tbody>
                     </table>

@@ -44,11 +44,12 @@ export const EMPPLOYEE_ROUTES: Routes = [
       },
       {
         path: 'list-employee-violates-discipline',
-        loadComponent: () => 
+        loadComponent: () =>  
         import('./page-routing/list-employee-violates-discipline/list-employee-violates-discipline.component').then(
             (c) => c.ListEmployeeViolatesDisciplineComponent
         ),
       },
+
     ]
 
   },
@@ -72,6 +73,13 @@ export const EMPPLOYEE_ROUTES: Routes = [
     loadComponent: () =>
       import('./detail-profile-employee/detail-profile-employee.component').then(
         (c) => c.DetailProfileEmployeeComponent
+      ),
+  },
+  {
+    path: 'detail-employee-violate/:id',
+    loadComponent: () =>
+      import('./detail-employee-violate/detail-employee-violate.component').then(
+        (c) => c.DetailEmployeeViolateComponent
       ),
   },
   // {

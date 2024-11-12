@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../enviroments/enviroment';
+import { environment } from '../../../enviroments/enviroment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
@@ -77,6 +77,10 @@ export class UserServiceService {
 
   getAchievementsStaffDetails(id: any, month: any, year: number){
     return this.httpClient.get(this.url + 'api/achievements/staff-details?staffId=' + id+'&month='+month+'&year='+year)
+  }
+
+  getDetailEmployeeViolate(id: any){
+    return this.httpClient.get(this.url + 'api/punishments/'+id)
   }
 
 }

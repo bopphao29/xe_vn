@@ -16,7 +16,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, FormArray, Va
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable, Observer } from 'rxjs';
 import { NotificationService } from '../../../shared/services/notification.service';
-import { UserServiceService } from '../../../shared/services/user-service/user-service.service';
+import { UserServiceService } from '../../../shared/services/user-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 interface FileCompressed {
@@ -395,7 +395,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
         const contractT = {
           id: response.data.contract.id,
           signDate: response.data.contract.signDate,
-          type: response.data.contract.type.toString(),
+          type: response.data.contract.type,
         }
         this.form.get('contract')?.setValue(contractT)
         this.form.get('contractFile')?.setValue(response.data.contract.file)
@@ -949,7 +949,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
   }
 
   onBack(){
-    this.router.navigate(['/employee-management'])
+    this.router.navigate(['employee/employee-management'])
   }
 
   officeEmployee : any
@@ -1136,21 +1136,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
   ]
 
   tagPlaceholder: any = () => `...`;
-
-  getAchievementsStaffDetails(id: any){
-    const month = this.monthValue || (new Date().getMonth() + 1).toString()
-    this.userSevice.getAchievementsStaffDetails(id, month, this.yearNow).subscribe({
-      next: (response) => {
-        console.log(response)
-      },
-      error: (error) => {
-        // if(error.status === 400){
-        //   this.notification.error(error.message)
-        // }
-
-      }
-    })
-  }
+  listArchiOfStaff : any = []
 
   onChangeMonth(month: string){
     this.route.params.subscribe((params: any)=> {
@@ -1160,9 +1146,35 @@ export class DetailProfileEmployeeComponent implements OnInit {
     })
   }
 
+  listArchiOfStaffNew : [string, number][] = []
 
 
+  getAchievementsStaffDetails(id: any){
+    const month = this.monthValue || (new Date().getMonth() + 1).toString()
+    this.userSevice.getAchievementsStaffDetails(id, month, this.yearNow).subscribe((response : any)=>{
+        this.listArchiOfStaff = Object.entries(response.data.achievements)
+        this.listArchiOfStaffNew = [...this.listArchiOfStaff]
 
+    })
+  }
+
+  changeDataOfTable(dayIndex : number){
+    console.log( Object.entries(this.listArchiOfStaff))
+    if(this.listArchiOfStaffNew[dayIndex]){
+      const [key, value] = this.listArchiOfStaffNew[dayIndex]
+
+      this.listArchiOfStaff[dayIndex][1] = this.listArchiOfStaffNew[dayIndex][1] === 0 ? 1 : 0
+      this.listArchiOfStaff[key] = this.listArchiOfStaffNew[dayIndex][1] 
+    }
+  }
+
+  handleCancelAchive(){
+    this.isModalAchievements = false
+  }
+
+  handleSubmitAchive(){
+    this.isModalAchievements = false
+  }
 
 
 

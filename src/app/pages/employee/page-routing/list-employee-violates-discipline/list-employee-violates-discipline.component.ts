@@ -14,7 +14,8 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { Router } from '@angular/router';
-import { UserServiceService } from '../../../../shared/services/user-service/user-service.service';
+import { UserServiceService } from '../../../../shared/services/user-service.service';
+
 
 @Component({
   selector: 'app-list-employee-violates-discipline',
@@ -64,16 +65,10 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
       branchId: '',
       departmentId: '',
       positionId: '',
-
+      rangeDate: ''
     })
     // this.listData
-    const formData = {
-      type : 3,
-      page: this.pageIndex,
-      size: 12,
-      ...this.form.value}
-    console.log(this.pageSize)
-    this.getListEmployee(this.pageIndex, this.pageSize, formData)
+    this.search()
     this.getBranch()
     // this.getDepartment()
     this.getOffice()
@@ -133,7 +128,7 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
 
   
   routerDetailEmployee(id: any){
-    this.routes.navigate(['detail-employee/', id])
+    this.routes.navigate(['detail-employee-violate/', id])
   }
 
   dataEmployee: any[] = [] 
@@ -150,13 +145,28 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
     })
   }
 
+  fromDate : Date = new Date()
+  toDate : Date = new Date()
+
+  getToDateAndFromDate(){
+    const rangeDate = this.form.get('rangeDate')?.value
+     this.fromDate = rangeDate ? rangeDate[0] : null
+    this.toDate = rangeDate ? rangeDate[1] : null
+
+    console.log(this.fromDate)
+    console.log(this.toDate)
+  }
+
   search(){
     const dataForm = {
       type: 3,
       page:this.pageIndex,
       size: 12,
+      fromDate : this.fromDate,
+      toDate: this.toDate,
       ...this.form.value
     }
+    delete dataForm.rangeDate
 
     console.log(dataForm)
     this.userSevice.searchEmployee( dataForm).subscribe((response: any)=>{
@@ -169,4 +179,6 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
   resetForm(){
     this.form.reset()
   }
+
+
 }

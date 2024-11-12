@@ -1,4 +1,4 @@
-<div class="p-4" style="background-color: #f3f3f3; padding: 0; justify-content: center; align-items: center;">
+<div class="p-3" style="background-color: #f3f3f3; padding: 0; justify-content: center; align-items: center;">
   <div style="display: flex;">
       <span style="margin-top: 2px;margin-bottom: 12px;">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -24,14 +24,16 @@
       
     </nz-tabset> -->
 
-    <nav>
-      <a (click)="routerEmployeeManagement()">Thiết lập hồ sơ nhân sự</a>
-      <a (click)="routerListEmployeeProfile()">Danh sách hồ sơ nhân sự</a>
+    <nav class="routerPage">
+      <a (click)="routerEmployeeManagement()" [ngClass]="{'active': activeLink === 'employeeManagement'}" >Thiết lập hồ sơ nhân sự</a>
+      <a (click)="routerListEmployeeProfile()" [ngClass]="{'active': activeLink === 'employeeProfile'}">Danh sách hồ sơ nhân sự</a>
       <!-- <a routerLink="/admin" routerLinkActive="active">Admin</a> -->
-      <a (click)="routerListEmployeeProbation()">DS nhân viên thử việc</a>
-      <a (click)="routerListEmployeeViolatesDiscipline()">DS nhân viên vi phạm kỷ luật</a>
-      <a (click)="routerListEmployeeProbation()">DS nhân viên nghỉ việc</a>
-      <a (click)="routerListEmployeeProbation()">Thiết lập lương cơ sở và BHXH</a>
+      <a (click)="routerListEmployeeProbation()" [ngClass]="{'active': activeLink === 'employeeeProbation'}">DS nhân viên thử việc</a>
+      <a (click)="routerListEmployeeViolatesDiscipline()" [ngClass]="{'active': activeLink === 'employeeViolatesDiscipline'}">DS nhân viên vi phạm kỷ luật</a>
+      <a (click)="routerListEmployeeResign()" [ngClass]="{'active': activeLink === 'employeeResign'}">DS nhân viên nghỉ việc</a>
+      <a (click)="routerListEmployeeSalarySetup()" [ngClass]="{'active': activeLink === 'employeeSalarySetup'}">Thiết lập lương cơ sở và BHXH</a>
     </nav>
   
+    <div style="border-bottom: 1px solid #dddddd;margin-left: 16px; margin-bottom: 15px;margin-top: 15px;"></div>
+
   </div>

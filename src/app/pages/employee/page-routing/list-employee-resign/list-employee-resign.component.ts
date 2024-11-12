@@ -1,6 +1,9 @@
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { UserServiceService } from '../../../../shared/services/user-service.service';
+
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
@@ -8,23 +11,16 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
-import { NzPaginationModule } from 'ng-zorro-antd/pagination';
-import { DetailProfileEmployeeComponent } from '../../detail-profile-employee/detail-profile-employee.component';
-import { Route, Router, Routes } from '@angular/router';
-import { UserServiceService } from '../../../../shared/services/user-service.service';
 import { NotificationService } from '../../../../shared/services/notification.service';
 
-
-
 @Component({
-  selector: 'app-list-profile-employee',
+  selector: 'app-list-employee-resign',
   standalone: true,
-  templateUrl: './list-profile-employee.component.html',
-  styleUrl: './list-profile-employee.component.scss',
   imports: [
     CommonModule,
     FormsModule,
@@ -43,23 +39,20 @@ import { NotificationService } from '../../../../shared/services/notification.se
     NzTabsModule,
     NzUploadModule,
     NzPaginationModule,
-    DetailProfileEmployeeComponent
   ],
+  templateUrl: './list-employee-resign.component.html',
+  styleUrl: './list-employee-resign.component.scss'
 })
-export class ListProfileEmployeeComponent implements OnInit {
-
+export class ListEmployeeResignComponent {
   constructor(
     private routes: Router,
     private fb :FormBuilder,
     private userSevice: UserServiceService,
     private notification: NotificationService
- 
   ){
-
+   
   }
-
   form!: FormGroup
-  formOnLeave !: FormGroup
 
 
   ngOnInit(): void {
@@ -68,7 +61,7 @@ export class ListProfileEmployeeComponent implements OnInit {
       // code: '',
       // name: '',
       // phoneNumber: '',
-      txtSearch: '',
+      txtSearch:'',
       officeId: '',
       branchId: '',
       departmentId: '',
@@ -76,22 +69,17 @@ export class ListProfileEmployeeComponent implements OnInit {
 
     })
     // this.listData
-    // const formData = {
-    //   page: this.pageIndex,
-    //   size: 12,
-    //   ...this.form.value}
-    // console.log(this.pageSize)
-    // this.getListEmployee(formData)
-    this.search()
+    const formData = {
+      type : 4,
+      page: this.pageIndex,
+      size: 12,
+      ...this.form.value}
+    console.log(this.pageSize)
+    this.getListEmployee(this.pageIndex, this.pageSize, formData)
     this.getBranch()
-    this.getDepartment()
+    // this.getDepartment()
     this.getOffice()
     this.getPossition()
-
-    this.formOnLeave = this.fb.group({
-      fromDate: ['', Validators.required],
-      toDate : ['', Validators.required]
-    })
   }
 
   listBranch: any[] = []
@@ -99,7 +87,8 @@ export class ListProfileEmployeeComponent implements OnInit {
   listOffice: any[] = []
   listDepartment: any[] = []
   isModalOnLeaveEmployee = false
-
+  dataEmployee: any[] = []
+  formOnLeave !: FormGroup
 
   getBranch() {
     this.userSevice.getBranch().subscribe((response: any) => {
@@ -118,6 +107,7 @@ export class ListProfileEmployeeComponent implements OnInit {
       this.listOffice = response.data
     })
     this.getDepartment()
+
   }
 
   getDepartment() {
@@ -136,37 +126,22 @@ export class ListProfileEmployeeComponent implements OnInit {
   }
 
 
-  pageIndex = 1
-  pageSize = 12
+  pageIndex = 0
+  pageSize = 10
 
   pagedData : any[] = []
 
   onPageChange(page: number): void {
     this.pageIndex = page;
-    this.search();
+    this.getListEmployee(this.pageIndex, this.pageSize,this.form.value);
   }
-  
+
   
   routerDetailEmployee(id: any){
-    this.routes.navigate(['/detail-employee/', id])
+    this.routes.navigate(['detail-employee/', id])
   }
-  // routerDetailEmployee(){
-  //   this.routes.navigate(['/employee-details/1'])
-  // }
 
-  dataEmployee: any[] = []
-
-  total = 0
-
-  getListEmployee(data: any){
-    this.userSevice.searchEmployee(data ).subscribe((response: any)=>{
-      // console.log(response)
-      this.dataEmployee = response.data.content
-      this.total = response.data.totalElements
-      console.log(this.total)
-
-    })
-  }
+  total = 1
 
   isoDate: string | null = null;
   onDateChange(date: Date): void {
@@ -190,20 +165,14 @@ export class ListProfileEmployeeComponent implements OnInit {
     return toDate ? fromDateProbation >= toDate :false
   }
 
-  ///////////////////////////show dữ liệu không có/////////////////////
-  showEmpolyeeNoData(){
-    const numberData = 12
-    const data = {id: null, name: null, yearOfBirth: null, phoneNumber: null, officeName: null, branchName: null, departmentName: null, positionName: null}
-    
-    const dataRrows = this.dataEmployee.slice();
-    const currentData = dataRrows.length
-    if(currentData < numberData){
-      const isChangeData = numberData - currentData
-      for(let i = 0; i < isChangeData; i++){
-        dataRrows.push(data)
-      }
-    }
-    return dataRrows;
+  getListEmployee(page: number, size: number, data: any){
+    this.userSevice.searchEmployee(data ).subscribe((response: any)=>{
+      // console.log(response)
+      this.dataEmployee = response.data.content
+      this.total = response.data.totalElements
+      console.log(this.total)
+
+    })
   }
 
   handleCancel() {
@@ -214,7 +183,6 @@ export class ListProfileEmployeeComponent implements OnInit {
   handleSubmit(): void {
     this.isModalOnLeaveEmployee = false;
   }
-
   selectedEmployee: any = null;
   openModalonLeave(id: number){
     if (this.dataEmployee && this.dataEmployee.length > 0) {  // Kiểm tra nếu dataEmployee có dữ liệu
@@ -222,27 +190,24 @@ export class ListProfileEmployeeComponent implements OnInit {
       this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
       console.log("Selected Employee:", this.selectedEmployee);  // Kiểm tra giá trị của selectedEmployee
     } else {
-      // console.log("Data Employee is empty or not loaded");
-      // this.notification.error('Đặt lịch nghỉ phép thành công!')
-
-
+      console.log("Data Employee is empty or not loaded");
     }
   }
 
   search(){
     const dataForm = {
-      type: 1,
-      page:this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 ,
+      type: 4,
+      page:this.pageIndex,
       size: 12,
       ...this.form.value
     }
 
     console.log(dataForm)
-    this.userSevice.searchEmployee(dataForm).subscribe((response: any)=>{
+    this.userSevice.searchEmployee( dataForm).subscribe((response: any)=>{
       console.log(response)
       
     })
-    this.getListEmployee(dataForm )
+    this.getListEmployee(this.pageIndex , this.pageSize, dataForm)
   }
 
   resetForm(){
@@ -279,4 +244,6 @@ export class ListProfileEmployeeComponent implements OnInit {
       })
     }
   }
+
+
 }

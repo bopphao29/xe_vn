@@ -1,0 +1,196 @@
+<div style="background-color: #f7f7f7;">
+    <div nz-row>
+        <div nz-col nzSpan="14">
+            <button (click)="onBack()" class="flex" style="margin-top: 10px;">
+                <span class="mx-2 " style="margin-top: 3px ; cursor: pointer;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.825 9L9.425 14.6L8 16L0 8L8 0L9.425 1.4L3.825 7H16V9H3.825Z" fill="#274EA1" />
+                    </svg>
+                </span>
+                <span>
+                    Quay lại
+                    
+                </span>
+            </button>
+            </div>
+        <div nz-col nzSpan="10">
+            <div class="flex justify-end" style="margin-top: 10px;">
+                <span  class="mx-2">
+                    <button class="button-infor" nz-button style="color: #274EA1;" nzType="default">
+                        <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M11.6667 3.33333H2.33333C1.22667 3.33333 0.333332 4.22667 0.333332 5.33333V8C0.333332 8.73333 0.933332 9.33333 1.66667 9.33333H3V10.6667C3 11.4 3.6 12 4.33333 12H9.66667C10.4 12 11 11.4 11 10.6667V9.33333H12.3333C13.0667 9.33333 13.6667 8.73333 13.6667 8V5.33333C13.6667 4.22667 12.7733 3.33333 11.6667 3.33333ZM9 10.6667H5C4.63333 10.6667 4.33333 10.3667 4.33333 10V7.33333H9.66667V10C9.66667 10.3667 9.36667 10.6667 9 10.6667ZM11.6667 6C11.3 6 11 5.7 11 5.33333C11 4.96667 11.3 4.66667 11.6667 4.66667C12.0333 4.66667 12.3333 4.96667 12.3333 5.33333C12.3333 5.7 12.0333 6 11.6667 6ZM10.3333 0H3.66667C3.3 0 3 0.3 3 0.666667V2C3 2.36667 3.3 2.66667 3.66667 2.66667H10.3333C10.7 2.66667 11 2.36667 11 2V0.666667C11 0.3 10.7 0 10.3333 0Z"
+                                fill="#274EA1" />
+                        </svg>
+                        <span>In</span>
+                    </button>
+                </span>
+
+            </div>
+        </div>
+
+    </div>
+    <span class="label_setup mx-2">Chi tiết thông tin nhân sự</span>
+    <div nz-row class="p-2">
+        <div nz-col nzSpan="14" class="p-2" style="background-color: rgba(252, 252, 252, 1); border-radius: 12px;">
+            <div nz-row class="" style="display: flex; justify-content:space-around ; margin-top: 8px;">
+                <div nz-col style="width: calc(50% - 16px); padding-right: 8px;">
+                    <table class="custom-table">
+                        <tbody>
+                            <tr>
+                                <td class="col-1">Người vi phạm</td>
+                                <td class="col-2">{{ inforEmployee?.staffName || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">Năm sinh</td>
+                                <td class="col-2">{{ inforEmployee?.staffYOB || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">Số điện thoại</td>
+                                <td class="col-2">{{ inforEmployee?.phoneNumber || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">ID</td>
+                                <td class="col-2">{{ inforEmployee?.staffCode || '' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div nz-col style="width: calc(50% - 16px); padding-left: 8px;">
+                    <table class="custom-table">
+                        <tbody>
+                            <tr>
+                                <td class="col-1">Trực thuộc quản lý</td>
+                                <td class="col-2">{{ inforEmployee?.officeName }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">Chi nhánh</td>
+                                <td class="col-2">{{ inforEmployee?.branchName }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">Bộ phận</td>
+                                <td class="col-2">{{  inforEmployee?.deparmentName }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">Chức vụ</td>
+                                <td class="col-2">{{  inforEmployee?.positionName}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top: 36px;"></div>
+            <div nz-row class="" style=" margin-left: 8px;">
+                <div nz-col style="width: calc(50% - 16px); padding-right: 4px;">
+                    <table class="custom-table">
+                        <tbody>
+                            <tr>
+                                <td class="col-1">Trưởng phòng VTHK</td>
+                                <td class="col-2">{{ inforEmployee?.positionName || '' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+              
+            </div>
+
+            <div style="margin-top: 36px;"></div>
+            
+            <span class="label_setup mx-2">Danh sách hội đồng kỉ luật</span>
+            <div nz-row class="" style=" margin-left: 8px;">
+                <div nz-col style="width: calc(100% - 8px);">
+                    <table class="custom-table-list">
+                        <tbody>
+                            <tr>
+                                <td class="col-3">Trưởng phòng VTHK</td>
+                                <td class="col-4">{{ inforEmployee?.positionName || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-3">Trưởng phòng HCNS</td>
+                                <td class="col-4">{{ inforEmployee?.positionName || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-3">Trưởng phòng kế toán</td>
+                                <td class="col-4">{{ inforEmployee?.positionName || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-3">Phó giám đốc</td>
+                                <td class="col-4">{{ inforEmployee?.positionName || '' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+              
+            </div>
+            <div style="margin-top: 36px;"></div>
+
+
+            <span class="label_setup mx-2">Nội dung vi phạm</span>
+            <div nz-row class="" style=" margin-left: 8px;">
+                <div nz-col style="width: calc(100% - 8px);">
+                    <table class="custom-table-list">
+                        <tbody>
+                            <tr>
+                                <td class="col-3">Thời gian</td>
+                                <td class="col-4">{{ inforEmployee?.positionName || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-3">Lỗi vi phạm</td>
+                                <td class="col-4">{{ inforEmployee?.positionName || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-3">Nơi vi phạm</td>
+                                <td class="col-4">{{ inforEmployee?.positionName || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-3">Chi tiết vi phạm</td>
+                                <td class="col-4">{{ inforEmployee?.positionName || '' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+              
+            </div>
+            <div style="margin-top: 36px;"></div>
+
+
+            <div nz-row class="" style=" margin-left: 8px;">
+                <div nz-col style="width: calc(100% - 8px);">
+                    <table class="custom-table-list">
+                        <tbody>
+                            <tr style="background-color: rgba(244, 247, 251, 1);">
+                                <td class="col-3">Hình thức xử phạt</td>
+                            </tr>
+                            <tr>
+                                <td class="col-4">Lỗi vi phạm</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+              
+            </div>
+            <div style="margin-top: 36px;"></div>
+
+
+            <div nz-row class="" style=" margin-left: 8px;">
+                <div nz-col style="width: calc(100% - 8px);">
+                    <table class="custom-table-list">
+                        <tbody>
+                            <tr style="background-color: rgba(244, 247, 251, 1);">
+                                <td class="col-3">Ý kiến của người vi phạm</td>
+                            </tr>
+                            <tr>
+                                <td class="col-4">Lỗi vi phạm</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+              
+            </div>
+        </div>
+    </div>
+
+</div>
