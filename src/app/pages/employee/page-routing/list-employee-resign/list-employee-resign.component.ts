@@ -66,6 +66,7 @@ export class ListEmployeeResignComponent {
       branchId: '',
       departmentId: '',
       positionId: '',
+      leaveType: 1
 
     })
     // this.listData
@@ -77,9 +78,10 @@ export class ListEmployeeResignComponent {
     console.log(this.pageSize)
     this.getListEmployee(this.pageIndex, this.pageSize, formData)
     this.getBranch()
-    // this.getDepartment()
+    this.getDepartment()
     this.getOffice()
     this.getPossition()
+    this.getPunishmentsContents()
   }
 
   listBranch: any[] = []
@@ -89,6 +91,12 @@ export class ListEmployeeResignComponent {
   isModalOnLeaveEmployee = false
   dataEmployee: any[] = []
   formOnLeave !: FormGroup
+
+  formOfLeave = [
+    {id: 1, value: 'Chờ nghỉ việc'},
+    {id: 2, value: 'Đã nghỉ việc'},
+    {id: 3, value: 'Nghỉ phép'}
+  ]
 
   getBranch() {
     this.userSevice.getBranch().subscribe((response: any) => {
@@ -125,6 +133,13 @@ export class ListEmployeeResignComponent {
     })
   }
 
+  listPunishmentsContent : any[] = []
+  getPunishmentsContents(){
+    this.userSevice.getPunishmentsContents().subscribe((response: any)=>{
+      this.listPunishmentsContent = response
+      console.log(response)
+    })
+  }
 
   pageIndex = 0
   pageSize = 10
@@ -194,6 +209,21 @@ export class ListEmployeeResignComponent {
     }
   }
 
+  showEmpolyeeNoData(){
+    const numberData = 12
+    const data = {id: null, name: null, yearOfBirth: null, phoneNumber: null, officeName: null, branchName: null, departmentName: null, reason: null}
+    
+    const dataRrows = this.dataEmployee.slice();
+    const currentData = dataRrows.length
+    if(currentData < numberData){
+      const isChangeData = numberData - currentData
+      for(let i = 0; i < isChangeData; i++){
+        dataRrows.push(data)
+      }
+    }
+    return dataRrows;
+  }
+
   search(){
     const dataForm = {
       type: 4,
@@ -219,7 +249,7 @@ export class ListEmployeeResignComponent {
     const dataFormEndWork ={
       staffId : this.selectedEmployee['id'],
       ...this.formOnLeave.value,
-      type : 2
+      type : 4
     }
     console.log(dataFormEndWork)
 

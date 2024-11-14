@@ -83,4 +83,7 @@ export class UserServiceService {
     return this.httpClient.get(this.url + 'api/punishments/'+id)
   }
 
+  getPunishmentsContents(){
+    return this.httpClient.get(this.url + 'api/punishments/contents')
+  }
 }

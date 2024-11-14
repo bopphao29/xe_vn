@@ -23,7 +23,7 @@ export interface IData {
     // signDate: string | null,
     // fileContract: string | null,
     // isLimitedTime: number | null,
-    hasChild: number | null,
+    hasChild: number| string | null,
     branchId: number | null,
     departmentId: string | null,
     positionId: string | null,
@@ -54,9 +54,11 @@ export interface IData {
             file: string | null
         }
     ],
-    contract: {
-        id: string | null,
-        type: number | null,
-        signDate:string | null
-    }
+    contract: [
+        {
+            id: string | null,
+            file: string | null,
+            type: string | null,
+            signDate:string | null
+    }]
 }

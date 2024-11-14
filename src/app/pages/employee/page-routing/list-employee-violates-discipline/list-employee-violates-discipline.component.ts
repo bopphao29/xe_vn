@@ -64,13 +64,15 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
       officeId: '',
       branchId: '',
       departmentId: '',
-      positionId: '',
+      violentId: '',
       rangeDate: ''
     })
     // this.listData
     this.search()
     this.getBranch()
     // this.getDepartment()
+    this.getPunishmentsContents()
+
     this.getOffice()
     this.getPossition()
   }
@@ -115,6 +117,13 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
     })
   }
 
+  listPunishmentsContent : any[] = []
+  getPunishmentsContents(){
+    this.userSevice.getPunishmentsContents().subscribe((response: any)=>{
+      this.listPunishmentsContent = response.data
+      console.log(response)
+    })
+  }
 
   pageIndex = 0
   pageSize = 10
@@ -157,13 +166,32 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
     console.log(this.toDate)
   }
 
+  ///////////////////////////show dữ liệu không có/////////////////////
+  showEmpolyeeNoData(){
+    const numberData = 12
+    const data = {id: null, name: null, yearOfBirth: null, phoneNumber: null, officeName: null, branchName: null, punishmentForm: null, lastModifiedDate: null}
+    
+    const dataRrows = this.dataEmployee.slice();
+    const currentData = dataRrows.length
+    if(currentData < numberData){
+      const isChangeData = numberData - currentData
+      for(let i = 0; i < isChangeData; i++){
+        dataRrows.push(data)
+      }
+    }
+    return dataRrows;
+  }
+
+
   search(){
+    const checkRangDate = this.form.get('rangeDate')?.invalid
     const dataForm = {
       type: 3,
       page:this.pageIndex,
       size: 12,
-      fromDate : this.fromDate,
-      toDate: this.toDate,
+      
+      violentDateFrom : checkRangDate ? this.fromDate : '',
+      violentDateTo: checkRangDate ? this.toDate : '',
       ...this.form.value
     }
     delete dataForm.rangeDate

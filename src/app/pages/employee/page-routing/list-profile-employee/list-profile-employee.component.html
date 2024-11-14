@@ -93,6 +93,19 @@
                         </div>
                     </div>
                 </div>
+                <div nz-col nzSpan="3" class="mx-2">
+                    <div class="">
+                        <label class="form-label">Trạng thái</label>
+                        <div>
+                            <nz-select nzPlaceHolder="Tất cả" formControlName="positionId" style="width: 100%;">
+                                <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
+                                <nz-option *ngFor="let position of listPosstion, let i =index" [nzValue]="position.id"
+                                    [nzLabel]="position.name"></nz-option>
+
+                            </nz-select>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -144,14 +157,16 @@
                         <td class="list-col-2">{{data.branchName || '-'}}</td>
                         <td class="list-col-2">{{data.departmentName || '-'}}</td>
                         <td class="list-col-2">{{data.positionName || '-'}}</td>
-                        <td class="list-col-2">
-                            <a *ngIf="data.id" class="mx-1 button_show_detail" (click)="routerDetailEmployee(data.id)">
-                                Xem chi tiết
-                            </a>
-                            <a *ngIf="data.id" class="mx-1 button_show_detail" (click)="openModalonLeave(data.id)">
-                                Nghỉ phép
-                            </a>
-                            <span *ngIf="!data.id">-</span>
+                        <td class="">
+                            <div style="display: flex; gap: 5px">
+                                <a *ngIf="data.id" class="mx-1 button_show_detail" (click)="routerDetailEmployee(data.id)">
+                                    Xem chi tiết
+                                </a>
+                                <a *ngIf="data.id" class="mx-1 button_show_detail" (click)="openModalonLeave(data.id)">
+                                    Nghỉ phép
+                                </a>
+                                <span *ngIf="!data.id">-</span>
+                            </div>
                         </td>
                     </tr>
 

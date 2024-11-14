@@ -70,7 +70,7 @@
                             </tr>
                             <tr>
                                 <td class="col-1">Bộ phận</td>
-                                <td class="col-2">{{  inforEmployee?.deparmentName }}</td>
+                                <td class="col-2">{{  inforEmployee?.departmentName }}</td>
                             </tr>
                             <tr>
                                 <td class="col-1">Chức vụ</td>
@@ -86,8 +86,8 @@
                     <table class="custom-table">
                         <tbody>
                             <tr>
-                                <td class="col-1">Trưởng phòng VTHK</td>
-                                <td class="col-2">{{ inforEmployee?.positionName || '' }}</td>
+                                <td class="col-1">Cấp xử lý</td>
+                                <td class="col-2">{{ inforEmployee?.levelName || '' }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -102,21 +102,9 @@
                 <div nz-col style="width: calc(100% - 8px);">
                     <table class="custom-table-list">
                         <tbody>
-                            <tr>
-                                <td class="col-3">Trưởng phòng VTHK</td>
-                                <td class="col-4">{{ inforEmployee?.positionName || '' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="col-3">Trưởng phòng HCNS</td>
-                                <td class="col-4">{{ inforEmployee?.positionName || '' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="col-3">Trưởng phòng kế toán</td>
-                                <td class="col-4">{{ inforEmployee?.positionName || '' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="col-3">Phó giám đốc</td>
-                                <td class="col-4">{{ inforEmployee?.positionName || '' }}</td>
+                            <tr *ngFor="let dataCouncils of inforCouncils">
+                                <td class="col-3">{{ dataCouncils?.positionName}}</td>
+                                <td class="col-4">{{ dataCouncils?.staffName || '' }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -133,19 +121,19 @@
                         <tbody>
                             <tr>
                                 <td class="col-3">Thời gian</td>
-                                <td class="col-4">{{ inforEmployee?.positionName || '' }}</td>
+                                <td class="col-4">{{ (inforEmployee?.violationDate | date: 'dd/MM/yyyy') || '' }}</td>
                             </tr>
                             <tr>
                                 <td class="col-3">Lỗi vi phạm</td>
-                                <td class="col-4">{{ inforEmployee?.positionName || '' }}</td>
+                                <td class="col-4">{{ inforEmployee?.content || '' }}</td>
                             </tr>
                             <tr>
                                 <td class="col-3">Nơi vi phạm</td>
-                                <td class="col-4">{{ inforEmployee?.positionName || '' }}</td>
+                                <td class="col-4">{{ inforEmployee?.place || '' }}</td>
                             </tr>
                             <tr>
                                 <td class="col-3">Chi tiết vi phạm</td>
-                                <td class="col-4">{{ inforEmployee?.positionName || '' }}</td>
+                                <td class="col-4">{{ inforEmployee?.detail || '' }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -163,7 +151,7 @@
                                 <td class="col-3">Hình thức xử phạt</td>
                             </tr>
                             <tr>
-                                <td class="col-4">Lỗi vi phạm</td>
+                                <td class="col-4">{{inforEmployee?.punishmentForm}}</td>
                             </tr>
                             
                         </tbody>
@@ -182,7 +170,7 @@
                                 <td class="col-3">Ý kiến của người vi phạm</td>
                             </tr>
                             <tr>
-                                <td class="col-4">Lỗi vi phạm</td>
+                                <td class="col-4">{{inforEmployee?.note}}</td>
                             </tr>
                             
                         </tbody>

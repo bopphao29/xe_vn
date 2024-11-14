@@ -43,6 +43,13 @@ export const EMPPLOYEE_ROUTES: Routes = [
         ),
       },
       {
+        path: 'list-employee-resign',
+        loadComponent: () => 
+        import('./page-routing/list-employee-resign/list-employee-resign.component').then(
+            (c) => c.ListEmployeeResignComponent
+        ),
+      },
+      {
         path: 'list-employee-violates-discipline',
         loadComponent: () =>  
         import('./page-routing/list-employee-violates-discipline/list-employee-violates-discipline.component').then(

@@ -114,11 +114,12 @@ export class DetailProfileEmployeeComponent implements OnInit {
       type: null,
       file: null
     }],
-    contract: {
+    contract:[ {
       id: null,
       type: null,
       signDate: null,
-    }
+      file: null
+    }]
   }
 
   file = true
@@ -203,7 +204,6 @@ export class DetailProfileEmployeeComponent implements OnInit {
       const id = params['id']
       this.monthValue = (new Date().getMonth() + 1).toString()
       console.log(id)
-      this.getUser(id)
       this.getAchievementsStaffDetails(id)
 
 

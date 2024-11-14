@@ -122,11 +122,12 @@ export class SetupProfileEmployeeComponent implements OnInit {
       type: null,
       file: null
     }],
-    contract: {
+    contract: [{
       id: null,
+      file: null,
       type: null,
       signDate: null,
-    }
+    }]
   }
 
   file = true
@@ -174,7 +175,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
       professionalLevel: [null, Validators.required],
       maritalStatus: [null, Validators.required],
       contactPerson: [null, Validators.required],
-      contractFile: [null, Validators.required],
+      contractFile: [null],
       contactPersonPhone: [null, [Validators.required, Validators.pattern('^[0]+[1-9]{9}$')]],
       // contractDuration: [null, Validators.required],
       staffRelation: [null, Validators.required],
@@ -205,11 +206,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
       // archivedRecordFiles: [],
       lstChildren: this.fb.array(this.data.lstChildren.map(child => this.createlstChildren(child))),
       lstArchivedRecords: this.fb.array(this.data.lstArchivedRecords.map(record => this.createArchivedRecords(record))),
-      contract: this.fb.group({
-        id: '',
-        type: [null, Validators.required],
-        signDate: [null, Validators.required]
-      })
+      contract: this.fb.array(this.data.contract.map(contract => this.createContract(contract)))
     })
     this.checkDriver()
     this.checkChild()
@@ -299,6 +296,10 @@ export class SetupProfileEmployeeComponent implements OnInit {
     return this.form.get('lstArchivedRecords') as FormArray;
   }
 
+  get lstcontractDTO(): FormArray {
+    return this.form.get('contract') as FormArray;
+  }
+
   get lstChildren(): FormArray {
     return this.form.get('lstChildren') as FormArray;
   }
@@ -307,6 +308,15 @@ export class SetupProfileEmployeeComponent implements OnInit {
     return this.fb.group({
       name: [''],
       code: [''],
+      type: [''],
+      file: ['']
+    });
+  }
+
+  createContract(contract: { id: string | null; signDate: string | null; type: string | null; file: string | null }): FormGroup {
+    return this.fb.group({
+      id: [''],
+      signDate: [''],
       type: [''],
       file: ['']
     });
@@ -353,6 +363,17 @@ export class SetupProfileEmployeeComponent implements OnInit {
     this.lstArchivedRecords.push(this.createArchivedRecords({
       name: null,
       code: null,
+      type: null,
+      file: null
+    }));
+
+    // this.fileCompressed.file.push(null);
+  }
+
+  addContract() {
+    this.lstcontractDTO.push(this.createContract({
+      id: null,
+      signDate: null,
       type: null,
       file: null
     }));
@@ -441,7 +462,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
     })
   }
 
-  checkContractType: number = 0
+  checkContractType: any
   checkWork() {
     this.form.get('contractType')?.valueChanges.subscribe((value: any) => {
       this.checkContractType = value
@@ -635,6 +656,29 @@ export class SetupProfileEmployeeComponent implements OnInit {
     })
   }
 
+  onFileChangeContract(event: any, fieldName: any, index: number): void {
+    this.onFileSelected(event).subscribe({//
+      next: (file: File) => {
+        const fileList: FileList = event.target.files; // danh sách file được chọn 
+
+        if (fileList.length > 0) {// nếu list > 0
+          const file = fileList[0];// file đầu danh sách
+          if (fieldName === 'file') {
+            this.fileCompressed.contractFile = [file]
+
+            this.lstcontractDTO.at(index).patchValue({ file: file });// cấp nhật giá trị nếu fieldName = file
+          }
+        }
+      },
+      error: (err) => {
+        console.log(err)
+      },
+      complete: () => {
+
+      }
+    })
+  }
+
   isoDate: string | null = null;
   /////////////////////////////////////////////////////////////////////////DATE/////////////////////////////////////////////////////////////
   // Hàm xử lý thay đổi ngày
@@ -785,6 +829,12 @@ export class SetupProfileEmployeeComponent implements OnInit {
         type: record.type,
         file: record.file.name,
       })): null,
+      contract: this.form.value.contract.map((contract : any)=>({
+        id: contract.id,
+        signDate: contract.signDate,
+        type: contract.type,
+        file: contract.file.name
+      })),
       lstChildren: this.form.value.lstChildren && this.form.value.lstChildren.length > 0 ?  this.form.value.lstChildren.map((child: any) => ({
         name: child.name,
         yearOfBirth: child.yearOfBirth,
@@ -847,27 +897,6 @@ export class SetupProfileEmployeeComponent implements OnInit {
     if (dataForm.routeId) {
       this.routeName = routeIndex.name
     }
-
-    // const formData = new FormData();
-
-    // formData.append('data', JSON.stringify(dataForm));
-    // if (this.fileCompressed.healthCertificate.length > 0) {
-    //   formData.append('healthCertificate', this.fileCompressed.healthCertificate[0]);
-    // }
-    // if (this.fileCompressed.contractFile.length > 0) {
-    //   formData.append('contractFile', this.fileCompressed.contractFile[0]);
-    // }
-    // var archivedRecordFile: any = this.fileCompressed.file
-
-    // archivedRecordFile.forEach((value: any) => {
-    //   formData.append('archivedRecordFiles', value)
-    // })
-    // if (this.dlImage[0]) {
-    //   formData.append('dlImage', this.dlImage[0]);
-    // }
-    // if (this.bcImgFile[0]) {
-    //   formData.append('bcImage', this.bcImgFile[0]);
-    // }
 
     this.form.get('routeId')?.updateValueAndValidity()
     this.form.get('businessCardNumber')?.updateValueAndValidity()
@@ -956,6 +985,8 @@ export class SetupProfileEmployeeComponent implements OnInit {
 
   saveDataEmployee() {
 
+    console.log(this.form.value.lstcontractDTO)
+
     if(this.contract_type == 1){
       this.fromDateOfOffical = this.form.value.fromDateOfOffical
     }
@@ -976,6 +1007,12 @@ export class SetupProfileEmployeeComponent implements OnInit {
         code: record.code,
         type: record.type,
         file: record.file.name,
+      })),
+      contract: this.form.value.contract.map((contract : any)=>({
+        id: contract.id,
+        signDate: contract.signDate,
+        type: contract.type,
+        file: contract.file.name
       })),
       lstChildren: this.form.value.lstChildren.length === 1
       && this.form.value.lstChildren[0].name === '' 
@@ -1003,14 +1040,22 @@ export class SetupProfileEmployeeComponent implements OnInit {
     if (this.fileCompressed.healthCertificate.length > 0) {
       formData.append('healthCertificate', this.fileCompressed.healthCertificate[0]);
     }
-    if (this.fileCompressed.contractFile.length > 0) {
-      formData.append('contractFile', this.fileCompressed.contractFile[0]);
-    }
+    // if (this.fileCompressed.contractFile.length > 0) {
+    //   formData.append('contractFile', this.fileCompressed.contractFile[0]);
+    // }
     var archivedRecordFile: any = this.fileCompressed.file
 
+    console.log(this.fileCompressed.contractFile)
     archivedRecordFile.forEach((value: any) => {
       formData.append('archivedRecordFiles', value)
     })
+
+    var contract_file: any = this.fileCompressed.contractFile
+    
+    contract_file.forEach((value: any) => {
+      formData.append('contractFile', value)
+    })
+
     if (this.dlImage[0]) {
       formData.append('dlImage', this.dlImage[0]);
     }

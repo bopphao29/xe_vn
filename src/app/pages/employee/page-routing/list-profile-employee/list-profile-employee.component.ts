@@ -17,6 +17,7 @@ import { DetailProfileEmployeeComponent } from '../../detail-profile-employee/de
 import { Route, Router, Routes } from '@angular/router';
 import { UserServiceService } from '../../../../shared/services/user-service.service';
 import { NotificationService } from '../../../../shared/services/notification.service';
+import { SearchEmployeeProfileService } from '../../../../shared/services/search-employee-profile.service';
 
 
 
@@ -52,7 +53,8 @@ export class ListProfileEmployeeComponent implements OnInit {
     private routes: Router,
     private fb :FormBuilder,
     private userSevice: UserServiceService,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private searchEmployeeProfile : SearchEmployeeProfileService 
  
   ){
 
@@ -92,6 +94,20 @@ export class ListProfileEmployeeComponent implements OnInit {
       fromDate: ['', Validators.required],
       toDate : ['', Validators.required]
     })
+
+    const saveSearch = this.searchEmployeeProfile.search;
+    console.log(saveSearch)
+    
+     const a=  this.form.get('txtSearch')?.setValue(saveSearch.txtSearch)
+      this.form.get('officeId')?.setValue(saveSearch.officeId)
+
+      this.form.get('branchId')?.setValue(saveSearch.branchId)
+      this.form.get('txtSearch')?.setValue(saveSearch.txtSearch)
+      this.form.get('txtSearch')?.setValue(saveSearch.txtSearch)
+
+
+    
+    
   }
 
   listBranch: any[] = []
@@ -143,6 +159,7 @@ export class ListProfileEmployeeComponent implements OnInit {
 
   onPageChange(page: number): void {
     this.pageIndex = page;
+    
     this.search();
   }
   
@@ -220,7 +237,6 @@ export class ListProfileEmployeeComponent implements OnInit {
     if (this.dataEmployee && this.dataEmployee.length > 0) {  // Kiểm tra nếu dataEmployee có dữ liệu
       this.isModalOnLeaveEmployee = true;
       this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
-      console.log("Selected Employee:", this.selectedEmployee);  // Kiểm tra giá trị của selectedEmployee
     } else {
       // console.log("Data Employee is empty or not loaded");
       // this.notification.error('Đặt lịch nghỉ phép thành công!')
@@ -236,8 +252,16 @@ export class ListProfileEmployeeComponent implements OnInit {
       size: 12,
       ...this.form.value
     }
+    this.searchEmployeeProfile.search = this.form.value
 
-    console.log(dataForm)
+    const saveSearch = this.searchEmployeeProfile.search;
+    
+    this.form.get('txtSearch')?.setValue(saveSearch.txtSearch)
+
+    console.log("giá trị ", this.form.get('txtSearch')?.value)
+
+
+    // console.log(dataForm)
     this.userSevice.searchEmployee(dataForm).subscribe((response: any)=>{
       console.log(response)
       
@@ -256,6 +280,7 @@ export class ListProfileEmployeeComponent implements OnInit {
       ...this.formOnLeave.value,
       type : 2
     }
+
     console.log(dataFormEndWork)
 
     if(this.formOnLeave.invalid){

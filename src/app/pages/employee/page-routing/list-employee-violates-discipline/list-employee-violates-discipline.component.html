@@ -1,4 +1,5 @@
-
+<div style="background-color: #f3f3f3;">
+    
 <form nz-form nzGutter="16" class="w-full mx-2" nzLayout="vertical" [formGroup]="form" style="background-color: #f3f3f3;">
     <div class="mx-4">
 
@@ -43,10 +44,10 @@
                 <div class="">
                     <label class="form-label">Lỗi vi phạm</label>
                     <div>
-                        <nz-select nzPlaceHolder="Tất cả" formControlName="positionId" style="width: 100%;">
+                        <nz-select nzPlaceHolder="Tất cả" formControlName="violentId" style="width: 100%;">
                             <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
-                            <nz-option *ngFor="let position of listPosstion, let i =index" [nzValue]="position.id"
-                                [nzLabel]="position.name"></nz-option>
+                            <nz-option *ngFor="let data of listPunishmentsContent, let i =index" [nzValue]="data?.id"
+                                [nzLabel]="data?.name"></nz-option>
 
                         </nz-select>
                     </div>
@@ -57,7 +58,7 @@
                 <div class="">
                     <label class="form-label">Thời gian</label>
                     <div>
-                        <nz-range-picker formControlName="rangeDate">  </nz-range-picker>
+                        <nz-range-picker formControlName="rangeDate" style="width: 100%; height: 48px;">  </nz-range-picker>
                     </div>
                 </div>
             </div>
@@ -88,34 +89,42 @@
     </div>
 </form>
 
-<div nz-row style="margin-top: 32px;">
+<div nz-row style="margin-top: 32px;" class="p-4">
     <div nz-col nzSpan="24">
         <table class="custom-table-list" style="background-color: #FCFCFC; text-align: center;">
             <tbody>
                 <tr style="background-color: #fcfcfc;">
                     <th class="list-col-1">ID</th>
-                    <th class="list-col-2">Tên nhân viên</th>
-                    <th class="list-col-1">Năm sinh</th>
+                    <th class="list-col-3" style="text-align: left !important; padding-left: 10px;">Tên nhân viên</th>
+                    <th class="list-col-2">Năm sinh</th>
                     <th class="list-col-2">SĐT</th>
-                    <th class="list-col-2">Trục thuộc quản lý</th>
-                    <th class="list-col-2">Chi nhánh</th>
-                    <th class="list-col-2">Bộ phận</th>
-                    <th class="list-col-2">Chức vụ</th>
+                    <th class="list-col-3">Trục thuộc quản lý</th>
+                    <th class="list-col-3">Chi nhánh</th>
+
+                    <th class="list-col-4">Lỗi vi phạm</th>
+                    <th class="list-col-2">Ngày vi phạm</th>
+                    <th class="list-col-3">Hình thức xử lý</th>
                     <th class="list-col-2">Tác vụ</th>
 
                 </tr>
-                <tr *ngFor="let data of dataEmployee">
-                    <td class="list-col-1">{{data.id}}</td>
-                    <td class="list-col-2">{{data.name}}</td>
-                    <td class="list-col-1">{{data.yearOfBirth}}</td>
-                    <td class="list-col-2">{{data.phoneNumber}}</td>
-                    <td class="list-col-2">{{data.officeName}}</td>
-                    <td class="list-col-2">{{data.branchName}}</td>
-                    <td class="list-col-2">{{data.departmentName}}</td>
-                    <td class="list-col-2">{{data.positionName}}</td>
+                <tr *ngFor="let data of showEmpolyeeNoData()">
+                    <td class="list-col-1">{{data.code || '-'}}</td>
+                    <td class="list-col-3" style="text-align: left !important; padding-left: 10px;">{{data.name || '-'}}</td>
+                    <td class="list-col-2">{{data.yearOfBirth || '-'}}</td>
+                    <td class="list-col-2">{{data.phoneNumber || '-'}}</td>
+                    <td class="list-col-3">{{data.officeName || '-'}}</td>
+                    <td class="list-col-3">{{data.branchName || '-'}}</td>
+                    
+                    <td class="list-col-4">{{data.punishmentForm || '-'}}</td>
+                    <td class="list-col-2">{{(data.lastModifiedDate | date: 'dd/MM/yyyy') || '-'}}</td>
+                    <td class="list-col-3">{{data.punishmentForm || '-'}}</td>
+
                     <td class="list-col-2">
-                        <a class="button_show_detail" (click)="routerDetailEmployee(data.punishmentId)">
+                        <a *ngIf="data.id" class="button_show_detail" (click)="routerDetailEmployee(data.punishmentId)">
                             Xem chi tiết
+                        </a>
+                        <a *ngIf="!data.id">
+                            -
                         </a>
                     </td>
                 </tr>
@@ -139,3 +148,5 @@
 
 
 
+
+</div>

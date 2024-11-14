@@ -44,7 +44,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './detail-employee-violate.component.scss'
 })
 export class DetailEmployeeViolateComponent implements OnInit{
-
+  
   constructor(
     private routes: Router,
     private userServices: UserServiceService,
@@ -65,9 +65,11 @@ export class DetailEmployeeViolateComponent implements OnInit{
   }
 
   inforEmployee: any
+  inforCouncils : any
   getDetail(id: any){
     this.userServices.getDetailEmployeeViolate(id).subscribe((response: any)=>{
       this.inforEmployee = response.data
+      this.inforCouncils = response.data.councils
     })
   }
 }
