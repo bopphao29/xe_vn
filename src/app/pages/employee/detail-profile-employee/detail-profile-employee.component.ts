@@ -63,6 +63,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
   };
   form: FormGroup;
   formEndWork!: FormGroup
+  has_child : any
 
   driverLicense: any[] = [];
 
@@ -122,6 +123,13 @@ export class DetailProfileEmployeeComponent implements OnInit {
     }]
   }
 
+  listDuration = [
+    {id: 1, value:"Hợp đồng 1 năm"},
+    {id: 2, value:"Hợp đồng 3 năm"},
+    {id: 3, value:"Hợp đồng vô thời hạn"}
+
+  ]
+
   file = true
   isShowModalUploadfile = false
   isModalInforEmployee = false
@@ -169,7 +177,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
       staffRelation: [null, Validators.required],
       permanentAddress: [null, Validators.required],
       temporaryAddress: [null, Validators.required],
-      contractType: [1, Validators.required],
+      contractType: ['1', Validators.required],
       fromDateOfOffical: [null, Validators.required],
       fromDateProbation: [null, Validators.required],
       // fromDate: [null, Validators.required],
@@ -187,23 +195,21 @@ export class DetailProfileEmployeeComponent implements OnInit {
       driverLicenseType: [null, Validators.required],
       dlStartDate: [null, Validators.required],
       dlEndDate: [null, Validators.required],
-      hasChild: [0, Validators.required],
+      hasChild: ['0', Validators.required],
       bcImage: [[], Validators.required],
       healthCertificate: [[], Validators.required],
       dlImage: [[], Validators.required],
       // archivedRecordFiles: [],
       lstChildren: this.fb.array([]),
       lstArchivedRecords: this.fb.array([]),
-      contract: this.fb.group({
-        id: '',
-        type: [null, Validators.required],
-        signDate: [null, Validators.required]
-      })
+      contract: this.fb.array([])
+
     })
     this.route.params.subscribe((params: any)=> {
       const id = params['id']
       this.monthValue = (new Date().getMonth() + 1).toString()
       console.log(id)
+      this.getUser(id)
       this.getAchievementsStaffDetails(id)
 
 
@@ -215,6 +221,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
     this.getPossition()
     this.getRoute() 
     this.getDriverLicense()
+    // this.checkDriver()
 
     this.form.disable();
 
@@ -236,7 +243,6 @@ export class DetailProfileEmployeeComponent implements OnInit {
   lstAchievements : any[] = []
   contract_type: number = 1
   lstPunishments : any[] = []
-  has_child : number = 0
   showInforEmployee: { [key: string]: any } =  {}
 
 
@@ -334,17 +340,17 @@ export class DetailProfileEmployeeComponent implements OnInit {
         this.form.get('temporaryAddress')?.setValue(response.data.temporaryAddress.toString())
       }
       if(response.data.contractType != null){
-        this.form.get('contractType')?.setValue(response.data.contractType)
+        this.form.get('contractType')?.setValue(response.data.contractType.toString())
       }
       if(response.data.hasChild != null){
-        this.form.get('hasChild')?.setValue(response.data.hasChild)
+        this.form.get('hasChild')?.setValue(response.data.hasChild.toString())
       }
       if(response.data.fromDate != null){
         if(response.data.toDate != null){
-          this.form.get('fromDateOfOffical')?.setValue(response.data.fromDate.toString())
+          this.form.get('fromDateProbation')?.setValue(response.data.fromDate.toString())
         }
           else{
-          this.form.get('fromDateProbation')?.setValue(response.data.fromDate.toString())
+          this.form.get('fromDateOfOffical')?.setValue(response.data.fromDate.toString())
 
         }
       }
@@ -391,15 +397,15 @@ export class DetailProfileEmployeeComponent implements OnInit {
 
       }
 
-      if( response.data.contract != null){
-        const contractT = {
-          id: response.data.contract.id,
-          signDate: response.data.contract.signDate,
-          type: response.data.contract.type,
-        }
-        this.form.get('contract')?.setValue(contractT)
-        this.form.get('contractFile')?.setValue(response.data.contract.file)
-      }
+      // if( response.data.contract != null){
+      //   const contractT = {
+      //     id: response.data.contract.id,
+      //     signDate: response.data.contract.signDate,
+      //     type: response.data.contract.type,
+      //   }
+      //   this.form.get('contract')?.setValue(contractT)
+      //   this.form.get('contractFile')?.setValue(response.data.contract.file)
+      // }
 
       if(response.data.hcEndDate != null){
         this.form.get('hcEndDate')?.setValue(response.data.hcEndDate.toString())
@@ -438,7 +444,21 @@ export class DetailProfileEmployeeComponent implements OnInit {
           }))
         })
       }
+
+      console.log(response.data.contract)
+
       
+      const arrCo = this.form.get('contract') as FormArray;
+      if(response.data.contract &&  response.data.contract.length > 0 && (response.data.contract[0].signDate !== '' || null) && (response.data.contract[0].file !== '') && (response.data.contract[0].type !== '' || null)){
+        response.data.contract.map((ele: any) => {
+          console.log(ele)
+          arrCo.push(this.fb.group({
+            signDate: ele.signDate,
+              type: ele.type,
+              file: ele.file 
+          }))
+        })
+      }
 
       const arrCh = this.form.get('lstChildren') as FormArray;
       if(response.data.lstChildren && response.data.lstChildren.length > 0 && (response.data.lstChildren[0].yearOfBirth !== '' || null) && (response.data.lstChildren[0].name !== '' || null) && (response.data.lstChildren[0].gender !== '' || [])){
@@ -555,7 +575,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
       console.log(this.listDepartment)
     })}
 
-    this.checkDriver()
+    // this.checkDriver()
   }
 
   getRoute() {
@@ -567,6 +587,10 @@ export class DetailProfileEmployeeComponent implements OnInit {
   //tạo form array
   get lstArchivedRecords(): FormArray {
     return this.form.get('lstArchivedRecords') as FormArray;
+  }
+
+  get lstcontractDTO(): FormArray {
+    return this.form.get('contract') as FormArray;
   }
 
   get lstChildren(): FormArray {
@@ -582,11 +606,11 @@ export class DetailProfileEmployeeComponent implements OnInit {
     });
   }
 
-  createContract(record: { id: string | null; type: string | null; signDate: string | null }): FormGroup {
+  createContract(contract: { id: string | null; signDate: string | null; type: string | null; file: string | null }): FormGroup {
     return this.fb.group({
       id: [''],
+      signDate: [''],
       type: [''],
-      date: [''],
       file: ['']
     });
   }
@@ -610,6 +634,17 @@ export class DetailProfileEmployeeComponent implements OnInit {
     // this.fileCompressed.file.push(null);
   }
 
+  addContract() {
+    this.lstcontractDTO.push(this.createContract({
+      id: null,
+      signDate: null,
+      type: null,
+      file: null
+    }));
+
+    // this.fileCompressed.file.push(null);
+  }
+
   addlstChildren() {
     this.lstChildren.push(this.createlstChildren({
       name: null,
@@ -620,6 +655,10 @@ export class DetailProfileEmployeeComponent implements OnInit {
 
   removeArchivedRecord(index: number) {
     this.lstArchivedRecords.removeAt(index)
+  }
+
+  removeContract(index: number) {
+    this.lstcontractDTO.removeAt(index)
   }
 
   removelstChildren(index: number) {
@@ -648,13 +687,14 @@ export class DetailProfileEmployeeComponent implements OnInit {
   idDriver: number = -10
   hasDriver : boolean = false
   deparmentCode = '' 
+  listDepartment2 : any[]=[]
   checkDriver() {
     console.log(this.office_id)
-    if(this.office_id != 0 ){
+    if(this.office_id != null ){
       this.form.get('departmentId')?.valueChanges.subscribe((value: any) => {
         console.log(value)
-        this.idDriver = value // 1
-        const isDriver = this.listDepartment.find(item => item.id === this.idDriver)
+        this.userSevice.getDepartment(this.office_id).subscribe((response: any)=> {
+        const isDriver = response.data.find((item: any) => item.id === parseInt(value))
         console.log(isDriver)
         var codeDriver: any = isDriver.name
         this.deparmentCode = codeDriver
@@ -665,6 +705,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
         else{
           this.hasDriver = false
         }
+        })
       })
     }
   }
@@ -823,6 +864,30 @@ export class DetailProfileEmployeeComponent implements OnInit {
       }
     }
   }
+
+  onFileChangeContract(event: any, fieldName: any, index: number): void {
+    this.onFileSelected(event).subscribe({//
+      next: (file: File) => {
+        const fileList: FileList = event.target.files; // danh sách file được chọn 
+
+        if (fileList.length > 0) {// nếu list > 0
+          const file = fileList[0];// file đầu danh sách
+          if (fieldName === 'file') {
+            this.fileCompressed.contractFile = [file]
+
+            this.lstcontractDTO.at(index).patchValue({ file: file });// cấp nhật giá trị nếu fieldName = file
+          }
+        }
+      },
+      error: (err) => {
+        console.log(err)
+      },
+      complete: () => {
+
+      }
+    })
+  }
+
 
 
   handleChangeFile(event: any, field: 'bcImage' | 'dlImage'): void {//
