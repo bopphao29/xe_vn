@@ -81,7 +81,6 @@ export class ListEmployeeResignComponent {
     this.getDepartment()
     this.getOffice()
     this.getPossition()
-    this.getPunishmentsContents()
   }
 
   listBranch: any[] = []
@@ -130,14 +129,6 @@ export class ListEmployeeResignComponent {
      }else{
       this.listDepartment = []
      }
-    })
-  }
-
-  listPunishmentsContent : any[] = []
-  getPunishmentsContents(){
-    this.userSevice.getPunishmentsContents().subscribe((response: any)=>{
-      this.listPunishmentsContent = response
-      console.log(response)
     })
   }
 

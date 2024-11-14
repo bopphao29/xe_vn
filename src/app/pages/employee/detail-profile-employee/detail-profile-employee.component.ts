@@ -461,8 +461,10 @@ export class DetailProfileEmployeeComponent implements OnInit {
   }
 
   cancelFix(){
-    this.isModalInforEmployee = false
-    // this.form.disable()
+    // this.isModalInforEmployee = false
+    this.isFixEmployeeButton = false
+
+    this.form.disable()
   }
 
   showEmpolyeeNoDataofLstPraises(){

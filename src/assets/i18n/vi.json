@@ -86,7 +86,8 @@
         "laborContract": "Hợp đồng lao động",
         "documentName": "Tên giấy tờ",
         "route":"Định biên tuyến",
-        "driverLicense": "Hạng GPLX"
+        "driverLicense": "Hạng GPLX",
+        "businessCardNumber": "Số thẻ nghiệp vụ"
 
     },
     "month":{
