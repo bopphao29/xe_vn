@@ -41,8 +41,7 @@
                 <div class="">
                     <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.gender' | translate}}</label>
                     <nz-select nzPlaceHolder="Nam" formControlName="gender" class="nzSelect">
-                        <nz-option nzValue="1" nzLabel="Nam"></nz-option>
-                        <nz-option nzValue="2" nzLabel="Nữ"></nz-option>
+                        <nz-option *ngFor="let gender of listGender" [nzValue]="gender.id" [nzLabel]="gender.value"></nz-option>
                     </nz-select>
                     <div class="error-container">
                         <div *ngIf="form.get('gender')?.touched">
@@ -146,12 +145,10 @@
                 <div class="">
                     <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.maritalStatus' | translate}}</label>
                     <nz-select nzPlaceHolder="Chưa kết hôn" formControlName="maritalStatus" class="nzSelect">
-                        <nz-option nzValue="0" nzLabel="Chưa kết hôn"></nz-option>
-                        <nz-option nzValue="1" nzLabel="Đã kết hôn"></nz-option>
+                        <nz-option *ngFor="let marialStatus of listMarialStatus" [nzValue]="marialStatus.id" [nzLabel]="marialStatus.value"></nz-option>
                     </nz-select>
                     <div class="error-container">
-                        <div
-                        *ngIf=" form.get('maritalStatus')?.invalid && (form.get('maritalStatus')?.dirty) ||form.get('maritalStatus')?.touched">
+                        <div *ngIf=" form.get('maritalStatus')?.invalid && (form.get('maritalStatus')?.dirty) ||form.get('maritalStatus')?.touched">
                         <span class="validate_input" *ngIf="form.get('maritalStatus')?.hasError('required')">Phải
                             chọn tình trạng hôn nhân</span>
                     </div>
@@ -632,7 +629,7 @@
                             <button nz-button nzType="default" nzShape="circle" class="upload-button"
                                 (click)="fileInput.click()" style="border: none; background: transparent;">
                                 <i nz-icon nzType="paper-clip"></i>
-                                <input type="file" #fileInput (change)="onChange($event, 'healthCertificate')"
+                                <input type="file" #fileInput (change)="onChangeHealthCertificate($event)"
                                     style="display: none;" />
                             </button>
                         </div>
@@ -902,7 +899,7 @@
                                                 style="border: none; background: transparent;">
                                                 <i nz-icon nzType="paper-clip"></i>
                                                 <input type="file" #fileInput
-                                                    (change)="onFileChange($event,'file', docIndex)"
+                                                    (change)="onFileChangeAchi($event,'file', docIndex)"
                                                     style="display: none;" />
                                             </button>
                                         </div>
@@ -994,8 +991,7 @@
                                     <div class="">
                                         <label class="form-label">Giới tính</label>
                                         <nz-select nzPlaceHolder="Chọn" formControlName="gender"  style="width: 100%">
-                                            <nz-option nzValue="1" nzLabel="Nam"></nz-option>
-                                            <nz-option nzValue="2" nzLabel="Nữ"></nz-option>
+                                            <nz-option *ngFor="let gender of listGender" [nzValue]="gender.id" [nzLabel]="gender.value"></nz-option>
                                         </nz-select>
                                         <div class="error-container">
                                             <div *ngIf="child.get('gender')?.touched && has_child == '1'">
@@ -1045,38 +1041,6 @@
         </span>
     </div>
 </form>
-
-
-<!-- up file hình ảnh -->
-<nz-modal [(nzVisible)]="isShowModalUploadfile" [nzTitle]="modalTitle" [nzContent]="modalContentUploadfile"
-    [nzFooter]="null" (nzOnCancel)="isShowModalUploadfile = false">
-    <ng-template #modalTitle>Tải ảnh lên</ng-template>
-
-    <ng-template #modalContentUploadfile>
-        <div class="upload-container justify-center items-center">
-            <div class="upload-area">
-                <!-- Input để chọn file -->
-                <div class="nz-row">
-                    <div *ngIf="isBcImageVisible">
-                        <input type="file" placeholder="bcImage"  (change)="handleFileInput($event, 'bcImage')" />
-                    </div>
-
-                    <div *ngIf="isDlImageVisible">
-                        <input type="file" placeholder="dlImage" (change)="handleFileInput($event, 'dlImage')" />
-                    </div>
-
-                    <!-- Vùng hiển thị ảnh khi đã chọn -->
-                    <div *ngIf="previewUrl" class="image-preview">
-                        <img [src]="previewUrl" alt="Image Preview" class="preview-img" />
-                    </div>
-                </div>
-            </div>
-            <!-- <div nz-row center> 
-            <button nz-button nzType="primary" (click)="isShowModalUploadfile =false">Đóng</button>
-          </div> -->
-        </div>
-    </ng-template>
-</nz-modal>
 
 <nz-modal [(nzVisible)]="isModalInforEmployee" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()"
     [nzContent]="modalContent" [nzFooter]="null" [nzStyle]="{'min-width' : '1200px', 'min-height':'1080px'}">
@@ -1382,7 +1346,7 @@
             </div>
             <div nz-rol class="ml-2">
                 <span>
-                    <button (click)="downloadPDF()" class="button-infor" nz-button style="color: #274EA1;" nzType="default">
+                    <button class="button-infor" nz-button style="color: #274EA1;" nzType="default">
                         <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M11.6667 3.33333H2.33333C1.22667 3.33333 0.333332 4.22667 0.333332 5.33333V8C0.333332 8.73333 0.933332 9.33333 1.66667 9.33333H3V10.6667C3 11.4 3.6 12 4.33333 12H9.66667C10.4 12 11 11.4 11 10.6667V9.33333H12.3333C13.0667 9.33333 13.6667 8.73333 13.6667 8V5.33333C13.6667 4.22667 12.7733 3.33333 11.6667 3.33333ZM9 10.6667H5C4.63333 10.6667 4.33333 10.3667 4.33333 10V7.33333H9.66667V10C9.66667 10.3667 9.36667 10.6667 9 10.6667ZM11.6667 6C11.3 6 11 5.7 11 5.33333C11 4.96667 11.3 4.66667 11.6667 4.66667C12.0333 4.66667 12.3333 4.96667 12.3333 5.33333C12.3333 5.7 12.0333 6 11.6667 6ZM10.3333 0H3.66667C3.3 0 3 0.3 3 0.666667V2C3 2.36667 3.3 2.66667 3.66667 2.66667H10.3333C10.7 2.66667 11 2.36667 11 2V0.666667C11 0.3 10.7 0 10.3333 0Z"

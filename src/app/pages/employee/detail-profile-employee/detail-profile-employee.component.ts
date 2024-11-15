@@ -74,7 +74,6 @@ export class DetailProfileEmployeeComponent implements OnInit {
     identifierId: null,
     phoneNumber: null,
     zalo: null,
-    // contractDuration: null,
     email: null,
     hasChild: null,
     ethnicGroup: null,
@@ -103,7 +102,6 @@ export class DetailProfileEmployeeComponent implements OnInit {
     driverLicenseType: null,
     dlStartDate: null,
     dlEndDate: null,
-    // archivedRecordFiles: [],
     lstChildren: [{
       name: null,
       yearOfBirth: null,
@@ -127,7 +125,6 @@ export class DetailProfileEmployeeComponent implements OnInit {
     {id: 1, value:"Hợp đồng 1 năm"},
     {id: 2, value:"Hợp đồng 3 năm"},
     {id: 3, value:"Hợp đồng vô thời hạn"}
-
   ]
 
   file = true
@@ -287,16 +284,14 @@ export class DetailProfileEmployeeComponent implements OnInit {
         })
       })}
 
-      Object.keys(response.data).forEach(key => {
-        console.log(`${key}:`, response.data[key]);
-      });
-      // this.form.patchValue(response.data)
+      // Object.keys(response.data).forEach(key => {
+      //   console.log(`${key}:`, response.data[key]);
+      // });
       if(response.data.name != null){
         this.form.get('name')?.setValue(response.data.name.toString())
       }
       if(response.data.yearOfBirth != null){
       this.form.get('yearOfBirth')?.setValue(response.data.yearOfBirth.toString())
-
       }
       if(response.data.gender != null){
         this.form.get('gender')?.setValue(response.data.gender.toString())
@@ -309,7 +304,6 @@ export class DetailProfileEmployeeComponent implements OnInit {
       }
       if(response.data.zalo != null){
       this.form.get('zalo')?.setValue(response.data.zalo.toString())
-
       }
       if(response.data.email != null){
         this.form.get('email')?.setValue(response.data.email.toString())
@@ -353,7 +347,6 @@ export class DetailProfileEmployeeComponent implements OnInit {
         }
           else{
           this.form.get('fromDateOfOffical')?.setValue(response.data.fromDate.toString())
-
         }
       }
       if(response.data.toDate != null){
@@ -399,16 +392,6 @@ export class DetailProfileEmployeeComponent implements OnInit {
 
       }
 
-      // if( response.data.contract != null){
-      //   const contractT = {
-      //     id: response.data.contract.id,
-      //     signDate: response.data.contract.signDate,
-      //     type: response.data.contract.type,
-      //   }
-      //   this.form.get('contract')?.setValue(contractT)
-      //   this.form.get('contractFile')?.setValue(response.data.contract.file)
-      // }
-
       if(response.data.hcEndDate != null){
         this.form.get('hcEndDate')?.setValue(response.data.hcEndDate.toString())
       }
@@ -444,6 +427,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
               type: ele.type,
               file: ele.file
           }))
+
         })
       }else{
         arr.push(this.fb.group({
@@ -812,27 +796,6 @@ export class DetailProfileEmployeeComponent implements OnInit {
   maxYear: number = 0
   minYear: number = 0
 
-  // beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]): Observable<boolean> => {
-  //   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  //   const isLt2M = file.size! / 1024 / 1024 < 2;
-
-  //   if (!isJpgOrPng) {
-  //     this.msg.error('You can only upload JPG/PNG files!');
-  //     return of(false); 
-  //   }
-  //   if (!isLt2M) {
-  //     this.msg.error('Image must be smaller than 2MB!');
-  //     return of(false); 
-  //   }
-
-  //   return of(true); 
-  // };
-
-  // private getBase64(img: File, callback: (img: string) => void): void {
-  //   const reader = new FileReader();
-  //   reader.addEventListener('load', () => callback(reader.result!.toString()));
-  //   reader.readAsDataURL(img);
-  // }
   previewUrl: string | ArrayBuffer | null = null; // Show url ảnh
   selectedFile: File | null = null;
   imageUrl: string | null = null;
@@ -911,18 +874,6 @@ export class DetailProfileEmployeeComponent implements OnInit {
       }
     }
   }
-
-  onFileChangeContract(event: any, fieldName: any, index: number): void {
-    const fileList: FileList = event.target.files;
-    if (fileList.length > 0) {
-    const file = fileList[0];
-    if (fieldName === 'file') {
-      this.lstcontractDTO.at(index).patchValue({ file }); // cập nhật trực tiếp file
-    }
-  }
-  }
-
-
 
   handleChangeFile(event: any, field: 'bcImage' | 'dlImage'): void {//
     const file = event.file.originFileObj;// tạo biến chứa file gốc đã chọn
@@ -1013,15 +964,32 @@ export class DetailProfileEmployeeComponent implements OnInit {
     });
   }
 
+  onFileChangeContract(event: any, fieldName: any, index: number): void {
+    const fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+    const file = fileList[0];
+    this.fileCompressed.contractFile[index] = file
+
+    console.log(this.fileCompressed.contractFile[index])
+    if (fieldName === 'file') {
+      this.lstcontractDTO.at(index).patchValue({ file }); // cập nhật trực tiếp file
+      console.log(this.lstcontractDTO.at(index).get('file')?.value?.name)
+    }
+  }
+  }
+
 
   onFileChange(event: any, fieldName: any, index: number): void {
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
     const file = fileList[0];
+    this.fileCompressed.file[index] = file
+
     if (fieldName === 'file') {
       this.lstArchivedRecords.at(index).patchValue({ file: file }) // cập nhật trực tiếp file
-    }
+    } 
   }
+    
   }
 
   isoDate: string | null = null;
@@ -1070,8 +1038,8 @@ export class DetailProfileEmployeeComponent implements OnInit {
       this.fromDateProbation = this.form.value.fromDateProbation
       
     }
-    console.log(this.fromDateProbation )
-    console.log(this.form.value.contract )
+    console.log(this.fileCompressed)
+    console.log(this.form.value.lstArchivedRecords)
 
     const dataForm = {
       id: this.idEmployee,
@@ -1086,21 +1054,26 @@ export class DetailProfileEmployeeComponent implements OnInit {
         name: record.name,
         code: record.code,
         type: record.type,
-        file: record.file
+        file: record.file instanceof File ? record.file.name : record.file 
       })),
       contract: this.form.value.contract.map((contract : any)=>({
         id: contract.id,
         signDate: contract.signDate,
         type: contract.type,
-        file: contract.file
+        file: contract.file instanceof File ? contract.file.name : contract.file 
       })),
-      lstChildren: this.form.value.lstChildren.map((child: any) => ({
+      lstChildren: this.form.value.lstChildren.length === 1 
+      && this.form.value.lstChildren[0].name === '' 
+      && this.form.value.lstChildren[0].yearOfBirth === '' 
+      && this.form.value.lstChildren[0].gender === '' 
+      ? null : this.form.value.lstChildren.map((child: any) => ({
         name: child.name,
         yearOfBirth: child.yearOfBirth,
         gender: child.gender,
       })),
 
     };
+    console.log(dataForm)
     delete dataForm.contractFile
     delete dataForm.bcImage
     delete dataForm.healthCertificate
@@ -1115,19 +1088,22 @@ export class DetailProfileEmployeeComponent implements OnInit {
       formData.append('healthCertificate', this.fileCompressed.healthCertificate[0]);
     }
 
-    if (this.fileCompressed.contractFile.length > 0) {
-      formData.append('contractFile', this.fileCompressed.contractFile[0]);
-    }
-
-    this.lstcontractDTO.controls.forEach((contract: any) => {
-      const file = contract.get('file')?.value
-      console.log(file)
-      if(file){
-        formData.append('contract', file)
-      }
+    // Append dữ liệu của lstArchivedRecords
+  // this.lstcontractDTO.controls.forEach((control, index) => {
+  //   const file = control.get('file')?.value;
+  //   if (file) {
+  //     formData.append(`contract`, file);
+  //   }
+  // });
+    var contract_file: any = this.fileCompressed.contractFile
+    console.log(this.fileCompressed.contractFile)
+    
+    contract_file.forEach((value: any) => {
+      formData.append('contractFile', value)
     })
 
     var archivedRecordFile: any = this.fileCompressed.file
+    console.log(this.fileCompressed)
 
     archivedRecordFile.forEach((value: any) => {
       formData.append('archivedRecordFiles', value)
@@ -1142,11 +1118,6 @@ export class DetailProfileEmployeeComponent implements OnInit {
     if (this.bcImgFile[0]) {
       formData.append('bcImage', this.bcImgFile[0]);
     }
-    //  formData.append('healthCertificate', this.fileCompressed.healthCertificate[0]);
-    //  formData.append('contractFile', this.fileCompressed.contractFile[0] );
-    //  formData.append('archivedRecordFiles', archivedRecordFile)    
-
-
 
     // console.log(formData)
 
@@ -1160,10 +1131,6 @@ export class DetailProfileEmployeeComponent implements OnInit {
         // this.getUser(this.idEmployee)
       },
       error: (error) => {
-        // if(error.status === 400){
-        //   this.notification.error(error.message)
-        // }
-
       }
     })
   }

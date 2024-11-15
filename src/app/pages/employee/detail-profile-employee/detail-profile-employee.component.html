@@ -496,7 +496,7 @@
                     </div>
                 </div>
                 <div nz-col class="mx-2 labor-contract">
-                    <nz-form-label class="form-label label_form"><span style="color: red">*</span> {{ 'employee.laborContract' | translate}}</nz-form-label>
+                    <label class="form-label label_form"><span style="color: red">*</span> {{ 'employee.laborContract' | translate}}</label>
                     <div class="" style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;" formArrayName="contract">
                         <div  nz-row *ngFor="let contract of lstcontractDTO.controls; let i = index" [formGroupName]="i" >
                             <div class="" nz-col nzSpan="7">
@@ -526,7 +526,7 @@
                                                     style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
                                                     <input nz-input placeholder="Chọn File" readonly class="upload-input"
                                                         style="border: none; outline: none; flex: 1;" formControlName="file"
-                                                        [value]="lstcontractDTO.at(i).get('file')?.value?.name || ''" />
+                                                        [value]="lstcontractDTO.at(i).get('file')?.value.name || ''" />
                                                     <button nz-button nzType="default" nzShape="circle" class="upload-button"
                                                         (click)="fileInput.click()" style="border: none; background: transparent;">
                                                         <i nz-icon nzType="paper-clip"></i>
@@ -828,41 +828,39 @@
                             </div>
                             <div nz-col nzSpan="5">
                                 <div class="mx-2">
-                                    <nz-form-item class="form-control">
-                                        <nz-form-label class="form-label">Số hiệu</nz-form-label>
-                                        <nz-form-control>
-                                            <input nz-input class="form-input" formControlName="code" placeholder="Nhập" />
+                                    <div class="">
+                                        <label class="form-label">Số hiệu</label>
+                                        <div>
+                                            <input nz-input class="form-input" formControlName="code" placeholder="Nhập" style="width: 100%"/>
                                             <div class="error-container">
                                                 <div *ngIf="doc.get('code')?.touched">
                                                     <span class="validate_input" *ngIf="doc.get('code')?.errors?.['required']">Phải chọn số hiệu</span>
                                                 </div>
                                             </div>
-                                        </nz-form-control>
-                                    </nz-form-item>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div nz-col nzSpan="6">
                                 <div class="mx-2">
-                                    <nz-form-item class="form-control">
-                                        <nz-form-label class="form-label">Loại giấy tờ</nz-form-label>
-                                        <nz-form-control>
+                                    <div class="">
+                                        <label class="form-label">Loại giấy tờ</label>
+                                        <div>
                                             <input nz-input class="form-input" formControlName="type" placeholder="Nhập" />
                                             <div class="error-container">
                                                 <div *ngIf="doc.get('type')?.touched">
                                                     <span class="validate_input" *ngIf="doc.get('type')?.errors?.['required']">Phải chọn loại giấy tờ</span>
                                                 </div>
                                             </div>
-                                        </nz-form-control>
-                                    </nz-form-item>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div nz-col nzSpan="5">
                                 <div class="mx-2">
-                                    <nz-form-item class="form-control">
-                                        <nz-form-label class="form-label">File đính kèm</nz-form-label>
-                                        <!-- <nz-form-label class="form-label">{{lstArchivedRecords.at(docIndex).get('file')?.value |}}</nz-form-label> -->
-                                        <nz-form-control>
-    
+                                    <div class="form-control">
+                                        <label class="form-label">File đính kèm</label>
+                                        <div>
                                             <div nz-row nzGutter="8" class="custom-upload"
                                                 style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
                                                 <input nz-input placeholder="Chọn file" readonly class="upload-input"
@@ -883,8 +881,8 @@
                                                         *ngIf="doc.get('file')?.errors?.['required']">Phải chọn file</span>
                                                 </div>
                                             </div>
-                                        </nz-form-control>
-                                    </nz-form-item>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div nz-col *ngIf="(lstArchivedRecords.length >= 1 || ( lstArchivedRecords.at(0).invalid )) && isFixEmployeeButton == true"
@@ -1133,16 +1131,16 @@
                 <div nz-row class="w-full" style="display: flex; justify-content: center;">
                     <div nz-col nzSpan="6">
                         <div class="form-control">
-                            <nz-form-label class="form-label" nzRequired>Từ ngày</nz-form-label>
-                            <nz-form-control>
-                                <nz-date-picker nzFormat="dd/MM/yyyy"
+                            <label class="form-label" nzRequired>Từ ngày</label>
+                            <div>
+                                <nz-date-picker nzFormat="dd/MM/yyyy" style="width: 100%"
                                     (ngModelChange)="onDateChange($event)" class="w-full" formControlName="fromDate"
-                                    nzPlaceHolder="Chọn ngày"></nz-date-picker>
+                                    nzPlaceHolder="Chọn ngày"></nz-date-picker> 
                                     <div *ngIf="form.get('fromDate')?.touched">
                                         <span class="validate_input"
                                             *ngIf="form.get('fromDate')?.errors?.['required']">Phải chọn ngày</span>
                                     </div>
-                            </nz-form-control>
+                            </div>
                         </div>
                     </div>
                 </div>
