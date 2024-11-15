@@ -12,7 +12,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
 import { IData } from '../../../models/setup-profile-car/models-employee/setup-profile-employee/index.model';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, FormArray, Validators,AbstractControl } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable, Observer } from 'rxjs';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -138,6 +138,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
   avatarUrl?: string;
   inforEmployee: any = {}
   monthValue : string | undefined
+  originalData: any
 
   showStopEmployee(){
     this.isModalInforEmployee = true
@@ -221,6 +222,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
     this.getPossition()
     this.getRoute() 
     this.getDriverLicense()
+    this.getAchievement()
     // this.checkDriver()
 
     this.form.disable();
@@ -252,16 +254,16 @@ export class DetailProfileEmployeeComponent implements OnInit {
       this.showInforEmployee = response.data
       console.log(response )
       //thanhf tich
-      if(response.data.lstAchievements.length > 0){
+      if(response.data?.lstAchievements){
         this.lstAchievements = response.data.lstAchievements
       }
       //khen thuong
 
-      if(response.data.lstAchievements.length > 0){
+      if(response.data.lstAchievements){
       this.lstPraises = response.data.lstPraises
       }
 
-      if(response.data.lstAchievements.length > 0){
+      if(response.data.lstAchievements){
         this.lstPunishments = response.data.lstPunishments
         }
       //ki luat
@@ -440,9 +442,16 @@ export class DetailProfileEmployeeComponent implements OnInit {
             code: ele.code,
               name: ele.name,
               type: ele.type,
-              file: ele.file 
+              file: ele.file
           }))
         })
+      }else{
+        arr.push(this.fb.group({
+          code: '',
+          name: '',
+          type: '',
+          file: ''
+        }));
       }
 
       console.log(response.data.contract)
@@ -455,9 +464,16 @@ export class DetailProfileEmployeeComponent implements OnInit {
           arrCo.push(this.fb.group({
             signDate: ele.signDate,
               type: ele.type,
-              file: ele.file 
+              file: ele.file
           }))
         })
+      }else{
+        arrCo.push(this.fb.group({
+          signDate: '',
+          type: '',
+          file: '',
+          id: ''
+        }));
       }
 
       const arrCh = this.form.get('lstChildren') as FormArray;
@@ -470,11 +486,57 @@ export class DetailProfileEmployeeComponent implements OnInit {
           }))
         }) 
       }
+      else{
+        arrCh.push(this.fb.group({
+          name: '',
+          yearOfBirth: '',
+          gender: ''   
+        }))
+      }
+
       
       this.form.disable();
+
     })
   }
 
+
+  //////////////////////////////////////////////////phân trang thành tích////////////////////////////////////////
+
+  page : number = 0
+  size: number = 5
+
+  isYear : any[ ] = []
+  getAchievement(){
+    
+    this.route.params.subscribe((params : any)=>{
+      const id = params['id']
+      this.userSevice.getachievementsInDetailsEmployee(this.page, this.size, id).subscribe((response: any)=>{
+        this.isYear = response.data.content
+      })
+    })
+  }
+
+  
+  showEmpolyeeNoDataofLstAchievements(){
+    const numberData = 5
+    // const data = {data: null}
+ 
+    const dataRows = this.isYear.slice()
+    const currentData = dataRows.length
+    if(currentData < numberData){
+      const databefore = numberData - currentData
+      for(let i = 0;i < databefore; i++){
+        dataRows.push(null)
+      }
+    }
+
+    return dataRows
+  }
+
+
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////
   editEmployee(){
     this.form.enable()
     this.isFixEmployeeButton = true
@@ -482,9 +544,10 @@ export class DetailProfileEmployeeComponent implements OnInit {
 
   cancelFix(){
     // this.isModalInforEmployee = false
+    
     this.isFixEmployeeButton = false
-
     this.form.disable()
+
   }
 
   showEmpolyeeNoDataofLstPraises(){
@@ -497,22 +560,6 @@ export class DetailProfileEmployeeComponent implements OnInit {
       const databefore = numberData - currentData
       for(let i = 0;i < databefore; i++){
         dataRows.push(data)
-      }
-    }
-
-    return dataRows
-  }
-
-  showEmpolyeeNoDataofLstAchievements(){
-    const numberData = 5
-    // const data = {data: null}
- 
-    const dataRows = this.lstAchievements.slice()
-    const currentData = dataRows.length
-    if(currentData < numberData){
-      const databefore = numberData - currentData
-      for(let i = 0;i < databefore; i++){
-        dataRows.push(null)
       }
     }
 
@@ -866,26 +913,13 @@ export class DetailProfileEmployeeComponent implements OnInit {
   }
 
   onFileChangeContract(event: any, fieldName: any, index: number): void {
-    this.onFileSelected(event).subscribe({//
-      next: (file: File) => {
-        const fileList: FileList = event.target.files; // danh sách file được chọn 
-
-        if (fileList.length > 0) {// nếu list > 0
-          const file = fileList[0];// file đầu danh sách
-          if (fieldName === 'file') {
-            this.fileCompressed.contractFile = [file]
-
-            this.lstcontractDTO.at(index).patchValue({ file: file });// cấp nhật giá trị nếu fieldName = file
-          }
-        }
-      },
-      error: (err) => {
-        console.log(err)
-      },
-      complete: () => {
-
-      }
-    })
+    const fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+    const file = fileList[0];
+    if (fieldName === 'file') {
+      this.lstcontractDTO.at(index).patchValue({ file }); // cập nhật trực tiếp file
+    }
+  }
   }
 
 
@@ -981,26 +1015,13 @@ export class DetailProfileEmployeeComponent implements OnInit {
 
 
   onFileChange(event: any, fieldName: any, index: number): void {
-    this.onFileSelected(event).subscribe({//
-      next: (file: File) => {
-        const fileList: FileList = event.target.files; // danh sách file được chọn 
-
-        if (fileList.length > 0) {// nếu list > 0
-          const file = fileList[0];// file đầu danh sách
-          this.fileCompressed.file[index] = file;// lưu vào mảng tại vị trí index
-
-          if (fieldName === 'file') {
-            this.lstArchivedRecords.at(index).patchValue({ file: file });// cấp nhật giá trị nếu fieldName = file
-          }
-        }
-      },
-      error: (err) => {
-        console.log(err)
-      },
-      complete: () => {
-
-      }
-    })
+    const fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+    const file = fileList[0];
+    if (fieldName === 'file') {
+      this.lstArchivedRecords.at(index).patchValue({ file: file }) // cập nhật trực tiếp file
+    }
+  }
   }
 
   isoDate: string | null = null;
@@ -1050,17 +1071,28 @@ export class DetailProfileEmployeeComponent implements OnInit {
       
     }
     console.log(this.fromDateProbation )
-    console.log(this.fromDateOffical )
+    console.log(this.form.value.contract )
 
     const dataForm = {
       id: this.idEmployee,
       fromDate : this.contract_type == 1 ? this.fromDateOffical :this.fromDateProbation,
       ...this.form.value,
-      lstArchivedRecords: this.form.value.lstArchivedRecords.map((record: any) => ({// trong form Array
+      lstArchivedRecords: this.form.value.lstArchivedRecords.length === 1 
+      && this.form.value.lstArchivedRecords[0].name === '' 
+      && this.form.value.lstArchivedRecords[0].code === '' 
+      && this.form.value.lstArchivedRecords[0].type === '' 
+      && this.form.value.lstArchivedRecords[0].file === '' 
+      ? null : this.form.value.lstArchivedRecords.map((record: any) => ({// trong form Array
         name: record.name,
         code: record.code,
         type: record.type,
-        file: record.file,
+        file: record.file
+      })),
+      contract: this.form.value.contract.map((contract : any)=>({
+        id: contract.id,
+        signDate: contract.signDate,
+        type: contract.type,
+        file: contract.file
       })),
       lstChildren: this.form.value.lstChildren.map((child: any) => ({
         name: child.name,
@@ -1076,38 +1108,6 @@ export class DetailProfileEmployeeComponent implements OnInit {
     delete dataForm.fromDateOfOffical
     delete dataForm.fromDateProbation
 
-    //office => đã có id => timf tên theo id
-    // this.officeEmployee = dataForm.officeId
-    // const officeIndex = this.listOffice.find(item => item.id === this.officeEmployee)
-    // if(dataForm.officeId){
-    //   this.officeName = officeIndex.name 
-    // }
-    // //deparment
-    // this.deparmentEmployee = dataForm.departmentId
-    // const deparmentIndex = this.listDepartment.find(item => item.id === this.deparmentEmployee)
-    // if(dataForm.departmentId){
-    //   this.deparmentName = deparmentIndex.name 
-    // }
-    // //branch
-    // this.branchEmployee = dataForm.branchId
-    // const branchIndex = this.listBranch.find(item => item.id === this.branchEmployee)
-    // if(dataForm.branchId){
-    // this.branchName = branchIndex.name 
-    // }
-    // //position
-    // this.positionEmloyee = dataForm.positionId
-    // console.log(this.positionEmloyee)
-    // const positionIndex = this.listPosstion.find(item => item.id === this.positionEmloyee)
-    // if(dataForm.positionId){
-    //   this.positionName = positionIndex.name
-    // }
-    // //route
-    // this.routeEmployee =dataForm.routeId
-    // const routeIndex = this.listRoute.find(item => item.id === this.routeEmployee)
-    // if(dataForm.routeId){
-    //   this.routeName = routeIndex.name 
-    // }
-
     const formData = new FormData();
 
     formData.append('data', JSON.stringify(dataForm));
@@ -1119,9 +1119,19 @@ export class DetailProfileEmployeeComponent implements OnInit {
       formData.append('contractFile', this.fileCompressed.contractFile[0]);
     }
 
-    // archivedRecordFile.forEach((value: any) => {
-    //   formData.append('archivedRecordFiles', value)
-    // })
+    this.lstcontractDTO.controls.forEach((contract: any) => {
+      const file = contract.get('file')?.value
+      console.log(file)
+      if(file){
+        formData.append('contract', file)
+      }
+    })
+
+    var archivedRecordFile: any = this.fileCompressed.file
+
+    archivedRecordFile.forEach((value: any) => {
+      formData.append('archivedRecordFiles', value)
+    })
 
     console.log(this.fileCompressed.file)
     //  formData.append('data', JSON.stringify(dataForm))
@@ -1144,6 +1154,8 @@ export class DetailProfileEmployeeComponent implements OnInit {
       next: (response) => {
         this.notification.success('Chỉnh sửa hồ sơ nhân viên thành công!')
         this.isFixEmployeeButton = false  
+        this.form.disable()
+
         // this.form.reset()
         // this.getUser(this.idEmployee)
       },
@@ -1170,7 +1182,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
       next: (response) => {
         this.notification.success('Xác nhận thôi việc thành công')
         this.isModalInforEmployee = false  
-        // this.form.reset()
+        
         // this.getUser(this.idEmployee)
       },
       error: (error) => {
@@ -1219,6 +1231,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
   getAchievementsStaffDetails(id: any){
     const month = this.monthValue || (new Date().getMonth() + 1).toString()
     this.userSevice.getAchievementsStaffDetails(id, month, this.yearNow).subscribe((response : any)=>{
+
         this.listArchiOfStaff = Object.entries(response.data.achievements)
         this.listArchiOfStaffNew = [...this.listArchiOfStaff]
 
@@ -1232,8 +1245,37 @@ export class DetailProfileEmployeeComponent implements OnInit {
 
       this.listArchiOfStaff[dayIndex][1] = this.listArchiOfStaffNew[dayIndex][1] === 0 ? 1 : 0
       this.listArchiOfStaff[key] = this.listArchiOfStaffNew[dayIndex][1] 
+
+      const id = 0
+      this.route.params.subscribe((params : any)=>{
+        const day  = dayIndex + 1;
+      const month = this.monthValue
+      const year = this.yearNow
+      const data = {
+        day : day,
+        month: month,
+        year: year,
+        staffId : params['id'],
+        isPassed : this.listArchiOfStaff[key]
+      }
+      this.userSevice.changeDataOfTableachievements(data).subscribe({
+        next: (response) => {
+          this.notification.success('Cập nhật thành công!')
+
+        },
+        error : (err) => {
+          this.notification.success('Lỗi hệ thống!')
+
+        }
+        })
+
+      })
+      
     }
+
+
   }
+
 
   handleCancelAchive(){
     this.isModalAchievements = false

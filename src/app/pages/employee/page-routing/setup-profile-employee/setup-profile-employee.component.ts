@@ -21,6 +21,7 @@ import { UserServiceService } from '../../../../shared/services/user-service.ser
 import { NotificationService } from '../../../../shared/services/notification.service';
 import { PDFDocument, rgb } from 'pdf-lib';
 import { PdfService } from '../../../../shared/pdf/pdf.service';
+import { Router } from '@angular/router';
 
 interface FileCompressed {
   contractFile: File[];
@@ -145,7 +146,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
     private userSevice: UserServiceService,
     private notification: NotificationService,
     private pdfService: PdfService,
-
+    private routes: Router
   ) {
     this.form = this.fb.group(this.data)
   }
@@ -316,9 +317,9 @@ export class SetupProfileEmployeeComponent implements OnInit {
   createContract(contract: { id: string | null; signDate: string | null; type: string | null; file: string | null }): FormGroup {
     return this.fb.group({
       id: [''],
-      signDate: [''],
-      type: [''],
-      file: ['']
+      signDate: ['', Validators.required],
+      type: ['', Validators.required],
+      file: ['', Validators.required]
     });
   }
 
@@ -338,10 +339,13 @@ export class SetupProfileEmployeeComponent implements OnInit {
       gender: ['', Validators.required],
     });
 
+    ChildForm.get('name')?.clearValidators()
+        ChildForm.get('yearOfBirth')?.clearValidators()
+        ChildForm.get('gender')?.clearValidators()
     this.form.get('hasChild')?.valueChanges.subscribe((value : any)=> {
       console.log(value)
       this.has_child = value
-      if(this.has_child === '1'){
+      if(this.has_child === '1' || this.form.get('hasChild')?.value == '1'){
         ChildForm.get('name')?.setValidators(Validators.required)
         ChildForm.get('yearOfBirth')?.setValidators(Validators.required)
         ChildForm.get('gender')?.setValidators(Validators.required)
@@ -633,6 +637,18 @@ export class SetupProfileEmployeeComponent implements OnInit {
   }
 
 
+  handleCancelDone1(){
+    this.isDone = false
+  }
+
+  handleCancelDone2(){
+    this.isDone = false
+    this.form.reset
+  }
+  handleSubmitDone(){
+    this.routes.navigate(['employee/list-employee-profile'])
+    
+  }
   onFileChange(event: any, fieldName: any, index: number): void {
     this.onFileSelected(event).subscribe({//
       next: (file: File) => {
@@ -821,6 +837,14 @@ export class SetupProfileEmployeeComponent implements OnInit {
         value.get('yearOfBirth')?.markAsTouched();
       })
     }
+    if(this.lstcontractDTO.value){
+      this.lstcontractDTO.controls.forEach((value: any) => {
+        value.get('signDate')?.markAsTouched();
+        value.get('type')?.markAsTouched();
+        value.get('file')?.markAsTouched();
+      })
+    }
+    
     const dataForm = {
       ...this.form.value,
       lstArchivedRecords: this.form.value.lstArchivedRecords && this.form.value.lstArchivedRecords.length > 0 ?  this.form.value.lstArchivedRecords.map((record: any) => ({// trong form Array
@@ -983,6 +1007,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
     this.form.get('toDate')?.updateValueAndValidity();
 }
 
+isDone : boolean = false
   saveDataEmployee() {
 
     console.log(this.form.value.lstcontractDTO)
@@ -1070,7 +1095,8 @@ export class SetupProfileEmployeeComponent implements OnInit {
       next: (response) => {
         console.log('File đã được gửi đi thành công', response);
         this.notification.success('Lưu hồ sơ nhân viên thành công!')
-
+        this.isModalInforEmployee = false
+        this.isDone = true
       },
       error: (error) => {
         // if(error.status === 400){

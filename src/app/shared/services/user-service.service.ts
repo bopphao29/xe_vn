@@ -13,7 +13,7 @@ export class UserServiceService {
   ) { }
 
   // url = environment.server
-  url = 'http://103.92.25.158:8991/user-service/'
+  url = 'http://103.92.25.158:8998/'
   // url = 'http://192.168.0.3:8991/user-service/'
   // urlRoute = 'http://192.168.0.3:8991/'
   urlRoute = 'http://103.92.25.158:8991/'
@@ -31,7 +31,7 @@ export class UserServiceService {
   }
 
   updateEmployee(fomrData: FormData){
-    return this.httpClient.put(this.url+ '/api/staff', fomrData)
+    return this.httpClient.put(this.url+ 'api/staff', fomrData)
   }
 
   getBranch(){
@@ -85,5 +85,15 @@ export class UserServiceService {
 
   getPunishmentsContents(){
     return this.httpClient.get(this.url + 'api/punishments/contents')
+  }
+
+  //thành tích
+  getachievementsInDetailsEmployee(page: any, size: any, staffId: any){
+    const params = 'page=' +page+'&size='+ size+'&staffId=' + staffId
+    return this.httpClient.get(this.url + 'api/achievements?'+ params)
+  }
+
+  changeDataOfTableachievements(data: any){
+    return this.httpClient.post(this.url + 'api/achievements',data)
   }
 }

@@ -56,6 +56,13 @@ export const EMPPLOYEE_ROUTES: Routes = [
             (c) => c.ListEmployeeViolatesDisciplineComponent
         ),
       },
+      {
+        path: 'employee-salary-setup',
+        loadComponent: () =>  
+        import('./page-routing/employee-salary-set-up/employee-salary-set-up.component').then(
+            (c) => c.EmployeeSalarySetUpComponent
+        ),
+      },
 
     ]
 

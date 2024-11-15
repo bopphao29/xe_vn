@@ -348,32 +348,6 @@
 //   }
 // }
 
-@media (max-width: 1280px) {
-  .input-wrapper {
-    width: calc(100%/7); 
-    flex: 1 1 calc(100% / 3); 
-  }
-  .adrress-input, .recordStorage{
-    width: calc(100%/7*2 - 16px);
-  }
-  .children{
-    width: calc(50% - 16px);
-  }
-
-}
-
-@media (max-width: 1024px) {
-  .input-wrapper {
-    width: calc(100%/7); 
-    flex: 1 1 calc(100% / 2); 
-  }
-  .recordStorage{
-    width: calc(100% - 24px)
-  }
-  .children{
-    width: calc(100% - 30px);
-  }
-}
 .input-form {
   width: 100%; 
   padding: 12px;
@@ -387,7 +361,54 @@
   box-shadow: 5px;
 }
 
-@media (max-width: 1366px){
+@media (max-width: 1024px) {
+  .input-wrapper {
+    width: calc(100%/7); 
+    flex: 1 1 calc(100% / 2); 
+  }
+  .recordStorage{
+    width: calc(100% - 24px)
+  }
+  .children{
+    width: calc(100% - 30px);
+  }
+  .adrress-input{
+    width: calc(100%/7);
+    flex: 1 1;
+  }
+}
+
+@media (max-width: 1280px) and (min-width: 1024px) {
+  .input-wrapper {
+    width: calc(100%/7); 
+    flex: 1 1 calc(100% / 3); 
+  }
+  .recordStorage{
+    width: calc(100%/7*2 - 16px);
+  }
+  .children{
+    width: calc(50% - 16px);
+  }
+  .adrress-input {
+    width :calc(100%/7*3 );
+    flex: 1 1;
+  }
+  .date-choose{
+    width: calc(50% - 16px);
+  }
+  .labor-contract{
+    width: calc(50% - 16px);
+  }
+  .recordStorage{
+    width: calc(100%/7*6 - 130px)
+  }
+  .children{
+    width: calc(100%/7*5 + 36px);
+  }
+
+}
+
+@media (max-width: 1366px) and (min-width: 1280px){
   .date-choose{
     width: calc(50% - 16px);
   }
@@ -405,7 +426,7 @@
   }
 }
 
-@media (min-width: 1366px){
+@media (min-width: 1366px) {
   .date-choose{
     width: calc(28% - 8px);
   }
