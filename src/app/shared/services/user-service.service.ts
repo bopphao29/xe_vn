@@ -96,4 +96,10 @@ export class UserServiceService {
   changeDataOfTableachievements(data: any){
     return this.httpClient.post(this.url + 'api/achievements',data)
   }
+
+  //kỉ luật
+  getpunishmentsInDetailsEmployee(page: any, size: any, staffId: any){
+    const params = 'page=' +page+'&size='+ size+'&staffId=' + staffId
+    return this.httpClient.get(this.url + 'api/punishments?'+ params)
+  }
 }

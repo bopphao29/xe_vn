@@ -1,4 +1,4 @@
-<div style="background-color: #f7f7f7; padding-bottom: 100px;">
+<div class="p-4 pb-0" style="background-color: #f7f7f7; padding-bottom: 100px; ">
     <form nz-form nzGutter="16" class="w-full" nzLayout="vertical" [formGroup]="form">
         <div nz-row>
             <div nz-col nzSpan="14">
@@ -1007,24 +1007,25 @@
     
     </form>
 
-    <div style="margin-top: 15px;" *ngIf="isFixEmployeeButton == false">
-        <div nzGutter="16" class="w-full">
-            <span class="label_setup mx-2">Khen thưởng, thành tích, kỷ luật</span>
-        </div>
+    <div nzGutter="16" class="w-full" style="margin-top: 20px">
+        <span class="label_setup mx-2">Khen thưởng, thành tích, kỷ luật</span>
+    </div>
 
-        <div nz-row style="margin-top: 15px; background-color: #ffffff;">
-            <div nz-col style="width: calc(31.5% - 8px); margin-bottom: 100px; ">
-                <div nz-col class="w-full mx-4" style="padding: 8px 8px 8px 8px ;">
+    <div class="p-4 pb-0" style="margin-top: 15px; background-color: #ffffff; border-radius: 8px" class="" *ngIf="isFixEmployeeButton == false">
+
+        <div nz-row style="margin: 15px 18px 0px 18px; width: 100% !important">
+            <div nz-col style="width: calc(40% - 16px); margin-bottom: 100px; ">
+                <div nz-col class="w-full" style="padding: 8px 8px 8px 8px ;">
                 <span style="font-size: 16px;color: #252C32; font-weight: 500; line-height: 18.75px;">Khen thưởng</span>
 
                     <table class="custom-table">
-                        <tbody>
-                            <tr style="background-color: #f4f7fb;">
+                        <tbody class="css-table">
+                            <tr>
                                 <th style="text-align: center;" class="list-col-1">Thời gian</th>
-                                <th class="list-col-2">Nội dung khen thưởng</th>
+                                <th class="col-2">Nội dung khen thưởng</th>
                             </tr>
                             <tr *ngFor="let data of showEmpolyeeNoDataofLstPraises()">
-                                <td class="col-1">{{data.praiseDate ? (data.praiseDate | date: 'dd/MM/yyyy') : '-'}}</td>
+                                <td class="col-1"  style="text-align: center;">{{data.praiseDate ? (data.praiseDate | date: 'dd/MM/yyyy') : '-'}}</td>
                                 <td class="col-1">{{data.description || '-'}}</td>
                             </tr>
                             
@@ -1032,18 +1033,18 @@
                     </table>
                 </div>
             </div>
-            <div nz-col style="width: calc(31.5% - 8px);">
-                <div nz-col class="w-full mx-4" style="padding:8px 16px 8px 24px ;">
+            <div nz-col style="width: calc(40% - 16px);">
+                <div  nz-col class="w-full" style="padding:8px 8px 8px 8px ;">
                 <span style="font-size: 16px;color: #252C32; font-weight: 500; line-height: 18.75px;">Kỷ luật</span>
 
                     <table class="custom-table">
-                        <tbody>
-                            <tr style="background-color: #f4f7fb;">
-                                <th style="text-align: center;" class="list-col-1">Thời gian</th>
-                                <th class="list-col-2">Nội dung kỉ luật</th>
+                        <tbody class="css-table">
+                            <tr>
+                                <th style="text-align: center;" class="col-1">Thời gian</th>
+                                <th class="col-2">Nội dung kỉ luật</th>
                             </tr>
                             <tr *ngFor="let data of showEmpolyeeNoDataofLstPunishments()" >
-                                <td class="col-1">{{data.violationDate ? (data.violationDate | date: 'dd/MM/yyyy') : '-'}}</td>
+                                <td class="col-1" style="text-align: center;">{{data.violationDate ? (data.violationDate | date: 'dd/MM/yyyy') : '-'}}</td>
                                 <td class="col-1">{{data.content || '-'}}</td>
 
                             </tr>
@@ -1052,22 +1053,26 @@
                     </table>
                 </div>
             </div>
-            <div nz-col style="width: calc(30% - 8px);">
-                <div nz-col class="w-full mx-4" style="padding: 8px 0px 8px 8px ;">
+            <div nz-col style="width: calc(20% - 16px);">
+                <div nz-col class="w-full" style="padding: 8px 0px 8px 8px ;">
                 <span style="font-size: 16px;color: #252C32; font-weight: 500; line-height: 18.75px;">Thành tích</span>
 
                     <table class="custom-table">
-                        <tbody>
-                            <tr style="background-color: #f4f7fb;">
-                                <th style="text-align: center;" class="list-col-1">Thời gian</th>
-                                <th class="list-col-2">Thành tích</th>
+                        <tbody class="css-table">
+                            <tr>
+                                <th style="text-align: center;" class="col-1">Thời gian</th>
+                                <th class="col-2">Thành tích</th>
                             </tr>
+                            
                             <tr *ngFor="let data of showEmpolyeeNoDataofLstAchievements()" >
-                                <td class="col-1">{{data || '-'}}</td>
-                                <td class="col-2">
+                                <td class="col-1" style="text-align: center !important; background-color: #ffffff !important;">{{data || '-'}}</td>
+                                <td class="col-2"style="text-align: center !important; background-color: #ffffff !important;">
                                     <a *ngIf="data" (click)="isModalAchievements = true" class="button_show_detail">
                                         Xem chi tiết
                                     </a>
+                                    <span *ngIf="!data">
+                                        -
+                                    </span>
                                 </td>
                             </tr>
                             

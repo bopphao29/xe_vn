@@ -153,14 +153,19 @@
 
 .custom-table {
   width: 100%;
-  border-collapse: collapse;
+  // border-collapse: collapse;
 }
 
 .custom-table td {
   border: 1px solid #d9d9d9;
-  padding-left: 10px;
   text-align: left;
+  height: 36px;
+}
 
+.custom-table tr th{
+  border: 1px solid #d9d9d9;
+  height: 36px;
+  // border-collapse: collapse;
 }
 
 .custom-table .col-1 {
@@ -466,4 +471,18 @@
 
 .error-container{
   height: 18px
+}
+
+.css-table tr:nth-child(odd):not(:first-child) {
+  background-color: #f4f7fb;
+}
+
+.button_show_detail{
+  padding: 4px 8px 4px 8px;
+  border: 1px solid rgba(39, 78, 161, 0.3);
+  border-radius: 21px ;
+  -webkit-border-radius: 21px ;
+  -moz-border-radius: 21px ;
+  -ms-border-radius: 21px ;
+  -o-border-radius: 21px ;
 }

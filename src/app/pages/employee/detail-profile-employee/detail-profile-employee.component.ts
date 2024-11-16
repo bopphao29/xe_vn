@@ -219,8 +219,9 @@ export class DetailProfileEmployeeComponent implements OnInit {
     this.getPossition()
     this.getRoute() 
     this.getDriverLicense()
+    
     this.getAchievement()
-    // this.checkDriver()
+    this.getPunishments()
 
     this.form.disable();
 
@@ -256,11 +257,11 @@ export class DetailProfileEmployeeComponent implements OnInit {
       }
       //khen thuong
 
-      if(response.data.lstAchievements){
+      if(response.data?.lstPraises){
       this.lstPraises = response.data.lstPraises
       }
 
-      if(response.data.lstAchievements){
+      if(response.data?.lstPunishments){
         this.lstPunishments = response.data.lstPunishments
         }
       //ki luat
@@ -272,16 +273,16 @@ export class DetailProfileEmployeeComponent implements OnInit {
       if(this.office_id){
         this.userSevice.getDepartment(this.office_id).subscribe((response: any) => {
         this.listDepartment = response.data
-        this.listDepartment.forEach((value: any)=> {
-          const isDriver = this.listDepartment.find(item => item.id = this.office_id)
-          const codeDriver = isDriver.code
-          console.log(codeDriver)
-          if(codeDriver == 'DRIVER' && codeDriver != null){
-            this.hasDriver = true
-          }else{
-            this.hasDriver = false
-          }
-        })
+        // this.listDepartment.forEach((value: any)=> {
+        //   const isDriver = this.listDepartment.find(item => item.id = this.office_id)
+        //   const codeDriver = isDriver.code
+        //   console.log(codeDriver)
+        //   if(codeDriver == 'DRIVER' && codeDriver != null){
+        //     this.hasDriver = true
+        //   }else{
+        //     this.hasDriver = false
+        //   }
+        // })
       })}
 
       // Object.keys(response.data).forEach(key => {
@@ -366,9 +367,14 @@ export class DetailProfileEmployeeComponent implements OnInit {
         this.form.get('positionId')?.setValue(response.data.positionId)
       }
 
-      if(response.data.departmentId.toString() && response.data.departmentName.toString() == 'Lái xe'){
+      console.log(response.data.departmentName)
 
-        this.hasDriver == true
+      if(response.data?.departmentName == 'Lái xe'){
+
+        this.hasDriver = true
+      }else{
+        this.hasDriver = false
+
       }
 
       if(response.data.routeId != null){
@@ -496,6 +502,16 @@ export class DetailProfileEmployeeComponent implements OnInit {
     this.route.params.subscribe((params : any)=>{
       const id = params['id']
       this.userSevice.getachievementsInDetailsEmployee(this.page, this.size, id).subscribe((response: any)=>{
+        this.isYear = response.data.content
+      })
+    })
+  }
+
+  getPunishments(){
+    
+    this.route.params.subscribe((params : any)=>{
+      const id = params['id']
+      this.userSevice.getpunishmentsInDetailsEmployee(this.page, this.size, id).subscribe((response: any)=>{
         this.isYear = response.data.content
       })
     })
@@ -719,27 +735,27 @@ export class DetailProfileEmployeeComponent implements OnInit {
   hasDriver : boolean = false
   deparmentCode = '' 
   listDepartment2 : any[]=[]
-  checkDriver() {
-    console.log(this.office_id)
-    if(this.office_id != null ){
-      this.form.get('departmentId')?.valueChanges.subscribe((value: any) => {
-        console.log(value)
-        this.userSevice.getDepartment(this.office_id).subscribe((response: any)=> {
-        const isDriver = response.data.find((item: any) => item.id === parseInt(value))
-        console.log(isDriver)
-        var codeDriver: any = isDriver.name
-        this.deparmentCode = codeDriver
-        console.log(this.deparmentCode)
-        if (isDriver && codeDriver == 'DRIVER' && codeDriver != null) {
-          this.hasDriver = true
-        }
-        else{
-          this.hasDriver = false
-        }
-        })
-      })
-    }
-  }
+  // checkDriver() {
+  //   console.log(this.office_id)
+  //   if(this.office_id != null ){
+  //     this.form.get('departmentId')?.valueChanges.subscribe((value: any) => {
+  //       console.log(value)
+  //       this.userSevice.getDepartment(this.office_id).subscribe((response: any)=> {
+  //       const isDriver = response.data.find((item: any) => item.id === parseInt(value))
+  //       console.log(isDriver)
+  //       var codeDriver: any = isDriver.name
+  //       this.deparmentCode = codeDriver
+  //       console.log(this.deparmentCode)
+  //       if (isDriver && codeDriver == 'DRIVER' && codeDriver != null) {
+  //         this.hasDriver = true
+  //       }
+  //       else{
+  //         this.hasDriver = false
+  //       }
+  //       })
+  //     })
+  //   }
+  // }
 
 
   hasChildren: number = -10
