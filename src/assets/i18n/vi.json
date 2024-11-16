@@ -87,8 +87,21 @@
         "documentName": "Tên giấy tờ",
         "route":"Định biên tuyến",
         "driverLicense": "Hạng GPLX",
-        "businessCardNumber": "Số thẻ nghiệp vụ"
-
+        "businessCardNumber": "Số thẻ nghiệp vụ",
+        "day_start": "Ngày cấp",
+        "day_end": "Ngày hết hạn",
+        "picture_card":"Hình ảnh thẻ nghiệp vụ",
+        "healthCertificate": "Giấy khám sức khỏe",
+        "dayend_healthCertificate":"Ngày hết hạn GKSK",
+        "number_healthCertificate":"Số GPLX",
+        "picture_driverLicens": "Hình ảnh GPLX",
+        "archivedRecords":"Hồ sơ lưu trữ",
+        "name_file":"Tên giấy tờ",
+        "number1": "Số hiệu",
+        "type_file": "Loại giấy tờ",
+        "file_together": "File đính kèm",
+        "children_status": "Trạng thái con cái",
+        "name_child": "Tên con"
     },
     "month":{
         "January": "Tháng 1",
@@ -122,11 +135,27 @@
         "professionalLevel_required": "Phải nhập trình độ chuyên môn",
         "maritalStatus_required": "Phải nhập tình trạng hôn nhân",
         "contactPerson_required": "Phải nhập người liên hệ",
-        "contactPersonPhone_required": "Phải nhập SĐT",
-        "contactPersonPhone_max": "SĐT đủ 10 số",
         "staffRelation_required": "Phải nhập quan hệ",
         "permanentAddress_required": "Phải nhập địa chỉ thường trú",
-        "temporaryAddress_required": "Phải nhập tạm trú"
+        "temporaryAddress_required": "Phải nhập tạm trú",
+        "date_required": "Phải chọn ngày",
+        "office_required": "Phải chọn thuộc quản lý",
+        "branch_required": "Phải chọn chi nhánh",
+        "department_required":"Phải chọn bộ phận",
+        "position_required": "Phải chọn chức vụ",
+        "signDate":"Phải chọn ngày kí",
+        "file_required": "Phải chọn file",
+        "duration_required": "Phải chọn thuộc quản lý",
+        "route_required": "Phải chọn tuyến",
+        "businessCardNumber_required":"Phải nhập số thẻ nghiệp vụ",
+        "picture_required":"Phải chọn hình ảnh",
+        "number_healthCertificate":"Phải nhập số GPLX",
+        "driverLicense": "Phải chọn hạng GPLX",
+        "name_file":"Phải nhập tên giấy tờ",
+        "number1":"Phải nhập số hiệu",
+        "type_file": "Phải nhập loại giấy tờ",
+        "name_child": "Phải nhập tên con"
+        
 
     },
     "home-default": "tieng viet"

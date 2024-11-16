@@ -164,7 +164,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
     this.minYear = minYear
     this.form = this.fb.group({
       name: [null, Validators.required],
-      yearOfBirth: [null, [Validators.required, Validators.min(minYear), Validators.max(maxYear)]],
+      yearOfBirth: [null, [Validators.required, Validators.min(minYear), Validators.max(maxYear), Validators.maxLength(4)]],
       gender: [null, Validators.required],
       identifierId: [null, [Validators.required, Validators.pattern('^[0-9]{12}$')]],
       phoneNumber: [null, [Validators.required, Validators.pattern('^[0]+[1-9]{9}$')]],
@@ -182,10 +182,9 @@ export class SetupProfileEmployeeComponent implements OnInit {
       permanentAddress: [null, Validators.required],
       temporaryAddress: [null, Validators.required],
       contractType: ['1', Validators.required],
-      fromDateOfOffical: [null],
-      fromDateProbation: [null],
-      // fromDate: [null, Validators.required],
-      toDate: [null],
+      fromDateOfOffical: [null, Validators.required],
+      fromDateProbation: [null, Validators.required],
+      toDate: [null, Validators.required],
       branchId: [null, Validators.required],
       departmentId: [null, Validators.required],
       officeId: [null, Validators.required],
@@ -612,7 +611,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
         if (fileList.length > 0) {// nếu list > 0
           const file = fileList[0];// file đầu danh sách
           this.fileCompressed.file[index] = file;// lưu vào mảng tại vị trí index
-          console.log(this.fileCompressed.file[index] )
+          
           if (fieldName === 'file') {
             this.lstArchivedRecords.at(index).patchValue({ file: file });// cấp nhật giá trị nếu fieldName = file
           }
@@ -737,14 +736,36 @@ export class SetupProfileEmployeeComponent implements OnInit {
     this.form.get('temporaryAddress')?.markAsTouched()
     this.form.get('contractType')?.markAsTouched()
 
-    if(this.contract_type == 2){
-    this.form.get('fromDateProbation')?.markAsTouched()
+    console.log(this.form.get('contractType')?.value)
+    if(this.form.get('contractType')?.value == '2'){
+      this.form.get('fromDateProbation')?.markAsTouched()
+        this.form.get('toDate')?.markAsTouched()
+        this.form.get('fromDateOfOffical')?.clearValidators();
     }
-    if(this.contract_type == 1){
+    
+    if(this.form.get('contractType')?.value == '1'){
       this.form.get('fromDateOfOffical')?.markAsTouched()
+      this.form.get('fromDateProbation')?.clearValidators();
+      this.form.get('toDate')?.clearValidators();
 
     }
-    this.form.get('toDate')?.markAsTouched()
+
+    this.form.get('contractType')?.valueChanges.subscribe((value) => {
+      console.log(value)
+      if (value === '1') {
+        this.form.get('fromDateProbation')?.clearValidators();
+        this.form.get('toDate')?.clearValidators();
+        this.form.get('fromDateOfOffical')?.setValidators(Validators.required);
+      } else if (value === '2') {
+        this.form.get('fromDateProbation')?.setValidators(Validators.required);
+        this.form.get('toDate')?.setValidators(Validators.required);
+        this.form.get('fromDateOfOffical')?.clearValidators();
+      }
+      this.form.get('fromDateProbation')?.updateValueAndValidity();
+      this.form.get('toDate')?.updateValueAndValidity();
+      this.form.get('fromDateOfOffical')?.updateValueAndValidity();
+    });
+      
     this.form.get('branchId')?.markAsTouched()
     this.form.get('departmentId')?.markAsTouched()
     this.form.get('officeId')?.markAsTouched()
@@ -801,6 +822,22 @@ export class SetupProfileEmployeeComponent implements OnInit {
         value.get('file')?.markAsTouched();
       })
     }
+
+    this.form.get('routeId')?.updateValueAndValidity()
+    this.form.get('businessCardNumber')?.updateValueAndValidity()
+    this.form.get('bcStartDate')?.updateValueAndValidity()
+    this.form.get('bcEndDate')?.updateValueAndValidity()
+    this.form.get('bcImage')?.updateValueAndValidity()
+    this.form.get('healthCertificate')?.updateValueAndValidity()
+    this.form.get('hcEndDate')?.updateValueAndValidity()
+    this.form.get('driverLicenseNumber')?.updateValueAndValidity()
+    this.form.get('driverLicenseType')?.updateValueAndValidity()
+    this.form.get('dlStartDate')?.updateValueAndValidity()
+    this.form.get('dlEndDate')?.updateValueAndValidity()
+    this.form.get('dlImage')?.updateValueAndValidity()
+    this.form.get('fromDateProbation')?.updateValueAndValidity()
+    this.form.get('fromDateOfOffical')?.updateValueAndValidity()
+    this.form.get('toDate')?.updateValueAndValidity()
     
 
     const dataForm = {
@@ -876,19 +913,6 @@ export class SetupProfileEmployeeComponent implements OnInit {
     if (dataForm.routeId) {
       this.routeName = routeIndex.name
     }
-
-    this.form.get('routeId')?.updateValueAndValidity()
-    this.form.get('businessCardNumber')?.updateValueAndValidity()
-    this.form.get('bcStartDate')?.updateValueAndValidity()
-    this.form.get('bcEndDate')?.updateValueAndValidity()
-    this.form.get('bcImage')?.updateValueAndValidity()
-    this.form.get('healthCertificate')?.updateValueAndValidity()
-    this.form.get('hcEndDate')?.updateValueAndValidity()
-    this.form.get('driverLicenseNumber')?.updateValueAndValidity()
-    this.form.get('driverLicenseType')?.updateValueAndValidity()
-    this.form.get('dlStartDate')?.updateValueAndValidity()
-    this.form.get('dlEndDate')?.updateValueAndValidity()
-    this.form.get('dlImage')?.updateValueAndValidity()
 
     if(this.form.invalid){
       this.isModalInforEmployee == false
