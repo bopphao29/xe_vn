@@ -75,6 +75,7 @@ export class ListProfileEmployeeComponent implements OnInit {
       branchId: '',
       departmentId: '',
       positionId: '',
+      status: ''
 
     })
     // this.listData
@@ -105,9 +106,6 @@ export class ListProfileEmployeeComponent implements OnInit {
       this.form.get('txtSearch')?.setValue(saveSearch.txtSearch)
       this.form.get('txtSearch')?.setValue(saveSearch.txtSearch)
 
-
-    
-    
   }
 
   listBranch: any[] = []
@@ -115,6 +113,11 @@ export class ListProfileEmployeeComponent implements OnInit {
   listOffice: any[] = []
   listDepartment: any[] = []
   isModalOnLeaveEmployee = false
+
+  listStatus = [
+    {id : 1, value: "Đang làm việc"},
+    {id : 2, value: "Nghỉ phép"}
+  ]
 
 
   getBranch() {
@@ -210,7 +213,7 @@ export class ListProfileEmployeeComponent implements OnInit {
   ///////////////////////////show dữ liệu không có/////////////////////
   showEmpolyeeNoData(){
     const numberData = 12
-    const data = {id: null, name: null, yearOfBirth: null, phoneNumber: null, officeName: null, branchName: null, departmentName: null, positionName: null}
+    const data = {id: null, name: null, yearOfBirth: null, phoneNumber: null, officeName: null, branchName: null, departmentName: null, positionName: null, workingStatus: null}
     
     const dataRrows = this.dataEmployee.slice();
     const currentData = dataRrows.length
@@ -252,6 +255,7 @@ export class ListProfileEmployeeComponent implements OnInit {
       size: 12,
       ...this.form.value
     }
+    console.log(dataForm)
     this.searchEmployeeProfile.search = this.form.value
 
     const saveSearch = this.searchEmployeeProfile.search;

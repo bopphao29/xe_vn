@@ -104,16 +104,21 @@
     background-color: #F4F7FB;
   }
 
+  .button_action{
+    // display: flex;
+    padding: 4px 8px 4px 8px;
+    flex:  1 1;
+    justify-content: center;
+    align-items: center;
+  }
+
+
   .button_show_detail{
     border: 1px solid #274ea1; 
     padding: 4px 10px 4px 10px; 
     border-radius: 21px; 
-    height: 24px !important; 
-    line-height: 24px ; 
-    justify-content: center;
-    justify-items: center;
-    align-items: center;
     color: #274EA1;
+    white-space: nowrap;
   }
   
   ::ng-deep .custom-pagination .ant-pagination {

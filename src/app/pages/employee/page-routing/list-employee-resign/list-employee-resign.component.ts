@@ -70,17 +70,20 @@ export class ListEmployeeResignComponent {
 
     })
     // this.listData
-    const formData = {
-      type : 4,
-      page: this.pageIndex,
-      size: 12,
-      ...this.form.value}
-    console.log(this.pageSize)
-    this.getListEmployee(this.pageIndex, this.pageSize, formData)
+    // const formData = {
+    //   type : 4,
+    //   page: this.pageIndex,
+    //   size: 12,
+    //   ...this.form.value}
+    // console.log(this.pageSize)
+    // this.getListEmployee(this.pageIndex, this.pageSize, formData)
+
     this.getBranch()
     this.getDepartment()
     this.getOffice()
     this.getPossition()
+    this.search()
+
   }
 
   listBranch: any[] = []
@@ -133,13 +136,15 @@ export class ListEmployeeResignComponent {
   }
 
   pageIndex = 0
-  pageSize = 10
+  pageSize = 12
 
   pagedData : any[] = []
 
   onPageChange(page: number): void {
     this.pageIndex = page;
-    this.getListEmployee(this.pageIndex, this.pageSize,this.form.value);
+    // this.getListEmployee(this.pageIndex, this.pageSize,this.form.value);
+    this.search()
+
   }
 
   

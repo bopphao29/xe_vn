@@ -11,32 +11,6 @@
                         <input nz-input class="form-input" formControlName="txtSearch" placeholder="ID, Tên nhân sự, SĐT..." class="form-input" />
                     </div>
                 </div>
-                <!-- <div nz-col nzSpan="3" style="margin-right: 8px;">
-                <nz-form-item class="form-control">
-                    <nz-form-label class="form-label">ID nhân sự</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input class="form-input" formControlName="code" placeholder="Nhập" class="form-input" />
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-
-            <div nz-col nzSpan="3" class="mx-2">
-                <nz-form-item class="form-control">
-                    <nz-form-label class="form-label">Tên nhân sự</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input class="form-input" formControlName="name" placeholder="Nhập" />
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-
-            <div nz-col nzSpan="3" class="mx-2">
-                <nz-form-item class="form-control">
-                    <nz-form-label class="form-label">SĐT</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input class="form-input" formControlName="phoneNumber" placeholder="Nhập" />
-                    </nz-form-control>
-                </nz-form-item>
-            </div> -->
 
                 <div nz-col nzSpan="3" class="mx-2">
                     <div class="">
@@ -97,10 +71,10 @@
                     <div class="">
                         <label class="form-label">Trạng thái</label>
                         <div>
-                            <nz-select nzPlaceHolder="Tất cả" formControlName="positionId" style="width: 100%;">
+                            <nz-select nzPlaceHolder="Tất cả" formControlName="status" style="width: 100%;">
                                 <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
-                                <nz-option *ngFor="let position of listPosstion, let i =index" [nzValue]="position.id"
-                                    [nzLabel]="position.name"></nz-option>
+                                <nz-option *ngFor="let status of listStatus, let i =index" [nzValue]="status.id"
+                                    [nzLabel]="status.value"></nz-option>
 
                             </nz-select>
                         </div>
@@ -145,6 +119,7 @@
                         <th class="list-col-2">Chi nhánh</th>
                         <th class="list-col-2">Bộ phận</th>
                         <th class="list-col-2">Chức vụ</th>
+                        <th class="list-col-2">Trạng thái</th>
                         <th class="list-col-2">Tác vụ</th>
 
                     </tr>
@@ -157,8 +132,10 @@
                         <td class="list-col-2">{{data.branchName || '-'}}</td>
                         <td class="list-col-2">{{data.departmentName || '-'}}</td>
                         <td class="list-col-2">{{data.positionName || '-'}}</td>
-                        <td class="">
-                            <div style="display: flex; gap: 5px">
+                        <td class="list-col-2">{{data.workingStatus || '-'}}</td>
+
+                        <td class="button_action" style="text-align: center;">
+                            <div>
                                 <a *ngIf="data.id" class="mx-1 button_show_detail" (click)="routerDetailEmployee(data.id)">
                                     Xem chi tiết
                                 </a>

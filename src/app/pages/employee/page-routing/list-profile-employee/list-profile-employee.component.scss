@@ -81,14 +81,15 @@
 
 .custom-table-list {
     width: 100%;
-    border-collapse: collapse;
+    // border-collapse: collapse;
     
   }
 
   .custom-table-list tbody th, .custom-table-list tbody td {
     border: 1px solid #d9d9d9;
     // padding: 8px;
-    height: 36px !important;    
+    height: 36px;
+    min-height: 36px !important;    
   }
 
   .custom-table-list .list-col-1 {
@@ -119,12 +120,8 @@
     border: 1px solid #274ea1; 
     padding: 4px 10px 4px 10px; 
     border-radius: 21px; 
-    height: 24px !important; 
-    line-height: 24px ; 
-    justify-content: center;
-    justify-items: center;
-    align-items: center;
     color: #274EA1;
+    white-space: nowrap;
   }
   
   ::ng-deep .custom-pagination .ant-pagination {
@@ -206,4 +203,12 @@
       -moz-border-radius: 8px;
       -ms-border-radius: 8px;
       -o-border-radius: 8px;
+}
+
+.button_action{
+  // display: flex;
+  padding: 4px 8px 4px 8px;
+  flex:  1 1;
+  justify-content: center;
+  align-items: center;
 }

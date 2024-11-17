@@ -18,6 +18,7 @@ import { Observable, Observer } from 'rxjs';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { UserServiceService } from '../../../shared/services/user-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 
 interface FileCompressed {
   contractFile: File[];
@@ -45,7 +46,7 @@ interface FileCompressed {
     NzDatePickerModule,
     NzTabsModule,
     NzUploadModule,
-
+    NzPaginationModule,
 
   ],
   templateUrl: './detail-profile-employee.component.html',
@@ -169,7 +170,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
       professionalLevel: [null, Validators.required],
       maritalStatus: [null, Validators.required],
       contactPerson: [null, Validators.required],
-      contractFile: [null, Validators.required],
+      contractFile: [null],
       contactPersonPhone: [null, [Validators.required, Validators.pattern('^[0]+[1-9]{9}$')]],
       // contractDuration: [null, Validators.required],
       staffRelation: [null, Validators.required],
@@ -222,7 +223,8 @@ export class DetailProfileEmployeeComponent implements OnInit {
     
     this.getAchievement()
     this.getPunishments()
-
+    this.getPraises()
+    this.updateDaysInMonth()
     this.form.disable();
 
     this.formEndWork = this.fb.group({
@@ -230,6 +232,15 @@ export class DetailProfileEmployeeComponent implements OnInit {
     })
     const lstChildrenArray = this.form.get('lstChildren') as FormArray;
     lstChildrenArray.controls.forEach(control => control.disable());
+
+    this.form.get('contractType')?.valueChanges.subscribe((value: any) => {
+      if(value === '1' || value === 1){
+        this.contract_type = 1
+      }else{
+        this.contract_type = 2
+      }
+      
+    })
   }
 
   isFixEmployeeButton : boolean = false
@@ -245,6 +256,15 @@ export class DetailProfileEmployeeComponent implements OnInit {
   lstPunishments : any[] = []
   showInforEmployee: { [key: string]: any } =  {}
 
+  listGender = [
+    {id: 1, value: "Nam"},
+    {id: 2, value: "Nữ"}
+  ]
+
+  listMarialStatus = [
+    {id: 1, value: "Chưa kết hôn"},
+    {id: 2, value: "Đã kết hôn"}
+  ]
 
   getUser(id: any) {
     this.userSevice.getDetailEmployee(id).subscribe((response: any) => {
@@ -284,6 +304,10 @@ export class DetailProfileEmployeeComponent implements OnInit {
         //   }
         // })
       })}
+
+
+      
+     
 
       // Object.keys(response.data).forEach(key => {
       //   console.log(`${key}:`, response.data[key]);
@@ -493,16 +517,32 @@ export class DetailProfileEmployeeComponent implements OnInit {
 
   //////////////////////////////////////////////////phân trang thành tích////////////////////////////////////////
 
-  page : number = 0
+  pageAch : number = 1
+  pagePu: number = 1
+  pagePr: number = 1
+
   size: number = 5
 
   isYear : any[ ] = []
+  isPusnish : any[] = []
+  isPrai : any[] = []
+
+
+  totalAchi = 0
+  totalPush = 0
+  totalPrai = 0
+
+
   getAchievement(){
     
     this.route.params.subscribe((params : any)=>{
       const id = params['id']
-      this.userSevice.getachievementsInDetailsEmployee(this.page, this.size, id).subscribe((response: any)=>{
-        this.isYear = response.data.content
+      this.userSevice.getachievementsInDetailsEmployee(this.pageAch - 1, this.size, id).subscribe((response: any)=>{
+        this.isYear = response.data.content.map((item : any) => ({item}));
+        //  this.isYear = year.item
+        this.totalAchi = response.data.totalElements
+        console.log(this.isYear)
+         
       })
     })
   }
@@ -511,18 +551,51 @@ export class DetailProfileEmployeeComponent implements OnInit {
     
     this.route.params.subscribe((params : any)=>{
       const id = params['id']
-      this.userSevice.getpunishmentsInDetailsEmployee(this.page, this.size, id).subscribe((response: any)=>{
-        this.isYear = response.data.content
+      this.userSevice.getpunishmentsInDetailsEmployee(this.pagePu - 1, this.size, id).subscribe((response: any)=>{
+        this.isPusnish = response.data.content
+        this.totalPush = response.data.totalElements
+        console.log(response.data)
       })
     })
   }
 
-  
+  isPraises : any[] = []
+  getPraises(){
+    
+    this.route.params.subscribe((params : any)=>{
+      const id = params['id']
+      this.userSevice.getpraisesInDetailsEmployee(this.pagePr -1, this.size, id).subscribe((response: any)=>{
+        this.isPraises = response.data.content
+        this.totalPrai = response.data.totalElements
+        console.log(response.data)
+
+      })
+    })
+  }
+
+  onPageChangeAchie(page: number): void {
+    this.pageAch = page;
+    
+    this.getAchievement();
+  }
+
+  onPageChangePunishments(page: number): void {
+    this.pagePu = page;
+    
+    this.getPunishments();
+  }
+  onPageChangePraises(page: number): void {
+    this.pagePr = page;
+    
+    this.getPraises();
+  }
+
   showEmpolyeeNoDataofLstAchievements(){
     const numberData = 5
     // const data = {data: null}
  
-    const dataRows = this.isYear.slice()
+    const dataRows = this.isYear.slice();
+    // console.log(dataRows)
     const currentData = dataRows.length
     if(currentData < numberData){
       const databefore = numberData - currentData
@@ -554,7 +627,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
     const numberData = 5
     const data = {praiseDate: null, description: null}
  
-    const dataRows = this.lstPraises.slice()
+    const dataRows = this.isPraises.slice()
     const currentData = dataRows.length
     if(currentData < numberData){
       const databefore = numberData - currentData
@@ -570,7 +643,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
     const numberData = 5
     const data = {violationDate: null, content: null}
  
-    const dataRows = this.lstPunishments.slice()
+    const dataRows = this.isPusnish.slice()
     const currentData = dataRows.length
     if(currentData < numberData){
       const databefore = numberData - currentData
@@ -580,6 +653,23 @@ export class DetailProfileEmployeeComponent implements OnInit {
     }
 
     return dataRows
+  }
+
+  getDayMonthYear(month: number, year: number){
+    return new Date(year, month, 0).getDate();
+  }
+
+  daysInMonth: number[] = [];// mảng ngày
+  updateDaysInMonth(): void {
+    const monthValue: number = new Date().getMonth() + 1;
+    const totalDays = this.getDayMonthYear(monthValue, this.newYear);
+    this.daysInMonth = Array.from({ length: totalDays }, (_, i) => i + 1); // Tạo danh sách ngày [1, 2, ..., totalDays]
+  }
+
+  newYear : number  = 0
+  openModalAchievements(year: number): void {
+    this.newYear = year; // Gán năm được chọn
+    this.isModalAchievements = true; // Mở modal
   }
 
   getDriverLicense(){
@@ -622,7 +712,9 @@ export class DetailProfileEmployeeComponent implements OnInit {
       console.log(this.listDepartment)
     })}
 
-    // this.checkDriver()
+    this.form.get('departmentId')?.valueChanges.subscribe((value: any) => {
+      this.checkDriver()
+    })
   }
 
   getRoute() {
@@ -735,27 +827,27 @@ export class DetailProfileEmployeeComponent implements OnInit {
   hasDriver : boolean = false
   deparmentCode = '' 
   listDepartment2 : any[]=[]
-  // checkDriver() {
-  //   console.log(this.office_id)
-  //   if(this.office_id != null ){
-  //     this.form.get('departmentId')?.valueChanges.subscribe((value: any) => {
-  //       console.log(value)
-  //       this.userSevice.getDepartment(this.office_id).subscribe((response: any)=> {
-  //       const isDriver = response.data.find((item: any) => item.id === parseInt(value))
-  //       console.log(isDriver)
-  //       var codeDriver: any = isDriver.name
-  //       this.deparmentCode = codeDriver
-  //       console.log(this.deparmentCode)
-  //       if (isDriver && codeDriver == 'DRIVER' && codeDriver != null) {
-  //         this.hasDriver = true
-  //       }
-  //       else{
-  //         this.hasDriver = false
-  //       }
-  //       })
-  //     })
-  //   }
-  // }
+  checkDriver() {
+    console.log(this.office_id)
+    if(this.office_id != null ){
+      this.form.get('departmentId')?.valueChanges.subscribe((value: any) => {
+        console.log(value)
+        this.userSevice.getDepartment(this.office_id).subscribe((response: any)=> {
+        const isDriver = response.data.find((item: any) => item.id === parseInt(value))
+        console.log(isDriver)
+        var codeDriver: any = isDriver.code
+        this.deparmentCode = codeDriver
+        console.log(this.deparmentCode)
+        if (isDriver && codeDriver == 'DRIVER') {
+          this.hasDriver = true
+        }
+        else{
+          this.hasDriver = false
+        }
+        })
+      })
+    }
+  }
 
 
   hasChildren: number = -10
@@ -1043,6 +1135,129 @@ export class DetailProfileEmployeeComponent implements OnInit {
 
   ///////////////////////////////////////////////////////save data////////////////////////////////////////////
   saveDataEmployee() {
+    this.inforEmployee = this.form.value
+    this.form.get('name')?.markAsTouched()
+    this.form.get('yearOfBirth')?.markAsTouched()
+    this.form.get('gender')?.markAsTouched()
+    this.form.get('identifierId')?.markAsTouched()
+    this.form.get('phoneNumber')?.markAsTouched()
+    this.form.get('zalo')?.markAsTouched()
+    this.form.get('email')?.markAsTouched()
+    this.form.get('ethnicGroup')?.markAsTouched()
+    this.form.get('religion')?.markAsTouched()
+    this.form.get('professionalLevel')?.markAsTouched()
+    this.form.get('maritalStatus')?.markAsTouched()
+    this.form.get('contactPerson')?.markAsTouched()
+    this.form.get('contractFile')?.markAsTouched()
+    this.form.get('contactPersonPhone')?.markAsTouched()
+    this.form.get('staffRelation')?.markAsTouched()
+    this.form.get('permanentAddress')?.markAsTouched()
+    this.form.get('temporaryAddress')?.markAsTouched()
+    this.form.get('contractType')?.markAsTouched()
+
+    console.log(this.form.get('contractType')?.value)
+    if(this.form.get('contractType')?.value == '2'){
+      this.form.get('fromDateProbation')?.markAsTouched()
+        this.form.get('toDate')?.markAsTouched()
+        this.form.get('fromDateOfOffical')?.clearValidators();
+    }
+    
+    if(this.form.get('contractType')?.value == '1'){
+      this.form.get('fromDateOfOffical')?.markAsTouched()
+      this.form.get('fromDateProbation')?.clearValidators();
+      this.form.get('toDate')?.clearValidators();
+
+    }
+
+    this.form.get('contractType')?.valueChanges.subscribe((value) => {
+      console.log(value)
+      if (value === '1') {
+        this.form.get('fromDateProbation')?.clearValidators();
+        this.form.get('toDate')?.clearValidators();
+        this.form.get('fromDateOfOffical')?.setValidators(Validators.required);
+      } else if (value === '2') {
+        this.form.get('fromDateProbation')?.setValidators(Validators.required);
+        this.form.get('toDate')?.setValidators(Validators.required);
+        this.form.get('fromDateOfOffical')?.clearValidators();
+      }
+      this.form.get('fromDateProbation')?.updateValueAndValidity();
+      this.form.get('toDate')?.updateValueAndValidity();
+      this.form.get('fromDateOfOffical')?.updateValueAndValidity();
+    });
+      
+    this.form.get('branchId')?.markAsTouched()
+    this.form.get('departmentId')?.markAsTouched()
+    this.form.get('officeId')?.markAsTouched()
+    this.form.get('positionId')?.markAsTouched()
+    //////////////////DRIVER//////////////////////////////
+    //if have driver when u choose deparment
+    if (this.hasDriver == true) {
+      this.form.get('routeId')?.markAsTouched()
+      this.form.get('businessCardNumber')?.markAsTouched()
+      this.form.get('bcEndDate')?.markAsTouched()
+      this.form.get('bcStartDate')?.markAsTouched()
+      this.form.get('bcImage')?.markAsTouched()
+      this.form.get('healthCertificate')?.markAsTouched()
+      this.form.get('driverLicenseNumber')?.markAsTouched()
+      this.form.get('driverLicenseType')?.markAsTouched()
+      this.form.get('dlStartDate')?.markAsTouched()
+      this.form.get('dlEndDate')?.markAsTouched()
+      this.form.get('dlImage')?.markAsTouched()
+      this.form.get('hcEndDate')?.markAsTouched()
+    } else{
+      this.form.get('routeId')?.clearValidators();
+      this.form.get('businessCardNumber')?.clearValidators();
+      this.form.get('bcStartDate')?.clearValidators();
+      this.form.get('bcEndDate')?.clearValidators();
+      this.form.get('bcImage')?.clearValidators();
+      this.form.get('healthCertificate')?.clearValidators();
+      this.form.get('hcEndDate')?.clearValidators();
+      this.form.get('driverLicenseNumber')?.clearValidators();
+      this.form.get('driverLicenseType')?.clearValidators();
+      this.form.get('dlStartDate')?.clearValidators();
+      this.form.get('dlEndDate')?.clearValidators();
+      this.form.get('dlImage')?.clearValidators();
+    }
+    this.form.get('hasChild')?.markAsTouched()
+    // if(this.lstArchivedRecords.value){
+    //   this.lstArchivedRecords.controls.forEach((value: any) => {
+    //     value.get('name')?.markAsTouched();
+    //     value.get('code')?.markAsTouched();
+    //     value.get('type')?.markAsTouched();
+    //     value.get('file')?.markAsTouched();
+    //   })
+    // }
+    if(this.has_child && this.has_child  == '1' ){
+      this.lstChildren.controls.forEach((value: any) => {
+        value.get('name')?.markAsTouched();
+        value.get('gender')?.markAsTouched();
+        value.get('yearOfBirth')?.markAsTouched();
+      })
+    }
+    if(this.lstcontractDTO.value){
+      this.lstcontractDTO.controls.forEach((value: any) => {
+        value.get('signDate')?.markAsTouched();
+        value.get('type')?.markAsTouched();
+        value.get('file')?.markAsTouched();
+      })
+    }
+
+    this.form.get('routeId')?.updateValueAndValidity()
+    this.form.get('businessCardNumber')?.updateValueAndValidity()
+    this.form.get('bcStartDate')?.updateValueAndValidity()
+    this.form.get('bcEndDate')?.updateValueAndValidity()
+    this.form.get('bcImage')?.updateValueAndValidity()
+    this.form.get('healthCertificate')?.updateValueAndValidity()
+    this.form.get('hcEndDate')?.updateValueAndValidity()
+    this.form.get('driverLicenseNumber')?.updateValueAndValidity()
+    this.form.get('driverLicenseType')?.updateValueAndValidity()
+    this.form.get('dlStartDate')?.updateValueAndValidity()
+    this.form.get('dlEndDate')?.updateValueAndValidity()
+    this.form.get('dlImage')?.updateValueAndValidity()
+    this.form.get('fromDateProbation')?.updateValueAndValidity()
+    this.form.get('fromDateOfOffical')?.updateValueAndValidity()
+    this.form.get('toDate')?.updateValueAndValidity()
+    
     this.route.params.subscribe((params: any)=> {
       this.idEmployee= params['id']
     })
@@ -1104,13 +1319,6 @@ export class DetailProfileEmployeeComponent implements OnInit {
       formData.append('healthCertificate', this.fileCompressed.healthCertificate[0]);
     }
 
-    // Append dữ liệu của lstArchivedRecords
-  // this.lstcontractDTO.controls.forEach((control, index) => {
-  //   const file = control.get('file')?.value;
-  //   if (file) {
-  //     formData.append(`contract`, file);
-  //   }
-  // });
     var contract_file: any = this.fileCompressed.contractFile
     console.log(this.fileCompressed.contractFile)
     
@@ -1137,18 +1345,106 @@ export class DetailProfileEmployeeComponent implements OnInit {
 
     // console.log(formData)
 
-    this.userSevice.updateEmployee(formData).subscribe({
-      next: (response) => {
-        this.notification.success('Chỉnh sửa hồ sơ nhân viên thành công!')
-        this.isFixEmployeeButton = false  
-        this.form.disable()
+    console.log(this.form.get('departmentId')?.value)
+    const findDepartment = this.listDepartment.find((item: any) => {
+      return item.id === Number(this.form.get('departmentId')?.value) && item.name === 'Lái xe' && item.code === 'DRIVER'
+    console.log(item)
+    }
+      
+  )
+  
+    if(findDepartment){
+      this.form.get('routeId')?.markAsTouched()
+      this.form.get('businessCardNumber')?.markAsTouched()
+      this.form.get('bcEndDate')?.markAsTouched()
+      this.form.get('bcStartDate')?.markAsTouched()
+      this.form.get('bcImage')?.markAsTouched()
+      this.form.get('healthCertificate')?.markAsTouched()
+      this.form.get('driverLicenseNumber')?.markAsTouched()
+      this.form.get('driverLicenseType')?.markAsTouched()
+      this.form.get('dlStartDate')?.markAsTouched()
+      this.form.get('dlEndDate')?.markAsTouched()
+      this.form.get('dlImage')?.markAsTouched()
+      this.form.get('hcEndDate')?.markAsTouched()
+    }else{
+      this.form.get('routeId')?.clearValidators();
+      this.form.get('businessCardNumber')?.clearValidators();
+      this.form.get('bcStartDate')?.clearValidators();
+      this.form.get('bcEndDate')?.clearValidators();
+      this.form.get('bcImage')?.clearValidators();
+      this.form.get('healthCertificate')?.clearValidators();
+      this.form.get('hcEndDate')?.clearValidators();
+      this.form.get('driverLicenseNumber')?.clearValidators();
+      this.form.get('driverLicenseType')?.clearValidators();
+      this.form.get('dlStartDate')?.clearValidators();
+      this.form.get('dlEndDate')?.clearValidators();
+      this.form.get('dlImage')?.clearValidators();
+    }
 
-        // this.form.reset()
-        // this.getUser(this.idEmployee)
-      },
-      error: (error) => {
+
+     this.form.get('routeId')?.updateValueAndValidity()
+    this.form.get('businessCardNumber')?.updateValueAndValidity()
+    this.form.get('bcStartDate')?.updateValueAndValidity()
+    this.form.get('bcEndDate')?.updateValueAndValidity()
+    this.form.get('bcImage')?.updateValueAndValidity()
+    this.form.get('healthCertificate')?.updateValueAndValidity()
+    this.form.get('hcEndDate')?.updateValueAndValidity()
+    this.form.get('driverLicenseNumber')?.updateValueAndValidity()
+    this.form.get('driverLicenseType')?.updateValueAndValidity()
+    this.form.get('dlStartDate')?.updateValueAndValidity()
+    this.form.get('dlEndDate')?.updateValueAndValidity()
+    this.form.get('dlImage')?.updateValueAndValidity()
+    this.form.get('fromDateProbation')?.updateValueAndValidity()
+    this.form.get('fromDateOfOffical')?.updateValueAndValidity()
+    this.form.get('toDate')?.updateValueAndValidity()
+    Object.keys(this.form.controls).forEach((field: any) => {
+      const control = this.form.get(field)
+
+      if (control && control.invalid) {
+        console.log("lỗi ở: " + field)
+
+        const errors = control.errors;
+        if (errors) {
+          Object.keys(errors).forEach((errkey: any) => {
+            switch (errkey) {
+              case 'required':
+                console.log(field + "phai dien")
+                break;
+              case 'minlength':
+                console.log(field + "bi be hon gi day")
+                break;
+              case 'pattern':
+                console.log(field + 'dinh dang sai')
+                break;
+              case 'email':
+                console.log(field + 'mail sai')
+                break;
+              default:
+                console.log('loi khac o : ' + field, errors[errkey])
+                break;
+            }
+          })
+        }
       }
     })
+
+    if(this.form.valid){
+      this.userSevice.updateEmployee(formData).subscribe({
+        next: (response) => {
+          this.notification.success('Chỉnh sửa hồ sơ nhân viên thành công!')
+          this.isFixEmployeeButton = false  
+          this.form.disable()
+  
+          // this.form.reset()
+          // this.getUser(this.idEmployee)
+        },
+        error: (error) => {
+        }
+      })
+    }else{
+      this.notification.error('Có lỗi xảy ra')
+
+    }
   }
 
   updateWorkStatus(){
@@ -1210,7 +1506,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
 
   listArchiOfStaffNew : [string, number][] = []
 
-
+  resultStatus =''
   getAchievementsStaffDetails(id: any){
     const month = this.monthValue || (new Date().getMonth() + 1).toString()
     this.userSevice.getAchievementsStaffDetails(id, month, this.yearNow).subscribe((response : any)=>{
@@ -1218,6 +1514,12 @@ export class DetailProfileEmployeeComponent implements OnInit {
         this.listArchiOfStaff = Object.entries(response.data.achievements)
         this.listArchiOfStaffNew = [...this.listArchiOfStaff]
 
+        const daysWithTicks = this.listArchiOfStaff.filter((day: any) => day[1] === 1).length;
+    const totalDays = this.listArchiOfStaff.length;
+
+    // Tính toán kết quả đạt hay không
+    const percentage = (daysWithTicks / totalDays) * 100;
+    this.resultStatus = percentage >= 80 ? 'Đạt' : 'Không đạt';
     })
   }
 
@@ -1229,7 +1531,11 @@ export class DetailProfileEmployeeComponent implements OnInit {
       this.listArchiOfStaff[dayIndex][1] = this.listArchiOfStaffNew[dayIndex][1] === 0 ? 1 : 0
       this.listArchiOfStaff[key] = this.listArchiOfStaffNew[dayIndex][1] 
 
-      const id = 0
+      const daysWithTicks = this.listArchiOfStaff.filter((day : any) => day[1] === 1).length;
+      const totalDays = this.listArchiOfStaff.length;
+      const percentage = (daysWithTicks / totalDays) * 100;
+      this.resultStatus = percentage >= 80 ? 'Đạt' : 'Không đạt';
+
       this.route.params.subscribe((params : any)=>{
         const day  = dayIndex + 1;
       const month = this.monthValue
@@ -1241,6 +1547,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
         staffId : params['id'],
         isPassed : this.listArchiOfStaff[key]
       }
+
       this.userSevice.changeDataOfTableachievements(data).subscribe({
         next: (response) => {
           this.notification.success('Cập nhật thành công!')

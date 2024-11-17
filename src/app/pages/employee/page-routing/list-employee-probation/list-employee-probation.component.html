@@ -110,18 +110,21 @@
 
                 </tr>
                 <tr *ngFor="let data of showEmpolyeeNoData()">
-                    <td class="list-col-1">{{data.id}}</td>
+                    <td class="list-col-1">{{data.code || '-'}}</td>
                     <td class="list-col-2" style="text-align: left !important; padding-left: 10px;">{{data.name}}</td>
-                    <td class="list-col-1">{{data.yearOfBirth}}</td>
-                    <td class="list-col-2">{{data.phoneNumber}}</td>
-                    <td class="list-col-2">{{data.officeName}}</td>
-                    <td class="list-col-2">{{data.branchName}}</td>
-                    <td class="list-col-2">{{data.departmentName}}</td>
-                    <td class="list-col-2">{{data.positionName}}</td>
+                    <td class="list-col-1">{{data.yearOfBirth || '-'}}</td>
+                    <td class="list-col-2">{{data.phoneNumber || '-'}}</td>
+                    <td class="list-col-2">{{data.officeName || '-'}}</td>
+                    <td class="list-col-2">{{data.branchName || '-'}}</td>
+                    <td class="list-col-2">{{data.departmentName || '-'}}</td>
+                    <td class="list-col-2">{{data.positionName || '-'}}</td>
                     <td class="list-col-2">
-                        <a class="button_show_detail" (click)="routerDetailEmployee(data.id)">
+                        <a *ngIf="data.id" class="button_show_detail" (click)="routerDetailEmployee(data.id)">
                             Xem chi tiết
                         </a>
+                        <span *ngIf="!data.id">
+                            -
+                        </span> 
                     </td>
                 </tr>
 
@@ -132,7 +135,7 @@
 </div>
 
 
-<div style="display: flex; justify-content: center; margin-top: 16px;">
+<div style="display: flex; justify-content: center;">
     <nz-pagination
   [(nzPageIndex)]="pageIndex"
   [nzTotal]="total"

@@ -96,7 +96,7 @@
             <tbody>
                 <tr style="background-color: #fcfcfc;">
                     <th class="list-col-1">ID</th>
-                    <th class="list-col-3">Tên nhân viên</th>
+                    <th class="list-col-3" style="text-align: left !important; padding-left: 8px;">Tên nhân viên</th>
                     <th class="list-col-1">Năm sinh</th>
                     <th class="list-col-2">SĐT</th>
                     <th class="list-col-2">Trực thuộc quản lý</th>
@@ -108,7 +108,7 @@
                 </tr>
                 <tr *ngFor="let data of showEmpolyeeNoData()">
                     <td class="list-col-1">{{data.id || '-'}}</td>
-                    <td class="list-col-3">{{data.name || '-'}}</td>
+                    <td class="list-col-3"  style="text-align: left !important;  padding-left: 8px;">{{data.name || '-'}}</td>
                     <td class="list-col-1">{{data.yearOfBirth || '-'}}</td>
                     <td class="list-col-2">{{data.phoneNumber || '-'}}</td>
                     <td class="list-col-2">{{data.officeName || '-'}}</td>
@@ -125,7 +125,7 @@
 </div>
 
 
-<div style="display: flex; justify-content: center; margin-top: 16px;">
+<div style="display: flex; justify-content: center;">
     <nz-pagination
   [(nzPageIndex)]="pageIndex"
   [nzTotal]="total"

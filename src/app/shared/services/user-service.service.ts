@@ -71,7 +71,7 @@ export class UserServiceService {
   
   updateStatusWork(data: any){
     // return this.httpClient.post('http://103.92.25.158:8998/api/staff/update-working-status' , data)
-    return this.httpClient.post('http://192.168.0.3:8998/api/staff/update-working-status' , data)
+    return this.httpClient.post('http://103.92.25.158:8998/api/staff/update-working-status' , data)
     
   }
 
@@ -101,5 +101,11 @@ export class UserServiceService {
   getpunishmentsInDetailsEmployee(page: any, size: any, staffId: any){
     const params = 'page=' +page+'&size='+ size+'&staffId=' + staffId
     return this.httpClient.get(this.url + 'api/punishments?'+ params)
+  }
+
+  // khen thưởng
+  getpraisesInDetailsEmployee(page: any, size: any, staffId: any){
+    const params = 'page=' +page+'&size='+ size+'&staffId=' + staffId
+    return this.httpClient.get(this.url + 'api/praises?'+ params)
   }
 }
