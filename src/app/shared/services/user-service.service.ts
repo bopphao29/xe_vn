@@ -108,4 +108,8 @@ export class UserServiceService {
     const params = 'page=' +page+'&size='+ size+'&staffId=' + staffId
     return this.httpClient.get(this.url + 'api/praises?'+ params)
   }
+
+  exportPDF(id : any){
+    return this.httpClient.get(this.url + 'api/staff/print/'+ id)
+  }
 }

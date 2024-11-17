@@ -66,7 +66,7 @@ export class ListEmployeeResignComponent {
       branchId: '',
       departmentId: '',
       positionId: '',
-      leaveType: 1
+      leaveType: ''
 
     })
     // this.listData

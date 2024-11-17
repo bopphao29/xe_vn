@@ -215,7 +215,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
     this.getPossition()
     this.getRoute()
     this.getDriverLicense()
-
+    this.trackFormChanges();
     this.form.get('contractType')?.valueChanges.subscribe((value: any)=> {
       console.log(value)
       this.contract_type = value
@@ -317,10 +317,10 @@ export class SetupProfileEmployeeComponent implements OnInit {
 
   createArchivedRecords(record: { name: string | null; code: string | null; type: string | null; file: string | null }): FormGroup {
     return this.fb.group({
-      name: [''],
-      code: [''],
-      type: [''],
-      file: ['']
+      name: ['', Validators.required],
+      code: ['' , Validators.required],
+      type: ['', Validators.required],
+      file: ['', Validators.required]
     });
   }
 
@@ -446,7 +446,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
 
   handleCancelDone2(){
     this.isDone = false
-    this.form.reset
+    this.form.reset()
   }
 
   handleSubmit(): void {
@@ -650,6 +650,19 @@ export class SetupProfileEmployeeComponent implements OnInit {
     })
   }
 
+  cleanAchive(){
+    this.lstArchivedRecords.reset()
+  }
+
+  showButtonClean: boolean = false;
+  trackFormChanges(): void {
+    this.lstArchivedRecords.valueChanges.subscribe(() => {
+      this.showButtonClean = this.lstArchivedRecords.controls.some(
+        (control) => control.dirty || control.touched
+      );
+    });
+  }
+
   isoDate: string | null = null;
   /////////////////////////////////////////////////////////////////////////DATE/////////////////////////////////////////////////////////////
   // Hàm xử lý thay đổi ngày
@@ -840,26 +853,33 @@ export class SetupProfileEmployeeComponent implements OnInit {
     this.form.get('toDate')?.updateValueAndValidity()
     
 
+    if(this.lstArchivedRecords.controls.length >= 2){
+      this.lstArchivedRecords.controls.forEach((value: any) => {
+        value.get('name')?.markAsTouched();
+        value.get('code')?.markAsTouched();
+        value.get('type')?.markAsTouched();
+        value.get('file')?.markAsTouched();
+      })
+    }else{
+      this.lstArchivedRecords.controls.forEach((value: any) => {
+        value.get('name')?.clearValidators();
+        value.get('code')?.clearValidators();
+        value.get('type')?.clearValidators();
+        value.get('file')?.clearValidators();
+      })
+    }
+
+    this.lstArchivedRecords.controls.forEach((value: any) => {
+      value.get('name')?.updateValueAndValidity();
+      value.get('code')?.updateValueAndValidity();
+      value.get('type')?.updateValueAndValidity();
+      value.get('file')?.updateValueAndValidity();
+    })
+
+
+
     const dataForm = {
       ...this.form.value,
-      lstArchivedRecords: this.form.value.lstArchivedRecords && this.form.value.lstArchivedRecords.length > 0 ?  this.form.value.lstArchivedRecords.map((record: any) => ({// trong form Array
-        name: record.name,
-        code: record.code,
-        type: record.type,
-        file: record.file.name,
-      })): null,
-      contract: this.form.value.contract.map((contract : any)=>({
-        id: contract.id,
-        signDate: contract.signDate,
-        type: contract.type,
-        file: contract.file.name
-      })),
-      lstChildren: this.form.value.lstChildren && this.form.value.lstChildren.length > 0 ?  this.form.value.lstChildren.map((child: any) => ({
-        name: child.name,
-        yearOfBirth: child.yearOfBirth,
-        gender: child.gender,
-      })): null,
-
     };
     delete dataForm.contractFile
     delete dataForm.healthCertificate
@@ -986,7 +1006,10 @@ export class SetupProfileEmployeeComponent implements OnInit {
 }
 
   isDone : boolean = false
-
+//////////////////////////////////////////////////////////EXPORT PDF///////////////////////////////////////////////////////////////////
+exportPDF(){
+  // this.userSevice.exportPDF()
+}
 
 
   //////////////////////////////////////////////////////Button save data when enough infor save///////////////////////////////////////

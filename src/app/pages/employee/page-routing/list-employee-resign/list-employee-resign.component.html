@@ -10,6 +10,7 @@
                     <label class="form-label">Hình thức nghỉ</label>
                     <div>
                         <nz-select nzPlaceHolder="Chọn" formControlName="leaveType" style="width: 100%;">
+                            <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
                             <nz-option *ngFor="let data of formOfLeave, let i =index" [nzValue]="data.id"
                                 [nzLabel]="data.value"></nz-option>
 
