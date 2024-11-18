@@ -474,16 +474,19 @@ export class SetupProfileEmployeeComponent implements OnInit {
       const isDriver = this.listDepartment.find(item => item.id === Number(this.idDriver))
       console.log(isDriver)
       
-        var codeDriver: any = isDriver.code
-        this.deparmentCode = codeDriver
-        console.log(this.deparmentCode)
-        if (isDriver && codeDriver == 'DRIVER' && codeDriver != null) {
-          this.hasDriver = true
+        if(isDriver){
+          var codeDriver: any = isDriver.code
+          
+          this.deparmentCode = codeDriver
+          console.log(this.deparmentCode)
+          if (isDriver && codeDriver == 'DRIVER' && codeDriver != null) {
+            this.hasDriver = true
+          }
+          else{
+            this.hasDriver = false
         }
-        else{
-          this.hasDriver = false
-      }
       
+        }
     })
   }
 
@@ -586,13 +589,13 @@ export class SetupProfileEmployeeComponent implements OnInit {
     if (target.files && target.files.length > 0) {
       const file = target.files[0];
 
-      if (field === 'bcImage') {
+      if (field == 'bcImage') {
         this.isBcImageVisible = true;
         this.isDlImageVisible = false;
         this.bcImageName = file.name
         this.bcImgFile = [file]
         this.form.patchValue({ bcImage: [file] })
-      } else if (field === 'dlImage') {
+      } else if (field == 'dlImage') {
         this.isBcImageVisible = false;
         this.isDlImageVisible = true;
         this.dlImageName = file.name
@@ -602,6 +605,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
     }
   }
 
+  
   //function upload lstArchivedRecords file
   onFileChangeAchi(event: any, fieldName: any, index: number): void {
     this.onFileSelected(event).subscribe({//
@@ -652,6 +656,13 @@ export class SetupProfileEmployeeComponent implements OnInit {
 
   cleanAchive(){
     this.lstArchivedRecords.reset()
+  }
+
+  endClick(){
+    this.form.reset({
+       contractType : '1',
+      hasChild: '0'
+    })
   }
 
   showButtonClean: boolean = false;

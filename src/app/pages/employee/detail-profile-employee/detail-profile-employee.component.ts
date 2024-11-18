@@ -621,7 +621,12 @@ export class DetailProfileEmployeeComponent implements OnInit {
     
     this.isFixEmployeeButton = false
     this.form.disable()
+    window.location.reload()
+  }
 
+  cancelEndWork(){
+    this.isModalInforEmployee = false
+    this.formEndWork.reset()
   }
 
   showEmpolyeeNoDataofLstPraises(){
@@ -836,7 +841,8 @@ export class DetailProfileEmployeeComponent implements OnInit {
         this.userSevice.getDepartment(this.office_id).subscribe((response: any)=> {
         const isDriver = response.data.find((item: any) => item.id === parseInt(value))
         console.log(isDriver)
-        var codeDriver: any = isDriver.code
+        if(isDriver){
+          var codeDriver: any = isDriver.code
         this.deparmentCode = codeDriver
         console.log(this.deparmentCode)
         if (isDriver && codeDriver == 'DRIVER') {
@@ -844,6 +850,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
         }
         else{
           this.hasDriver = false
+        }
         }
         })
       })
@@ -974,7 +981,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
         this.bcImageName = file.name
         this.bcImgFile = [file]
         this.form.patchValue({ bcImage: [file] })
-      } else if (field === 'dlImage') {
+      } else{
         this.isBcImageVisible = false;
         this.isDlImageVisible = true;
         this.dlImageName = file.name
@@ -1113,8 +1120,19 @@ export class DetailProfileEmployeeComponent implements OnInit {
     }
   }
 
-  onBack(){
-    this.router.navigate(['employee/employee-management'])
+  onBack(event: Event){
+
+    const router = localStorage.getItem('activeLink')
+    if(router === 'employeeProfile'){
+      event.preventDefault();
+      this.router.navigate(['employee/list-employee-profile']);
+    }
+    if(router === 'employeeeProbation'){
+      event.preventDefault();
+      this.router.navigate(['employee/list-employee-probation']);
+
+    }
+
   }
 
   officeEmployee : any
@@ -1308,10 +1326,10 @@ export class DetailProfileEmployeeComponent implements OnInit {
         type: contract.type,
         file: contract.file instanceof File ? contract.file.name : contract.file 
       })),
-      lstChildren: this.form.value.lstChildren.length === 1 
+      lstChildren: ((this.form.value.lstChildren.length === 1 
       && this.form.value.lstChildren[0].name === '' 
       && this.form.value.lstChildren[0].yearOfBirth === '' 
-      && this.form.value.lstChildren[0].gender === '' 
+      && this.form.value.lstChildren[0].gender === '') || this.form.get('hasChild')?.value == '0')
       ? null : this.form.value.lstChildren.map((child: any) => ({
         name: child.name,
         yearOfBirth: child.yearOfBirth,
@@ -1477,8 +1495,8 @@ export class DetailProfileEmployeeComponent implements OnInit {
           this.notification.success('Chỉnh sửa hồ sơ nhân viên thành công!')
           this.isFixEmployeeButton = false  
           this.form.disable()
-  
-          // this.form.reset()
+          
+          window.location.reload()
           // this.getUser(this.idEmployee)
         },
         error: (error) => {

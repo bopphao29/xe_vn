@@ -517,22 +517,22 @@
 
             <div class="input-wrapper">
                 <div class="">
-                    <label class="form-label" ><span style="color: red">*</span>{{'employee.picture_card' | translate}}</label>
+                    <span style="color: red;" >*</span><label class="form-label" >Hình ảnh thẻ nghiệp vụ</label>
                     <div nz-row nzGutter="8" class="custom-upload"
                             style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
                             <input nz-input placeholder="Chọn ảnh" readonly class="upload-input"
                                 style="border: none; outline: none; flex: 1;" formControlName="bcImage"
                                 [value]="bcImageName" />
                             <button nz-button nzType="default" nzShape="circle" class="upload-button"
-                                (click)="fileImg.click()" style="border: none; background: transparent;">
+                                (click)="filebc.click()" style="border: none; background: transparent;">
                                 <i nz-icon nzType="paper-clip"></i>
-                                <input type="file" #fileImg (change)="onChangeImage($event, 'bcImage')"
+                                <input type="file" #filebc (change)="onChangeImage($event, 'bcImage')"
                                     style="display: none;" />
                             </button>
                         </div>
                         <div class="error-container">
                             <div *ngIf="form.get('bcImage')?.touched">
-                                <span class="validate_input" *ngIf="form.get('bcImage')?.hasError('required')">{{'required.picture_required' | translate}}</span>
+                                <span class="validate_input" *ngIf="form.get('bcImage')?.hasError('required')">Phải chọn ảnh</span>
                             </div>
                         </div>
                 </div>
@@ -640,7 +640,7 @@
 
             <div  class="input-wrapper">
                 <div class="">
-                    <label class="form-label" ><span style="color: red">*</span>{{'employee.picture_driverLicens' | translate}} </label>
+                    <span style="color: red;" >*</span><label class="form-label" >Hình ảnh GPLX</label>
                     <div nz-row nzGutter="8" class="custom-upload"
                             style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
                             <input nz-input placeholder="Chọn ảnh" readonly class="upload-input" style="width: 100%"
@@ -660,95 +660,7 @@
             </div>
 
         </div>
-        <!-- <div class="p-4 pb-0" nz-row *ngIf="hasDriver == true">
 
-            <div class="input-wrapper">
-                <div class="">
-                    <label class="form-label" >Số GPLX</label>
-                    <input nz-input class="form-input" formControlName="driverLicenseNumber" placeholder="Nhập"
-                            class="form-input" style="width: 100%;"/>
-                       <div class="error-container">
-                        <div
-                        *ngIf="form.get('driverLicenseNumber')?.invalid && (form.get('driverLicenseNumber')?.dirty) || form.get('driverLicenseNumber')?.touched">
-                        <span class="validate_input"
-                            *ngIf="form.get('driverLicenseNumber')?.errors?.['required']">Phải nhập số GPLX</span>
-                    </div>
-                       </div>
-                </div>
-            </div>
-
-            <div  class="input-wrapper">
-                <div class="">
-                    <label class="label-form"  style="padding-left: none;">{{'employee.driverLicense' | translate}}</label>
-                    <nz-select nzPlaceHolder="Chọn" formControlName="driverLicenseType" style="width: 100%;">
-                        <nz-option *ngFor="let driverL of driverLicense, let i = index"[nzValue]="driverL.id" [nzLabel]="driverL.value"></nz-option>
-                        
-                    </nz-select>
-                    <div class="error-container">
-                        <div
-                            *ngIf=" form.get('driverLicenseType')?.invalid && (form.get('driverLicenseType')?.dirty) ||form.get('driverLicenseType')?.touched">
-                            <span class="validate_input"
-                                *ngIf="form.get('driverLicenseType')?.hasError('required')">Phải chọn hạng GPLX</span>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-
-            <div class="input-wrapper">
-                <div class="">
-                    <label class="form-label" >Ngày cấp </label>
-                    <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange($event)"
-                        [nzDisabledDate]="disabledlStartDate" style="width: 100%"
-
-                            formControlName="dlStartDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
-                        <div class="error-container">
-                            <div *ngIf="form.get('dlStartDate')?.touched">
-                                <span class="validate_input" *ngIf="form.get('dlStartDate')?.errors?.['required']">Phải chọn
-                                    ngày</span>
-                            </div>
-                        </div>
-                </div>
-            </div>
-
-            <div  class="input-wrapper">
-                <div class="">
-                    <label class="form-label" >Ngày hết hạn </label>
-                    <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange($event)"
-                        [nzDisabledDate]="disabledlEndDate" style="width: 100%"
-                            formControlName="dlEndDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
-                        <div class="error-container">
-                            <div *ngIf="form.get('dlEndDate')?.touched">
-                                <span class="validate_input" *ngIf="form.get('dlEndDate')?.errors?.['required']">Phải chọn
-                                    ngày</span>
-                            </div>
-                        </div>
-                </div>
-            </div>
-
-            <div  class="input-wrapper">
-                <div class="">
-                    <label class="form-label" >Hình ảnh GPLX</label>
-                    <div nz-row nzGutter="8" class="custom-upload"
-                            style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
-                            <input nz-input placeholder="Chọn ảnh" readonly class="upload-input" style="width: 100%"
-                                style="border: none; outline: none; flex: 1;" formControlName="dlImage"
-                                [value]="dlImageName" />
-                            <button nz-button nzType="default" nzShape="circle" class="upload-button"
-                                (click)="fileImg.click()" style="border: none; background: transparent;">
-                                <i nz-icon nzType="paper-clip"></i>
-                                <input type="file" #fileImg (change)="onChangeImage($event, 'dlImage')"
-                                    style="display: none;" />
-                            </button>
-                        </div>
-                        <div *ngIf="form.get('dlImage')?.touched">
-                            <span class="validate_input" *ngIf="form.get('dlImage')?.errors?.['required']">Phải chọn ảnh</span>
-                        </div>
-                </div>
-            </div>
-
-
-        </div> -->
         <div style="border-bottom: 1px solid #dddddd;margin-left: 30px; margin-bottom: 18px; margin-top: 18px; margin-right: 20px"></div>
         <div nz-row class="mx-4 form-container">
             <div nz-col class="recordStorage" style="margin-left:8px" >
@@ -951,7 +863,7 @@
     </div>
     </div>
     <div class="flex justify-end mx-4" style="padding-top: 8px">
-        <span>
+        <span (click)="endClick()">
             <button class="button" nz-button style="color: #274EA1;" nzType="default">Hủy</button>
         </span>
         <span class="ml-2">
@@ -1285,18 +1197,18 @@
 
 
 <nz-modal [(nzVisible)]="isDone" (nzOnCancel)="handleCancelDone1()" (nzOnOk)="handleSubmitDone()"
-    [nzContent]="modalContentDone" [nzFooter]="null" [nzStyle]="{'min-width' : '1200px', 'min-height':'1080px'}">
+    [nzContent]="modalContentDone" [nzFooter]="null" [nzStyle]="{'min-width' : '560px', 'min-height':'760px'}">
     <ng-template #modalContentDone>
         <div class="headmodal">
-            <span style="color: green; justify-content: center; align-items: center; font-size: 25px" nz-icon nzType="check-circle" nzTheme="outline"></span>
+            <span style="color: green; justify-content: center; align-items: center; font-size: 55px" nz-icon nzType="check-circle" nzTheme="outline"></span>
         </div>
-        <div style="margin-top: 10px;">
-            <div style="text-align: center;"><span style="color: green;">Thêm thành công!</span><br><span>Bạn có muốn tiếp tục thêm nhân sự không? </span></div>
+        <div >
+            <div style="text-align: center;"><span style="color: green; font-size: 25px; ">Thêm thành công!</span><br><span style="font-size: 20px;">Bạn có muốn tiếp tục thêm nhân sự không? </span></div>
             
-            <div style="display: flex; gap: 8px; justify-content: center;"> 
+            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 20px"> 
                 <span>
                     <button class="button-infor" nz-button style="color: #274EA1;" nzType="default"
-                        (click)="handleCancelDone2()">Tiếp tục</button>
+                        (click)="endClick()">Thêm mới</button>
                 </span>
                 <span>
                     <button class="button-infor" nz-button style="color: #ffffff; background-color: #274EA1;" nzType="default"

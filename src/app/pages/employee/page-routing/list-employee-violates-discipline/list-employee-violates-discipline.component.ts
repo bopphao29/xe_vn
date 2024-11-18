@@ -187,14 +187,14 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
 
   search(){
     const checkRangDate = this.form.get('rangeDate')?.invalid
+    this.form.updateValueAndValidity();
     const dataForm = {
+      violentDateFrom : checkRangDate ? this.fromDate : '',
+      violentDateTo: checkRangDate ? this.toDate : '',
       ...this.form.value,
       type: 3,
       page: this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 ,
       size: 12,
-      
-      violentDateFrom : checkRangDate ? this.fromDate : '',
-      violentDateTo: checkRangDate ? this.toDate : '',
     }
     delete dataForm.rangeDate
 

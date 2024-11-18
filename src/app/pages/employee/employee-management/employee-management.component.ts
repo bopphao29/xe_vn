@@ -74,19 +74,19 @@ export class EmployeeManagementComponent implements OnInit{
   routerListEmployeeProfile(){
     this.activeLink = 'employeeProfile'
     localStorage.setItem('activeLink', this.activeLink);
-    this.routes.navigate(['/employee/list-employee-profile'])
+    this.routes.navigate(['employee/list-employee-profile'])
   }
 
   routerListEmployeeProbation(){
     this.activeLink = 'employeeeProbation'
     localStorage.setItem('activeLink', this.activeLink);
-    this.routes.navigate(['/employee/list-employee-probation'])
+    this.routes.navigate(['employee/list-employee-probation'])
   }
 
   routerListEmployeeViolatesDiscipline(){
     this.activeLink = 'employeeViolatesDiscipline'
     localStorage.setItem('activeLink', this.activeLink);
-    this.routes.navigate(['/employee/list-employee-violates-discipline'])
+    this.routes.navigate(['employee/list-employee-violates-discipline'])
   }
 
   routerListEmployeeSalarySetup(){

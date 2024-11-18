@@ -60,7 +60,8 @@ export class DetailEmployeeViolateComponent implements OnInit{
     })
   }
 
-  onBack(){
+  onBack(event: Event){
+    event.preventDefault();
     this.routes.navigate(['/employee/list-employee-violates-discipline'])
   }
 
