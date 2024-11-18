@@ -165,10 +165,10 @@ export class ListEmployeeProbationComponent implements OnInit  {
   
   search(){
     const dataForm = {
+      ...this.form.value,
       type: 2,
       page: this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 ,
       size: 12,
-      ...this.form.value
     }
 
     console.log(dataForm)
@@ -176,7 +176,7 @@ export class ListEmployeeProbationComponent implements OnInit  {
       console.log(response)
       
     })
-    this.getListEmployeeProbation(this.pageIndex , this.pageSize, dataForm)
+    this.getListEmployeeProbation(this.pageIndex -1, this.pageSize, dataForm)
   }
 
   resetForm(){

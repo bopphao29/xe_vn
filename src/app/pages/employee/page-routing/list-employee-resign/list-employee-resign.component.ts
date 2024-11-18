@@ -135,7 +135,7 @@ export class ListEmployeeResignComponent {
     })
   }
 
-  pageIndex = 0
+  pageIndex = 1
   pageSize = 12
 
   pagedData : any[] = []
@@ -222,10 +222,10 @@ export class ListEmployeeResignComponent {
 
   search(){
     const dataForm = {
+      ...this.form.value,
       type: 4,
-      page:this.pageIndex,
+      page:this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 ,
       size: 12,
-      ...this.form.value
     }
 
     console.log(dataForm)
@@ -233,7 +233,7 @@ export class ListEmployeeResignComponent {
       console.log(response)
       
     })
-    this.getListEmployee(this.pageIndex , this.pageSize, dataForm)
+    this.getListEmployee(this.pageIndex -1, this.pageSize, dataForm)
   }
 
   resetForm(){

@@ -125,14 +125,16 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
     })
   }
 
-  pageIndex = 0
+  pageIndex = 1
   pageSize = 10
 
   pagedData : any[] = []
 
   onPageChange(page: number): void {
     this.pageIndex = page;
-    this.getListEmployee(this.pageIndex, this.pageSize,this.form.value);
+    
+    this.search();
+
   }
 
   
@@ -186,13 +188,13 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
   search(){
     const checkRangDate = this.form.get('rangeDate')?.invalid
     const dataForm = {
+      ...this.form.value,
       type: 3,
-      page:this.pageIndex,
+      page: this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 ,
       size: 12,
       
       violentDateFrom : checkRangDate ? this.fromDate : '',
       violentDateTo: checkRangDate ? this.toDate : '',
-      ...this.form.value
     }
     delete dataForm.rangeDate
 
@@ -201,7 +203,7 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
       console.log(response)
       
     })
-    this.getListEmployee(this.pageIndex , this.pageSize, dataForm)
+    this.getListEmployee(this.pageIndex -1, this.pageSize, dataForm)
   }
 
   resetForm(){

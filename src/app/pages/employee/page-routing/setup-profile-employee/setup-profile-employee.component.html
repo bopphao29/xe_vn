@@ -753,7 +753,7 @@
         <div nz-row class="mx-4 form-container">
             <div nz-col class="recordStorage" style="margin-left:8px" >
                 <label class="form-label label_form" >{{'employee.archivedRecords' | translate}} </label>
-                <div nz-row formArrayName="lstArchivedRecords" class="lstArchivedRecords"
+                    <div nz-row formArrayName="lstArchivedRecords" class="lstArchivedRecords"
                     style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;width: calc(100% - 16px);">
                     <div nz-row style="display: flex; flex-wrap: nowrap; width: 100%"
                         *ngFor="let doc of lstArchivedRecords.controls; let docIndex = index"

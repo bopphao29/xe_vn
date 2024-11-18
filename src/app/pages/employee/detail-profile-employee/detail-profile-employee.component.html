@@ -529,8 +529,8 @@
                     <div class="">
                         <label class="form-label" ><span style="color: red">*</span> {{'employee.route' | translate}}</label>
                         <nz-select nzPlaceHolder="Chọn" formControlName="routeId" style="width: 100%;">
-                            <nz-option nzValue="1" nzLabel="D"></nz-option>
-                            <nz-option nzValue="2" nzLabel="E"></nz-option>
+                            <!-- <nz-option nzValue="1" nzLabel="D"></nz-option> -->
+                            <!-- <nz-option nzValue="2" nzLabel="E"></nz-option> -->
                             <nz-option *ngFor="let route of listRoute, let i =index" [nzValue]="route.id"
                                 [nzLabel]="route.name"></nz-option>
     
@@ -740,7 +740,7 @@
             </div>
             <div style="border-bottom: 1px solid #dddddd;margin-left: 30px; margin-bottom: 15px;margin-top: 20px;"></div>
             <div nz-row class="mx-4 form-container">
-                <div nz-col class="recordStorage" style="margin-left:6px" >
+                <!-- <div nz-col class="recordStorage" style="margin-left:6px" >
                     <label class="form-label label_form" >Hồ sơ lưu trữ</label>
                     <div nz-row formArrayName="lstArchivedRecords"
                         style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;width: calc(100% - 16px);">
@@ -846,7 +846,119 @@
                     </div>
     
     
+                </div> -->
+
+
+                <div nz-col class="recordStorage" style="margin-left:8px" >
+                    <label class="form-label label_form" >{{'employee.archivedRecords' | translate}} </label>
+                        <div nz-row formArrayName="lstArchivedRecords" class="lstArchivedRecords"
+                        style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;width: calc(100% - 16px);">
+                        <div nz-row style="display: flex; flex-wrap: nowrap; width: 100%"
+                            *ngFor="let doc of lstArchivedRecords.controls; let docIndex = index"
+                            [formGroupName]="docIndex">
+                            <div nz-col style="width: calc(25%)">
+                                <div class="mx-2">
+                                    <div class="">
+                                        <label class="form-label">{{'employee.name_file' | translate}}</label>
+                                        <input nz-input class="form-input" formControlName="name" placeholder="Nhập" style="width: 100%"/>
+                                        <div class="error-container">
+                                             <div *ngIf="doc.get('name')?.invalid && (doc.get('name')?.dirty) || doc.get('name')?.touched">
+                                                 <span class="validate_input" *ngIf="doc.get('name')?.errors?.['required']">{{'required.name_file' | translate}}</span>
+                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div nz-col style="width: calc(20%)">
+                                <div class="mx-2">
+                                    <div class="">
+                                        <label class="form-label">{{'employee.number1' | translate}}</label>
+                                        <div>
+                                            <input nz-input class="form-input" formControlName="code" placeholder="Nhập" />
+                                            <div class="error-container">
+                                                <div *ngIf="doc.get('code')?.invalid && (doc.get('code')?.dirty) || doc.get('code')?.touched">
+                                                    <span class="validate_input" *ngIf="doc.get('code')?.errors?.['required']">{{'required.number1' | translate}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div nz-col style="width: calc(25%)">
+                                <div class="mx-2">
+                                    <div class="">
+                                        <label class="form-label">{{'employee.type_file' | translate}}</label>
+                                        <div>
+                                            <input nz-input class="form-input" formControlName="type" placeholder="Nhập" />
+                                            <div class="error-container">
+                                                <div *ngIf="doc.get('type')?.invalid && (doc.get('type')?.dirty) || doc.get('type')?.touched">
+                                                    <span class="validate_input" *ngIf="doc.get('type')?.errors?.['required']">{{'required.type_file' | translate}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div nz-col style="width: calc(20%)">
+                                <div class="mx-2">
+                                    <div class="">
+                                        <label class="form-label">{{'employee.file_together' | translate}}</label>
+                                        <div>
+    
+                                            <div nz-row nzGutter="8" class="custom-upload"
+                                                style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
+                                                <input nz-input placeholder="Chọn file" readonly class="upload-input"
+                                                    style="border: none; outline: none; flex: 1;" formControlName="file"
+                                                    [value]="lstArchivedRecords.at(docIndex).get('file')?.value?.name || ''" />
+                                                <button nz-button nzType="default" nzShape="circle" class="upload-button"
+                                                    (click)="fileInput.click()"
+                                                    style="border: none; background: transparent;">
+                                                    <i nz-icon nzType="paper-clip"></i>
+                                                    <input type="file" #fileInput (change)="onFileChangeAchi($event,'file', docIndex)" style="display: none;" />
+                                                </button>
+                                            </div>
+                                            <div class="error-container">
+                                                <div *ngIf="doc.get('file')?.invalid && (doc.get('file')?.dirty) || doc.get('file')?.touched">
+                                                    <span class="validate_input"
+                                                        *ngIf="doc.get('file')?.errors?.['required']">{{'required.file_required' | translate}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div nz-col style="width: calc(10%); display: flex; justify-content: center; align-items: center;">
+                                <button type="button" nz-button (click)="removeArchivedRecord(docIndex)" [hidden]="lstArchivedRecords.length == 1" *ngIf="lstArchivedRecords.length > 1 || ( lstArchivedRecords.at(0).invalid )" style=" border: none;" >
+                                    <svg width="16" height="19" viewBox="0 0 16 19" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M3 18.5C2.45 18.5 1.97917 18.3042 1.5875 17.9125C1.19583 17.5208 1 17.05 1 16.5V3.5H0V1.5H5V0.5H11V1.5H16V3.5H15V16.5C15 17.05 14.8042 17.5208 14.4125 17.9125C14.0208 18.3042 13.55 18.5 13 18.5H3ZM5 14.5H7V5.5H5V14.5ZM9 14.5H11V5.5H9V14.5Z"
+                                            fill="#EF4444" />
+                                    </svg>
+    
+                                </button>
+                                <button type="button" (click)="cleanAchive()" *ngIf="lstArchivedRecords.length == 1 && showButtonClean">
+                                    <span style="color: rgb(46, 167, 183); font-size: 18px;" nz-icon nzType="edit" nzTheme="outline"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div nz-row class="w-full" style="margin-bottom: 31px;">
+                            <div nz-row *ngIf="isFixEmployeeButton == true">
+                                <button (click)="addArchivedRecords()" class="button_add mx-2"><svg
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+    
+                    </div>
+    
+    
                 </div>
+
+<!-- 
                 <div nz-col class="children" >
                     <label class="form-label label_form">Trạng thái con cái</label>
                     <div nz-row style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;">
@@ -884,7 +996,6 @@
                                                     <div class="error-container">
                                                         <div *ngIf="(child.get('yearOfBirth')?.invalid && child.get('yearOfBirth')?.dirty || child.get('yearOfBirth')?.touched) && has_child == '1'">
                                                             <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['required']">Phải nhập năm sinh</span>
-                                                            <!-- <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['min']">Năm sinh phải lớn hơn {{minYearChild}}</span> -->
                                                             <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['max']">Năm sinh phải nhỏ hơn {{maxYearChild}}</span>
                                                         </div>
                                                     </div>
@@ -924,6 +1035,96 @@
                             </div>
                         </div>
                         <div nz-row class="w-full">
+                            <div *ngIf="isFixEmployeeButton == true">
+                                <button (click)="addlstChildren()" class="button_add mx-2"><svg
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+    
+                </div> -->
+
+
+                <div nz-col class="children" >
+                    <label class="form-label label_form">{{'employee.children_status' | translate}}</label>
+                    <div nz-row style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;">
+                        <div nz-row class="w-full mx-2" style="height: 32px !important; line-height: 32px;">
+                            <div class="">
+                                <nz-radio-group formControlName="hasChild">
+                                    <label nz-radio nzValue="0">Chưa có con</label>
+                                    <label nz-radio nzValue="1">Đã có con</label>
+                                </nz-radio-group>
+                            </div>
+                        </div>
+                        <div class="w-full" formArrayName="lstChildren"  [class.disabled-input]="has_child == '0' || form.get('hasChild')?.value == '0' " >
+                            <div nz-row style="display: flex; flex-wrap: nowrap;" *ngFor="let child of lstChildren.controls; let childIndex = index" [formGroupName]="childIndex">
+                                <div nz-col nzSpan="10">
+                                    <div class="mx-2">
+                                        <div class="">
+                                            <label class="form-label"><span style="color: red">*</span>{{'employee.name_child' | translate}}</label>
+                                            <div>
+                                                <input nz-input class="form-input" formControlName="name" placeholder="Nhập"  style="width: 100%"  />
+                                                    <div class="error-container">
+                                                        <div *ngIf="child.get('name')?.touched && has_child == 1">
+                                                            <span class="validate_input" *ngIf="child.get('name')?.errors?.['required']">{{'required.name_child' | translate}}</span>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div nz-col nzSpan="6">
+                                    <div class="mx-2">
+                                        <div class="">
+                                            <label class="form-label"><span style="color: red">*</span>{{'employee.yearOfBirth' | translate}}</label>
+                                            <div>
+                                                <input nz-input class="form-input" type="number" maxlength="4" formControlName="yearOfBirth" placeholder="Nhập năm" style="width: 100%"/>
+                                                    <div class="error-container">
+                                                        <div *ngIf="(child.get('yearOfBirth')?.invalid && child.get('yearOfBirth')?.dirty || child.get('yearOfBirth')?.touched) && has_child == '1'">
+                                                            <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['required']">{{'required.yearOfBirth' | translate}}</span>
+                                                            <!-- <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['min']">Năm sinh phải lớn hơn {{minYearChild}}</span> -->
+                                                            <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['max']"> {{('required.maxYearEmployee' | translate) + maxYearChild}}</span>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div nz-col nzSpan="6">
+                                    <div class="mx-2">
+                                        <div class="">
+                                            <label class="form-label"><span style="color: red">*</span>{{'employee.gender' | translate}}</label>
+                                            <nz-select nzPlaceHolder="Chọn" formControlName="gender"  style="width: 100%">
+                                                <nz-option *ngFor="let gender of listGender" [nzValue]="gender.id" [nzLabel]="gender.value"></nz-option>
+                                            </nz-select>
+                                            <div class="error-container">
+                                                <div *ngIf="child.get('gender')?.touched && has_child == '1'">
+                                                    <span class="validate_input" *ngIf="child.get('gender')?.hasError('required')">{{'required.gender' | translate}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div nz-col *ngIf="(lstChildren.length > 1 || ( lstChildren.at(0).valid && has_child == '1'))  && isFixEmployeeButton == true"
+                                    style="display: flex; justify-content: center; align-items: center; margin-left: 7px;">
+                                    <a (click)="removelstChildren(childIndex)"  style=" border: none;">
+                                        <svg width="16" height="19" viewBox="0 0 16 19" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M3 18.5C2.45 18.5 1.97917 18.3042 1.5875 17.9125C1.19583 17.5208 1 17.05 1 16.5V3.5H0V1.5H5V0.5H11V1.5H16V3.5H15V16.5C15 17.05 14.8042 17.5208 14.4125 17.9125C14.0208 18.3042 13.55 18.5 13 18.5H3ZM5 14.5H7V5.5H5V14.5ZM9 14.5H11V5.5H9V14.5Z"
+                                                fill="#EF4444" />
+                                        </svg>
+    
+                                    </a>
+                                </div>
+    
+                            </div>
+                        </div>
+                        <div nz-row class="w-full"  [class.disabled-input]="has_child == '0' || form.get('hasChild')?.value == '0' " >
                             <div *ngIf="isFixEmployeeButton == true">
                                 <button (click)="addlstChildren()" class="button_add mx-2"><svg
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -1122,7 +1323,7 @@
             <span style="font-weight: 500; font-size: 24px;">Thành tích {{newYear}}</span>
         </div>
         <div nz-row style="display: flex; justify-content: center;" >
-            <div nz-col nzSpan="8">
+            <div nz-col nzSpan="10">
                 <div nz-row >
                     <div nz-col nzSpan="14">
                         <nz-select style="width: 100%" nzPlaceHolder="Chọn" [(ngModel)]="monthValue" (ngModelChange)="onChangeMonth($event)" >

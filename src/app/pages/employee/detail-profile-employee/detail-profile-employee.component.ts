@@ -220,6 +220,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
     this.getPossition()
     this.getRoute() 
     this.getDriverLicense()
+    this.trackFormChanges();
     
     this.getAchievement()
     this.getPunishments()
@@ -738,19 +739,19 @@ export class DetailProfileEmployeeComponent implements OnInit {
 
   createArchivedRecords(record: { name: string | null; code: string | null; type: string | null; file: string | null }): FormGroup {
     return this.fb.group({
-      name: [''],
-      code: [''],
-      type: [''],
-      file: ['']
+      name: ['', Validators.required],
+      code: ['' , Validators.required],
+      type: ['' , Validators.required],
+      file: ['' , Validators.required]
     });
   }
 
   createContract(contract: { id: string | null; signDate: string | null; type: string | null; file: string | null }): FormGroup {
     return this.fb.group({
       id: [''],
-      signDate: [''],
-      type: [''],
-      file: ['']
+      signDate: ['', Validators.required],
+      type: ['', Validators.required],
+      file: ['', Validators.required]
     });
   }
 
@@ -1087,7 +1088,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
   }
 
 
-  onFileChange(event: any, fieldName: any, index: number): void {
+  onFileChangeAchi(event: any, fieldName: any, index: number): void {
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
     const file = fileList[0];
@@ -1132,6 +1133,20 @@ export class DetailProfileEmployeeComponent implements OnInit {
   
   fromDateOffical :any
   fromDateProbation : any
+
+
+  cleanAchive(){
+    this.lstArchivedRecords.reset()
+  }
+  
+  showButtonClean: boolean = false;
+  trackFormChanges(): void {
+    this.lstArchivedRecords.valueChanges.subscribe(() => {
+      this.showButtonClean = this.lstArchivedRecords.controls.some(
+        (control) => control.dirty || control.touched
+      );
+    });
+  }
 
   ///////////////////////////////////////////////////////save data////////////////////////////////////////////
   saveDataEmployee() {
@@ -1397,6 +1412,34 @@ export class DetailProfileEmployeeComponent implements OnInit {
     this.form.get('fromDateProbation')?.updateValueAndValidity()
     this.form.get('fromDateOfOffical')?.updateValueAndValidity()
     this.form.get('toDate')?.updateValueAndValidity()
+
+
+    if(this.lstArchivedRecords.controls.length >= 2){
+      this.lstArchivedRecords.controls.forEach((value: any) => {
+        value.get('name')?.markAsTouched();
+        value.get('code')?.markAsTouched();
+        value.get('type')?.markAsTouched();
+        value.get('file')?.markAsTouched();
+      })
+    }else{
+      this.lstArchivedRecords.controls.forEach((value: any) => {
+        value.get('name')?.clearValidators();
+        value.get('code')?.clearValidators();
+        value.get('type')?.clearValidators();
+        value.get('file')?.clearValidators();
+      })
+    }
+
+    this.lstArchivedRecords.controls.forEach((value: any) => {
+      value.get('name')?.updateValueAndValidity();
+      value.get('code')?.updateValueAndValidity();
+      value.get('type')?.updateValueAndValidity();
+      value.get('file')?.updateValueAndValidity();
+    })
+
+
+
+
     Object.keys(this.form.controls).forEach((field: any) => {
       const control = this.form.get(field)
 
