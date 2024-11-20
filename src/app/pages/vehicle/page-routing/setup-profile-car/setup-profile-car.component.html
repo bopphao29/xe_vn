@@ -1,0 +1,481 @@
+<form nz-form nzGutter="16" class="w-full" nzLayout="vertical" [formGroup]="form">
+
+  <!-- Mã thiết bị -->
+  <div nz-col nzSpan="4" class="">
+    <div class="">
+      <label class="form-label">Loại xe</label>
+      <nz-select nzPlaceHolder="Chọn loại xe" style="width: 100%">
+        <nz-option nzValue="limousine" nzLabel="Limousine"></nz-option>
+        <nz-option nzValue="solati" nzLabel="Solati"></nz-option>
+      </nz-select>
+    </div>
+  </div>
+
+  <h4>Hồ sơ phương tiện</h4>
+  <div style="background-color: #fff; border-radius: 5px;">
+
+    <div class="p-4 pb-0 form-container">
+
+      <div class="input-wrapper">
+        <div class="">
+          <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.gender' | translate}}</label>
+          <nz-select nzPlaceHolder="Nam" class="nzSelect">
+            <nz-option nzValue="1" nzLabel="nam"></nz-option>
+              <!-- <nz-option *ngFor="let gender of listGender" [nzValue]="gender.id" [nzLabel]="gender.value"></nz-option> -->
+          </nz-select>
+          <!-- <div class="error-container">
+              <div *ngIf="form.get('gender')?.invalid && (form.get('gender')?.dirty) || form.get('gender')?.touched">
+                  <span class="validate_input" *ngIf="form.get('gender')?.hasError('required')">{{'required.gender' | translate}}</span>
+              </div>
+          </div> -->
+      </div>
+      </div>
+
+      <div class="input-wrapper">
+        <div class="">
+            <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.employeeName' | translate}}</label>
+            <input class="input-form"  placeholder="Nguyễn văn A" type="text" >
+            <!-- <div class="error-container">
+                <div *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)">
+                    <span class="validate_input" *ngIf="form.get('name')?.errors?.['required']">{{'required.name' | translate}}</span>
+                </div>
+            </div> -->
+        </div>
+
+      </div>
+
+      <div class="input-wrapper">
+        <div class="">
+            <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.employeeName' | translate}}</label>
+            <input class="input-form"  placeholder="Nguyễn văn A" type="text" >
+            <!-- <div class="error-container">
+                <div *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)">
+                    <span class="validate_input" *ngIf="form.get('name')?.errors?.['required']">{{'required.name' | translate}}</span>
+                </div>
+            </div> -->
+        </div>
+
+      </div>
+
+      <div class="input-wrapper">
+        <div class="">
+            <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.employeeName' | translate}}</label>
+            <input class="input-form"  placeholder="Nguyễn văn A" type="text" >
+            <!-- <div class="error-container">
+                <div *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)">
+                    <span class="validate_input" *ngIf="form.get('name')?.errors?.['required']">{{'required.name' | translate}}</span>
+                </div>
+            </div> -->
+        </div>
+
+      </div>
+
+      <div class="input-wrapper">
+        <div class="">
+            <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.employeeName' | translate}}</label>
+            <input class="input-form"  placeholder="Nguyễn văn A" type="text" >
+            <!-- <div class="error-container">
+                <div *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)">
+                    <span class="validate_input" *ngIf="form.get('name')?.errors?.['required']">{{'required.name' | translate}}</span>
+                </div>
+            </div> -->
+        </div>
+
+      </div>
+
+      <div class="input-wrapper">
+        <div class="">
+            <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.employeeName' | translate}}</label>
+            <input class="input-form"  placeholder="Nguyễn văn A" type="text" >
+            <!-- <div class="error-container">
+                <div *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)">
+                    <span class="validate_input" *ngIf="form.get('name')?.errors?.['required']">{{'required.name' | translate}}</span>
+                </div>
+            </div> -->
+        </div>
+
+      </div>
+
+      <div class="input-wrapper">
+        <div class="">
+            <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.employeeName' | translate}}</label>
+            <input class="input-form"  placeholder="Nguyễn văn A" type="text" >
+            <!-- <div class="error-container">
+                <div *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)">
+                    <span class="validate_input" *ngIf="form.get('name')?.errors?.['required']">{{'required.name' | translate}}</span>
+                </div>
+            </div> -->
+        </div>
+
+      </div>
+
+      <div class="input-wrapper">
+        <div class="">
+            <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.employeeName' | translate}}</label>
+            <input class="input-form"  placeholder="Nguyễn văn A" type="text" >
+            <!-- <div class="error-container">
+                <div *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)">
+                    <span class="validate_input" *ngIf="form.get('name')?.errors?.['required']">{{'required.name' | translate}}</span>
+                </div>
+            </div> -->
+        </div>
+
+      </div>
+
+      <div nz-col class="input-wrapper">
+        <div class="">
+          <label class="">Hình ảnh phương tiện</label>
+          <div class="custom-upload"  style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
+              <input nz-input placeholder="" readonly class="upload-input" style="border: none; outline: none; flex: 1; width: 100%"
+                [value]="fileList.length > 0 ? fileList[0].name : ''"  />
+              <button nz-button nzType="default" nzShape="circle" class="upload-button"
+                (click)="isShowModalUploadfile = true" style="border: none; background: transparent;">
+                <i nz-icon nzType="paper-clip"></i>
+              </button>
+            </div>
+        </div>
+      </div>
+
+      <div class="input-wrapper">
+        <div class="">
+            <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.employeeName' | translate}}</label>
+            <input class="input-form"  placeholder="Nguyễn văn A" type="text" >
+            <!-- <div class="error-container">
+                <div *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)">
+                    <span class="validate_input" *ngIf="form.get('name')?.errors?.['required']">{{'required.name' | translate}}</span>
+                </div>
+            </div> -->
+        </div>
+
+      </div>
+
+      <div class="input-wrapper">
+        <div class="">
+            <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.employeeName' | translate}}</label>
+            <input class="input-form"  placeholder="Nguyễn văn A" type="text" >
+            <!-- <div class="error-container">
+                <div *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)">
+                    <span class="validate_input" *ngIf="form.get('name')?.errors?.['required']">{{'required.name' | translate}}</span>
+                </div>
+            </div> -->
+        </div>
+
+      </div>
+
+      <div class="input-wrapper">
+        <div class="">
+            <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.employeeName' | translate}}</label>
+            <input class="input-form"  placeholder="Nguyễn văn A" type="text" >
+            <!-- <div class="error-container">
+                <div *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)">
+                    <span class="validate_input" *ngIf="form.get('name')?.errors?.['required']">{{'required.name' | translate}}</span>
+                </div>
+            </div> -->
+        </div>
+
+      </div>
+
+      <div class="input-wrapper">
+        <div class="">
+            <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.employeeName' | translate}}</label>
+            <input class="input-form"  placeholder="Nguyễn văn A" type="text" >
+            <!-- <div class="error-container">
+                <div *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)">
+                    <span class="validate_input" *ngIf="form.get('name')?.errors?.['required']">{{'required.name' | translate}}</span>
+                </div>
+            </div> -->
+        </div>
+
+      </div>
+
+    </div>
+    <div style="border-bottom: 1px solid #dddddd;margin-left: 30px; margin-bottom: 15px;"></div>
+    <div class="px-4" nz-row>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày đăng ký </nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày đăng kiểm</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày hết hạn đăng kiểm</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày cấp bảo hiểm TNDS</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày hết hạn bảo hiểm TNDS</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày cấp bảo hiểm vật chất xe</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày hết hạn bảo hiểm vật chất xe</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+
+    <div class="px-4" nz-row>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày cấp phù hiệu </nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày hết hạn phù hiệu</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày cấp giấy đi đường</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày hết hạn giấy đi đường</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Phí bảo trì đường bộ</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" type="number" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày đóng </nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label" nzRequired>Ngày hết hạn</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+
+    <div class="px-4" nz-row>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">Gói cước di động</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" type="number" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">Nhà mạng</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" type="number" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">Ngày đăng ký</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">Ngày hết hạn</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">Thiết bị định vị</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" type="number" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSpan="3" class="mx-2">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">Ngày lắp</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-full" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+
+    <div style="border-bottom: 1px solid #dddddd;margin-left: 30px; margin-bottom: 15px;"></div>
+
+    <div nz-row [nzGutter]="16" class="mx-4">
+      <div nz-col nzSpan="8">
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">Lái xe chính</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" placeholder="03256659" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item class="form-control">
+          <nz-form-label class="form-label">SDT</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="form-input" placeholder="Nhập" placeholder="03256659" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nzSpan="8" nz-col>
+        <nz-form-label class="form-label">Tình trạng giao xe</nz-form-label>
+        <div nz-row nzSpan="8" style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 10px;">
+          <div nz-col nzSpan="4">
+            <nz-form-item class="form-control">
+              <nz-form-control>
+                <nz-radio-group>
+                  <label nz-radio nzValue="fixed">Cố định</label>
+                  <br>
+                  <label nz-radio nzValue="temporary" class="mt-2">Tạm thời</label>
+                </nz-radio-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nzSpan="4" nz-row style="margin-top: 28px;">
+
+            <div nz-col style="margin-left: 50px;">
+              <nz-form-item class="form-control">
+                <nz-form-label class="form-label">Từ ngày</nz-form-label>
+                <nz-form-control>
+                  <nz-date-picker nzPlaceHolder="Chọn ngày"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col>
+              <nz-form-item class="form-control">
+                <nz-form-label class="form-label">Đến ngày</nz-form-label>
+                <nz-form-control>
+                  <nz-date-picker nzPlaceHolder="Chọn ngày"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-end p-2"><i style="color: red;">Nhập đủ tất cả các trường thông tin có dấu *</i></div>
+  </div>
+
+  <div class="flex justify-end m-2">
+    <span>
+      <button class="button" nz-button nzType="default">Sửa</button>
+    </span>
+    <span class="ml-2">
+      <button class="button" nz-button nzType="default" [disabled]="true">Xác nhận</button>
+    </span>
+  </div>
+</form>
+
+<nz-modal [(nzVisible)]="isShowModalUploadfile" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="null"
+  (nzOnCancel)="handleCancel()">
+  <ng-template #modalTitle>Tải ảnh lên</ng-template>
+
+  <ng-template #modalContent>
+    <div class="upload-container flex justify-center items-center">
+      <nz-upload
+        class="avatar-uploader"
+        nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        nzName="avatar"
+        nzListType="picture-card"
+        [nzShowUploadList]="false"
+        [nzBeforeUpload]="beforeUpload"
+        (nzChange)="handleChangeFile($event)"
+      >
+        <div class="upload-area">
+          <div class="upload-placeholder">
+            <i nz-icon nzType="picture" nzTheme="outline" style="font-size: 36px;"></i>
+          </div>
+          <div class="upload-text">
+            Kéo hình ảnh vào đây hoặc <a style="color: #1890ff;text-decoration: underline;">tải ảnh lên</a>
+          </div>
+        </div>
+      </nz-upload>
+    </div>
+  </ng-template>
+</nz-modal>

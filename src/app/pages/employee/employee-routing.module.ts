@@ -7,11 +7,6 @@ import { Routes } from '@angular/router';
 // import { ListEmployeeProbationComponent } from './list-employee-probation/list-employee-probation.component';
 
 export const EMPPLOYEE_ROUTES: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: 'employee-managament',
-  //   pathMatch: 'full'
-  // },
   {
     path: 'employee',
     loadComponent: () =>

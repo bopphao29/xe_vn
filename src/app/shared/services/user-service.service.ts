@@ -109,7 +109,15 @@ export class UserServiceService {
     return this.httpClient.get(this.url + 'api/praises?'+ params)
   }
 
-  exportPDF(id : any){
-    return this.httpClient.get(this.url + 'api/staff/print/'+ id)
+  getCode(){
+    return this.httpClient.get(this.url + 'api/staff/latest-code')
+  }
+
+  exportPDF(data: any){
+    return this.httpClient.post(this.url + 'api/staff/print-staff-infos', data)
+  }
+
+  exportPDFInToVioLet(data: any){
+    return this.httpClient.post(this.url + 'api/staff/print-staff-punishment', data)
   }
 }

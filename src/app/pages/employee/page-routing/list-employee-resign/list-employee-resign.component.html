@@ -115,7 +115,7 @@
                     <td class="list-col-2">{{data.officeName || '-'}}</td>
                     <td class="list-col-2">{{data.branchName || '-'}}</td>
                     <td class="list-col-2">{{data.departmentName || '-'}}</td>
-                    <td class="list-col-2">{{data.positionName || '-'}}</td>
+                    <td class="list-col-2">{{(data.lastModifiedDate | date: 'dd/MM/yyyy' ) || '-'}}</td>
                     <td class="list-col-4">{{data.reason || '-'}}</td>
                 </tr>
 

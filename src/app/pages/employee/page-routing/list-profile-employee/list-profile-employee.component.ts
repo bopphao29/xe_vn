@@ -18,6 +18,7 @@ import { Route, Router, Routes } from '@angular/router';
 import { UserServiceService } from '../../../../shared/services/user-service.service';
 import { NotificationService } from '../../../../shared/services/notification.service';
 import { SearchEmployeeProfileService } from '../../../../shared/services/search-employee-profile.service';
+import Swal from 'sweetalert2';
 
 
 
@@ -65,46 +66,41 @@ export class ListProfileEmployeeComponent implements OnInit {
 
 
   ngOnInit(): void {
-
-    this.form = this.fb.group({
-      // code: '',
-      // name: '',
-      // phoneNumber: '',
-      txtSearch: '',
-      officeId: '',
-      branchId: '',
-      departmentId: '',
-      positionId: '',
-      status: ''
-
-    })
-    // this.listData
-    // const formData = {
-    //   page: this.pageIndex,
-    //   size: 12,
-    //   ...this.form.value}
-    // console.log(this.pageSize)
-    // this.getListEmployee(formData)
+    const savedFormValue = localStorage.getItem('searchEmployee');
+    
+  // Khởi tạo form với giá trị từ localStorage nếu có, ngược lại dùng giá trị mặc định
+  this.form = this.fb.group({
+    txtSearch: [savedFormValue ? JSON.parse(savedFormValue).txtSearch : ''],
+    officeId: [savedFormValue ? JSON.parse(savedFormValue).officeId : ''],
+    branchId: [savedFormValue ? JSON.parse(savedFormValue).branchId : ''],
+    departmentId: [savedFormValue ? JSON.parse(savedFormValue).departmentId : ''],
+    positionId: [savedFormValue ? JSON.parse(savedFormValue).positionId : ''],
+    status: [savedFormValue ? JSON.parse(savedFormValue).status : ''],
+    reason: [savedFormValue ? JSON.parse(savedFormValue).reason : ''],
+  });
     this.search()
     this.getBranch()
     this.getDepartment()
     this.getOffice()
     this.getPossition()
+    this.setupValueIntoForm()
 
     this.formOnLeave = this.fb.group({
       fromDate: ['', Validators.required],
-      toDate : ['', Validators.required]
+      toDate : ['', Validators.required],
+      reason: ['', Validators.required]
+
     })
 
-    const saveSearch = this.searchEmployeeProfile.search;
-    console.log(saveSearch)
+    // const saveSearch = this.searchEmployeeProfile.search;
+    // console.log(saveSearch)
     
-     const a=  this.form.get('txtSearch')?.setValue(saveSearch.txtSearch)
-      this.form.get('officeId')?.setValue(saveSearch.officeId)
+    //  const a=  this.form.get('txtSearch')?.setValue(saveSearch.txtSearch)
+    //   this.form.get('officeId')?.setValue(saveSearch.officeId)
 
-      this.form.get('branchId')?.setValue(saveSearch.branchId)
-      this.form.get('txtSearch')?.setValue(saveSearch.txtSearch)
-      this.form.get('txtSearch')?.setValue(saveSearch.txtSearch)
+    //   this.form.get('branchId')?.setValue(saveSearch.branchId)
+    //   this.form.get('txtSearch')?.setValue(saveSearch.txtSearch)
+    //   this.form.get('txtSearch')?.setValue(saveSearch.txtSearch)
 
   }
 
@@ -143,7 +139,7 @@ export class ListProfileEmployeeComponent implements OnInit {
     var idOffice :number =0
     this.form.get('officeId')?.valueChanges.subscribe((value: any)=> {
      idOffice = value
-      console.log(idOffice)
+      // console.log(idOffice)
      if(value){
       this.userSevice.getDepartment(idOffice).subscribe((response: any) => {
         this.listDepartment = response.data
@@ -162,8 +158,7 @@ export class ListProfileEmployeeComponent implements OnInit {
 
   onPageChange(page: number): void {
     this.pageIndex = page;
-    
-    this.search();
+    this.search()
   }
   
   
@@ -180,11 +175,16 @@ export class ListProfileEmployeeComponent implements OnInit {
 
   getListEmployee(data: any){
     this.userSevice.searchEmployee(data ).subscribe((response: any)=>{
-      // console.log(response)
       this.dataEmployee = response.data.content
       this.total = response.data.totalElements
-      console.log(this.total)
-
+      if(response.data.totalElements == 0){
+        Swal.fire({
+          icon: "warning",
+          // title: "......",
+          text: "Không tìm thấy dữ liệu bạn muốn tìm kiếm!",
+          // timer: 3000
+        });
+      }
     })
   }
 
@@ -201,13 +201,17 @@ export class ListProfileEmployeeComponent implements OnInit {
   }
 
   disableIntoToDate = (toDate: Date): boolean => {
-    const fromDateProbation = this.form.get('fromDateProbation')?.value
-    return fromDateProbation ? toDate <= fromDateProbation : false
+    const fromDate = this.form.get('fromDate')?.value
+    return fromDate ? toDate <= fromDate : false
   }
 
-  disableFromDate = (fromDateProbation: Date): boolean => {
+  disableFromDate = (fromDate: Date): boolean => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
     const toDate = this.form.get('toDate')?.value
-    return toDate ? fromDateProbation >= toDate :false
+    // return toDate ? fromDate >= toDate :false
+    return (toDate && fromDate > toDate) || fromDate < today
+
   }
 
   ///////////////////////////show dữ liệu không có/////////////////////
@@ -250,32 +254,34 @@ export class ListProfileEmployeeComponent implements OnInit {
 
   search(){
     const dataForm = {
+      ...this.form.value,
       type: 1,
       page:this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 ,
       size: 12,
-      ...this.form.value
     }
-    console.log(dataForm)
-    this.searchEmployeeProfile.search = this.form.value
-
-    const saveSearch = this.searchEmployeeProfile.search;
-    
-    this.form.get('txtSearch')?.setValue(saveSearch.txtSearch)
-
-    console.log("giá trị ", this.form.get('txtSearch')?.value)
-
-
-    // console.log(dataForm)
-    this.userSevice.searchEmployee(dataForm).subscribe((response: any)=>{
-      console.log(response)
-      
-    })
     this.getListEmployee(dataForm )
+    const formValue = this.form.value;
+    if(formValue){
+      localStorage.setItem('searchEmployee', JSON.stringify(formValue));
+    }
+    
+    console.log(formValue)
+    this.setupValueIntoForm()
   }
 
   resetForm(){
     this.form.reset()
+    localStorage.removeItem('searchEmployee')
   }
+
+    ////////////////////////////////////////Lưu local storage các trường cần tìm kiếm//////////////////////////////////////////
+    setupValueIntoForm(){
+      const formValue = localStorage.getItem('searchEmployee');
+      console.log(formValue)
+      if(formValue){
+        this.form.patchValue(JSON.parse(formValue))
+      }
+    }
 
   updateWorkStatus(){
     this.formOnLeave.markAllAsTouched()
@@ -288,15 +294,13 @@ export class ListProfileEmployeeComponent implements OnInit {
     console.log(dataFormEndWork)
 
     if(this.formOnLeave.invalid){
-      this.notification.success('Hãy lập lịch nghỉ phép')
+      this.notification.error('Hãy lập lịch nghỉ phép')
 
     }else{
       this.userSevice.updateStatusWork(dataFormEndWork).subscribe( {
         next: (response) => {
           this.notification.success('Đặt lịch nghỉ phép thành công!')
           this.isModalOnLeaveEmployee = false  
-          // this.form.reset()
-          // this.getUser(this.idEmployee)
         },
         error: (error) => {
           // if(error.status === 400){

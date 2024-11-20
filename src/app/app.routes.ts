@@ -4,6 +4,8 @@ import { ROUTERS } from './shared/constants/router.const';
 import { authGuard } from './core/auth.guard';
 import { HOME_ROUTES } from './pages/home/home.routes';
 import { EMPPLOYEE_ROUTES } from './pages/employee/employee-routing.module';
+import { AUTHEN_ROUTES } from './pages/authen/authen.module'
+import { VEHICLE_ROUTES } from './pages/vehicle/vehicle-routing.module';
 // import { EMPLOYEE_MANAGEMENT_ROUTES } from './pages/employee/employee-management/employee-management.routes';
 
 export const routes: Routes = [
@@ -11,46 +13,10 @@ export const routes: Routes = [
     path: '',
     component: MainLayoutComponent,
     children: [
-      // {path: '', redirectTo: ROUTERS.HOME_DEFAULT, pathMatch: 'full'},
-      // {
-      //   path: '',
-      //   loadComponent: () => 
-      //   (
-      //     import('./pages/employee-management-default/employee-management-default.component').then(
-      //       (c)=> c.EmployeeManagementDefaultComponent
-      //     )
-      //   )
-      // },
-      // {
-      //   path: 'employee-management',
-      //   loadComponent: () => 
-      //   (
-      //     import('./pages/employee/setup-profile-employee/setup-profile-employee.component').then(
-      //       (c)=> c.SetupProfileEmployeaeComponent
-      //     )
-      //   )
-      // },
+     
       ...EMPPLOYEE_ROUTES,
-      // {
-      //   path: 'list-profile-employee',
-      //   loadComponent: () => 
-      //     (
-      //       import('../app/pages/employee/list-profile-employee/list-profile-employee.component').then(
-      //         (c)=> c.ListProfileEmployeeComponent
-      //       )
-      //     )
+      ...VEHICLE_ROUTES,
 
-      // },
-      // {
-      //   path: ROUTERS.DETAIL_EMPLOYEE,
-      //   loadComponent: () => 
-      //   (
-      //     import('./pages/detail-profile-employee/detail-profile-employee.component').then(
-      //       (c)=> c.DetailProfileEmployeeComponent
-      //     )
-      //   )
-      // },
-      // ...EMPLOYEE_MANAGEMENT_ROUTES,
       {
         path: ROUTERS.HOME_DEFAULT,
         loadComponent: () => 
@@ -61,13 +27,14 @@ export const routes: Routes = [
       ...HOME_ROUTES
     ],
   },
-  {
-    path: ROUTERS.LOGIN,
-    loadComponent: () => 
-      import('./pages/login/login.component').then(
-        (c) => c.LoginComponent
-      )
-  },
+  ...AUTHEN_ROUTES,
+  // {
+  //   path: AUTHEN_ROUTES.,
+  //   loadComponent: () => 
+  //     import('./pages/login/login.component').then(
+  //       (c) => c.LoginComponent
+  //     )
+  // },
   {
     path: '**',
     redirectTo: ROUTERS.HOME_DEFAULT

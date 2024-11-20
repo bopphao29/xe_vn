@@ -116,7 +116,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
     }],
     contract:[ {
       id: null,
-      type: null,
+      endDate: null,
       signDate: null,
       file: null
     }]
@@ -162,7 +162,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
       yearOfBirth: [null, Validators.required],
       gender: [null, Validators.required],
       identifierId: [null, [Validators.required, Validators.pattern('^[0-9]{12}$')]],
-      phoneNumber: [null, [Validators.required, Validators.pattern('^[0]+[1-9]{9}$')]],
+      phoneNumber: [null, [Validators.required, Validators.pattern('^(0[1-9]\\d{8}|84[1-9]\\d{8})$')]],
       zalo: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
       ethnicGroup: [null, Validators.required],
@@ -171,7 +171,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
       maritalStatus: [null, Validators.required],
       contactPerson: [null, Validators.required],
       contractFile: [null],
-      contactPersonPhone: [null, [Validators.required, Validators.pattern('^[0]+[1-9]{9}$')]],
+      contactPersonPhone: [null, [Validators.required, Validators.pattern('^(0[1-9]\\d{8}|84[1-9]\\d{8})$')]],
       // contractDuration: [null, Validators.required],
       staffRelation: [null, Validators.required],
       permanentAddress: [null, Validators.required],
@@ -229,7 +229,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
     this.form.disable();
 
     this.formEndWork = this.fb.group({
-      fromDate : null
+      fromDate : [null, Validators.required]
     })
     const lstChildrenArray = this.form.get('lstChildren') as FormArray;
     lstChildrenArray.controls.forEach(control => control.disable());
@@ -294,16 +294,6 @@ export class DetailProfileEmployeeComponent implements OnInit {
       if(this.office_id){
         this.userSevice.getDepartment(this.office_id).subscribe((response: any) => {
         this.listDepartment = response.data
-        // this.listDepartment.forEach((value: any)=> {
-        //   const isDriver = this.listDepartment.find(item => item.id = this.office_id)
-        //   const codeDriver = isDriver.code
-        //   console.log(codeDriver)
-        //   if(codeDriver == 'DRIVER' && codeDriver != null){
-        //     this.hasDriver = true
-        //   }else{
-        //     this.hasDriver = false
-        //   }
-        // })
       })}
 
 
@@ -478,7 +468,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
           console.log(ele)
           arrCo.push(this.fb.group({
             signDate: ele.signDate,
-              type: ele.type,
+              endDate: ele.endDate,
               file: ele.file
           }))
         })
@@ -702,11 +692,11 @@ export class DetailProfileEmployeeComponent implements OnInit {
       this.listOffice = response.data
     })
 
-    this.getDepartment()
+    this.getDList()
 
   }
 
-  getDepartment() {
+  getDList() {
     console.log(this.office_id)
     const idOffice :number =0
     this.form.get('officeId')?.valueChanges.subscribe((value: any)=> {
@@ -751,11 +741,11 @@ export class DetailProfileEmployeeComponent implements OnInit {
     });
   }
 
-  createContract(contract: { id: string | null; signDate: string | null; type: string | null; file: string | null }): FormGroup {
+  createContract(contract: { id: string | null; signDate: string | null; endDate: string | null; file: string | null }): FormGroup {
     return this.fb.group({
       id: [''],
       signDate: ['', Validators.required],
-      type: ['', Validators.required],
+      endDate: [''],
       file: ['', Validators.required]
     });
   }
@@ -783,7 +773,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
     this.lstcontractDTO.push(this.createContract({
       id: null,
       signDate: null,
-      type: null,
+      endDate: null,
       file: null
     }));
 
@@ -837,8 +827,8 @@ export class DetailProfileEmployeeComponent implements OnInit {
     console.log(this.office_id)
     if(this.office_id != null ){
       this.form.get('departmentId')?.valueChanges.subscribe((value: any) => {
-        console.log(value)
         this.userSevice.getDepartment(this.office_id).subscribe((response: any)=> {
+         
         const isDriver = response.data.find((item: any) => item.id === parseInt(value))
         console.log(isDriver)
         if(isDriver){
@@ -1270,7 +1260,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
     if(this.lstcontractDTO.value){
       this.lstcontractDTO.controls.forEach((value: any) => {
         value.get('signDate')?.markAsTouched();
-        value.get('type')?.markAsTouched();
+        value.get('endDate')?.markAsTouched();
         value.get('file')?.markAsTouched();
       })
     }
@@ -1323,7 +1313,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
       contract: this.form.value.contract.map((contract : any)=>({
         id: contract.id,
         signDate: contract.signDate,
-        type: contract.type,
+        endDate: contract.endDate,
         file: contract.file instanceof File ? contract.file.name : contract.file 
       })),
       lstChildren: ((this.form.value.lstChildren.length === 1 
@@ -1518,20 +1508,26 @@ export class DetailProfileEmployeeComponent implements OnInit {
     }
     console.log(dataFormEndWork)
 
-    this.userSevice.updateStatusWork(dataFormEndWork).subscribe({
-      next: (response) => {
-        this.notification.success('Xác nhận thôi việc thành công')
-        this.isModalInforEmployee = false  
-        
-        // this.getUser(this.idEmployee)
-      },
-      error: (error) => {
-        // if(error.status === 400){
-        //   this.notification.error(error.message)
-        // }
+    if(this.formEndWork.valid){
+      this.userSevice.updateStatusWork(dataFormEndWork).subscribe({
+        next: (response) => {
+          this.notification.success('Xác nhận thôi việc thành công')
+          this.isModalInforEmployee = false  
+          
+          // this.getUser(this.idEmployee)
+        },
+        error: (error) => {
+          // if(error.status === 400){
+          //   this.notification.error(error.message)
+          // }
+  
+        }
+      })
+    }
+    else{
+      this.notification.error('Hãy xét thời gian thôi việc')
 
-      }
-    })
+    }
   }
 
 
@@ -1540,18 +1536,18 @@ export class DetailProfileEmployeeComponent implements OnInit {
   isModalAchievements: boolean = false
   yearNow = new Date().getFullYear();
   optionMonth = [
-    {id : '1', value: 'January'},
-    {id : '2', value: 'February'},
-    {id : '3', value: 'March'},
-    {id : '4', value: 'April'},
-    {id : '5', value: 'May'},
-    {id : '6', value: 'June'},
-    {id : '7', value: 'July'},
-    {id : '8', value: 'August'},
-    {id : '9', value: 'September'},
-    {id : '10', value: 'October'},
-    {id : '11', value: 'November'},
-    {id : '12', value: 'December'},
+    {id : '1', value: 'Tháng 1'},
+    {id : '2', value: 'Tháng 2'},
+    {id : '3', value: 'Tháng 3'},
+    {id : '4', value: 'Tháng 4'},
+    {id : '5', value: 'Tháng 5'},
+    {id : '6', value: 'Tháng 6'},
+    {id : '7', value: 'Tháng 7'},
+    {id : '8', value: 'Tháng 8'},
+    {id : '9', value: 'Tháng 9'},
+    {id : '10', value: 'Tháng 10'},
+    {id : '11', value: 'Tháng 11'},
+    {id : '12', value: 'Tháng 12'},
   ]
 
   tagPlaceholder: any = () => `...`;

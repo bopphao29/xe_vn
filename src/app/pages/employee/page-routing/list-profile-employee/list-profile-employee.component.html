@@ -1,6 +1,6 @@
 <div style="background-color: #f3f3f3;">
 
-    <form nz-form nzGutter="16" class="w-full mx-2" nzLayout="vertical" (ngSubmit)="search()" [formGroup]="form" style="background-color: #f3f3f3;">
+    <form nz-form nzGutter="16" class="w-full" nzLayout="vertical" [formGroup]="form" style="background-color: #f3f3f3;">
         <div class="mx-4">
 
             <div class="" nz-row style="margin-bottom: 22px;">
@@ -8,7 +8,7 @@
                 <div nz-col nzSpan="3" style="margin-right: 8px;">
                     <div class="">
                         <label class="form-label">Thông tin nhân sự</label>
-                        <input nz-input (keydown.enter)="search()" class="form-input" formControlName="txtSearch" placeholder="ID, Tên nhân sự, SĐT..." class="form-input" />
+                        <input nz-input (keydown.enter)="search()" class="form-input" formControlName="txtSearch" placeholder="ID, Tên nhân sự, SĐT..." />
                     </div>
                 </div>
 
@@ -16,7 +16,7 @@
                     <div class="">
                         <label class="form-label">Trực thuộc quản lý</label>
                         <div class="w-full">
-                            <nz-select nzPlaceHolder="Tất cả" formControlName="officeId" style="width: 100%;">
+                            <nz-select nzPlaceHolder="Tất cả" formControlName="officeId" (keydown.enter)="search()" style="width: 100%;">
                                 <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
                                 <nz-option *ngFor="let office of listOffice" [nzValue]="office.id"
                                     [nzLabel]="office.name"></nz-option>
@@ -30,7 +30,7 @@
                     <div class="">
                         <label class="form-label">Chi nhánh </label>
                         <div class="w-full">
-                            <nz-select nzPlaceHolder="Tất cả" formControlName="branchId" style="width: 100%;">
+                            <nz-select nzPlaceHolder="Tất cả" formControlName="branchId" (keydown.enter)="search()" style="width: 100%;">
                                 <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
                                 <nz-option *ngFor="let branch of listBranch, let i =index" [nzValue]="branch.id"
                                     [nzLabel]="branch.name"></nz-option>
@@ -44,7 +44,7 @@
                     <div class="">
                         <label class="form-label">Bộ phận</label>
                         <div>
-                            <nz-select nzPlaceHolder="Tất cả" formControlName="departmentId" style="width: 100%;">
+                            <nz-select nzPlaceHolder="Tất cả" formControlName="departmentId" (keydown.enter)="search()" style="width: 100%;">
                                 <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
                                 <nz-option *ngFor="let department of listDepartment, let i =index"
                                     [nzValue]="department.id" [nzLabel]="department.name"></nz-option>
@@ -58,7 +58,7 @@
                     <div class="">
                         <label class="form-label">Chức vụ</label>
                         <div>
-                            <nz-select nzPlaceHolder="Tất cả" formControlName="positionId" style="width: 100%;">
+                            <nz-select nzPlaceHolder="Tất cả" formControlName="positionId" (keydown.enter)="search()" style="width: 100%;">
                                 <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
                                 <nz-option *ngFor="let position of listPosstion, let i =index" [nzValue]="position.id"
                                     [nzLabel]="position.name"></nz-option>
@@ -71,7 +71,7 @@
                     <div class="">
                         <label class="form-label">Trạng thái</label>
                         <div>
-                            <nz-select nzPlaceHolder="Tất cả" formControlName="status" style="width: 100%;">
+                            <nz-select nzPlaceHolder="Tất cả" formControlName="status" style="width: 100%;" (keydown.enter)="search()">
                                 <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
                                 <nz-option *ngFor="let status of listStatus, let i =index" [nzValue]="status.id"
                                     [nzLabel]="status.value"></nz-option>
@@ -85,7 +85,7 @@
 
         <div class="flex justify-center m-2" style="min-width: 335px; ">
             <span>
-                <button class="button" nz-button nzType="default" style="border-color: #274ea1; min-width: 160px;"
+                <button class="button" nz-button nzType="default" style="border-color: #274ea1; min-width: 160px;" type="button"
                     (click)="resetForm()">
                     <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -202,9 +202,9 @@
         <form [formGroup]="formOnLeave">
             <div nz-row >
                 <div nz-row class="w-full" style="display: flex; justify-content: center;">
-                    <div nz-col nzSpan="12">
+                    <div nz-col nzSpan="18">
                         <div nz-row class="w-full" >
-                            <div nz-col nzSpan="11">
+                            <div nz-col style="width: 30%;">
                                 <div class="">
                                     <label class="form-label"> <span style="color: red;">*</span>Từ ngày</label>
                                     <div>
@@ -221,7 +221,7 @@
                                 </div>
                             </div>
 
-                            <div style="margin-left: 10px;" nz-col nzSpan="11">
+                            <div style="margin-left: 10px; width: 30%;" >
                                 <div >
                                     <label class="form-label"><span style="color: red;">*</span>Đến ngày</label>
                                     <div>
@@ -234,6 +234,17 @@
                                                         *ngIf="formOnLeave.get('toDate')?.errors?.['required']">Phải chọn ngày</span>
                                                 </div>
                                             </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-left: 10px; width: 30%;">
+                                <div class="">
+                                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.reason_off' | translate}}</label>
+                                    <input nz-input (keydown.enter)="search()" style="margin-top: 8px;" class="form-input" formControlName="reason" placeholder="ID, Tên nhân sự, SĐT..."  />
+                                    <div class="error-container">
+                                        <div *ngIf="formOnLeave.get('reason')?.invalid && (formOnLeave.get('reason')?.dirty || formOnLeave.get('reason')?.touched)">
+                                            <span class="validate_input" *ngIf="formOnLeave.get('reason')?.errors?.['required']">{{'required.reason' | translate}}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

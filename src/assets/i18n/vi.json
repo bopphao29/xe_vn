@@ -42,6 +42,16 @@
         "err_validate_password_pattern": "Mật khẩu từ 8 - 20 ký tự, chứa ít nhất 1 ký tự chữ, 1 ký tự số, 1 ký tự đặc biệt và không có khoảng cách",
         "create_by": "Người tạo"
     },
+    "vehical":{
+        "vehical_management":"Quản lý phương tiện",
+        "setup_vehical":"Thiết lập hồ sơ phương tiện",
+        "maintenance_repair": "Bảo dưỡng sửa chữa",
+        "deep_interior_cleaning":"Vệ sinh nội thất chuyên sâu",
+        "vehicle_profile_management":"Quản lý hồ sơ phương tiện",
+        "operational_management":"Quản lý km vận hành",
+        "operater_time_management":"Quản lý thời gian vận hành",
+        "fuel_anagement":"Quản lý nhiên liệu"
+    },
     "navbar": {
         "ras": "Liên hệ",
         "sam": "Thông tin",
@@ -101,7 +111,8 @@
         "type_file": "Loại giấy tờ",
         "file_together": "File đính kèm",
         "children_status": "Trạng thái con cái",
-        "name_child": "Tên con"
+        "name_child": "Tên con",
+        "reason_off": "Lý do nghỉ"
     },
     "month":{
         "January": "Tháng 1",

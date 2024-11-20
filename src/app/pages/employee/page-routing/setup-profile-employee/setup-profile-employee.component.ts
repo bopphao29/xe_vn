@@ -17,6 +17,9 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { from, Observable, Observer, of } from 'rxjs';
 import { IData } from '../../../../models/setup-profile-car/models-employee/setup-profile-employee/index.model';
 import { UserServiceService } from '../../../../shared/services/user-service.service';
+import { saveAs } from 'file-saver';
+import {PDF} from '../../../../shared/pdf/pdf.util';
+
 
 import { NotificationService } from '../../../../shared/services/notification.service';
 import { PDFDocument, rgb } from 'pdf-lib';
@@ -126,7 +129,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
     contract: [{
       id: null,
       file: null,
-      type: null,
+      endDate: null,
       signDate: null,
     }]
   }
@@ -167,7 +170,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
       yearOfBirth: [null, [Validators.required, Validators.min(minYear), Validators.max(maxYear), Validators.maxLength(4)]],
       gender: [null, Validators.required],
       identifierId: [null, [Validators.required, Validators.pattern('^[0-9]{12}$')]],
-      phoneNumber: [null, [Validators.required, Validators.pattern('^[0]+[1-9]{9}$')]],
+      phoneNumber: [null, [Validators.required, Validators.pattern('^(0[1-9]\\d{8}|84[1-9]\\d{8})$')]],
       zalo: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
       ethnicGroup: [null, Validators.required],
@@ -176,7 +179,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
       maritalStatus: [null, Validators.required],
       contactPerson: [null, Validators.required],
       contractFile: [null],
-      contactPersonPhone: [null, [Validators.required, Validators.pattern('^[0]+[1-9]{9}$')]],
+      contactPersonPhone: [null, [Validators.required, Validators.pattern('^(0[1-9]\\d{8}|84[1-9]\\d{8})$')]],
       // contractDuration: [null, Validators.required],
       staffRelation: [null, Validators.required],
       permanentAddress: [null, Validators.required],
@@ -223,6 +226,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
 
     this.form.get('hasChild')?.valueChanges.subscribe((value: any)=>{
       this.has_child = value
+      console.log(value)
     })
   }
 
@@ -253,6 +257,13 @@ export class SetupProfileEmployeeComponent implements OnInit {
     {id: 2, value: "Đã kết hôn"}
   ]
   ///////////////////////////////////////////////List data when call api///////////////////////////////////////////////////////////////////
+
+  codeEmployee : any
+  getCode(){
+    this.userSevice.getCode().subscribe((response: any)=> {
+      this.codeEmployee = response.data
+    })
+  }
 
   getBranch() {
     this.userSevice.getBranch().subscribe((response: any) => {
@@ -324,11 +335,11 @@ export class SetupProfileEmployeeComponent implements OnInit {
     });
   }
 
-  createContract(contract: { id: string | null; signDate: string | null; type: string | null; file: string | null }): FormGroup {
+  createContract(contract: { id: string | null; signDate: string | null; endDate: string | null; file: string | null }): FormGroup {
     return this.fb.group({
       id: [''],
       signDate: ['', Validators.required],
-      type: ['', Validators.required],
+      endDate: [''],
       file: ['', Validators.required]
     });
   }
@@ -389,7 +400,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
     this.lstcontractDTO.push(this.createContract({
       id: null,
       signDate: null,
-      type: null,
+      endDate: null,
       file: null
     }));
 
@@ -832,17 +843,31 @@ export class SetupProfileEmployeeComponent implements OnInit {
     //     value.get('file')?.markAsTouched();
     //   })
     // }
-    if(this.has_child && this.has_child  == '1' ){
+    console.log(this.has_child)
+    if(this.form.get('hasChild')?.value  === this.has_child ){
       this.lstChildren.controls.forEach((value: any) => {
         value.get('name')?.markAsTouched();
         value.get('gender')?.markAsTouched();
         value.get('yearOfBirth')?.markAsTouched();
       })
+    }else{
+      this.lstChildren.controls.forEach((value: any) => {
+        value.get('name')?.clearValidators();
+        value.get('gender')?.clearValidators();
+        value.get('yearOfBirth')?.clearValidators();
+      } )
     }
-    if(this.lstcontractDTO.value){
+
+    this.lstChildren.controls.forEach((value: any) => {
+      value.get('name')?.updateValueAndValidity();
+      value.get('gender')?.updateValueAndValidity();
+      value.get('yearOfBirth')?.updateValueAndValidity();
+    } )
+
+    if(this.lstcontractDTO.length > 0){
       this.lstcontractDTO.controls.forEach((value: any) => {
         value.get('signDate')?.markAsTouched();
-        value.get('type')?.markAsTouched();
+        value.get('endDate')?.markAsTouched();
         value.get('file')?.markAsTouched();
       })
     }
@@ -954,6 +979,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
 
     //log lỗi validator để check
     if (this.form.valid) {
+      this.getCode()
       this.isModalInforEmployee = true
     } else {
       this.listAR = [];
@@ -1017,14 +1043,15 @@ export class SetupProfileEmployeeComponent implements OnInit {
 }
 
   isDone : boolean = false
-//////////////////////////////////////////////////////////EXPORT PDF///////////////////////////////////////////////////////////////////
-exportPDF(){
-  // this.userSevice.exportPDF()
+//////////////////////////////////////////////////////////EXPORT PDF NAME///////////////////////////////////////////////////////////////////
+nameOfPDF(): string {
+  const now = new Date()
+  const date = now.toLocaleDateString('vi-VN', {year: 'numeric', month: '2-digit', day: '2-digit'}).replace(/\//g, '_');
+  return `Thongtinnhanvien-${date}`
 }
 
-
   //////////////////////////////////////////////////////Button save data when enough infor save///////////////////////////////////////
-  saveDataEmployee() {
+  saveDataEmployee(field : string) {
 
     console.log(this.form.value.lstcontractDTO)
 
@@ -1036,6 +1063,7 @@ exportPDF(){
     }
     const dataForm = {
       ...this.form.value,
+      code: this.codeEmployee,
       fromDate : this.contract_type == 1 ? this.fromDateOfOffical : this.fromDateProbation ,
       departmentCode: this.deparmentCode,
       lstArchivedRecords: this.form.value.lstArchivedRecords.length === 1 
@@ -1052,7 +1080,7 @@ exportPDF(){
       contract: this.form.value.contract.map((contract : any)=>({
         id: contract.id,
         signDate: contract.signDate,
-        type: contract.type,
+        endDate: contract.endDate,
         file: contract.file.name
       })),
       lstChildren: this.form.value.lstChildren.length === 1
@@ -1081,9 +1109,6 @@ exportPDF(){
     if (this.fileCompressed.healthCertificate.length > 0) {
       formData.append('healthCertificate', this.fileCompressed.healthCertificate[0]);
     }
-    // if (this.fileCompressed.contractFile.length > 0) {
-    //   formData.append('contractFile', this.fileCompressed.contractFile[0]);
-    // }
     var archivedRecordFile: any = this.fileCompressed.file
 
     console.log(this.fileCompressed.contractFile)
@@ -1103,33 +1128,67 @@ exportPDF(){
     if (this.bcImgFile[0]) {
       formData.append('bcImage', this.bcImgFile[0]);
     }
-    // console.log(formData)
 
 
-   if(this.form.valid){
-    this.userSevice.saveEmployee(formData).subscribe({
-      next: (response) => {
-        console.log('File đã được gửi đi thành công', response);
-        this.notification.success('Lưu hồ sơ nhân viên thành công!')
-        this.isModalInforEmployee = false
-        this.isDone = true
-      },
-      error: (error) => {
-        // if(error.status === 400){
-        //   this.notification.error(error.message)
-        // }
-
-      }
-    })
-   }else{
-          this.notification.error('Có lỗi xảy ra')
-          this.listAR = []
-   }
+  if(field === 'saveData'){
+    if(this.form.valid){
+      this.userSevice.saveEmployee(formData).subscribe({
+        next: (response) => {
+          console.log('File đã được gửi đi thành công', response);
+          this.notification.success('Lưu hồ sơ nhân viên thành công!')
+          this.isModalInforEmployee = false
+          this.isDone = true
+        },
+        error: (error) => {
+          // if(error.status === 400){
+          //   this.notification.error(error.message)
+          // }
+  
+        }
+      })
+     }else{
+            this.notification.error('Có lỗi xảy ra')
+            this.listAR = []
+     }
+  }else{
+    if(this.form.valid){
+      this.userSevice.exportPDF(dataForm).subscribe((response : any )=>{
+        {
+          const base64 = response.data
+          console.log(base64)
+          const blob = PDF.base64ToBlob(base64, 'application/pdf')
+          // const blob = this.base64ToBlob(base64, 'application/pdf')
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `${this.nameOfPDF()}.pdf`
+          a.click();
+          this.notification.success('Xuất file thành công!')
+          // Dọn dẹp bộ nhớ
+          window.URL.revokeObjectURL(url);
+        }
+      })
+     }else{
+            this.notification.error('Có lỗi xảy ra')
+            this.listAR = []
+     }
+  }
 
     
   }
 
-  /////////////////////////////////////////////////////EXPORT PDF (call api)//////////////////////////////////////////////////////////////////////////
-
-
+  /////////////////////////////////////////////////////CHANGE BLOB BEFORE EXPORT PDF//////////////////////////////////////////////////////////////////////////
+  // base64ToBlob(base64: string, contentType: string = ''):Blob{
+  //   try{
+  //     if (base64.startsWith('data:')) {
+  //       base64 = base64.split(',')[1];
+  //     }
+  //     const changeBlob = atob(base64)
+  //     const size = new Array(changeBlob.length).fill(0).map((_, i) => changeBlob.charCodeAt(i))
+  //     const byteArray = new Uint8Array(size)
+  //     return new Blob([byteArray], {type: contentType})
+  //   }catch(err){
+  //     throw new Error('Chuỗi Base64 không hợp lệ.');
+  //   }
+  // }
 }

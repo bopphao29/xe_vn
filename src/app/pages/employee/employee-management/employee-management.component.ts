@@ -2,11 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
-// import { ListProfileEmployeeComponent } from '../list-profile-employee/list-profile-employee.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
-// import { ListEmployeeProbationComponent } from '../list-employee-probation/list-employee-probation.component';
 
-// import { SetupProfileEmployeeComponent } from '../setup-profile-employee/setup-profile-employee.component';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 

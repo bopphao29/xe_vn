@@ -58,7 +58,7 @@ export interface IData {
         {
             id: string | null,
             file: string | null,
-            type: string | null,
+            endDate: string | null,
             signDate:string | null
     }]
 }

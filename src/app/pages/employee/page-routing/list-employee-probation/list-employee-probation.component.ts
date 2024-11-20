@@ -152,7 +152,7 @@ export class ListEmployeeProbationComponent implements OnInit  {
   }
 
 
-  getListEmployeeProbation(page: number, size: number, data: any){
+  getListEmployeeProbation(data: any){
     this.userSevice.searchEmployee(data ).subscribe((response: any)=>{
       // console.log(response)
       this.dataEmployee = response.data.content
@@ -170,13 +170,7 @@ export class ListEmployeeProbationComponent implements OnInit  {
       page: this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 ,
       size: 12,
     }
-
-    console.log(dataForm)
-    this.userSevice.searchEmployee( dataForm).subscribe((response: any)=>{
-      console.log(response)
-      
-    })
-    this.getListEmployeeProbation(this.pageIndex -1, this.pageSize, dataForm)
+    this.getListEmployeeProbation(dataForm)
   }
 
   resetForm(){
