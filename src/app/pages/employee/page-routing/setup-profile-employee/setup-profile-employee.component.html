@@ -48,7 +48,7 @@
                     </nz-select>
                     <div class="error-container">
                         <div *ngIf="form.get('gender')?.invalid && (form.get('gender')?.dirty) || form.get('gender')?.touched">
-                            <span class="validate_input" *ngIf="form.get('gender')?.hasError('required')">{{'required.gender' | translate}}</span>
+                            <span class="validate_input" *ngIf="form.get('gender')?.errors?.['required']">{{'required.gender' | translate}}</span>
                         </div>
                     </div>
                 </div>
@@ -694,7 +694,7 @@
                                     <input nz-input class="form-input" formControlName="name" placeholder="Nhập" style="width: 100%"/>
                                     <div class="error-container">
                                          <div *ngIf="doc.get('name')?.invalid && doc.get('name')?.dirty || doc.get('name')?.touched">
-                                             <span class="validate_input">{{'required.name_file' | translate}}</span>
+                                             <span class="validate_input" *ngIf="doc.get('name')?.errors?.['required']">{{'required.name_file' | translate}}</span>
                                          </div>
                                     </div>
                                 </div>
@@ -808,8 +808,8 @@
                                         <div>
                                             <input nz-input class="form-input" formControlName="name" placeholder="Nhập"  style="width: 100%"  />
                                                 <div class="error-container">
-                                                    <div *ngIf="has_child == 1 && (child.get('name')?.invalid && child.get('name')?.dirty || child.get('name')?.touched)">
-                                                        <span class="validate_input" *ngIf="child.get('name')?.errors?.['required']">{{'required.name_child' | translate}}</span>
+                                                    <div *ngIf="has_child == 1 && ((child.get('name')?.invalid && child.get('name')?.dirty ) || child.get('name')?.touched)">
+                                                        <span class="validate_input" *ngIf="child.get('name')?.errors?.['required']" >{{'required.name_child' | translate}}</span>
                                                     </div>
                                                 </div>
                                         </div>
@@ -824,7 +824,7 @@
                                             <input nz-input class="form-input" type="number" maxlength="4" formControlName="yearOfBirth" placeholder="Nhập năm" style="width: 100%"/>
                                                 <div class="error-container">
                                                     <div *ngIf="(child.get('yearOfBirth')?.invalid && child.get('yearOfBirth')?.dirty || child.get('yearOfBirth')?.touched) && has_child == 1">
-                                                        <span class="validate_input" >{{'required.yearOfBirth' | translate}}</span>
+                                                        <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['required']" >{{'required.yearOfBirth' | translate}}</span>
                                                         <!-- <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['min']">Năm sinh phải lớn hơn {{minYearChild}}</span> -->
                                                         <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['max']"> {{('required.maxYearEmployee' | translate) + maxYearChild}}</span>
                                                     </div>
@@ -841,8 +841,8 @@
                                             <nz-option *ngFor="let gender of listGender" [nzValue]="gender.id" [nzLabel]="gender.value"></nz-option>
                                         </nz-select>
                                         <div class="error-container">
-                                            <div *ngIf="child.get('gender')?.touched && has_child == '1'">
-                                                <span class="validate_input" >{{'required.gender' | translate}}</span>
+                                            <div *ngIf="(child.get('gender')?.invalid && (child.get('gender')?.dirty || child.get('gender')?.touched) )&& has_child == '1'">
+                                                <span class="validate_input" *ngIf="child.get('gender')?.hasError('required')">{{'required.gender' | translate}}</span>
                                             </div>
                                         </div>
                                     </div>

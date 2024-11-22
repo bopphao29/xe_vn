@@ -46,6 +46,8 @@ export class SetupProfileCarComponent implements OnInit {
   isEnglish = false;
   fileList: NzUploadFile[] = [];
 
+  contract_type: number = 1
+
   form: FormGroup;
 
   data: IData = {

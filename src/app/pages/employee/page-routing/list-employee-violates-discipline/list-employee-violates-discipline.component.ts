@@ -146,7 +146,7 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
 
   total = 1
 
-  getListEmployee(page: number, size: number, data: any){
+  getListEmployee(data: any){
     this.userSevice.searchEmployee(data ).subscribe((response: any)=>{
       // console.log(response)
       this.dataEmployee = response.data.content
@@ -203,7 +203,7 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
       console.log(response)
       
     })
-    this.getListEmployee(this.pageIndex -1, this.pageSize, dataForm)
+    this.getListEmployee(dataForm)
   }
 
   resetForm(){

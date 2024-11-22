@@ -57,17 +57,14 @@ export class ListEmployeeResignComponent {
 
   ngOnInit(): void {
 
+    const savedFormValue = localStorage.getItem('searchEmployee');
     this.form = this.fb.group({
-      // code: '',
-      // name: '',
-      // phoneNumber: '',
-      txtSearch:'',
-      officeId: '',
-      branchId: '',
-      departmentId: '',
-      positionId: '',
-      leaveType: ''
-
+    txtSearch: [savedFormValue ? JSON.parse(savedFormValue).txtSearch : ''],
+    officeId: [savedFormValue ? JSON.parse(savedFormValue).officeId : ''],
+    branchId: [savedFormValue ? JSON.parse(savedFormValue).branchId : ''],
+    departmentId: [savedFormValue ? JSON.parse(savedFormValue).departmentId : ''],
+    positionId: [savedFormValue ? JSON.parse(savedFormValue).positionId : ''],
+    leaveType: [savedFormValue ? JSON.parse(savedFormValue).leaveType : ''],
     })
     // this.listData
     // const formData = {
@@ -83,7 +80,7 @@ export class ListEmployeeResignComponent {
     this.getOffice()
     this.getPossition()
     this.search()
-
+    this.setupValueIntoForm()
   }
 
   listBranch: any[] = []
@@ -176,7 +173,7 @@ export class ListEmployeeResignComponent {
     return toDate ? fromDateProbation >= toDate :false
   }
 
-  getListEmployee(page: number, size: number, data: any){
+  getListEmployee(  data: any){
     this.userSevice.searchEmployee(data ).subscribe((response: any)=>{
       // console.log(response)
       this.dataEmployee = response.data.content
@@ -228,12 +225,14 @@ export class ListEmployeeResignComponent {
       size: 12,
     }
 
-    console.log(dataForm)
-    this.userSevice.searchEmployee( dataForm).subscribe((response: any)=>{
-      console.log(response)
-      
-    })
-    this.getListEmployee(this.pageIndex -1, this.pageSize, dataForm)
+    this.getListEmployee(dataForm)
+    const formValue = this.form.value;
+    if(formValue){
+      localStorage.setItem('searchEmployee', JSON.stringify(formValue));
+    }
+    
+    // console.log(formValue)
+    this.setupValueIntoForm()
   }
 
   resetForm(){
@@ -268,6 +267,14 @@ export class ListEmployeeResignComponent {
         }
   
       })
+    }
+  }
+
+  setupValueIntoForm(){
+    const formValue = localStorage.getItem('searchEmployee');
+    console.log(formValue)
+    if(formValue){
+      this.form.patchValue(JSON.parse(formValue))
     }
   }
 

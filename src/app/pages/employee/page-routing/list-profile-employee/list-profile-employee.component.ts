@@ -92,16 +92,6 @@ export class ListProfileEmployeeComponent implements OnInit {
 
     })
 
-    // const saveSearch = this.searchEmployeeProfile.search;
-    // console.log(saveSearch)
-    
-    //  const a=  this.form.get('txtSearch')?.setValue(saveSearch.txtSearch)
-    //   this.form.get('officeId')?.setValue(saveSearch.officeId)
-
-    //   this.form.get('branchId')?.setValue(saveSearch.branchId)
-    //   this.form.get('txtSearch')?.setValue(saveSearch.txtSearch)
-    //   this.form.get('txtSearch')?.setValue(saveSearch.txtSearch)
-
   }
 
   listBranch: any[] = []
@@ -172,7 +162,6 @@ export class ListProfileEmployeeComponent implements OnInit {
   dataEmployee: any[] = []
 
   total = 0
-
   getListEmployee(data: any){
     this.userSevice.searchEmployee(data ).subscribe((response: any)=>{
       this.dataEmployee = response.data.content
@@ -197,22 +186,30 @@ export class ListProfileEmployeeComponent implements OnInit {
       this.isoDate = null;
     }
 
-    this.form.get('toDate')?.updateValueAndValidity()
+    // this.form.get('toDate')?.updateValueAndValidity()
   }
 
   disableIntoToDate = (toDate: Date): boolean => {
-    const fromDate = this.form.get('fromDate')?.value
-    return fromDate ? toDate <= fromDate : false
+    const fromDate = this.form.get('fromDate')?.value;
+  const parsedFromDate = fromDate ? new Date(fromDate) : null;
+
+  if (parsedFromDate) {
+    parsedFromDate.setHours(0, 0, 0, 0);
+    toDate.setHours(0, 0, 0, 0);
   }
+
+  return parsedFromDate ? toDate >= parsedFromDate : false;
+  };
 
   disableFromDate = (fromDate: Date): boolean => {
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const toDate = this.form.get('toDate')?.value
-    // return toDate ? fromDate >= toDate :false
-    return (toDate && fromDate > toDate) || fromDate < today
-
-  }
+    today.setHours(0, 0, 0, 0); // Đặt giờ của today về 00:00:00
+    const toDate = this.form.get('toDate')?.value;
+  
+    // fromDate phải lớn hơn hoặc bằng today và nhỏ hơn toDate (nếu toDate tồn tại)
+    return fromDate < today || (toDate && fromDate >= toDate);
+  };
+  
 
   ///////////////////////////show dữ liệu không có/////////////////////
   showEmpolyeeNoData(){
@@ -240,10 +237,19 @@ export class ListProfileEmployeeComponent implements OnInit {
   }
 
   selectedEmployee: any = null;
+  leaveToDate: string = ''
+  leaveFromDate: string = ''
+  workingStatusNum  : number = 0
+
   openModalonLeave(id: number){
     if (this.dataEmployee && this.dataEmployee.length > 0) {  // Kiểm tra nếu dataEmployee có dữ liệu
       this.isModalOnLeaveEmployee = true;
       this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
+      console.log(this.selectedEmployee)
+      this.leaveToDate = this.selectedEmployee?.leaveToDate
+      this.leaveFromDate = this.selectedEmployee?.leaveFromDate
+      this.workingStatusNum = this.selectedEmployee?.workingStatusNum
+
     } else {
       // console.log("Data Employee is empty or not loaded");
       // this.notification.error('Đặt lịch nghỉ phép thành công!')
@@ -270,7 +276,12 @@ export class ListProfileEmployeeComponent implements OnInit {
   }
 
   resetForm(){
-    this.form.reset()
+    this.form.get('txtSearch')?.setValue('')
+    this.form.get('officeId')?.setValue('')
+    this.form.get('branchId')?.setValue('')
+    this.form.get('departmentId')?.setValue('')
+    this.form.get('positionId')?.setValue('')
+    this.form.get('status')?.setValue('')
     localStorage.removeItem('searchEmployee')
   }
 
@@ -301,6 +312,8 @@ export class ListProfileEmployeeComponent implements OnInit {
         next: (response) => {
           this.notification.success('Đặt lịch nghỉ phép thành công!')
           this.isModalOnLeaveEmployee = false  
+          this.formOnLeave.reset()
+          this.search()
         },
         error: (error) => {
           // if(error.status === 400){

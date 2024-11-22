@@ -25,6 +25,7 @@ import { NotificationService } from '../../../../shared/services/notification.se
 import { PDFDocument, rgb } from 'pdf-lib';
 import { PdfService } from '../../../../shared/pdf/pdf.service';
 import { Router } from '@angular/router';
+import de from 'date-fns/locale/de';
 
 interface FileCompressed {
   contractFile: File[];
@@ -160,6 +161,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
   has_child : any
   ngOnInit(): void {
     //khởi tạo form ban đầu
+    console.log(localStorage.getItem('activeLink'))
     var year = new Date()
     const maxYear = (year.getFullYear() - 18)
     const minYear = (year.getFullYear() - 60)
@@ -227,7 +229,13 @@ export class SetupProfileEmployeeComponent implements OnInit {
     this.form.get('hasChild')?.valueChanges.subscribe((value: any)=>{
       this.has_child = value
       console.log(value)
+      if (value == 1) {
+        this.lstChildren.controls.forEach(control => {
+          control.get("")?.setValidators(Validators.required)
+        })
+      }
     })
+
   }
 
   deparmentCode = '' 
@@ -347,40 +355,39 @@ export class SetupProfileEmployeeComponent implements OnInit {
   maxYearChild: number = 0
   minYearChild: number = 0
 
-  createlstChildren(child: { name: string | null; yearOfBirth: string | null; gender: string | null }): FormGroup {
-    var year = new Date()
+  createlstChildren(child: { name: string | null; yearOfBirth: number | null; gender: string | null }): FormGroup {
+    let year = new Date()
     const maxYear = year.getFullYear()
     const minYear = (year.getFullYear() - 42)
     this.maxYearChild = maxYear
-    this.minYearChild = minYear
+    // console.log(maxYearEmployee)
 
     const ChildForm = this.fb.group({
       name:  ['', Validators.required] ,
-      yearOfBirth: ['', [Validators.required, Validators.min(minYear), Validators.max(maxYear)]] ,
+      yearOfBirth: ['', [Validators.required, Validators.min(minYear), Validators.max(this.maxYearChild), Validators.maxLength(4)]] ,
       gender: ['', Validators.required],
     });
 
-    ChildForm.get('name')?.clearValidators()
-        ChildForm.get('yearOfBirth')?.clearValidators()
-        ChildForm.get('gender')?.clearValidators()
-    this.form.get('hasChild')?.valueChanges.subscribe((value : any)=> {
-      console.log(value)
-      this.has_child = value
-      if(this.has_child === '1' || this.form.get('hasChild')?.value == '1'){
-        ChildForm.get('name')?.setValidators(Validators.required)
-        ChildForm.get('yearOfBirth')?.setValidators(Validators.required)
-        ChildForm.get('gender')?.setValidators(Validators.required)
-      }else{
-        ChildForm.get('name')?.clearValidators()
-        ChildForm.get('yearOfBirth')?.clearValidators()
-        ChildForm.get('gender')?.clearValidators()
-      }
-      ChildForm.get('name')?.updateValueAndValidity();
-      ChildForm.get('yearOfBirth')?.updateValueAndValidity();
-      ChildForm.get('gender')?.updateValueAndValidity();
+    // ChildForm.get('name')?.clearValidators()
+    //     ChildForm.get('yearOfBirth')?.clearValidators()
+    //     ChildForm.get('gender')?.clearValidators()
+    // this.form.get('hasChild')?.valueChanges.subscribe((value : any)=> {
+    //   console.log(value)
+    //   this.has_child = value
+    //   if(this.has_child === '1' || this.form.get('hasChild')?.value == '1'){
+    //     ChildForm.get('name')?.setValidators(Validators.required)
+    //     ChildForm.get('yearOfBirth')?.setValidators(Validators.required)
+    //     ChildForm.get('gender')?.setValidators(Validators.required)
+    //   }else{
+    //     ChildForm.get('name')?.clearValidators()
+    //     ChildForm.get('yearOfBirth')?.clearValidators()
+    //     ChildForm.get('gender')?.clearValidators()
+    //   }
+    //   ChildForm.get('name')?.updateValueAndValidity();
+    //   ChildForm.get('yearOfBirth')?.updateValueAndValidity();
+    //   ChildForm.get('gender')?.updateValueAndValidity();
 
-    })
-
+    // })
     return ChildForm
   }
 
@@ -413,6 +420,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
       yearOfBirth: null,
       gender: null
     }));
+    
   }
 
   ////////////////////////////////////////////////funcion delete in form array (archivement, contract, children)////////////////////////////////
@@ -467,7 +475,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
   ////////////////////////////////////////////////////function routes link///////////////////////////////////////////////////////////
   handleSubmitDone(){
     this.routes.navigate(['employee/list-employee-profile'])
-    
+    localStorage.setItem('activeLink','employeeProfile')
   }
 
 
@@ -750,26 +758,8 @@ export class SetupProfileEmployeeComponent implements OnInit {
   listCh: any[] = []
 
   showDataEmployee() {
-    // this.form.markAllAsTouched();
-    this.inforEmployee = this.form.value
-    this.form.get('name')?.markAsTouched()
-    this.form.get('yearOfBirth')?.markAsTouched()
-    this.form.get('gender')?.markAsTouched()
-    this.form.get('identifierId')?.markAsTouched()
-    this.form.get('phoneNumber')?.markAsTouched()
-    this.form.get('zalo')?.markAsTouched()
-    this.form.get('email')?.markAsTouched()
-    this.form.get('ethnicGroup')?.markAsTouched()
-    this.form.get('religion')?.markAsTouched()
-    this.form.get('professionalLevel')?.markAsTouched()
-    this.form.get('maritalStatus')?.markAsTouched()
-    this.form.get('contactPerson')?.markAsTouched()
-    this.form.get('contractFile')?.markAsTouched()
-    this.form.get('contactPersonPhone')?.markAsTouched()
-    this.form.get('staffRelation')?.markAsTouched()
-    this.form.get('permanentAddress')?.markAsTouched()
-    this.form.get('temporaryAddress')?.markAsTouched()
-    this.form.get('contractType')?.markAsTouched()
+    this.form.markAllAsTouched(); 
+    
 
     console.log(this.form.get('contractType')?.value)
     if(this.form.get('contractType')?.value == '2'){
@@ -801,25 +791,21 @@ export class SetupProfileEmployeeComponent implements OnInit {
       this.form.get('fromDateOfOffical')?.updateValueAndValidity();
     });
       
-    this.form.get('branchId')?.markAsTouched()
-    this.form.get('departmentId')?.markAsTouched()
-    this.form.get('officeId')?.markAsTouched()
-    this.form.get('positionId')?.markAsTouched()
     //////////////////DRIVER//////////////////////////////
     //if have driver when u choose deparment
     if (this.hasDriver == true) {
-      this.form.get('routeId')?.markAsTouched()
-      this.form.get('businessCardNumber')?.markAsTouched()
-      this.form.get('bcEndDate')?.markAsTouched()
-      this.form.get('bcStartDate')?.markAsTouched()
-      this.form.get('bcImage')?.markAsTouched()
-      this.form.get('healthCertificate')?.markAsTouched()
-      this.form.get('driverLicenseNumber')?.markAsTouched()
-      this.form.get('driverLicenseType')?.markAsTouched()
-      this.form.get('dlStartDate')?.markAsTouched()
-      this.form.get('dlEndDate')?.markAsTouched()
-      this.form.get('dlImage')?.markAsTouched()
-      this.form.get('hcEndDate')?.markAsTouched()
+      this.form.get('routeId')?.setValidators(Validators.required)
+      this.form.get('businessCardNumber')?.setValidators(Validators.required)
+      this.form.get('bcEndDate')?.setValidators(Validators.required)
+      this.form.get('bcStartDate')?.setValidators(Validators.required)
+      this.form.get('bcImage')?.setValidators(Validators.required)
+      this.form.get('healthCertificate')?.setValidators(Validators.required)
+      this.form.get('driverLicenseNumber')?.setValidators(Validators.required)
+      this.form.get('driverLicenseType')?.setValidators(Validators.required)
+      this.form.get('dlStartDate')?.setValidators(Validators.required)
+      this.form.get('dlEndDate')?.setValidators(Validators.required)
+      this.form.get('dlImage')?.setValidators(Validators.required)
+      this.form.get('hcEndDate')?.setValidators(Validators.required)
     } else{
       this.form.get('routeId')?.clearValidators();
       this.form.get('businessCardNumber')?.clearValidators();
@@ -834,6 +820,22 @@ export class SetupProfileEmployeeComponent implements OnInit {
       this.form.get('dlEndDate')?.clearValidators();
       this.form.get('dlImage')?.clearValidators();
     }
+    this.form.get('routeId')?.updateValueAndValidity()
+    this.form.get('businessCardNumber')?.updateValueAndValidity()
+    this.form.get('bcStartDate')?.updateValueAndValidity()
+    this.form.get('bcEndDate')?.updateValueAndValidity()
+    this.form.get('bcImage')?.updateValueAndValidity()
+    this.form.get('healthCertificate')?.updateValueAndValidity()
+    this.form.get('hcEndDate')?.updateValueAndValidity()
+    this.form.get('driverLicenseNumber')?.updateValueAndValidity()
+    this.form.get('driverLicenseType')?.updateValueAndValidity()
+    this.form.get('dlStartDate')?.updateValueAndValidity()
+    this.form.get('dlEndDate')?.updateValueAndValidity()
+    this.form.get('dlImage')?.updateValueAndValidity()
+    this.form.get('fromDateProbation')?.updateValueAndValidity()
+    this.form.get('fromDateOfOffical')?.updateValueAndValidity()
+    this.form.get('toDate')?.updateValueAndValidity()
+
     this.form.get('hasChild')?.markAsTouched()
     // if(this.lstArchivedRecords.value){
     //   this.lstArchivedRecords.controls.forEach((value: any) => {
@@ -844,11 +846,11 @@ export class SetupProfileEmployeeComponent implements OnInit {
     //   })
     // }
     console.log(this.has_child)
-    if(this.form.get('hasChild')?.value  === this.has_child ){
+    if(this.form.get('hasChild')?.value  === '1'){
       this.lstChildren.controls.forEach((value: any) => {
-        value.get('name')?.markAsTouched();
-        value.get('gender')?.markAsTouched();
-        value.get('yearOfBirth')?.markAsTouched();
+        value.get('name')?.setValidators(Validators.required);
+        value.get('gender')?.setValidators(Validators.required);
+        value.get('yearOfBirth')?.setValidators(Validators.required);
       })
     }else{
       this.lstChildren.controls.forEach((value: any) => {
@@ -871,37 +873,31 @@ export class SetupProfileEmployeeComponent implements OnInit {
         value.get('file')?.markAsTouched();
       })
     }
-
-    this.form.get('routeId')?.updateValueAndValidity()
-    this.form.get('businessCardNumber')?.updateValueAndValidity()
-    this.form.get('bcStartDate')?.updateValueAndValidity()
-    this.form.get('bcEndDate')?.updateValueAndValidity()
-    this.form.get('bcImage')?.updateValueAndValidity()
-    this.form.get('healthCertificate')?.updateValueAndValidity()
-    this.form.get('hcEndDate')?.updateValueAndValidity()
-    this.form.get('driverLicenseNumber')?.updateValueAndValidity()
-    this.form.get('driverLicenseType')?.updateValueAndValidity()
-    this.form.get('dlStartDate')?.updateValueAndValidity()
-    this.form.get('dlEndDate')?.updateValueAndValidity()
-    this.form.get('dlImage')?.updateValueAndValidity()
-    this.form.get('fromDateProbation')?.updateValueAndValidity()
-    this.form.get('fromDateOfOffical')?.updateValueAndValidity()
-    this.form.get('toDate')?.updateValueAndValidity()
     
+    this.lstArchivedRecords.controls.forEach((value: any) => {
+      value.get('name')?.markAsTouched();
+      value.get('code')?.markAsTouched();
+      value.get('type')?.markAsTouched();
+      value.get('file')?.markAsTouched();
+    })
 
-    if(this.lstArchivedRecords.controls.length >= 2){
-      this.lstArchivedRecords.controls.forEach((value: any) => {
-        value.get('name')?.markAsTouched();
-        value.get('code')?.markAsTouched();
-        value.get('type')?.markAsTouched();
-        value.get('file')?.markAsTouched();
-      })
-    }else{
+    console.log(this.lstArchivedRecords.controls.length)
+
+    if(this.lstArchivedRecords.controls.length === 1){
       this.lstArchivedRecords.controls.forEach((value: any) => {
         value.get('name')?.clearValidators();
         value.get('code')?.clearValidators();
         value.get('type')?.clearValidators();
         value.get('file')?.clearValidators();
+      })
+    }
+    
+    if(this.lstArchivedRecords.controls.length > 1){
+      this.lstArchivedRecords.controls.forEach((value: any) => {
+        value.get('name')?.setValidators(Validators.required);
+        value.get('code')?.setValidators(Validators.required);
+        value.get('type')?.setValidators(Validators.required);
+        value.get('file')?.setValidators(Validators.required);
       })
     }
 

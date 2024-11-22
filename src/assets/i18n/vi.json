@@ -42,6 +42,11 @@
         "err_validate_password_pattern": "Mật khẩu từ 8 - 20 ký tự, chứa ít nhất 1 ký tự chữ, 1 ký tự số, 1 ký tự đặc biệt và không có khoảng cách",
         "create_by": "Người tạo"
     },
+    "working": {
+        "working": "Đang làm việc",
+        "relax": "Nghỉ phép",
+        "relaxing": "Hiện đang nghỉ: "
+     },
     "vehical":{
         "vehical_management":"Quản lý phương tiện",
         "setup_vehical":"Thiết lập hồ sơ phương tiện",
@@ -131,8 +136,8 @@
     "required":{
         "name":"Phải nhập tên nhân viên",
         "yearOfBirth": "Phải nhập năm sinh",
-        "minYearEmployee":"Năm sinh phải lớn hơn",
-        "maxYearEmployee":"Năm sinh phải nhỏ hơn",
+        "minYearEmployee":"Năm sinh phải lớn hơn ",
+        "maxYearEmployee":"Năm sinh phải nhỏ hơn ",
         "gender": "Phải chọn giới tính",
         "identifier_required": "Phải nhập CCCD/CMND",
         "identifier_pattern": "CCCD/CMND nhập 12 số",
@@ -165,7 +170,8 @@
         "name_file":"Phải nhập tên giấy tờ",
         "number1":"Phải nhập số hiệu",
         "type_file": "Phải nhập loại giấy tờ",
-        "name_child": "Phải nhập tên con"
+        "name_child": "Phải nhập tên con",
+        "reason": "Phải nhập lý do nghỉ"
         
 
     },

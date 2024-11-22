@@ -73,6 +73,9 @@
                         <div>
                             <nz-select nzPlaceHolder="Tất cả" formControlName="status" style="width: 100%;" (keydown.enter)="search()">
                                 <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
+                                <!-- <nz-option nzValue="1" nzLabel="Đang làm việc"></nz-option>
+                                <nz-option nzValue="2" nzLabel="Tất cả"></nz-option> -->
+
                                 <nz-option *ngFor="let status of listStatus, let i =index" [nzValue]="status.id"
                                     [nzLabel]="status.value"></nz-option>
 
@@ -163,7 +166,7 @@
 
 
 <nz-modal [(nzVisible)]="isModalOnLeaveEmployee" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()"
-    [nzContent]="modalContent" [nzFooter]="null" [nzStyle]="{'min-width' : '1200px', 'min-height':'1080px','margin-top': '230px'}">
+    [nzContent]="modalContent" [nzFooter]="null" [nzStyle]="{'min-width' : '1200px', 'min-height':'580px','margin-top': '205px'}">
     <ng-template #modalContent>
         <div class="headmodal">
             <span style="font-weight: 500; font-size: 24px; ">Tạo lịch nghỉ phép</span>
@@ -196,6 +199,11 @@
                     </table>
                 </div>
             </div>
+        </div>
+        <div style="margin-top: 22px;">
+        </div>
+        <div style="display: flex; justify-content: center;">
+            <span style="font-weight: 500 ;color: rgba(239, 68, 68, 1); font-size: 14px;" *ngIf="workingStatusNum === 2">{{'working.relaxing' | translate}} {{leaveFromDate | date: 'dd/MM/yyyy'}} - {{leaveToDate | date: 'dd/MM/yyyy'}}</span>
         </div>
         <div style="margin-top: 22px;">
         </div>

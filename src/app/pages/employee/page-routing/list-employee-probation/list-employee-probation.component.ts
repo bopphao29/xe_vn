@@ -56,17 +56,13 @@ export class ListEmployeeProbationComponent implements OnInit  {
 
 
   ngOnInit(): void {
-
+    const savedFormValue = localStorage.getItem('searchEmployee');
     this.form = this.fb.group({
-      // code: '',
-      // name: '',
-      // phoneNumber: '',
-      txtSearch:'',
-      officeId: '',
-      branchId: '',
-      departmentId: '',
-      positionId: '',
-
+      txtSearch: [savedFormValue ? JSON.parse(savedFormValue).txtSearch : ''],
+      officeId: [savedFormValue ? JSON.parse(savedFormValue).officeId : ''],
+      branchId: [savedFormValue ? JSON.parse(savedFormValue).branchId : ''],
+      departmentId: [savedFormValue ? JSON.parse(savedFormValue).departmentId : ''],
+      positionId: [savedFormValue ? JSON.parse(savedFormValue).positionId : ''],
     })
     // this.listData
     this.getBranch()
@@ -74,6 +70,7 @@ export class ListEmployeeProbationComponent implements OnInit  {
     this.getOffice()
     this.getPossition()
     this.search()
+    this.setupValueIntoForm()
   }
 
   listBranch: any[] = []
@@ -154,7 +151,6 @@ export class ListEmployeeProbationComponent implements OnInit  {
 
   getListEmployeeProbation(data: any){
     this.userSevice.searchEmployee(data ).subscribe((response: any)=>{
-      // console.log(response)
       this.dataEmployee = response.data.content
       this.total = response.data.totalElements
       console.log(this.total)
@@ -171,9 +167,31 @@ export class ListEmployeeProbationComponent implements OnInit  {
       size: 12,
     }
     this.getListEmployeeProbation(dataForm)
+    const formValue = this.form.value;
+    console.log(formValue)
+    if(formValue){
+      localStorage.setItem('searchEmployee', JSON.stringify(formValue));
+    }
+    
+    console.log(formValue)
+    this.setupValueIntoForm()
   }
 
   resetForm(){
-    this.form.reset()
+    this.form.get('txtSearch')?.setValue('')
+    this.form.get('officeId')?.setValue('')
+    this.form.get('branchId')?.setValue('')
+    this.form.get('departmentId')?.setValue('')
+    this.form.get('positionId')?.setValue('')
+    localStorage.removeItem('searchEmployee')
   }
+
+  setupValueIntoForm(){
+    const formValue = localStorage.getItem('searchEmployee');
+    console.log(formValue)
+    if(formValue){
+      this.form.patchValue(JSON.parse(formValue))
+    }
+  }
+
 }

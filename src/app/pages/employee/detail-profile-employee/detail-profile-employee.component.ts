@@ -750,7 +750,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
     });
   }
 
-  createlstChildren(child: { name: string | null; yearOfBirth: string | null; gender: string | null }): FormGroup {
+  createlstChildren(child: { name: string | null; yearOfBirth: number | null; gender: string | null }): FormGroup {
     return this.fb.group({
       name: ['', Validators.required],
       yearOfBirth: ['', Validators.required],

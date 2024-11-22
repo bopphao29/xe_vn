@@ -42,7 +42,7 @@ export interface IData {
     lstChildren:[
         {
             name: string | null,
-            yearOfBirth: string | null,
+            yearOfBirth: number | null,
             gender : string | null
         }
     ],
