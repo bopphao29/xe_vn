@@ -19,6 +19,7 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { UserServiceService } from '../../../shared/services/user-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+// import { MinioService } from '../../../shared/services/minio.service';
 
 interface FileCompressed {
   contractFile: File[];
@@ -149,7 +150,8 @@ export class DetailProfileEmployeeComponent implements OnInit {
     private userSevice: UserServiceService,
     private notification: NotificationService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    // private minitoService : MinioService
 
   ) {
     this.form = this.fb.group(this.data)
@@ -229,7 +231,8 @@ export class DetailProfileEmployeeComponent implements OnInit {
     this.form.disable();
 
     this.formEndWork = this.fb.group({
-      fromDate : [null, Validators.required]
+      fromDate : [null, Validators.required],
+      reason: [null,  Validators.required]
     })
     const lstChildrenArray = this.form.get('lstChildren') as FormArray;
     lstChildrenArray.controls.forEach(control => control.disable());
@@ -309,8 +312,9 @@ export class DetailProfileEmployeeComponent implements OnInit {
       if(response.data.yearOfBirth != null){
       this.form.get('yearOfBirth')?.setValue(response.data.yearOfBirth.toString())
       }
+      console.log(response.data.gender)
       if(response.data.gender != null){
-        this.form.get('gender')?.setValue(response.data.gender.toString())
+        this.form.get('gender')?.setValue(response.data.gender)
       }
       if(response.data.identifierId != null){
         this.form.get('identifierId')?.setValue(response.data.identifierId.toString())
@@ -334,7 +338,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
         this.form.get('professionalLevel')?.setValue(response.data.professionalLevel.toString())
       }
       if(response.data.maritalStatus != null){
-        this.form.get('maritalStatus')?.setValue(response.data.maritalStatus.toString())
+        this.form.get('maritalStatus')?.setValue(response.data.maritalStatus)
       }
       if(response.data.contactPerson != null){
         this.form.get('contactPerson')?.setValue(response.data.contactPerson.toString())
@@ -864,8 +868,19 @@ export class DetailProfileEmployeeComponent implements OnInit {
       this.checkContractType = value
     })
   }
+  disableSignDate(index: number): (signDate: Date) => boolean {
+    return (signDate: Date) => {
+      const endDate = this.lstcontractDTO.at(index).get('endDate')?.value;
+      return endDate ? signDate >= new Date(endDate) : false;
+    };
+  }
 
-
+  disableIntoEndDate(index: number): (endDate: Date) => boolean {
+    return (endDate: Date) => {
+      const signDate = this.lstcontractDTO.at(index).get('signDate')?.value;
+      return signDate ? endDate <= new Date(signDate) : false;
+    };
+  }
 
   disableIntoToDate = (toDate: Date): boolean => {
     const fromDateProbation = this.form.get('fromDateProbation')?.value
@@ -1512,8 +1527,9 @@ export class DetailProfileEmployeeComponent implements OnInit {
       this.userSevice.updateStatusWork(dataFormEndWork).subscribe({
         next: (response) => {
           this.notification.success('Xác nhận thôi việc thành công')
-          this.isModalInforEmployee = false  
-          
+          // this.isModalInforEmployee = false  
+          localStorage.setItem('activeLink', 'employeeResign')
+          this.router.navigate(['employee/list-employee-resign'])
           // this.getUser(this.idEmployee)
         },
         error: (error) => {
@@ -1632,7 +1648,30 @@ export class DetailProfileEmployeeComponent implements OnInit {
     this.isModalAchievements = false
   }
 
+/////////////////////////////////////////////////DOWN FILE USE MINIO////////////////////////////////////
+fileMinio: string | null = null;
 
+downloadFileMinio(controlName: string, index: number): void {
+  // const fileName = this.lstcontractDTO.at(index).get(controlName)?.value?.name;
+  // if (!fileName) {
+  //   console.error('File name is not available');
+  //   return;
+  // }
 
+  // const bucketName = 'your-bucket-name'; // Thay bằng tên bucket thực tế
+
+  // // Gọi service Minio để lấy pre-signed URL
+  // this.minitoService
+  //   .getPreSignedUrl(bucketName, fileName)
+  //   .then((url) => {
+  //     if (url) {
+  //       // Mở file trong tab mới
+  //       window.open(url, '_blank');
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error fetching file from Minio:', error);
+  //   });
+}
 
 }

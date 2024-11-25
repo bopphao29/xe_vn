@@ -678,6 +678,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
   }
 
   endClick(){
+
     this.form.reset({
        contractType : '1',
       hasChild: '0'
@@ -711,6 +712,19 @@ export class SetupProfileEmployeeComponent implements OnInit {
   startValue: Date | null = null
   endValue: Date | null = null
 
+  disableSignDate(index: number): (signDate: Date) => boolean {
+    return (signDate: Date) => {
+      const endDate = this.lstcontractDTO.at(index).get('endDate')?.value;
+      return endDate ? signDate >= new Date(endDate) : false;
+    };
+  }
+
+  disableIntoEndDate(index: number): (endDate: Date) => boolean {
+    return (endDate: Date) => {
+      const signDate = this.lstcontractDTO.at(index).get('signDate')?.value;
+      return signDate ? endDate <= new Date(signDate) : false;
+    };
+  }
   //////////////Disable formdate when choose todate and vice versa
   disableIntoToDate = (toDate: Date): boolean => {
     const fromDateProbation = this.form.get('fromDateProbation')?.value
@@ -758,9 +772,8 @@ export class SetupProfileEmployeeComponent implements OnInit {
   listCh: any[] = []
 
   showDataEmployee() {
+    this.inforEmployee = this.form.value
     this.form.markAllAsTouched(); 
-    
-
     console.log(this.form.get('contractType')?.value)
     if(this.form.get('contractType')?.value == '2'){
       this.form.get('fromDateProbation')?.markAsTouched()

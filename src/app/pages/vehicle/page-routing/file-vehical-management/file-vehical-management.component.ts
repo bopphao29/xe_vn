@@ -1,0 +1,58 @@
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+
+@Component({
+  selector: 'app-file-vehical-management',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NzButtonModule,
+    TranslateModule,
+    NzTabsModule,
+    NzSelectModule,
+    NzFormModule,
+    NzButtonModule,
+    NzInputModule,
+    NzDatePickerModule,
+    NzUploadModule,
+    NzIconModule,
+    NzRadioModule,
+    NzModalModule
+  ],
+  templateUrl: './file-vehical-management.component.html',
+  styleUrl: './file-vehical-management.component.scss'
+})
+export class FileVehicalManagementComponent implements OnInit{
+
+  constructor(){}
+
+  ngOnInit(): void {
+    
+  }
+
+  showEmpolyeeNoData(){
+
+  }
+
+  resetForm(){
+
+  }
+
+  search(){
+    
+  }
+}

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserServiceService } from '../../../../shared/services/user-service.service';
 
@@ -53,10 +53,10 @@ export class ListEmployeeResignComponent {
    
   }
   form!: FormGroup
+  formChangeInforLeave !: FormGroup
 
 
   ngOnInit(): void {
-
     const savedFormValue = localStorage.getItem('searchEmployee');
     this.form = this.fb.group({
     txtSearch: [savedFormValue ? JSON.parse(savedFormValue).txtSearch : ''],
@@ -64,23 +64,26 @@ export class ListEmployeeResignComponent {
     branchId: [savedFormValue ? JSON.parse(savedFormValue).branchId : ''],
     departmentId: [savedFormValue ? JSON.parse(savedFormValue).departmentId : ''],
     positionId: [savedFormValue ? JSON.parse(savedFormValue).positionId : ''],
-    leaveType: [savedFormValue ? JSON.parse(savedFormValue).leaveType : ''],
+    leaveType: [1],
     })
-    // this.listData
-    // const formData = {
-    //   type : 4,
-    //   page: this.pageIndex,
-    //   size: 12,
-    //   ...this.form.value}
-    // console.log(this.pageSize)
-    // this.getListEmployee(this.pageIndex, this.pageSize, formData)
 
+    this.isLeave = false 
+    this.onLeave = true
     this.getBranch()
     this.getDepartment()
     this.getOffice()
     this.getPossition()
     this.search()
     this.setupValueIntoForm()
+
+    this.formChangeInforLeave = this.fb.group({
+      fromDate: ['', Validators.required],
+      reason: ['', Validators.required]
+
+    })  
+    this.form.get('leaveType')?.valueChanges.subscribe((value : any)=> {
+      this.changeLeave = value
+    })
   }
 
   listBranch: any[] = []
@@ -89,7 +92,13 @@ export class ListEmployeeResignComponent {
   listDepartment: any[] = []
   isModalOnLeaveEmployee = false
   dataEmployee: any[] = []
-  formOnLeave !: FormGroup
+  isResetEmployee: boolean = false
+  isDelete: boolean = false
+  changeLeave: any
+  isWaitLeave :boolean = false
+  onLeave : boolean = false
+  isLeave: boolean = false
+
 
   formOfLeave = [
     {id: 1, value: 'Chờ nghỉ việc'},
@@ -183,6 +192,7 @@ export class ListEmployeeResignComponent {
     })
   }
 
+////////////////////////////////////////////////////////////////////
   handleCancel() {
     this.isModalOnLeaveEmployee = false
     
@@ -191,20 +201,56 @@ export class ListEmployeeResignComponent {
   handleSubmit(): void {
     this.isModalOnLeaveEmployee = false;
   }
+
+  handleCancelReset(){
+    this.isResetEmployee = false
+  }
+
+  handleSubmitResest(){
+  }
+/////////////////////////////////////////DELETE /////////////////////////////////
+handleCancelDelete(){
+  this.isDelete = false
+
+}
+
+handleSubmitDelete(){
+
+}
+
+
   selectedEmployee: any = null;
   openModalonLeave(id: number){
     if (this.dataEmployee && this.dataEmployee.length > 0) {  // Kiểm tra nếu dataEmployee có dữ liệu
-      this.isModalOnLeaveEmployee = true;
-      this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
+      console.log(this.changeLeave)
+      if(this.changeLeave == 2 || this.changeLeave == '2'){
+        this.isResetEmployee = true;
+        this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
+      }else{
+        this.isModalOnLeaveEmployee = true;
+        this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
+      }
+      
       console.log("Selected Employee:", this.selectedEmployee);  // Kiểm tra giá trị của selectedEmployee
     } else {
       console.log("Data Employee is empty or not loaded");
     }
   }
 
+  openModalDelete(id: number){
+    if (this.dataEmployee && this.dataEmployee.length > 0) {
+      this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
+      this.isDelete = true
+    }
+  }
+
+
+  checkLeaveType(){
+
+  }
   showEmpolyeeNoData(){
     const numberData = 12
-    const data = {id: null, name: null, yearOfBirth: null, phoneNumber: null, officeName: null, branchName: null, departmentName: null, reason: null}
+    const data = {id: null, name: null, yearOfBirth: null, phoneNumber: null, officeName: null, branchName: null, departmentName: null, reason: null,action : null}
     
     const dataRrows = this.dataEmployee.slice();
     const currentData = dataRrows.length
@@ -233,6 +279,22 @@ export class ListEmployeeResignComponent {
     
     // console.log(formValue)
     this.setupValueIntoForm()
+      if(this.changeLeave == 2 || this.changeLeave == '2'){
+        this.isLeave = true;
+        this.isWaitLeave = false
+        this.onLeave  = false
+      }
+      if(this.changeLeave == 3){
+        this.isLeave = false
+        this.isWaitLeave = true 
+        this.onLeave = true
+      }
+      if(this.changeLeave == 1){
+        this.isLeave = false 
+        this.isWaitLeave = false 
+        this.onLeave = true
+      }
+    
   }
 
   resetForm(){
@@ -240,15 +302,15 @@ export class ListEmployeeResignComponent {
   }
 
   updateWorkStatus(){
-    this.formOnLeave.markAllAsTouched()
+    this.formChangeInforLeave.markAllAsTouched()
     const dataFormEndWork ={
       staffId : this.selectedEmployee['id'],
-      ...this.formOnLeave.value,
+      ...this.formChangeInforLeave.value,
       type : 4
     }
     console.log(dataFormEndWork)
 
-    if(this.formOnLeave.invalid){
+    if(this.formChangeInforLeave.invalid){
       this.notification.success('Hãy lập lịch nghỉ phép')
 
     }else{

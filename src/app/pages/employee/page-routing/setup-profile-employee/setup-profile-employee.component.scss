@@ -297,30 +297,6 @@
   cursor: not-allowed; /* Hiệu ứng con trỏ khi hover */
 }
 
-
-// .input-form{
-//   width: 100%;
-//   padding: 12px;
-//   border: 1px solid rgba(209, 213, 219, 1);
-//   height: 48px;
-//   border-radius: 6px;
-//   -webkit-border-radius: 6px;
-//   -moz-border-radius: 6px;
-//   -ms-border-radius: 6px;
-//   -o-border-radius: 6px;
-// }
-
-// .input-form:hover{
-//   border-color: #70c9df;
-//   box-shadow: 5px;
-// }
-
-// .input-form:focus{
-//   outline: 1px solid #70c9df !important;
-//   box-shadow: 5px;
-
-// }
-
 .nzSelect{
   width: 100%;
 
@@ -470,4 +446,10 @@
 
 .error-container{
   height: 18px
+}
+
+.label-form{
+  color: rgba(107, 114, 128, 1);
+  font-weight: 500;
+  font-size: 13px;
 }

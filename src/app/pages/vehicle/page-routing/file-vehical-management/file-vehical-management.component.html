@@ -1,0 +1,292 @@
+<div style="background-color: #f3f3f3;">
+
+    <form nz-form nzGutter="16" class="w-full" nzLayout="vertical" style="background-color: #f3f3f3;">
+        <div class="mx-4">
+
+            <div class="" nz-row style="margin-bottom: 22px;">
+
+                <div nz-col nzSpan="3" class="mx-2">
+                    <div class="">
+                        <label class="form-label">Tuyến </label>
+                        <div class="w-full">
+                            <nz-select nzPlaceHolder="Tất cả" formControlName="branchId" style="width: 100%;">
+                                <nz-option nzValue="1" nzLabel="value"></nz-option>
+
+                                <!-- <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
+                                <nz-option *ngFor="let branch of listBranch, let i =index" [nzValue]="branch.id"
+                                    [nzLabel]="branch.name"></nz-option> -->
+
+                            </nz-select>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-col nzSpan="3" style="margin-right: 8px;">
+                    <div class="">
+                        <label class="form-label">BKS</label>
+                        <input nz-input class="form-input" formControlName="txtSearch" placeholder="ID, Tên nhân sự, SĐT..." />
+                    </div>
+                </div>
+
+                <div nz-col nzSpan="3" style="margin-right: 8px;">
+                    <div class="">
+                        <label class="form-label">Lái xe</label>
+                        <input nz-input class="form-input" formControlName="txtSearch" placeholder="ID, Tên nhân sự, SĐT..." />
+                    </div>
+                </div>
+
+                <div nz-col nzSpan="3" style="margin-right: 8px;">
+                    <div class="">
+                        <label class="form-label">Thông tin nhân sự</label>
+                        <input nz-input class="form-input" formControlName="txtSearch" placeholder="ID, Tên nhân sự, SĐT..." />
+                    </div>
+                </div>
+
+                <div nz-col nzSpan="3" class="mx-2">
+                    <div class="">
+                        <label class="form-label">Hãng xe</label>
+                        <div class="w-full">
+                            <nz-select nzPlaceHolder="Tất cả" formControlName="officeId" style="width: 100%;">
+                                <nz-option nzValue="1" nzLabel="value"></nz-option>
+
+                                <!-- <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
+                                <nz-option *ngFor="let office of listOffice" [nzValue]="office.id"
+                                    [nzLabel]="office.name"></nz-option> -->
+
+                            </nz-select>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-col nzSpan="3" class="mx-2">
+                    <div class="">
+                        <label class="form-label">Năm sản xuất</label>
+                        <div>
+                            <nz-select nzPlaceHolder="Tất cả" formControlName="departmentId" style="width: 100%;">
+                                <nz-option nzValue="1" nzLabel="value"></nz-option>
+                                <!-- <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
+                                <nz-option *ngFor="let department of listDepartment, let i =index"
+                                    [nzValue]="department.id" [nzLabel]="department.name"></nz-option> -->
+
+                            </nz-select>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-col nzSpan="3" class="mx-2">
+                    <div class="">
+                        <label class="form-label">Mục đích sử dụng</label>
+                        <div>
+                            <nz-option nzValue="1" nzLabel="value"></nz-option>
+
+                            <!-- <nz-select nzPlaceHolder="Tất cả" formControlName="positionId" style="width: 100%;">
+                                <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
+                                <nz-option *ngFor="let position of listPosstion, let i =index" [nzValue]="position.id"
+                                    [nzLabel]="position.name"></nz-option>
+
+                            </nz-select> -->
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+
+        <div class="flex justify-center m-2" style="min-width: 335px; ">
+            <span>
+                <button class="button" nz-button nzType="default" style="border-color: #274ea1; min-width: 160px;" type="button"
+                    (click)="resetForm()">
+                    <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M9.66667 17.5V12.5H11.3333V14.1667H18V15.8333H11.3333V17.5H9.66667ZM3 15.8333V14.1667H8V15.8333H3ZM6.33333 12.5V10.8333H3V9.16667H6.33333V7.5H8V12.5H6.33333ZM9.66667 10.8333V9.16667H18V10.8333H9.66667ZM13 7.5V2.5H14.6667V4.16667H18V5.83333H14.6667V7.5H13ZM3 5.83333V4.16667H11.3333V5.83333H3Z"
+                            fill="#274EA1" />
+                    </svg>
+
+                    <span style="color: #274ea1;">
+                        Xóa bộ lọc
+                    </span>
+                </button>
+            </span>
+            <span class="ml-2">
+                <button class="button" (click)="search()" style="background-color: #274ea1; color:  #f7f7f7;" nz-button
+                    nzType="default">Tìm
+                    kiếm</button>
+            </span>
+        </div>
+    </form>
+
+    <div nz-row style="margin-top: 32px;" class="mx-4">
+        <div nz-col nzSpan="24">
+            <table class="custom-table-list" style="background-color: #FCFCFC;">
+                <tbody>
+                    <tr style="background-color: #fcfcfc;">
+                        <th class="list-col-1">ID</th>
+                        <th class="list-col-3">Tên nhân viên</th>
+                        <th class="list-col-1">Năm sinh</th>
+                        <th class="list-col-2">SĐT</th>
+                        <th class="list-col-2">Trục thuộc quản lý</th>
+                        <th class="list-col-2">Chi nhánh</th>
+                        <th class="list-col-2">Bộ phận</th>
+                        <th class="list-col-2">Chức vụ</th>
+                        <th class="list-col-2">Trạng thái</th>
+                        <th class="list-col-2">Tác vụ</th>
+
+                    </tr>
+                    <!-- <tr *ngFor="let data of  showEmpolyeeNoData()"> -->
+                    <tr>
+
+                        <!-- <td class="list-col-1">{{data.code || '-'}}</td>
+                        <td class="list-col-3">{{data.name || '-'}}</td>
+                        <td class="list-col-1">{{data.yearOfBirth || '-'}}</td>
+                        <td class="list-col-2">{{data.phoneNumber || '-'}}</td>
+                        <td class="list-col-2">{{data.officeName || '-'}}</td>
+                        <td class="list-col-2">{{data.branchName || '-'}}</td>
+                        <td class="list-col-2">{{data.departmentName || '-'}}</td>
+                        <td class="list-col-2">{{data.positionName || '-'}}</td>
+                        <td class="list-col-2">{{data.workingStatus || '-'}}</td> -->
+
+                         <td class="list-col-1">{{'-'}}</td>
+                        <td class="list-col-3">{{ '-'}}</td>
+                        <td class="list-col-1">{{ '-'}}</td>
+                        <td class="list-col-2">{{ '-'}}</td>
+                        <td class="list-col-2">{{'-'}}</td>
+                        <td class="list-col-2">{{'-'}}</td>
+                        <td class="list-col-2">{{'-'}}</td>
+                        <td class="list-col-2">{{'-'}}</td>
+                        <td class="list-col-2">{{'-'}}</td>
+                        <td class="button_action" style="text-align: center;">
+                            <div>
+                                <a class="mx-1 button_show_detail">
+                                    Xem chi tiết
+                                </a>
+                                <a  class="mx-1 button_show_detail">
+                                    Nghỉ phép
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- <div style="display: flex; justify-content: center; margin-top: 16px;">
+        <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="total" [nzPageSize]="pageSize"
+            (nzPageIndexChange)="onPageChange($event)" class="custom-pagination">
+        </nz-pagination>
+    </div> -->
+
+</div>
+
+<!-- 
+<nz-modal [(nzVisible)]="isModalOnLeaveEmployee" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()"
+    [nzContent]="modalContent" [nzFooter]="null" [nzStyle]="{'min-width' : '1200px', 'min-height':'580px','margin-top': '205px'}">
+    <ng-template #modalContent>
+        <div class="headmodal">
+            <span style="font-weight: 500; font-size: 24px; ">Tạo lịch nghỉ phép</span>
+        </div>
+        <div nz-row>
+            <div nz-col nzSpan="24">
+                <div nz-col nzSpan="23" class="mx-4">
+                    <table class="custom-table">
+                        <tbody>
+                            <tr style="background-color: #f4f7fb;">
+                                <th style="text-align: center;" class="list-col-1">ID</th>
+                                <th class="list-col-2">Tên nhân viên</th>
+                                <th style="text-align: center;" class="list-col-3">Năm sinh</th>
+                                <th style="text-align: center;" class="list-col-4">SĐT</th>
+                                <th style="text-align: center;" class="list-col-3">Trực thuộc quản lý</th>
+                                <th style="text-align: center;" class="list-col-4">Chi nhánh</th>
+                                <th style="text-align: center;" class="list-col-3">Bộ phận</th>
+                            </tr>
+                            <tr *ngIf="selectedEmployee">
+                                <td style="text-align: center;" class="list-col-1">{{selectedEmployee.code || '-'}}</td>
+                                <td class="list-col-2">{{ selectedEmployee.name || '-' }}</td>
+                                <td style="text-align: center;" class="list-col-3">{{ selectedEmployee.yearOfBirth || '-' }}</td>
+                                <td style="text-align: center;" class="list-col-4">{{ selectedEmployee.phoneNumber  || '-' }}</td>
+                                <td style="text-align: center;" class="list-col-3">{{ selectedEmployee.officeName  || '-' }}</td>
+                                <td style="text-align: center;" class="list-col-4">{{ selectedEmployee.branchName  || '-' }}</td>
+                                <td style="text-align: center;" class="list-col-3">{{ selectedEmployee.departmentName  || '-' }}</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 22px;">
+        </div>
+        <div style="display: flex; justify-content: center;">
+            <span style="font-weight: 500 ;color: rgba(239, 68, 68, 1); font-size: 14px;" *ngIf="workingStatusNum === 2">{{'working.relaxing' | translate}} {{leaveFromDate | date: 'dd/MM/yyyy'}} - {{leaveToDate | date: 'dd/MM/yyyy'}}</span>
+        </div>
+        <div style="margin-top: 22px;">
+        </div>
+        <form [formGroup]="formOnLeave">
+            <div nz-row >
+                <div nz-row class="w-full" style="display: flex; justify-content: center;">
+                    <div nz-col nzSpan="18">
+                        <div nz-row class="w-full" >
+                            <div nz-col style="width: 30%;">
+                                <div class="">
+                                    <label class="form-label"> <span style="color: red;">*</span>Từ ngày</label>
+                                    <div>
+                                        <nz-date-picker class="w-full"
+                                            nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableFromDate"
+                                            formControlName="fromDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
+                                        <div style="height: 18px;">
+                                            <div *ngIf="formOnLeave.get('fromDate')?.touched" style="height: 20px;">
+                                                <span class="validate_input"
+                                                    *ngIf="formOnLeave.get('fromDate')?.errors?.['required']">Phải chọn ngày</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="margin-left: 10px; width: 30%;" >
+                                <div >
+                                    <label class="form-label"><span style="color: red;">*</span>Đến ngày</label>
+                                    <div>
+                                        <nz-date-picker class="w-full" [nzDisabledDate]="disableIntoToDate"
+                                            nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange($event)"
+                                            formControlName="toDate" nzPlaceHolder="Chọn ngày" ></nz-date-picker>
+                                            <div style="height: 18px;">
+                                                <div *ngIf="formOnLeave.get('toDate')?.touched">
+                                                    <span class="validate_input"
+                                                        *ngIf="formOnLeave.get('toDate')?.errors?.['required']">Phải chọn ngày</span>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-left: 10px; width: 30%;">
+                                <div class="">
+                                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.reason_off' | translate}}</label>
+                                    <input nz-input style="margin-top: 8px;" class="form-input" formControlName="reason" placeholder="ID, Tên nhân sự, SĐT..."  />
+                                    <div class="error-container">
+                                        <div *ngIf="formOnLeave.get('reason')?.invalid && (formOnLeave.get('reason')?.dirty || formOnLeave.get('reason')?.touched)">
+                                            <span class="validate_input" *ngIf="formOnLeave.get('reason')?.errors?.['required']">{{'required.reason' | translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div style="margin-top: 42px;">
+        </div>
+        <div nz-row style="display: flex; justify-content: center;">
+            <span>
+                <button (click)="isModalOnLeaveEmployee = false" class="button-infor" nz-button style="color: #274EA1; border-color: #274EA1;" nzType="default">Hủy</button>
+            </span>
+            <span class="ml-2">
+                <button (click)="updateWorkStatus()" class="button-infor" style="background-color: #274EA1; color: white;" nz-button nzType="default"
+                    >Lưu</button>
+            </span>
+        </div>
+    </ng-template>
+</nz-modal> -->

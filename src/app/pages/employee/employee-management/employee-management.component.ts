@@ -72,7 +72,7 @@ export class EmployeeManagementComponent implements OnInit{
 
   routerEmployeeManagement(){
     this.activeLink = 'employeeManagement'
-    // this.romoveSearchEmployee();
+    this.romoveSearchEmployee();
     localStorage.setItem('activeLink', this.activeLink);
     this.routes.navigate(['employee/employee-management'])
   }
@@ -80,35 +80,36 @@ export class EmployeeManagementComponent implements OnInit{
   routerListEmployeeProfile(){
     this.activeLink = 'employeeProfile'
     localStorage.setItem('activeLink', this.activeLink);
-    // this.romoveSearchEmployee();
+    this.romoveSearchEmployee();
     this.routes.navigate(['employee/list-employee-profile'])
   }
 
   routerListEmployeeProbation(){
     this.activeLink = 'employeeeProbation'
+    this.romoveSearchEmployee();
+
     localStorage.setItem('activeLink', this.activeLink);
-    // this.romoveSearchEmployee();
     this.routes.navigate(['employee/list-employee-probation'])
   }
 
   routerListEmployeeViolatesDiscipline(){
     this.activeLink = 'employeeViolatesDiscipline'
     localStorage.setItem('activeLink', this.activeLink);
-    // this.romoveSearchEmployee();
+    this.romoveSearchEmployee();
     this.routes.navigate(['employee/list-employee-violates-discipline'])
   }
 
   routerListEmployeeSalarySetup(){
     this.activeLink = 'employeeSalarySetup'
     localStorage.setItem('activeLink', this.activeLink);
-    // this.romoveSearchEmployee();
+    this.romoveSearchEmployee();
     this.routes.navigate(['employee/employee-salary-setup'])
   }
 
   routerListEmployeeResign(){
     this.activeLink = 'employeeResign'
     localStorage.setItem('activeLink', this.activeLink);
-    // this.romoveSearchEmployee();
+    this.romoveSearchEmployee();
 
     this.routes.navigate(['employee/list-employee-resign'])
   }

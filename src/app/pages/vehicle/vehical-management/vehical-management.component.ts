@@ -79,9 +79,9 @@ export class VehicalManagementComponent {
   }
 
   routerVehicleProfileManagement(){
-    this.activeLink = 'employeeViolatesDiscipline'
+    this.activeLink = 'vehicleProfileManagement'
     localStorage.setItem('activeLink', this.activeLink);
-    this.routes.navigate(['employee/list-employee-violates-discipline'])
+    this.routes.navigate(['vehical/file-vehical-management'])
   }
 
   routerOperationalManagement(){

@@ -67,6 +67,7 @@ export class ListProfileEmployeeComponent implements OnInit {
 
   ngOnInit(): void {
     const savedFormValue = localStorage.getItem('searchEmployee');
+    console.log(savedFormValue)
     
   // Khởi tạo form với giá trị từ localStorage nếu có, ngược lại dùng giá trị mặc định
   this.form = this.fb.group({
@@ -285,14 +286,7 @@ export class ListProfileEmployeeComponent implements OnInit {
     localStorage.removeItem('searchEmployee')
   }
 
-    ////////////////////////////////////////Lưu local storage các trường cần tìm kiếm//////////////////////////////////////////
-    setupValueIntoForm(){
-      const formValue = localStorage.getItem('searchEmployee');
-      console.log(formValue)
-      if(formValue){
-        this.form.patchValue(JSON.parse(formValue))
-      }
-    }
+    ////////////////////////////////////////Lưu local storage các trường cần tìm kiếm/////////////////////////////////////////
 
   updateWorkStatus(){
     this.formOnLeave.markAllAsTouched()
@@ -323,6 +317,14 @@ export class ListProfileEmployeeComponent implements OnInit {
         }
   
       })
+    }
+  }
+
+  setupValueIntoForm(){
+    const formValue = localStorage.getItem('searchEmployee');
+    console.log(formValue)
+    if(formValue){
+      this.form.patchValue(JSON.parse(formValue))
     }
   }
 

@@ -232,7 +232,7 @@
 
         <div class="mx-4 form-container ">
             <div class="mx-2 date-choose ">
-                <label class="form-label label_form">{{'employee.workingStatus' | translate}}</label>
+                <label class="label-form label_form">{{'employee.workingStatus' | translate}}</label>
                 <div nz-row nzSpan="5" style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px">
                     <div nz-col nzSpan="6">
                         <div class="form-control">
@@ -248,7 +248,7 @@
                     <div nz-col nzSpan="18" >
                         <div nz-row style="width: calc(100% - 8px);" [class.disabled-input]="contract_type == 2">
                             <div class="form-control">
-                                <label class="form-label"><span style="width: 100%; color: red;">*</span>{{'employee.fromDate' | translate}}</label>
+                                <label class="label-form"><span style="width: 100%; color: red;">*</span>{{'employee.fromDate' | translate}}</label>
                                 <div class="w-full">
                                     <nz-date-picker nzFormat="dd/MM/yyyy"
                                         (ngModelChange)="onDateChange($event)" class="w-full" formControlName="fromDateOfOffical"
@@ -265,7 +265,7 @@
                         <div nz-row style="width: calc(100% - 8px);" >
                             <div style="width: calc(50% - 8px); margin-right: 16px;" [class.disabled-input]="contract_type == 1">
                                 <div class="form-control">
-                                    <label class="form-label"><span style="width: 100%; color: red;">*</span>{{'employee.fromDate' | translate}}</label>
+                                    <label class="label-form"><span style="width: 100%; color: red;">*</span>{{'employee.fromDate' | translate}}</label>
                                     <div class="w-full">
                                         <nz-date-picker class="w-full"
                                             nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableFromDate"
@@ -281,7 +281,7 @@
 
                             <div style="width: calc(50% - 8px);" [class.disabled-input]="contract_type == 1">
                                 <div class="form-control">
-                                    <label class="form-label"><span style="width: 100%; color: red;">*</span>{{'employee.toDate' | translate}}</label>
+                                    <label class="label-form"><span style="width: 100%; color: red;">*</span>{{'employee.toDate' | translate}}</label>
                                     <div class="w-full">
                                         <nz-date-picker class="w-full" [nzDisabledDate]="disableIntoToDate" [disabled]="!form.get('fromDate')?.value"
                                             nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange($event)"
@@ -305,7 +305,7 @@
                     <div nz-col nzSpan="12">
                         <div style="width: calc(100% - 8px);">
                             <div class="">
-                                <label class="form-label" nzRequired><span style="color: red">*</span> {{'employee.office' | translate}}</label>
+                                <label class="label-form" nzRequired><span style="color: red">*</span> {{'employee.office' | translate}}</label>
                                 <div class="w-full">
                                     <nz-select nzPlaceHolder="Chọn" formControlName="officeId" style="width: 100%;">
                                         <nz-option *ngFor="let office of listOffice, let i =index" [nzValue]="office.id"
@@ -327,7 +327,7 @@
                         <div style="width: calc(100% - 8px); margin-left: 8px" >
                            
                             <div class="">
-                                <label class="form-label" nzRequired><span style="color: red">*</span> {{'employee.branch' | translate}}</label>
+                                <label class="label-form" nzRequired><span style="color: red">*</span> {{'employee.branch' | translate}}</label>
                                 <div class="w-full">
                                     <nz-select nzPlaceHolder="Chọn" formControlName="branchId" style="width: 100%;">
                                         <nz-option *ngFor="let branch of listBranch, let i =index" [nzValue]="branch.id"
@@ -350,7 +350,7 @@
                         <div style="width: calc(100% - 8px);">
                             
                             <div class="">
-                                <label class="form-label" nzRequired><span style="color: red">*</span> {{'employee.department' | translate}}</label>
+                                <label class="label-form" nzRequired><span style="color: red">*</span> {{'employee.department' | translate}}</label>
                                 <div class="w-full">
                                     <nz-select nzPlaceHolder="Chọn" formControlName="departmentId" style="width: 100%;">
                                         <nz-option *ngFor="let department of listDepartment, let i =index" [nzValue]="department.id"
@@ -370,7 +370,7 @@
                     <div nz-col nzSpan="12">
                        
                         <div style="width: calc(100% - 8px);  margin-left: 8px">
-                            <label class="form-label"><span style="color: red">*</span> {{'employee.position' | translate}}</label>
+                            <label class="label-form"><span style="color: red">*</span> {{'employee.position' | translate}}</label>
                             <div class="w-full">
                                 <nz-select nzPlaceHolder="Chọn" formControlName="positionId" style="width: 100%;">
                                     <nz-option *ngFor="let position of listPosstion, let i =index" [nzValue]="position.id"
@@ -389,15 +389,15 @@
                 </div>
             </div>
             <div nz-col class="mx-2 labor-contract">
-                <label class="form-label">{{ 'employee.laborContract' | translate}}</label>
+                <label class="label-form">{{ 'employee.laborContract' | translate}}</label>
                 <div class="" style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;" formArrayName="contract">
                     <div  nz-row *ngFor="let contract of lstcontractDTO.controls; let i = index" [formGroupName]="i" >
                         <div class="form-col" nz-col>
                             <div class="mx-2 ">
-                                <label class="form-label"><span style="color: red">*</span>{{ 'employee.dateOfSigning' | translate}}</label>
+                                <label class="label-form"><span style="color: red">*</span>{{ 'employee.dateOfSigning' | translate}}</label>
                                     <div style="width: 100%;" >
                                         <nz-date-picker nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange($event)"
-                                            formControlName="signDate" class="w-full"
+                                            formControlName="signDate" class="w-full" [nzDisabledDate]="disableSignDate(i)"
                                             nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                         <div class="error-container">
                                             <div *ngIf=" contract.get('signDate')?.touched">
@@ -410,7 +410,7 @@
                         <div class="form-col" nz-col>
                             <div class="mx-2">
                                 <div style="width: 100%;">
-                                    <label class="form-label"><span style="color: red">*</span> {{ 'employee.laborContractFile' | translate}}</label>
+                                    <label class="label-form"><span style="color: red">*</span> {{ 'employee.laborContractFile' | translate}}</label>
                                     <div style="width: 100%;">
                                             <div style="width: 100%" nz-row nzGutter="8" class="custom-upload"
                                                 style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
@@ -436,7 +436,7 @@
                         </div>
                         <!-- <div nz-col class="form-col" >
                             <div class="">
-                                <label class="form-label" nzRequired><span style="color: red">*</span> {{'employee.duration' | translate}}</label>
+                                <label class="label-form" nzRequired><span style="color: red">*</span> {{'employee.duration' | translate}}</label>
                                 <div class="w-full">
                                     <nz-select nzPlaceHolder="Chọn" formControlName="type" style="width: 100%;">
                                         <nz-option *ngFor="let type of listDuration, let i =index" [nzValue]="type.id"
@@ -454,10 +454,10 @@
                         </div> -->
                         <div class="form-col" nz-col>
                             <div class="mx-2 ">
-                                <label class="form-label">{{ 'employee.dateOfSigning' | translate}}</label>
+                                <label class="label-form">{{ 'employee.dateOfSigning' | translate}}</label>
                                     <div style="width: 100%;" >
                                         <nz-date-picker nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange($event)"
-                                            formControlName="endDate" class="w-full"
+                                            formControlName="endDate" class="w-full" [nzDisabledDate]="disableIntoEndDate(i)"
                                             nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                         <!-- <div class="error-container">
                                             <div *ngIf=" contract.get('signDate')?.touched">
@@ -476,7 +476,7 @@
 
             <div class="input-wrapper ">
                 <div class="">
-                    <label class="form-label" ><span style="color: red">*</span> {{'employee.route' | translate}}</label>
+                    <label class="label-form" ><span style="color: red">*</span> {{'employee.route' | translate}}</label>
                     <nz-select nzPlaceHolder="Chọn" formControlName="routeId" style="width: 100%;">
                         <nz-option *ngFor="let route of listRoute, let i =index" [nzValue]="route.id"
                             [nzLabel]="route.name"></nz-option>
@@ -493,7 +493,7 @@
 
             <div class="input-wrapper">
                 <div class="">
-                    <span style="color: red;" >*</span><label class="form-label" for="" >{{'employee.businessCardNumber' | translate}}</label>
+                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.businessCardNumber' | translate}}</label>
                     <input class="input-form"  placeholder="Nguyễn văn A"  formControlName="businessCardNumber" type="text" >
                     <div class="error-container">
                         <div *ngIf="form.get('businessCardNumber')?.invalid && (form.get('businessCardNumber')?.dirty || form.get('businessCardNumber')?.touched)">
@@ -506,7 +506,7 @@
 
             <div  class="input-wrapper">
                 <div class="">
-                    <label class="form-label" ><span style="color: red">*</span> {{'employee.day_start' | translate}}</label>
+                    <label class="label-form" ><span style="color: red">*</span> {{'employee.day_start' | translate}}</label>
                     <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange($event)" style="width: 100%"
                         [nzDisabledDate]="disableBcStartDate"
                             formControlName="bcStartDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
@@ -520,7 +520,7 @@
 
             <div  class="input-wrapper">
                 <div class="">
-                    <label class="form-label" > <span style="color: red">*</span>{{'employee.day_end' | translate}}</label>
+                    <label class="label-form" > <span style="color: red">*</span>{{'employee.day_end' | translate}}</label>
                     <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange($event)" style="width: 100%"
                             [nzDisabledDate]="disableIntobcEndDate"
                             formControlName="bcEndDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
@@ -534,7 +534,7 @@
 
             <div class="input-wrapper">
                 <div class="">
-                    <span style="color: red;" >*</span><label class="form-label" >Hình ảnh thẻ nghiệp vụ</label>
+                    <span style="color: red;" >*</span><label class="label-form" >Hình ảnh thẻ nghiệp vụ</label>
                     <div nz-row nzGutter="8" class="custom-upload"
                             style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
                             <input nz-input placeholder="Chọn ảnh" readonly class="upload-input"
@@ -557,7 +557,7 @@
 
             <div  class="input-wrapper">
                 <div class="">
-                    <label class="form-label" ><span style="color: red">*</span>{{'employee.healthCertificate' | translate}} </label>
+                    <label class="label-form" ><span style="color: red">*</span>{{'employee.healthCertificate' | translate}} </label>
                     <div nz-row nzGutter="8" class="custom-upload"
                             style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
                             <input nz-input placeholder="Chọn file" readonly class="upload-input" 
@@ -582,7 +582,7 @@
 
             <div  class="input-wrapper">
                 <div class="">
-                    <label class="form-label" ><span style="color: red">*</span> {{'employee.dayend_healthCertificate' | translate}} </label>
+                    <label class="label-form" ><span style="color: red">*</span> {{'employee.dayend_healthCertificate' | translate}} </label>
                     <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange($event)" style="width: 100%;"
                             formControlName="hcEndDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                         <div class="error-container">
@@ -595,7 +595,7 @@
 
             <div class="input-wrapper">
                 <div class="">
-                    <label class="form-label" ><span style="color: red">*</span>{{'employee.number_healthCertificate' | translate}}</label>
+                    <label class="label-form" ><span style="color: red">*</span>{{'employee.number_healthCertificate' | translate}}</label>
                     <input nz-input class="form-input" formControlName="driverLicenseNumber" placeholder="Nhập"
                             class="form-input" style="width: 100%;"/>
                        <div class="error-container">
@@ -628,7 +628,7 @@
 
             <div class="input-wrapper">
                 <div class="">
-                    <label class="form-label" ><span style="color: red">*</span> {{'employee.day_start' | translate}} </label>
+                    <label class="label-form" ><span style="color: red">*</span> {{'employee.day_start' | translate}} </label>
                     <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange($event)"
                         [nzDisabledDate]="disabledlStartDate" style="width: 100%"
 
@@ -643,7 +643,7 @@
 
             <div  class="input-wrapper">
                 <div class="">
-                    <label class="form-label" ><span style="color: red">*</span>{{'employee.day_end' | translate}}  </label>
+                    <label class="label-form" ><span style="color: red">*</span>{{'employee.day_end' | translate}}  </label>
                     <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange($event)"
                         [nzDisabledDate]="disabledlEndDate" style="width: 100%"
                             formControlName="dlEndDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
@@ -657,7 +657,7 @@
 
             <div  class="input-wrapper">
                 <div class="">
-                    <span style="color: red;" >*</span><label class="form-label" >Hình ảnh GPLX</label>
+                    <span style="color: red;" >*</span><label class="label-form" >Hình ảnh GPLX</label>
                     <div nz-row nzGutter="8" class="custom-upload"
                             style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
                             <input nz-input placeholder="Chọn ảnh" readonly class="upload-input" style="width: 100%"
@@ -681,7 +681,7 @@
         <div style="border-bottom: 1px solid #dddddd;margin-left: 30px; margin-bottom: 18px; margin-top: 18px; margin-right: 20px"></div>
         <div nz-row class="mx-4 form-container">
             <div nz-col class="recordStorage" style="margin-left:8px" >
-                <label class="form-label label_form" >{{'employee.archivedRecords' | translate}} </label>
+                <label class="label-form label_form" >{{'employee.archivedRecords' | translate}} </label>
                     <div nz-row formArrayName="lstArchivedRecords" class="lstArchivedRecords"
                     style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;width: calc(100% - 16px);">
                     <div nz-row style="display: flex; flex-wrap: nowrap; width: 100%"
@@ -690,7 +690,7 @@
                         <div nz-col style="width: calc(25%)">
                             <div class="mx-2">
                                 <div class="">
-                                    <label class="form-label">{{'employee.name_file' | translate}}</label>
+                                    <label class="label-form">{{'employee.name_file' | translate}}</label>
                                     <input nz-input class="form-input" formControlName="name" placeholder="Nhập" style="width: 100%"/>
                                     <div class="error-container">
                                          <div *ngIf="doc.get('name')?.invalid && doc.get('name')?.dirty || doc.get('name')?.touched">
@@ -703,7 +703,7 @@
                         <div nz-col style="width: calc(20%)">
                             <div class="mx-2">
                                 <div class="">
-                                    <label class="form-label">{{'employee.number1' | translate}}</label>
+                                    <label class="label-form">{{'employee.number1' | translate}}</label>
                                     <div>
                                         <input nz-input class="form-input" formControlName="code" placeholder="Nhập" />
                                         <div class="error-container">
@@ -718,7 +718,7 @@
                         <div nz-col style="width: calc(25%)">
                             <div class="mx-2">
                                 <div class="">
-                                    <label class="form-label">{{'employee.type_file' | translate}}</label>
+                                    <label class="label-form">{{'employee.type_file' | translate}}</label>
                                     <div>
                                         <input nz-input class="form-input" formControlName="type" placeholder="Nhập" />
                                         <div class="error-container">
@@ -733,7 +733,7 @@
                         <div nz-col style="width: calc(20%)">
                             <div class="mx-2">
                                 <div class="">
-                                    <label class="form-label">{{'employee.file_together' | translate}}</label>
+                                    <label class="label-form">{{'employee.file_together' | translate}}</label>
                                     <div>
 
                                         <div nz-row nzGutter="8" class="custom-upload"
@@ -789,7 +789,7 @@
 
             </div>
             <div nz-col class="children" >
-                <label class="form-label label_form">{{'employee.children_status' | translate}}</label>
+                <label class="label-form label_form">{{'employee.children_status' | translate}}</label>
                 <div nz-row style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px; margin-bottom: 20px;">
                     <div nz-row class="w-full mx-2" style="height: 32px !important; line-height: 32px;">
                         <div class="">
@@ -804,7 +804,7 @@
                             <div nz-col nzSpan="10">
                                 <div class="mx-2">
                                     <div class="">
-                                        <label class="form-label"><span style="color: red">*</span>{{'employee.name_child' | translate}}</label>
+                                        <label class="label-form"><span style="color: red">*</span>{{'employee.name_child' | translate}}</label>
                                         <div>
                                             <input nz-input class="form-input" formControlName="name" placeholder="Nhập"  style="width: 100%"  />
                                                 <div class="error-container">
@@ -819,7 +819,7 @@
                             <div nz-col nzSpan="6">
                                 <div class="mx-2">
                                     <div class="">
-                                        <label class="form-label"><span style="color: red">*</span>{{'employee.yearOfBirth' | translate}}</label>
+                                        <label class="label-form"><span style="color: red">*</span>{{'employee.yearOfBirth' | translate}}</label>
                                         <div>
                                             <input nz-input class="form-input" type="number" maxlength="4" formControlName="yearOfBirth" placeholder="Nhập năm" style="width: 100%"/>
                                                 <div class="error-container">
@@ -836,7 +836,7 @@
                             <div nz-col nzSpan="6">
                                 <div class="mx-2">
                                     <div class="">
-                                        <label class="form-label"><span style="color: red">*</span>{{'employee.gender' | translate}}</label>
+                                        <label class="label-form"><span style="color: red">*</span>{{'employee.gender' | translate}}</label>
                                         <nz-select nzPlaceHolder="Chọn" formControlName="gender"  style="width: 100%">
                                             <nz-option *ngFor="let gender of listGender" [nzValue]="gender.id" [nzLabel]="gender.value"></nz-option>
                                         </nz-select>
@@ -1236,3 +1236,4 @@
         
     </ng-template>
 </nz-modal>
+

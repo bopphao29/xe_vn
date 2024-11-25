@@ -170,6 +170,7 @@ export class ListEmployeeProbationComponent implements OnInit  {
     const formValue = this.form.value;
     console.log(formValue)
     if(formValue){
+      // localStorage.removeItem('searchEmployee')
       localStorage.setItem('searchEmployee', JSON.stringify(formValue));
     }
     

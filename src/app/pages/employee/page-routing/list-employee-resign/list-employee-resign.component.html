@@ -9,8 +9,7 @@
                 <div class="">
                     <label class="form-label">Hình thức nghỉ</label>
                     <div>
-                        <nz-select nzPlaceHolder="Chọn" formControlName="leaveType" style="width: 100%;">
-                            <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
+                        <nz-select nzPlaceHolder="Chọn" formControlName="leaveType" style="width: 100%;" (keydown.enter)="search()">
                             <nz-option *ngFor="let data of formOfLeave, let i =index" [nzValue]="data.id"
                                 [nzLabel]="data.value"></nz-option>
 
@@ -105,6 +104,7 @@
                     <th class="list-col-2">Bộ phận</th>
                     <th class="list-col-2">Ngày bắt đầu nghỉ</th>
                     <th class="list-col-4">Lý do nghỉ</th>
+                    <th class="list-col-2">Tác vụ</th>
 
                 </tr>
                 <tr *ngFor="let data of showEmpolyeeNoData()">
@@ -115,8 +115,20 @@
                     <td class="list-col-2">{{data.officeName || '-'}}</td>
                     <td class="list-col-2">{{data.branchName || '-'}}</td>
                     <td class="list-col-2">{{data.departmentName || '-'}}</td>
-                    <td class="list-col-2">{{(data.lastModifiedDate | date: 'dd/MM/yyyy' ) || '-'}}</td>
+                    <td class="list-col-2">{{(data.leaveFromDate | date: 'dd/MM/yyyy' ) || '-'}}</td>
                     <td class="list-col-4">{{data.reason || '-'}}</td>
+                    <td class="list-col-2" style="text-align: center;">
+                        <a *ngIf="isLeave == false && onLeave == true && data.id" style="border-color: rgba(39, 78, 161, 0.3);" class="mx-1 button_show_detail" (click)="openModalonLeave(data.id)">
+                            Sửa
+                        </a>
+                        <a *ngIf="isLeave == false && isWaitLeave == false && onLeave == true && data.id" style="border-color: rgba(239, 68, 68, 1); color: rgba(239, 68, 68, 1);" class="mx-1 button_show_detail" (click)="openModalDelete(data.id)">
+                            Xóa
+                        </a>
+                        <a *ngIf="isLeave == true && isWaitLeave == false && onLeave == false && data.id" style="border-color: rgba(39, 78, 161, 0.3);" class="mx-1 button_show_detail" (click)="openModalonLeave(data.id)">
+                            Đi làm lại
+                        </a>
+                        <span *ngIf="!data.id">-</span>
+                    </td>
                 </tr>
 
 
@@ -173,7 +185,7 @@
         </div>
         <div style="margin-top: 22px;">
         </div>
-        <form [formGroup]="formOnLeave">
+        <form [formGroup]="formChangeInforLeave">
             <div nz-row >
                 <div nz-row class="w-full" style="display: flex; justify-content: center;">
                     <div nz-col nzSpan="12">
@@ -231,3 +243,150 @@
 
 
 </div>
+
+
+<nz-modal [(nzVisible)]="isModalOnLeaveEmployee" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()" 
+    [nzContent]="modalContent" [nzFooter]="null" [nzStyle]="{'min-width' : '1200px', 'min-height':'580px','margin-top': '205px'}">
+    <ng-template #modalContent>
+        <div class="headmodal">
+            <span style="font-weight: 500; font-size: 24px; ">Sửa thông tin thôi việc</span>
+        </div>
+        <div nz-row>
+            <div nz-col nzSpan="24">
+                <div nz-col nzSpan="23" class="mx-4">
+                    <table class="custom-table">
+                        <tbody>
+                            <tr style="background-color: #f4f7fb;">
+                                <th style="text-align: center;" class="list-col-1">ID</th>
+                                <th class="list-col-2">Tên nhân viên</th>
+                                <th style="text-align: center;" class="list-col-3">Năm sinh</th>
+                                <th style="text-align: center;" class="list-col-4">SĐT</th>
+                                <th style="text-align: center;" class="list-col-3">Trực thuộc quản lý</th>
+                                <th style="text-align: center;" class="list-col-4">Chi nhánh</th>
+                                <th style="text-align: center;" class="list-col-3">Bộ phận</th>
+                            </tr>
+                            <tr *ngIf="selectedEmployee">
+                                <td style="text-align: center;" class="list-col-1">{{selectedEmployee.code || '-'}}</td>
+                                <td class="list-col-2">{{ selectedEmployee.name || '-' }}</td>
+                                <td style="text-align: center;" class="list-col-3">{{ selectedEmployee.yearOfBirth || '-' }}</td>
+                                <td style="text-align: center;" class="list-col-4">{{ selectedEmployee.phoneNumber  || '-' }}</td>
+                                <td style="text-align: center;" class="list-col-3">{{ selectedEmployee.officeName  || '-' }}</td>
+                                <td style="text-align: center;" class="list-col-4">{{ selectedEmployee.branchName  || '-' }}</td>
+                                <td style="text-align: center;" class="list-col-3">{{ selectedEmployee.departmentName  || '-' }}</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 22px;">
+        </div>
+        <div style="margin-top: 22px;">
+        </div>
+        <form [formGroup]="formChangeInforLeave">
+            <div nz-row >
+                <div nz-row class="w-full" style="display: flex; justify-content: center;">
+                    <div nz-col nzSpan="12">
+                        <div nz-row class="w-full" >
+                            <div nz-col style="width: calc(50% - 8px);">
+                                <div class="">
+                                    <label class="form-label"> <span style="color: red;">*</span>Từ ngày</label>
+                                    <div>
+                                        <nz-date-picker class="w-full"
+                                            nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableFromDate"
+                                            formControlName="fromDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
+                                        <div style="height: 18px;">
+                                            <div *ngIf="formChangeInforLeave.get('fromDate')?.touched" style="height: 20px;">
+                                                <span class="validate_input"
+                                                    *ngIf="formChangeInforLeave.get('fromDate')?.errors?.['required']">Phải chọn ngày</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div nz-col style="width: calc(50% - 8px); margin-left: 10px;">
+                                <div class="">
+                                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.reason_off' | translate}}</label>
+                                    <input nz-input (keydown.enter)="search()" style="margin-top: 8px;" class="form-input" formControlName="reason" placeholder="ID, Tên nhân sự, SĐT..."  />
+                                    <div class="error-container">
+                                        <div *ngIf="formChangeInforLeave.get('reason')?.invalid && (formChangeInforLeave.get('reason')?.dirty || formChangeInforLeave.get('reason')?.touched)">
+                                            <span class="validate_input" *ngIf="formChangeInforLeave.get('reason')?.errors?.['required']">{{'required.reason' | translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div style="margin-top: 42px;">
+        </div>
+        <div nz-row style="display: flex; justify-content: center;">
+            <span>
+                <button (click)="isModalOnLeaveEmployee = false" class="button-infor" nz-button style="color: #274EA1; border-color: #274EA1;" nzType="default">Hủy</button>
+            </span>
+            <span class="ml-2">
+                <button (click)="updateWorkStatus()" class="button-infor" style="background-color: #274EA1; color: white;" nz-button nzType="default"
+                    >Lưu</button>
+            </span>
+        </div>
+    </ng-template>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="isResetEmployee" (nzOnCancel)="handleCancelReset()" (nzOnOk)="handleSubmitResest()" nzClassName="reset-employee-modal"
+    [nzContent]="modalContentDone" [nzFooter]="null" [nzStyle]="{'width' : '498px','min-width' : '498px', 'height':'348px','min-height':'348px','margin-top': '278px','border-radius': '12px'}">
+    <ng-template #modalContentDone>
+        <div class="headmodalRest">
+            <div style="justify-content: center; align-items: center; font-size: 55px">
+                <svg width="54" height="55" viewBox="0 0 54 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M27.0002 27.4997C23.3335 27.4997 20.1946 26.1941 17.5835 23.583C14.9724 20.9719 13.6668 17.833 13.6668 14.1663C13.6668 10.4997 14.9724 7.36079 17.5835 4.74967C20.1946 2.13856 23.3335 0.833008 27.0002 0.833008C30.6668 0.833008 33.8057 2.13856 36.4168 4.74967C39.0279 7.36079 40.3335 10.4997 40.3335 14.1663C40.3335 17.833 39.0279 20.9719 36.4168 23.583C33.8057 26.1941 30.6668 27.4997 27.0002 27.4997ZM0.333496 54.1663V44.833C0.333496 42.9441 0.819607 41.208 1.79183 39.6247C2.76405 38.0413 4.05572 36.833 5.66683 35.9997C9.11127 34.2775 12.6113 32.9858 16.1668 32.1247C19.7224 31.2636 23.3335 30.833 27.0002 30.833C30.6668 30.833 34.2779 31.2636 37.8335 32.1247C41.389 32.9858 44.889 34.2775 48.3335 35.9997C49.9446 36.833 51.2363 38.0413 52.2085 39.6247C53.1807 41.208 53.6668 42.9441 53.6668 44.833V54.1663H0.333496Z" fill="#274EA1"/>
+                    </svg>                    
+            </div>
+        </div>
+        <div >
+            <div style="text-align: center; margin-bottom: 60px;"><span style="font-size: 24px;font-weight: 500px;  ">Xác nhận đi làm lại</span></div>
+            
+            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 20px"> 
+                <span>
+                    <button class="button-infor" nz-button style="color: #274EA1; border: 1px solid rgba(39, 78, 161, 1);" nzType="default"
+                        (click)="handleCancelReset()">Hủy</button>
+                </span>
+                <span>
+                    <button class="button-infor" nz-button style="color: #ffffff; background-color: #274EA1;" nzType="default"
+                        (click)="handleSubmitResest()">Xác nhận</button>
+                </span>
+            </div>
+        </div>
+        
+    </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isDelete" (nzOnCancel)="handleCancelDelete()" (nzOnOk)="handleSubmitDelete()" nzClassName="reset-employee-modal"
+    [nzContent]="modalContentDelete" [nzFooter]="null" [nzStyle]="{'width' : '498px','min-width' : '498px', 'height':'348px','min-height':'348px','margin-top': '278px','border-radius': '12px'}">
+    <ng-template #modalContentDelete>
+        <div class="headmodalRest">
+            <div style="color: red; justify-content: center; align-items: center; font-size: 60px">
+                <span nz-icon nzType="user-delete" nzTheme="outline"></span>                  
+            </div>
+        </div>
+        <div >
+            <div style="text-align: center; margin-bottom: 60px;"><span style="font-size: 24px;font-weight: 500px;  ">Xác nhận xóa nhân viên chờ nghỉ việc</span></div>
+            
+            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 20px"> 
+                <span>
+                    <button class="button-infor" nz-button style="color: #274EA1; border: 1px solid rgba(39, 78, 161, 1);" nzType="default"
+                        (click)="handleCancelDelete()">Hủy</button>
+                </span>
+                <span>
+                    <button class="button-infor" nz-button style="color: #ffffff; background-color: red; border-color: red !important;" nzType="default"
+                        (click)="handleSubmitDelete()">Xác nhận</button>
+                </span>
+            </div>
+        </div>
+        
+    </ng-template>
+</nz-modal>
