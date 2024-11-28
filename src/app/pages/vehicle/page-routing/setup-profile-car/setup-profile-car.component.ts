@@ -17,6 +17,7 @@ import { IData } from '../../../../models/setup-profile-car/index.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable, Observer } from 'rxjs';
 import { VehicalServiceService } from '../../../../shared/services/vehical-service.service';
+import { NotificationService } from '../../../../shared/services/notification.service';
 
 interface FileCompressed {
   file: File[]
@@ -56,7 +57,7 @@ export class SetupProfileCarComponent implements OnInit {
   };
 
   driver_status: number = 0
-
+  is_New: any
   form!: FormGroup;
 
   activeTab: number = 1;
@@ -64,7 +65,8 @@ export class SetupProfileCarComponent implements OnInit {
     private translate: TranslateService,
     private fb: FormBuilder,
     private msg: NzMessageService,
-    private vehicalService: VehicalServiceService
+    private vehicalService: VehicalServiceService,
+    private notifiService: NotificationService
   ) {
   }
 
@@ -88,8 +90,7 @@ export class SetupProfileCarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.form = this.fb.group(
-      {
+    this.form = this.fb.group({
         isNew: [null, Validators.required],
         registerNo: [null, Validators.required],
         frameNumber: [null, Validators.required],
@@ -104,6 +105,10 @@ export class SetupProfileCarComponent implements OnInit {
         routeId: [null, Validators.required],
         odometer: [null, Validators.required],
         // payload: [null, Validators.required],
+        firstSubcriptionDate: [null, Validators.required],
+        fristRegistrationDate: [null, Validators.required],
+        firstStartDateXE: [null, Validators.required],
+        owningLegalEntity: [null, Validators.required],
         firstStartDate: [null, Validators.required],
         subscriptionDate: [null, Validators.required],
         registrationDate: [null, Validators.required],
@@ -141,6 +146,11 @@ export class SetupProfileCarComponent implements OnInit {
         this.driver_status = value
       })
 
+      this.form.get('isNew')?.valueChanges.subscribe((value: any)=> {
+        console.log(value)
+        this.is_New = value
+      })
+
       this.getRoute()
   }
 
@@ -152,7 +162,12 @@ export class SetupProfileCarComponent implements OnInit {
     })
   }
 
-
+  listVehical : any[] = []
+  getVehicalType(){
+    this.vehicalService.getVehicalType().subscribe((response : any)=> {
+      this.listVehical = response.data
+    })
+  }
 
   handleOk(): void {
     this.isConfirmLoading = true;
@@ -216,7 +231,11 @@ export class SetupProfileCarComponent implements OnInit {
       const file = input.files[0];
       this.fileCompressed.file[0] = file
       // Đọc file thành base64
-      this.readFileImage(file)
+      if(file){
+        this.readFileImage(file)
+      }else{
+        this.notifiService.error('File lỗi')
+      }
     }
   }
 
@@ -226,7 +245,7 @@ export class SetupProfileCarComponent implements OnInit {
     reader.onload = (e) => {
       console.log('Reader loaded with result:', reader.result); // Kiểm tra kết quả đọc file
       this.previewImage = e.target?.result!;// Lưu base64 vào biến
-      console.log(this.previewImage)
+      // console.log(this.previewImage)
     };
     reader.onerror = (err) => {
       console.error(err)
@@ -237,11 +256,141 @@ export class SetupProfileCarComponent implements OnInit {
 
   handleCancel(): void {
     this.isShowModalUploadfile = false;
-    this.previewImage = null; // Reset ảnh khi đóng modal
   }
 
+  ////////////////////////////////////////////////////////////////full image show//////////////////////////////////////////
+  isFullImageVisible: boolean = false;
+  fullImageSrc: string = '';
 
-  ///////////////////////////////////////////createVehical///////////////////////////////////////
+openFullImage(imageSrc: any): void {
+  this.fullImageSrc = imageSrc;
+  this.isFullImageVisible = true;
+  console.log(this.fullImageSrc)
+
+}
+
+removeImage(){
+  this.previewImage = null
+  this.fileCompressed.file = []
+
+}
+
+disableInToFirstSubcriptionDate = (firstSubcriptionDate: Date): boolean => {
+  const fristRegistrationDate = this.form.get('fristRegistrationDate')?.value
+  return fristRegistrationDate ? firstSubcriptionDate >= fristRegistrationDate : false
+}
+
+disableIntoFristRegistrationDate = (fristRegistrationDate: Date): boolean => {
+  const firstSubcriptionDate = this.form.get('firstSubcriptionDate')?.value
+  return firstSubcriptionDate ? fristRegistrationDate <= firstSubcriptionDate : false
+}
+///////////////////////đăng kiểm///////////////////////////////////////////////////////////////////
+disableInToRegistrationDate = (registrationDate: Date): boolean => {
+  const registrationExpireDate = this.form.get('registrationExpireDate')?.value
+  return registrationExpireDate ? registrationDate >= registrationExpireDate : false
+}
+
+disableIntoRegistrationExpireDate = (registrationExpireDate: Date): boolean => {
+  const registrationDate = this.form.get('registrationDate')?.value
+  return registrationDate ? registrationExpireDate <= registrationDate : false
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////bảo hiểm TNDS////////////////////////////////////////////////
+disableInToTndsInsuranceStartDate  = (tndsInsuranceStartDate: Date): boolean => {
+  const tndsInsuranceEndDate = this.form.get('tndsInsuranceEndDate')?.value
+  return tndsInsuranceEndDate ? tndsInsuranceStartDate >= tndsInsuranceEndDate : false
+}
+
+disableIntoTndsInsuranceEndDate = (tndsInsuranceEndDate: Date): boolean => {
+  const tndsInsuranceStartDate = this.form.get('tndsInsuranceStartDate')?.value
+  return tndsInsuranceStartDate ? tndsInsuranceEndDate <= tndsInsuranceStartDate : false
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////bảo hiểm vật chất xe//////////////////////////////////////////////////////////
+disableInToMaterialInsuranceStartDate  = (materialInsuranceStartDate: Date): boolean => {
+  const materialInsuranceEndDate = this.form.get('materialInsuranceEndDate')?.value
+  return materialInsuranceEndDate ? materialInsuranceStartDate >= materialInsuranceEndDate : false
+}
+
+disableIntoMaterialInsuranceEndDate = (materialInsuranceEndDate: Date): boolean => {
+  const materialInsuranceStartDate = this.form.get('materialInsuranceStartDate')?.value
+  return materialInsuranceStartDate ? materialInsuranceEndDate <= materialInsuranceStartDate : false
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////phù hiệu/////////////////////////////////////////////////////
+disableInToBadgeIssuanceStartDate  = (badgeIssuanceStartDate: Date): boolean => {
+  const badgeIssuanceEndDate = this.form.get('badgeIssuanceEndDate')?.value
+  return badgeIssuanceEndDate ? badgeIssuanceStartDate >= badgeIssuanceEndDate : false
+}
+
+disableIntoBadgeIssuanceEndDate= (badgeIssuanceEndDate: Date): boolean => {
+  const badgeIssuanceStartDate = this.form.get('badgeIssuanceStartDate')?.value
+  return badgeIssuanceStartDate ? badgeIssuanceEndDate <= badgeIssuanceStartDate : false
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////giấy đi đường/////////////////////////////////////////////////////
+disableInToTravelPermitStartDate  = (travelPermitStartDate: Date): boolean => {
+  const travelPermitEndDate = this.form.get('travelPermitEndDate')?.value
+  return travelPermitEndDate ? travelPermitStartDate >= travelPermitEndDate : false
+}
+
+disableIntoTravelPermitEndDate= (travelPermitEndDate: Date): boolean => {
+  const travelPermitStartDate = this.form.get('travelPermitStartDate')?.value
+  return travelPermitStartDate ? travelPermitEndDate <= travelPermitStartDate : false
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////Ngày đóng, ngày hết hạn bắt buộc/////////////////////////////////////////////////////
+
+disableInToFeePaymentDate = (feePaymentDate: Date): boolean => {
+  const feeExpireDate = this.form.get('feeExpireDate')?.value
+  return feeExpireDate ? feePaymentDate >= feeExpireDate : false
+}
+
+disableIntoFeeExpireDate= (feeExpireDate: Date): boolean => {
+  const feePaymentDate = this.form.get('feePaymentDate')?.value
+  return feePaymentDate ? feeExpireDate <= feePaymentDate : false
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////Ngày đóng, ngày hết hạn không bắt buộc/////////////////////////////////////////////////////
+
+disableInToNetworkRegisterDate = (networkRegisterDate: Date): boolean => {
+  const networkExpireDate = this.form.get('networkExpireDate')?.value
+  return networkExpireDate ? networkRegisterDate >= networkExpireDate : false
+}
+
+disableIntoNetworkExpireDate= (networkExpireDate: Date): boolean => {
+  const networkRegisterDate = this.form.get('networkRegisterDate')?.value
+  return networkRegisterDate ? networkExpireDate <= networkRegisterDate : false
+}
+
+disableAfterDate(name: string): (afterDate: Date | null) => boolean {
+  return (afterDate: Date | null): boolean => {
+    if (!afterDate || !this.form) return false;
+
+    const beforeDate = this.form.get(name)?.value;
+    if (!beforeDate) return false;
+
+    const beforeDateObject = new Date(beforeDate);
+
+    return afterDate >= beforeDateObject;
+  };
+}
+
+disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
+  return (beforeDate: Date | null): boolean => {
+    if (!beforeDate || !this.form) return false;
+
+    const afterDate = this.form.get(name)?.value;
+    if (!afterDate) return false;
+
+    const AfterDateObject = new Date(afterDate);
+
+    return beforeDate <= AfterDateObject;
+  };
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////createVehical///////////////////////////////////////
   createVehical() {
     const dataForm = {
       ...this.form.value
@@ -250,9 +399,6 @@ export class SetupProfileCarComponent implements OnInit {
     const formData = new FormData();
 
     formData.append('data', JSON.stringify(dataForm));
-    // if (this.fileCompressed.file.length > 0) {
-    //   formData.append('image', this.fileCompressed.file[0]);
-    // }
     formData.append('image', this.fileCompressed.file[0]);
     console.log(this.fileCompressed.file[0])
 
@@ -266,9 +412,11 @@ export class SetupProfileCarComponent implements OnInit {
 
     this.form.markAllAsTouched(); 
 
-    this.vehicalService.createVehical(formData).subscribe((response: any) => {
-      console.log(response)
-    })
+    if(this.form.valid){
+      this.vehicalService.createVehical(formData).subscribe((response: any) => {
+        console.log(response)
+      })
+    }
   }
 
 }

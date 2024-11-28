@@ -17,6 +17,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NotificationService } from '../../../../shared/services/notification.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-list-employee-resign',
@@ -57,7 +59,7 @@ export class ListEmployeeResignComponent {
 
 
   ngOnInit(): void {
-    const savedFormValue = localStorage.getItem('searchEmployee');
+    const savedFormValue = localStorage.getItem('search');
     this.form = this.fb.group({
     txtSearch: [savedFormValue ? JSON.parse(savedFormValue).txtSearch : ''],
     officeId: [savedFormValue ? JSON.parse(savedFormValue).officeId : ''],
@@ -83,6 +85,7 @@ export class ListEmployeeResignComponent {
     })  
     this.form.get('leaveType')?.valueChanges.subscribe((value : any)=> {
       this.changeLeave = value
+      console.log(this.changeLeave)
     })
   }
 
@@ -188,13 +191,22 @@ export class ListEmployeeResignComponent {
       this.dataEmployee = response.data.content
       this.total = response.data.totalElements
       console.log(this.total)
-
+      if(response.data.totalElements == 0){
+        Swal.fire({
+          icon: "warning",
+          // title: "......",
+          text: "Không tìm thấy dữ liệu bạn muốn tìm kiếm!",
+          // timer: 3000
+        });
+      }
     })
+    
   }
 
 ////////////////////////////////////////////////////////////////////
   handleCancel() {
     this.isModalOnLeaveEmployee = false
+    this.formChangeInforLeave.reset()
     
   }
 
@@ -274,7 +286,7 @@ handleSubmitDelete(){
     this.getListEmployee(dataForm)
     const formValue = this.form.value;
     if(formValue){
-      localStorage.setItem('searchEmployee', JSON.stringify(formValue));
+      localStorage.setItem('search', JSON.stringify(formValue));
     }
     
     // console.log(formValue)
@@ -332,8 +344,32 @@ handleSubmitDelete(){
     }
   }
 
+  updateWorkStatusOnLeave(){
+    const dataFormEndWork ={
+      leave_from_date: null,
+      type : 1
+    }
+    console.log(dataFormEndWork)
+
+    this.userSevice.updateStatusWork(dataFormEndWork).subscribe( {
+      next: (response) => {
+        this.notification.success('Đặt lịch nghỉ phép thành công!')
+        this.isModalOnLeaveEmployee = false  
+        // this.form.reset()
+        // this.getUser(this.idEmployee)
+      },
+      error: (error) => {
+        // if(error.status === 400){
+        //   this.notification.error(error.message)
+        // }
+
+      }
+
+    })
+  }
+
   setupValueIntoForm(){
-    const formValue = localStorage.getItem('searchEmployee');
+    const formValue = localStorage.getItem('search');
     console.log(formValue)
     if(formValue){
       this.form.patchValue(JSON.parse(formValue))

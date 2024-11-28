@@ -1,5 +1,5 @@
 export const STORAGE_KEYS = {
-    TOKEN: 'TOKEN',
+    TOKEN: 'TOKEN' ,
     LANGUAGE: 'LANGUAGE',
     REFRESH_TOKEN: 'REFRESH_TOKEN',
     USER_DATA: 'USER_DATA',

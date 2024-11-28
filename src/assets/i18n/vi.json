@@ -48,6 +48,7 @@
         "relaxing": "Hiện đang nghỉ: "
      },
     "vehical":{
+        "detail_vehical_infor":"Chi Tiết Thông Tin Phương Tiện",
         "vehical_management":"Quản lý phương tiện",
         "setup_vehical":"Thiết lập hồ sơ phương tiện",
         "maintenance_repair": "Bảo dưỡng sửa chữa",
@@ -97,9 +98,22 @@
         "vehicalStatus": "Tình trạng xe",
         "vehicalDriverMonitor": "Lái xe chính",
         "vehicalPhone": "SĐT",
-        "manufactureYear": "Năm sản xuất"
-
-
+        "manufactureYear": "Năm sản xuất",
+        "owningLegalEntity":"Pháp nhân sở hữu",
+        "firstStartDateXE": "Ngày hoạt động lần đầu tại X.E",
+        "firstSubcriptionDate" : "Ngày đăng ký lần đầu",
+        "fristRegistrationDate": "Ngày đăng kiểm lần đầu",
+        "loanOrganization":"Tổ chức vay",
+        "loanDate": "Ngày vay",
+        "loanMoney": "Số tiền vay",
+        "maintenanceRepairHistory":"Lịch sử bảo dưỡng sửa chữa",
+        "maintenanceAndRepair": "Bảo dưỡng và sửa chữa",
+        "deepCleaning": "Vệ sinh chuyên sâu",
+        "vehicleManagementDrivingHistory":"Lịch sử lái xe quản lý xe",
+        "driverList": "Danh sách lái xe",
+        "setupRequestMR":"Thiết lập yêu cầu BDSC",
+        "listRequestMR":"Danh sách yêu cầu BDSC",
+        "reportRequestMR":"Báo cáo BDSC"
     },
     "navbar": {
         "ras": "Liên hệ",
@@ -162,10 +176,18 @@
         "children_status": "Trạng thái con cái",
         "name_child": "Tên con",
         "reason_off": "Lý do nghỉ",
-        "reason_submitEnd": "Lý do thôi việc"
-
+        "reason_submitEnd": "Lý do thôi việc",
+        "prepareToExpire": "Giấy Tờ Hồ Sơ Chuẩn Bị Hết Hạn"
     },
-    
+    "table": {
+        "stt":"STT",
+        "time":"Thời gian",
+        "driverName":"Tên lái xe",
+        "phone":"SĐT",
+        "fromDate":"Từ ngày",
+        "toDate":"Đến ngày"
+        
+    },
     "month":{
         "January": "Tháng 1",
         "February": "Tháng 2",
@@ -245,7 +267,10 @@
         "feePaymentDate": "Ngày đóng",
         "feeExpireDate": "Ngày hết hạn",
         "isNew": "Phải nhập tính trạng xe",
-        "routeId": "Phải nhập tuyến"
+        "routeId": "Phải nhập tuyến",
+        "username": "Phải nhập tên đăng nhập",
+        "password": "Phải nhập mật khẩu",
+        "owningLegalEntity":"Phải chọn"
     },
     "home-default": "tieng viet"
 }

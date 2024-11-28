@@ -16,6 +16,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { DetailProfileEmployeeComponent } from '../../detail-profile-employee/detail-profile-employee.component';
 import { Route, Router, Routes } from '@angular/router';
 import { UserServiceService } from '../../../../shared/services/user-service.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -54,9 +55,8 @@ export class ListEmployeeProbationComponent implements OnInit  {
   }
   form!: FormGroup
 
-
   ngOnInit(): void {
-    const savedFormValue = localStorage.getItem('searchEmployee');
+    const savedFormValue = localStorage.getItem('search');
     this.form = this.fb.group({
       txtSearch: [savedFormValue ? JSON.parse(savedFormValue).txtSearch : ''],
       officeId: [savedFormValue ? JSON.parse(savedFormValue).officeId : ''],
@@ -155,6 +155,14 @@ export class ListEmployeeProbationComponent implements OnInit  {
       this.total = response.data.totalElements
       console.log(this.total)
 
+      if(response.data.totalElements == 0){
+        Swal.fire({
+          icon: "warning",
+          // title: "......",
+          text: "Không tìm thấy dữ liệu bạn muốn tìm kiếm!",
+          // timer: 3000
+        });
+      }
     })
   }
 
@@ -171,11 +179,13 @@ export class ListEmployeeProbationComponent implements OnInit  {
     console.log(formValue)
     if(formValue){
       // localStorage.removeItem('searchEmployee')
-      localStorage.setItem('searchEmployee', JSON.stringify(formValue));
+      localStorage.setItem('search', JSON.stringify(formValue));
     }
     
+    console.log(this.form.value)
     console.log(formValue)
     this.setupValueIntoForm()
+
   }
 
   resetForm(){
@@ -184,11 +194,11 @@ export class ListEmployeeProbationComponent implements OnInit  {
     this.form.get('branchId')?.setValue('')
     this.form.get('departmentId')?.setValue('')
     this.form.get('positionId')?.setValue('')
-    localStorage.removeItem('searchEmployee')
+    localStorage.removeItem('search')
   }
 
   setupValueIntoForm(){
-    const formValue = localStorage.getItem('searchEmployee');
+    const formValue = localStorage.getItem('search');
     console.log(formValue)
     if(formValue){
       this.form.patchValue(JSON.parse(formValue))

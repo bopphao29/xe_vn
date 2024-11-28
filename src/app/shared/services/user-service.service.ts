@@ -13,11 +13,8 @@ export class UserServiceService {
   ) { }
 
   // url = environment.server
-  url = 'http://103.92.25.158:8998/'
-  // url = 'http://192.168.0.3:8991/user-service/'
-  // urlRoute = 'http://192.168.0.3:8991/'
-  urlRoute = 'http://103.92.25.158:8991/'
-  // urlRoute = 'https://vehicle-service.xevn.techasians.com/'
+  // url = 'http://103.92.25.158:8998/'
+  url = 'http://103.92.25.158:8991/user-service/'
 
   getDetailEmployee(id: any){
     return this.httpClient.get(this.url + 'api/staff/'+ id)
@@ -52,7 +49,9 @@ export class UserServiceService {
   }
 
   getRoute(){
-    return this.httpClient.get(this.urlRoute + 'vehicle-service/api/routes')
+    // return this.httpClient.get(this.url + 'vehicle-service/api/routes')
+    return this.httpClient.get('http://103.92.25.158:8991/vehicle-service/api/routes')
+
   }
 
   getDriverLicense(){
@@ -62,8 +61,8 @@ export class UserServiceService {
   searchEmployee( data: any){
     // tạo param
     // const params = 'page='+page.toString()+'&size='+size.toString()
-    // return this.httpClient.post('http://103.92.25.158:8998/api/staff/search' , data,{
     return this.httpClient.post('http://103.92.25.158:8998/api/staff/search' , data,{
+    // return this.httpClient.post('http://103.92.25.158:8991/user-service/api/staff/search' , data,{
       // headers: new HttpHeaders({'Origin':'http://localhost:4200'}),
       // observe: 'response'
     })  

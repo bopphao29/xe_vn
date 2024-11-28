@@ -21,46 +21,57 @@
                     </div>
                 </div>
 
-                <div nz-col nzSpan="3" style="margin-right: 8px;">
+                <div nz-col nzSpan="3" class="mx-2">
                     <div class="">
                         <label class="form-label">BKS</label>
-                        <input nz-input class="form-input" formControlName="txtSearch" placeholder="ID, Tên nhân sự, SĐT..." />
+                        <input nz-input class="form-input" formControlName="txtSearch" placeholder="ID, Tên nhân sự, SĐT..." style="width: 100%;" />
                     </div>
                 </div>
 
-                <div nz-col nzSpan="3" style="margin-right: 8px;">
+                <div nz-col nzSpan="3" class="mx-2">
                     <div class="">
                         <label class="form-label">Lái xe</label>
-                        <input nz-input class="form-input" formControlName="txtSearch" placeholder="ID, Tên nhân sự, SĐT..." />
+                        <input nz-input class="form-input" formControlName="txtSearch" placeholder="ID, Tên nhân sự, SĐT..." style="width: 100%;" />
                     </div>
                 </div>
 
-                <div nz-col nzSpan="3" style="margin-right: 8px;">
+                <div nz-col nzSpan="3" class="mx-2">
                     <div class="">
                         <label class="form-label">Thông tin nhân sự</label>
-                        <input nz-input class="form-input" formControlName="txtSearch" placeholder="ID, Tên nhân sự, SĐT..." />
+                        <input nz-input class="form-input" formControlName="txtSearch" placeholder="ID, Tên nhân sự, SĐT..." style="width: 100%;" />
                     </div>
                 </div>
 
                 <div nz-col nzSpan="3" class="mx-2">
                     <div class="">
                         <label class="form-label">Hãng xe</label>
-                        <div class="w-full">
-                            <nz-select nzPlaceHolder="Tất cả" formControlName="officeId" style="width: 100%;">
-                                <nz-option nzValue="1" nzLabel="value"></nz-option>
+                        <nz-select nzPlaceHolder="Tất cả" formControlName="officeId" style="width: 100%;" style="width: 100%;">
+                            <nz-option nzValue="1" nzLabel="value"></nz-option>
 
-                                <!-- <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
-                                <nz-option *ngFor="let office of listOffice" [nzValue]="office.id"
-                                    [nzLabel]="office.name"></nz-option> -->
+                            <!-- <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
+                            <nz-option *ngFor="let office of listOffice" [nzValue]="office.id"
+                                [nzLabel]="office.name"></nz-option> -->
 
-                            </nz-select>
-                        </div>
+                        </nz-select>
                     </div>
                 </div>
 
                 <div nz-col nzSpan="3" class="mx-2">
                     <div class="">
                         <label class="form-label">Năm sản xuất</label>
+                        <nz-select nzPlaceHolder="Tất cả" formControlName="departmentId" style="width: 100%;">
+                            <nz-option nzValue="1" nzLabel="value"></nz-option>
+                            <!-- <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
+                            <nz-option *ngFor="let department of listDepartment, let i =index"
+                                [nzValue]="department.id" [nzLabel]="department.name"></nz-option> -->
+
+                        </nz-select>
+                    </div>
+                </div>
+
+                <div nz-col nzSpan="3" class="mx-2">
+                    <div class="">
+                        <label class="form-label">Mục đích sử dụng</label>
                         <div>
                             <nz-select nzPlaceHolder="Tất cả" formControlName="departmentId" style="width: 100%;">
                                 <nz-option nzValue="1" nzLabel="value"></nz-option>
@@ -69,22 +80,6 @@
                                     [nzValue]="department.id" [nzLabel]="department.name"></nz-option> -->
 
                             </nz-select>
-                        </div>
-                    </div>
-                </div>
-
-                <div nz-col nzSpan="3" class="mx-2">
-                    <div class="">
-                        <label class="form-label">Mục đích sử dụng</label>
-                        <div>
-                            <nz-option nzValue="1" nzLabel="value"></nz-option>
-
-                            <!-- <nz-select nzPlaceHolder="Tất cả" formControlName="positionId" style="width: 100%;">
-                                <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
-                                <nz-option *ngFor="let position of listPosstion, let i =index" [nzValue]="position.id"
-                                    [nzLabel]="position.name"></nz-option>
-
-                            </nz-select> -->
                         </div>
                     </div>
                 </div>
@@ -115,6 +110,17 @@
         </div>
     </form>
 
+    <span class="mx-4" style="margin-top: 50px; font-size: 14px; color: rgba(37, 44, 50, 1); font-weight: 500;">{{'vehical.prepareToExpire' | translate}}</span>
+
+    <div nz-row class="mx-4" style="margin-top: 15px;"> 
+        <div class="prepare-to-expire">
+            <div class="prepare-to-expire-item" *ngFor="let data of listPrepareToExpire">
+                <span class="">
+                    {{data.value}} <span style="color: rgba(227, 60, 60, 1);">(2)</span>
+                </span>
+            </div>
+        </div>
+    </div>
     <div nz-row style="margin-top: 32px;" class="mx-4">
         <div nz-col nzSpan="24">
             <table class="custom-table-list" style="background-color: #FCFCFC;">
@@ -145,7 +151,7 @@
                         <td class="list-col-2">{{data.positionName || '-'}}</td>
                         <td class="list-col-2">{{data.workingStatus || '-'}}</td> -->
 
-                         <td class="list-col-1">{{'-'}}</td>
+                        <td class="list-col-1">{{'-'}}</td>
                         <td class="list-col-3">{{ '-'}}</td>
                         <td class="list-col-1">{{ '-'}}</td>
                         <td class="list-col-2">{{ '-'}}</td>
@@ -160,7 +166,7 @@
                                     Xem chi tiết
                                 </a>
                                 <a  class="mx-1 button_show_detail">
-                                    Nghỉ phép
+                                    -
                                 </a>
                             </div>
                         </td>

@@ -24,8 +24,23 @@ export const VEHICLE_ROUTES: Routes = [
               (c) => c.FileVehicalManagementComponent
             )
         },
+        {
+          path: 'maintenance-repair',
+          loadComponent: () => 
+            import('./page-routing/maintenance-and-repair/maintenance-and-repair.component').then(
+              (c) => c.MaintenanceAndRepairComponent
+            )
+        },
 
       ]
     
-  }
+  },
+  {
+    // path: 'detail-vehical/:id',
+    path: 'detail-vehical/1',
+    loadComponent: () =>
+      import('./detail-vehical/detail-vehical.component').then(
+        (c) => c.DetailVehicalComponent
+      ),
+  },
 ]

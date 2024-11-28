@@ -50,7 +50,7 @@ export class AuthInterceptor implements HttpInterceptor {
       }),
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
-          clearStore();
+          // clearStore();
           this.router.navigate(['/']);
         } else {
           this.handleError(error);
@@ -125,7 +125,7 @@ export const authInterceptor: HttpInterceptorFn = (
       const translate = injector.get(TranslateService);
 
       if (err.status === 401) {
-        clearStore();
+        // clearStore();
         router.navigateByUrl('/login');
       } else if (err.status >= 400 && err.status < 500 && err.status !== 401) {
         toastr.error(err.error.message);

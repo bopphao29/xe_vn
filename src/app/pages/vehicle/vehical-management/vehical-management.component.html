@@ -1,4 +1,4 @@
-<div class="p-3" style="background-color: #f3f3f3; padding: 0; justify-content: center; align-items: center;">
+<div class="p-4 pb-0" style="background-color: #f3f3f3; justify-content: center; align-items: center;">
     <div style="display: flex;">
         <span style="margin-top: 2px;margin-bottom: 12px;">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -11,17 +11,17 @@
   
       <nav class="routerPage">
         <a (click)="routerSetupVehical()" [ngClass]="{'active': activeLink === 'setupVehical'}" >{{'vehical.setup_vehical' | translate}}</a>
+        <a (click)="routerVehicleProfileManagement()" [ngClass]="{'active': activeLink === 'vehicleProfileManagement'}">{{'vehical.vehicle_profile_management' | translate}}</a>
         <a (click)="routerMaintenanceRepair()" [ngClass]="{'active': activeLink === 'maintenanceRepair'}">{{'vehical.maintenance_repair' | translate}}</a>
         <!-- <a routerLink="/admin" routerLinkActive="active">Admin</a> -->
         <a (click)="routerDeepInteriorCleaning()" [ngClass]="{'active': activeLink === 'deepInteriorCleaning'}">{{'vehical.deep_interior_cleaning' | translate}}</a>
-        <a (click)="routerVehicleProfileManagement()" [ngClass]="{'active': activeLink === 'vehicleProfileManagement'}">{{'vehical.vehicle_profile_management' | translate}}</a>
         <a (click)="routerOperationalManagement()" [ngClass]="{'active': activeLink === 'operationalManagement'}">{{'vehical.operational_management' | translate}}</a>
         <a (click)="routerOperaterTimeManagement()" [ngClass]="{'active': activeLink === 'operaterTimeManagement'}">{{'vehical.operater_time_management' | translate}}</a>
         <a (click)="routerEmployeeSalarySetup()" [ngClass]="{'active': activeLink === 'employeeSalarySetup'}">{{'vehical.fuel_anagement' | translate}}</a>
   
       </nav>
     
-      <div style="border-bottom: 1px solid #dddddd;margin-left: 16px; margin-bottom: 15px;margin-top: 15px;"></div>
+      <div style="border-bottom: 1px solid #dddddd;margin-left: 16px;margin-top: 15px;"></div>
   
     </div>
   

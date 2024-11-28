@@ -212,3 +212,24 @@
   justify-content: center;
   align-items: center;
 }
+
+.prepare-to-expire{
+  display: flex;
+  gap: 8px;
+}
+
+.prepare-to-expire-item{
+  padding: 10px 16px 10px 16px;
+  border: 1px solid rgba(26, 105, 197, 0.1);
+  background-color: rgba(244, 247, 251, 1);
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  span{
+    color: rgba(107, 114, 128, 1);  
+    font-size: 15px;
+    font-weight: 500;
+  }
+}

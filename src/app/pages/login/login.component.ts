@@ -1,7 +1,7 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
-import { FormControl, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup,FormBuilder, FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CommonModule } from '@angular/common';
@@ -30,20 +30,24 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
 
-  constructor(private fb: NonNullableFormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+
+  ) {
+  }
+  ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
-  ngOnInit(): void {
-   
-  }
   onSubmit() {
     if (this.loginForm.valid) {
-      // Xử lý đăng nhập tại đây
-      console.log('Form Submitted!', this.loginForm.value);
+      
+      
     }
   }
+
+
 
 }

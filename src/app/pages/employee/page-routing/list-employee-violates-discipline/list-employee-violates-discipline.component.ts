@@ -15,6 +15,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { Router } from '@angular/router';
 import { UserServiceService } from '../../../../shared/services/user-service.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -152,7 +153,14 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
       this.dataEmployee = response.data.content
       this.total = response.data.totalElements
       console.log(this.total)
-
+      if(response.data.totalElements == 0){
+        Swal.fire({
+          icon: "warning",
+          // title: "......",
+          text: "Không tìm thấy dữ liệu bạn muốn tìm kiếm!",
+          // timer: 3000
+        });
+      }
     })
   }
 
@@ -186,7 +194,8 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
 
 
   search(){
-    const checkRangDate = this.form.get('rangeDate')?.invalid
+    const checkRangDate = this.form.get('rangeDate')?.value
+    console.log(checkRangDate)
     this.form.updateValueAndValidity();
     const dataForm = {
       violentDateFrom : checkRangDate ? this.fromDate : '',
@@ -197,12 +206,6 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
       size: 12,
     }
     delete dataForm.rangeDate
-
-    console.log(dataForm)
-    this.userSevice.searchEmployee( dataForm).subscribe((response: any)=>{
-      console.log(response)
-      
-    })
     this.getListEmployee(dataForm)
   }
 

@@ -9,7 +9,7 @@
                 <div class="">
                     <label class="form-label">Hình thức nghỉ</label>
                     <div>
-                        <nz-select nzPlaceHolder="Chọn" formControlName="leaveType" style="width: 100%;" (keydown.enter)="search()">
+                        <nz-select nzPlaceHolder="Chọn" formControlName="leaveType" (keydown.enter)="search()" style="width: 100%;">
                             <nz-option *ngFor="let data of formOfLeave, let i =index" [nzValue]="data.id"
                                 [nzLabel]="data.value"></nz-option>
 
@@ -21,7 +21,7 @@
             <div nz-col nzSpan="3" style="margin-right: 8px;">
                 <div class="">
                     <label class="form-label">Thông tin nhân sự</label>
-                    <input nz-input class="form-input" formControlName="txtSearch" (keydown.enter)="search()" placeholder="ID, Tên nhân sự, SĐT..." class="form-input" style="width: 100%; height: 48px;"/>
+                    <input nz-input class="form-input" formControlName="txtSearch" placeholder="ID, Tên nhân sự, SĐT..." class="form-input" style="width: 100%; height: 48px;"/>
                 </div>
             </div>
 
@@ -293,7 +293,7 @@
                                 <div class="">
                                     <label class="form-label"> <span style="color: red;">*</span>Từ ngày</label>
                                     <div>
-                                        <nz-date-picker class="w-full"
+                                        <nz-date-picker class="w-full" style="height: 48px !important;"
                                             nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableFromDate"
                                             formControlName="fromDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                         <div style="height: 18px;">
@@ -309,7 +309,7 @@
                             <div nz-col style="width: calc(50% - 8px); margin-left: 10px;">
                                 <div class="">
                                     <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.reason_off' | translate}}</label>
-                                    <input nz-input (keydown.enter)="search()" style="margin-top: 8px;" class="form-input" formControlName="reason" placeholder="ID, Tên nhân sự, SĐT..."  />
+                                    <input nz-input (keydown.enter)="search()" style="height: 48px !important; margin-top: 8px;" class="form-input" formControlName="reason" placeholder="ID, Tên nhân sự, SĐT..."  />
                                     <div class="error-container">
                                         <div *ngIf="formChangeInforLeave.get('reason')?.invalid && (formChangeInforLeave.get('reason')?.dirty || formChangeInforLeave.get('reason')?.touched)">
                                             <span class="validate_input" *ngIf="formChangeInforLeave.get('reason')?.errors?.['required']">{{'required.reason' | translate}}</span>

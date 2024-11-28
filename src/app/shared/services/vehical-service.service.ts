@@ -24,6 +24,10 @@ export class VehicalServiceService {
   getVehicalDetail(){
   }
 
+  getVehicalType(){
+      return this.httpClient.get(this.url + 'vehicle-service/api/vehicle-types')
+  }
+
   getRoue(){
     return this.httpClient.get(this.urlRoute + 'vehicle-service/api/routes')
   }

@@ -44,6 +44,18 @@ export class FileVehicalManagementComponent implements OnInit{
     
   }
 
+  listPrepareToExpire = [
+    {value : 'Đăng Kiểm'},
+    {value : 'Bảo hiểm TNDS'},
+    {value : 'Bảo hiểm vật chất'},
+    {value : 'Phù hiệu'},
+    {value : 'Giấy đi đường'},
+    {value : 'Phí bảo trì đường bộ'},
+    {value : 'Thông tin tài chính xe '},
+    {value : 'Xe chờ duyệt'},
+
+  ]
+
   showEmpolyeeNoData(){
 
   }

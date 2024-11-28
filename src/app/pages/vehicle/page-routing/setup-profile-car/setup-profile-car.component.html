@@ -6,7 +6,7 @@
       <div class="">
         <label class="label-form">{{'vehical.vehicleType' | translate}}</label>
         <nz-select nzPlaceHolder="Chọn loại xe" formControlName="vehicleTypeId" style="width: 100%">
-          <nz-option nzValue="limousine" nzLabel="Limousine"></nz-option>
+          <nz-option *ngFor="let data of listVehical" [nzValue]="data.id" [nzLabel]="data.name"></nz-option>
           <nz-option nzValue="solati" nzLabel="Solati"></nz-option>
         </nz-select>
       </div>
@@ -88,21 +88,7 @@
           </div>
   
         </div>
-  
-        <!-- <div class="input-wrapper">
-          <div class="">
-            <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.type_vehical' | translate}}</label>
-            <nz-select nzPlaceHolder="Chọn" class="nzSelect"  formControlName="vehicleModel">
-              <nz-option nzValue="0" nzLabel="Xe cũ"></nz-option>
-              <nz-option nzValue="1" nzLabel="Xe mới"></nz-option>
-            </nz-select>
-            <div class="error-container">
-                <div *ngIf="form.get('vehicleModel')?.invalid && (form.get('vehicleModel')?.dirty) || form.get('vehicleModel')?.touched">
-                    <span class="validate_input" *ngIf="form.get('vehicleModel')?.hasError('required')">{{'required.vehicleModel' | translate}}</span>
-                </div>
-            </div>
-        </div>
-        </div> -->
+
   
         <div class="input-wrapper">
           <div class="">
@@ -200,12 +186,62 @@
                   </div>
           </div>
         </div>
+
+        <div class="input-wrapper"  *ngIf="is_New == '0' || is_New == 0">
+          <div class="">
+              <label class="label-form" ><span style="color: red">*</span> {{'vehical.firstStartDateXE' | translate}} </label>
+              <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" formControlName="firstStartDateXE" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                  <div class="error-container">
+                      <div *ngIf="form.get('firstStartDateXE')?.invalid && (form.get('firstStartDateXE')?.dirty) || form.get('firstStartDateXE')?.touched">
+                          <span class="validate_input" *ngIf="form.get('firstStartDateXE')?.errors?.['required']">{{'required.date_required' | translate}}</span>
+                      </div>
+                  </div>
+          </div>
+        </div>
+
+        <div class="input-wrapper" >
+          <div class="">
+            <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.owningLegalEntity' | translate}}</label>
+            <nz-select nzPlaceHolder="Chọn" class="nzSelect"  formControlName="owningLegalEntity">
+              <nz-option nzValue="0" nzLabel="XE VIETNAM"></nz-option>
+              <nz-option nzValue="1" nzLabel="XE"></nz-option>
+            </nz-select>
+            <div class="error-container">
+                <div *ngIf="form.get('owningLegalEntity')?.invalid && (form.get('owningLegalEntity')?.dirty) || form.get('owningLegalEntity')?.touched">
+                    <span class="validate_input" *ngIf="form.get('owningLegalEntity')?.hasError('required')">{{'required.owningLegalEntity' | translate}}</span>
+                </div>
+            </div>
+        </div>
+        </div>
+
       </div>
-  
-      <div style="border-bottom: 1px solid #dddddd;margin-left: 30px; margin-bottom: 15px;"></div>
-  
-      <div class="p-4 pb-0 form-container">
-  
+      <div style="border-bottom: 1px solid #dddddd;margin-left: 30px; margin-bottom: 15px; margin-top: 15px;"></div>
+      <div class="p-4 pt-0 pb-0 form-container" *ngIf="is_New == '0' || is_New == 0">
+        <div class="input-wrapper">
+          <div class="">
+              <label class="label-form" ><span style="color: red">*</span> {{'vehical.firstSubcriptionDate' | translate}} </label>
+              <nz-date-picker nzFormat="dd/MM/yyyy"  [nzDisabledDate]="disableAfterDate('fristRegistrationDate')" class="w-full" formControlName="firstSubcriptionDate" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                  <div class="error-container">
+                      <div *ngIf="form.get('firstSubcriptionDate')?.invalid && (form.get('firstSubcriptionDate')?.dirty) || form.get('firstSubcriptionDate')?.touched">
+                          <span class="validate_input" *ngIf="form.get('firstSubcriptionDate')?.errors?.['required']">{{'required.date_required' | translate}}</span>
+                      </div>
+                  </div>
+          </div>
+        </div>
+        <div class="input-wrapper">
+          <div class="">
+              <label class="label-form" ><span style="color: red">*</span> {{'vehical.fristRegistrationDate' | translate}} </label>
+              <nz-date-picker nzFormat="dd/MM/yyyy"  [nzDisabledDate]="disableBeforeDate('firstSubcriptionDate')" formControlName="fristRegistrationDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                  <div class="error-container">
+                      <div *ngIf="form.get('fristRegistrationDate')?.invalid && (form.get('fristRegistrationDate')?.dirty) || form.get('fristRegistrationDate')?.touched">
+                          <span class="validate_input" *ngIf="form.get('fristRegistrationDate')?.errors?.['required']">{{'required.date_required' | translate}}</span>
+                      </div>
+                  </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="p-4 pb-0 pt-0 form-container">
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" ><span style="color: red">*</span> {{'vehical.subscriptionDate' | translate}} </label>
@@ -220,7 +256,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" ><span style="color: red">*</span> {{'vehical.registrationDate' | translate}} </label>
-              <nz-date-picker nzFormat="dd/MM/yyyy" formControlName="registrationDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+              <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableInToRegistrationDate"  formControlName="registrationDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                   <div class="error-container">
                       <div *ngIf="form.get('registrationDate')?.invalid && (form.get('registrationDate')?.dirty) || form.get('registrationDate')?.touched">
                           <span class="validate_input" *ngIf="form.get('registrationDate')?.errors?.['required']">{{'required.date_required' | translate}}</span>
@@ -231,7 +267,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" ><span style="color: red">*</span> {{'vehical.registrationExpireDate' | translate}} </label>
-              <nz-date-picker nzFormat="dd/MM/yyyy" formControlName="registrationExpireDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+              <nz-date-picker nzFormat="dd/MM/yyyy"  [nzDisabledDate]="disableIntoRegistrationExpireDate" formControlName="registrationExpireDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                   <div class="error-container">
                       <div *ngIf="form.get('registrationExpireDate')?.invalid && (form.get('registrationExpireDate')?.dirty) || form.get('registrationExpireDate')?.touched">
                           <span class="validate_input" *ngIf="form.get('registrationExpireDate')?.errors?.['required']">{{'required.date_required' | translate}}</span>
@@ -242,7 +278,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" ><span style="color: red">*</span> {{'vehical.tndsInsuranceStartDate' | translate}} </label>
-              <nz-date-picker nzFormat="dd/MM/yyyy" formControlName="tndsInsuranceStartDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+              <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableInToTndsInsuranceStartDate"  formControlName="tndsInsuranceStartDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                   <div class="error-container">
                       <div *ngIf="form.get('tndsInsuranceStartDate')?.invalid && (form.get('tndsInsuranceStartDate')?.dirty) || form.get('tndsInsuranceStartDate')?.touched">
                           <span class="validate_input" *ngIf="form.get('tndsInsuranceStartDate')?.errors?.['required']">{{'required.date_required' | translate}}</span>
@@ -253,7 +289,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" ><span style="color: red">*</span> {{'vehical.tndsInsuranceEndDate' | translate}} </label>
-              <nz-date-picker nzFormat="dd/MM/yyyy" formControlName="tndsInsuranceEndDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+              <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableIntoTndsInsuranceEndDate"  formControlName="tndsInsuranceEndDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                   <div class="error-container">
                       <div *ngIf="form.get('tndsInsuranceEndDate')?.invalid && (form.get('tndsInsuranceEndDate')?.dirty) || form.get('tndsInsuranceEndDate')?.touched">
                           <span class="validate_input" *ngIf="form.get('tndsInsuranceEndDate')?.errors?.['required']">{{'required.date_required' | translate}}</span>
@@ -264,7 +300,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" ><span style="color: red">*</span> {{'vehical.materialInsuranceStartDate' | translate}} </label>
-              <nz-date-picker nzFormat="dd/MM/yyyy" formControlName="materialInsuranceStartDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+              <nz-date-picker nzFormat="dd/MM/yyyy"  [nzDisabledDate]="disableInToMaterialInsuranceStartDate"  formControlName="materialInsuranceStartDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                   <div class="error-container">
                       <div *ngIf="form.get('materialInsuranceStartDate')?.invalid && (form.get('materialInsuranceStartDate')?.dirty) || form.get('materialInsuranceStartDate')?.touched">
                           <span class="validate_input" *ngIf="form.get('materialInsuranceStartDate')?.errors?.['required']">{{'required.date_required' | translate}}</span>
@@ -275,7 +311,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" ><span style="color: red">*</span> {{'vehical.materialInsuranceEndDate' | translate}} </label>
-              <nz-date-picker nzFormat="dd/MM/yyyy" formControlName="materialInsuranceEndDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+              <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableIntoMaterialInsuranceEndDate"   formControlName="materialInsuranceEndDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                   <div class="error-container">
                       <div *ngIf="form.get('materialInsuranceEndDate')?.invalid && (form.get('materialInsuranceEndDate')?.dirty) || form.get('materialInsuranceEndDate')?.touched">
                           <span class="validate_input" *ngIf="form.get('materialInsuranceEndDate')?.errors?.['required']">{{'required.date_required' | translate}}</span>
@@ -286,7 +322,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" ><span style="color: red">*</span> {{'vehical.badgeIssuanceStartDate' | translate}} </label>
-              <nz-date-picker nzFormat="dd/MM/yyyy" formControlName="badgeIssuanceStartDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+              <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableInToBadgeIssuanceStartDate"  formControlName="badgeIssuanceStartDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                   <div class="error-container">
                       <div *ngIf="form.get('badgeIssuanceStartDate')?.invalid && (form.get('badgeIssuanceStartDate')?.dirty) || form.get('badgeIssuanceStartDate')?.touched">
                           <span class="validate_input" *ngIf="form.get('badgeIssuanceStartDate')?.errors?.['required']">{{'required.date_required' | translate}}</span>
@@ -297,7 +333,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" ><span style="color: red">*</span> {{'vehical.badgeIssuanceEndDate' | translate}} </label>
-              <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" formControlName="badgeIssuanceEndDate" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+              <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableIntoBadgeIssuanceEndDate"  class="w-full" formControlName="badgeIssuanceEndDate" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                   <div class="error-container">
                       <div *ngIf="form.get('badgeIssuanceEndDate')?.invalid && (form.get('badgeIssuanceEndDate')?.dirty) || form.get('badgeIssuanceEndDate')?.touched">
                           <span class="validate_input" *ngIf="form.get('badgeIssuanceEndDate')?.errors?.['required']">{{'required.date_required' | translate}}</span>
@@ -308,7 +344,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" ><span style="color: red">*</span> {{'vehical.travelPermitStartDate' | translate}} </label>
-              <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" formControlName="travelPermitStartDate" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+              <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" [nzDisabledDate]="disableInToTravelPermitStartDate" formControlName="travelPermitStartDate" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                   <div class="error-container">
                       <div *ngIf="form.get('travelPermitStartDate')?.invalid && (form.get('travelPermitStartDate')?.dirty) || form.get('travelPermitStartDate')?.touched">
                           <span class="validate_input" *ngIf="form.get('travelPermitStartDate')?.errors?.['required']">{{'required.date_required' | translate}}</span>
@@ -321,7 +357,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" ><span style="color: red">*</span> {{'vehical.travelPermitEndDate' | translate}} </label>
-              <nz-date-picker nzFormat="dd/MM/yyyy" formControlName="travelPermitEndDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+              <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableIntoTravelPermitEndDate" formControlName="travelPermitEndDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                   <div class="error-container">
                       <div *ngIf="form.get('travelPermitEndDate')?.invalid && (form.get('travelPermitEndDate')?.dirty) || form.get('travelPermitEndDate')?.touched">
                           <span class="validate_input" *ngIf="form.get('travelPermitEndDate')?.errors?.['required']">{{'required.date_required' | translate}}</span>
@@ -347,7 +383,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" ><span style="color: red">*</span> {{'vehical.feePaymentDate' | translate}} </label>
-              <nz-date-picker nzFormat="dd/MM/yyyy" formControlName="feePaymentDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+              <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableInToFeePaymentDate" formControlName="feePaymentDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                   <div class="error-container">
                       <div *ngIf="form.get('feePaymentDate')?.invalid && (form.get('feePaymentDate')?.dirty) || form.get('feePaymentDate')?.touched">
                           <span class="validate_input" *ngIf="form.get('feePaymentDate')?.errors?.['required']">{{'required.date_required' | translate}}</span>
@@ -359,7 +395,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" ><span style="color: red">*</span> {{'vehical.feeExpireDate' | translate}} </label>
-              <nz-date-picker nzFormat="dd/MM/yyyy" formControlName="feeExpireDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+              <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableIntoFeeExpireDate" formControlName="feeExpireDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                   <div class="error-container">
                       <div *ngIf="form.get('feeExpireDate')?.invalid && (form.get('feeExpireDate')?.dirty) || form.get('feeExpireDate')?.touched">
                           <span class="validate_input" *ngIf="form.get('feeExpireDate')?.errors?.['required']">{{'required.date_required' | translate}}</span>
@@ -387,14 +423,14 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" >{{'vehical.networkRegisterDate' | translate}} </label>
-              <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" formControlName="networkRegisterDate" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+              <nz-date-picker  [nzDisabledDate]="disableInToNetworkRegisterDate"  nzFormat="dd/MM/yyyy" class="w-full" formControlName="networkRegisterDate" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                   
           </div>
         </div>
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" >{{'vehical.networkExpireDate' | translate}} </label>
-              <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" formControlName="networkExpireDate" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+              <nz-date-picker [nzDisabledDate]="disableIntoNetworkExpireDate"  nzFormat="dd/MM/yyyy" class="w-full" formControlName="networkExpireDate" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                  
           </div>
         </div>
@@ -422,40 +458,38 @@
       <div style="border-bottom: 1px solid #dddddd;margin-left: 30px; margin-bottom: 15px;"></div>
   
       <div class="mx-4 form-container ">
-        <div nz-col class="mx-2 date-choose">
+        <div class=" input-wrapper" >
           <div nz-row>
-              <div nz-col nzSpan="12" formGroupName="driver">
-                  <div style="width: calc(100% - 8px);">
-                    <div class="">
-                      <div class="">
-                          <label class="label-form" for="" >{{'vehical.vehicalDriverMonitor' | translate}}</label>
-                          <input class="input-form"  placeholder="Nguyễn văn A" formControlName="driverId"  type="text" >
-                          
-                      </div>
-              
-                    </div>
-                    
+            <div formGroupName="driver" nz-col nzSpan="24">
+              <div class="">
+                <div class="">
+                  <div class="">
+                      <label class="label-form" for="" >{{'vehical.vehicalDriverMonitor' | translate}}</label>
+                      <input class="input-form"  placeholder="Nguyễn văn A" formControlName="driverId"  type="text" >
+                      
                   </div>
-              </div>
-              <div nz-col nzSpan="12" formGroupName="driver">
-                  <div style="width: calc(100% - 8px); margin-left: 8px" >
-                     
-                    <div class="">
-                      <div class="">
-                          <label class="label-form" for="" >{{'vehical.vehicalPhone' | translate}}</label>
-                          <input class="input-form"  placeholder="0896677123"   type="text" >
-                          <div class="error-container">
-                              <!-- <div *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)">
-                                  <span class="validate_input" *ngIf="form.get('name')?.errors?.['required']">{{'required.name' | translate}}</span>
-                              </div> -->
-                          </div>
-                      </div>
-              
-                    </div>
-                  </div>
-              </div>
-          </div>
           
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        
+          <div nz-row>
+            <div nz-col nzSpan="24" formGroupName="driver">
+              <div class="">
+                <div class="">
+                  <div class="">
+                      <label class="label-form" for="" >{{'vehical.vehicalPhone' | translate}}</label>
+                      <input class="input-form"  placeholder="Nguyễn văn A" formControlName="id"  type="text" >
+                      
+                  </div>
+          
+                </div>
+                
+              </div>
+            </div>
+          </div>
         </div>
         <div class="mx-2 date-choose ">
             <label class="label-form label_form">{{'vehical.driverStatus' | translate}}</label>
@@ -525,22 +559,71 @@
   </form>
 </div>
 
-<nz-modal [(nzVisible)]="isShowModalUploadfile" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="null"
-  (nzOnCancel)="handleCancel()" [nzStyle]="{'min-width' : '800px', 'min-height':'880px'}">
+<nz-modal [(nzVisible)]="isShowModalUploadfile" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="null" nzClassName="reset-employee-modal"
+  (nzOnCancel)="handleCancel()" [nzStyle]="previewImage ? {'width': '496px', 'height': '612px'} : {'width': '576px', 'height': '468px'}" nzCentered="true">
   <ng-template #modalTitle>Tải ảnh lên</ng-template>
 
   <ng-template #modalContent>
-    <div class="upload-container flex justify-center items-center">
+    <div class="upload-container flex justify-center items-center" [ngClass]="{'has-image': previewImage}">
       <!-- Khu vực chọn ảnh -->
-      <div class="upload-area" (click)="fileInput.click()" style="height: 500px;">
+      <div class="upload-area">
         <div *ngIf="!previewImage" class="upload-placeholder">
-          <i nz-icon nzType="picture" nzTheme="outline" style="font-size: 36px;"></i>
-          <p>Kéo hình ảnh vào đây hoặc nhấn để tải ảnh lên</p>
+          <span class="justify-center align-items flex">
+            <span class="justify-center align-items flex">
+              <svg width="64" height="65" viewBox="0 0 64 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_267_12502)">
+              <path d="M0.00805664 12.5C0.00805664 10.3783 0.850911 8.34344 2.3512 6.84315C3.85149 5.34285 5.88632 4.5 8.00806 4.5H56.0081C58.1298 4.5 60.1646 5.34285 61.6649 6.84315C63.1652 8.34344 64.0081 10.3783 64.0081 12.5V52.5C64.0081 54.6217 63.1652 56.6566 61.6649 58.1569C60.1646 59.6571 58.1298 60.5 56.0081 60.5H8.00806C5.88632 60.5 3.85149 59.6571 2.3512 58.1569C0.850911 56.6566 0.00805664 54.6217 0.00805664 52.5V12.5ZM4.00806 48.5V52.5C4.00806 53.5609 4.42948 54.5783 5.17963 55.3284C5.92978 56.0786 6.94719 56.5 8.00806 56.5H56.0081C57.0689 56.5 58.0863 56.0786 58.8365 55.3284C59.5866 54.5783 60.0081 53.5609 60.0081 52.5V38.5L44.9001 30.712C44.5249 30.5241 44.1002 30.4589 43.686 30.5257C43.2719 30.5924 42.8891 30.7878 42.5921 31.084L27.7521 45.924L17.1121 38.836C16.7279 38.5802 16.2671 38.4652 15.8078 38.5104C15.3485 38.5556 14.919 38.7583 14.5921 39.084L4.00806 48.5ZM24.0081 22.5C24.0081 20.9087 23.3759 19.3826 22.2507 18.2574C21.1255 17.1321 19.5994 16.5 18.0081 16.5C16.4168 16.5 14.8906 17.1321 13.7654 18.2574C12.6402 19.3826 12.0081 20.9087 12.0081 22.5C12.0081 24.0913 12.6402 25.6174 13.7654 26.7426C14.8906 27.8679 16.4168 28.5 18.0081 28.5C19.5994 28.5 21.1255 27.8679 22.2507 26.7426C23.3759 25.6174 24.0081 24.0913 24.0081 22.5Z" fill="#A8BADB"/>
+              </g>
+              <defs>
+              <clipPath id="clip0_267_12502">
+              <rect width="64" height="64" fill="white" transform="translate(0 0.5)"/>
+              </clipPath>
+              </defs>
+              </svg>
+              </span>
+          </span>
+          <p style="color: rgba(107, 114, 128, 1); font-weight: 500; font-size: 16px;">
+            Kéo hình ảnh vào đây hoặc nhấn để 
+            <a (click)="fileInput.click()" style="text-decoration: underline; color: rgba(39, 78, 161, 1);">tải ảnh lên</a>
+          </p>
         </div>
-        <img *ngIf="previewImage" [src]="previewImage" alt="Preview" class="image-preview" />
+        <div *ngIf="previewImage" class="image-container relative">
+          <img [src]="previewImage" alt="Preview" class="image-preview" (click)="openFullImage(previewImage)" />
+          
+          <button class="delete-icon" (click)="removeImage()">
+            <svg style="fill: rgba(247, 247, 247, 1);" width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2.8335 15.5C2.37516 15.5 1.9828 15.3368 1.65641 15.0104C1.33002 14.684 1.16683 14.2917 1.16683 13.8333V3H0.333496V1.33333H4.50016V0.5H9.50016V1.33333H13.6668V3H12.8335V13.8333C12.8335 14.2917 12.6703 14.684 12.3439 15.0104C12.0175 15.3368 11.6252 15.5 11.1668 15.5H2.8335ZM4.50016 12.1667H6.16683V4.66667H4.50016V12.1667ZM7.8335 12.1667H9.50016V4.66667H7.8335V12.1667Z" fill="#F7F7F7"/>
+              </svg>  
+            <span style="color: rgba(247, 247, 247, 1)">Xóa</span>
+          </button>
+        </div>
       </div>
       <input #fileInput type="file" accept="image/*" (change)="onFileSelected($event)" style="display: none;" />
-      
     </div>
+    
+    <div class="flex justify-center align-center p-2 ">
+
+      <button class="button-infor"*ngIf="previewImage" type="button" (click)="fileInput.click()">
+        <svg class="icon-svg" [ngClass]="{'has-image': previewImage, 'no-image': !previewImage}"  width="15" height="14"  viewBox="0 0 15 14" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6.66683 10.3333V3.54167L4.50016 5.70834L3.3335 4.5L7.50016 0.333336L11.6668 4.5L10.5002 5.70834L8.3335 3.54167V10.3333H6.66683ZM2.50016 13.6667C2.04183 13.6667 1.64947 13.5035 1.32308 13.1771C0.996691 12.8507 0.833496 12.4583 0.833496 12V9.5H2.50016V12H12.5002V9.5H14.1668V12C14.1668 12.4583 14.0036 12.8507 13.6772 13.1771C13.3509 13.5035 12.9585 13.6667 12.5002 13.6667H2.50016Z"/>
+          </svg>
+          <span >Tải lên ảnh khác</span>  
+        </button>
+
+    </div>
+  </ng-template>
+</nz-modal>
+
+<nz-modal 
+  [(nzVisible)]="isFullImageVisible" 
+  [nzFooter]="null" 
+  [nzClosable]="true" 
+  (nzOnCancel)="isFullImageVisible = false" 
+  [nzContent]="modalContentFull" 
+  [nzStyle]="{'min-width' : '1200px', 'min-height':'800px'}"
+  nzClassName="custom-modal-full"
+>
+  <ng-template #modalContentFull>
+    <img [src]="fullImageSrc" class="full-image" />
   </ng-template>
 </nz-modal>

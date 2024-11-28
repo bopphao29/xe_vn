@@ -1,0 +1,32 @@
+<div class="tabs p-4 pt-3" style="background-color: #f3f3f3;">
+    <a 
+      class="tab-link" 
+      [class.active]="currentTab === 'setup-request'"
+      (click)="switchTab('setup-request')"
+    >
+      {{'vehical.setupRequestMR' | translate}}
+    </a>
+    <a 
+      class="tab-link" 
+      [class.active]="currentTab === 'list-request'"
+      (click)="switchTab('list-request')"
+    >
+      {{'vehical.listRequestMR' | translate}}
+    </a>
+    <a 
+      class="tab-link" 
+      [class.active]="currentTab === 'report-request'"
+      (click)="switchTab('report-request')"
+    >
+      {{'vehical.reportRequestMR' | translate}}
+    </a>
+    
+  </div>
+  
+  <!-- Hiển thị component con dựa trên giá trị của `currentTab` -->
+  <div class="tab-content">
+    <app-setup-request-mr *ngIf="currentTab === 'setup-request'"></app-setup-request-mr>
+    <app-list-request-mr *ngIf="currentTab === 'list-request'"></app-list-request-mr>
+    <app-report-request-mr *ngIf="currentTab === 'report-request'" [data]="data"></app-report-request-mr>
+  </div>
+  

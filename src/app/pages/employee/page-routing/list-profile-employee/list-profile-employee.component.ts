@@ -66,7 +66,9 @@ export class ListProfileEmployeeComponent implements OnInit {
 
 
   ngOnInit(): void {
-    const savedFormValue = localStorage.getItem('searchEmployee');
+    const savedFormValue = localStorage.getItem('search');
+
+    
     console.log(savedFormValue)
     
   // Khởi tạo form với giá trị từ localStorage nếu có, ngược lại dùng giá trị mặc định
@@ -77,7 +79,7 @@ export class ListProfileEmployeeComponent implements OnInit {
     departmentId: [savedFormValue ? JSON.parse(savedFormValue).departmentId : ''],
     positionId: [savedFormValue ? JSON.parse(savedFormValue).positionId : ''],
     status: [savedFormValue ? JSON.parse(savedFormValue).status : ''],
-    reason: [savedFormValue ? JSON.parse(savedFormValue).reason : ''],
+    // reason: [savedFormValue ? JSON.parse(savedFormValue).reason : ''],
   });
     this.search()
     this.getBranch()
@@ -269,7 +271,7 @@ export class ListProfileEmployeeComponent implements OnInit {
     this.getListEmployee(dataForm )
     const formValue = this.form.value;
     if(formValue){
-      localStorage.setItem('searchEmployee', JSON.stringify(formValue));
+      localStorage.setItem('search', JSON.stringify(formValue));
     }
     
     console.log(formValue)
@@ -283,7 +285,7 @@ export class ListProfileEmployeeComponent implements OnInit {
     this.form.get('departmentId')?.setValue('')
     this.form.get('positionId')?.setValue('')
     this.form.get('status')?.setValue('')
-    localStorage.removeItem('searchEmployee')
+    localStorage.removeItem('search')
   }
 
     ////////////////////////////////////////Lưu local storage các trường cần tìm kiếm/////////////////////////////////////////
@@ -321,7 +323,7 @@ export class ListProfileEmployeeComponent implements OnInit {
   }
 
   setupValueIntoForm(){
-    const formValue = localStorage.getItem('searchEmployee');
+    const formValue = localStorage.getItem('search');
     console.log(formValue)
     if(formValue){
       this.form.patchValue(JSON.parse(formValue))

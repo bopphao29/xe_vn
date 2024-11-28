@@ -1,0 +1,577 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+.form-control {
+  border: none;
+}
+
+.label_setup {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 18.75px;
+  text-align: left;
+  color: rgba(37, 44, 50, 1);
+}
+
+::ng-deep .label_form {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 15.23px;
+  text-align: left;
+  color: rgba(107, 114, 128, 1) !important;
+
+}
+
+::ng-deep .ant-row .ant-col nz-form-item nz-form-label label {
+  color: rgba(107, 114, 128, 1) !important;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 15.23px;
+  text-align: left;
+}
+
+::ng-deep .ant-row .ant-col nz-form-label label {
+  color: rgba(107, 114, 128, 1) !important;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 15.23px;
+  text-align: left;
+}
+
+
+::ng-deep .ant-row .ant-col .ant-form-item .ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .ant-radio-group .ant-radio-wrapper span {
+  color: rgb(37, 50, 41);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16.41px;
+  text-align: left;
+
+}
+
+
+
+::ng-deep {
+  nz-form-label.ant-form-item-label.form-label.ant-col {
+    margin-bottom: -5px;
+  }
+
+  .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 5px;
+  }
+
+  nz-select-item.ant-select-selection-item.ng-star-inserted {
+    font-weight: 600;
+  }
+
+  .form-input {
+    height: 50px;
+    border-radius: 5px;
+  }
+
+  .ant-picker {
+    height: 50px;
+    border-radius: 5px;
+  }
+
+  .button {
+    padding: 25px 61px;
+    display: flex;
+    border-radius: 10px;
+    align-items: center;
+    font-size: 18px;
+  }
+
+  .button-infor {
+    // margin-top: 15px;
+    border: 1px solid #274EA1;
+    padding: 14px 16px 14px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #274EA1;
+    width: 160px;
+    height: 48px !important;
+    font-weight: 500;
+  }
+
+  .button-infor svg {
+    margin-right: 8px;
+  }
+
+  .button-infor:hover{
+    color: white !important;
+    fill: white;
+    stroke: white;
+    background-color: #274EA1;
+  }
+
+  .icon-svg {
+    transition: fill 0.3s ease;
+  }
+  
+  .icon-svg.has-image path {
+    fill: #274EA1; 
+  }
+  
+  .icon-svg.no-image path {
+    fill: white;
+  }
+
+  .custom-upload {
+    display: flex;
+    align-items: center;
+    width: 100% !important;
+  }
+
+  .upload-input {
+    flex: 1;
+    padding: 8px;
+    /* Adjust padding as needed */
+  }
+
+  .ng-tns-c2245839801-68.ant-upload-list-text-container.ng-star-inserted {
+    display: none;
+  }
+
+  .ant-upload-picture-card-wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .ant-upload.ant-upload-select-picture-card {
+    width: 350px;
+    height: 250px;
+  }
+
+}
+
+:host ::ng-deep .avatar-uploader>.ant-upload {
+  width: 128px;
+  height: 128px;
+}
+
+.button_add {
+  height: 40px;
+  width: 40px;
+  padding: 8px;
+  gap: 10px;
+  display: block;
+  color: white;
+  background-color: #274EA1;
+  border-radius: 31px;
+  -webkit-border-radius: 31px;
+  -moz-border-radius: 31px;
+  -ms-border-radius: 31px;
+  -o-border-radius: 31px;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.custom-table td {
+  border: 1px solid #d9d9d9;
+  padding-left: 10px;
+  text-align: left;
+
+}
+
+.custom-table .col-1 {
+  font-weight: bold;
+  width: 33.33%;
+  height: 36px;
+
+}
+
+.custom-table .col-3 {
+  font-weight: bold;
+  width: 33.33%;
+  height: 52px;
+  vertical-align: top;
+  
+}
+
+.custom-table .col-4 {
+  // font-weight: bold;
+  width: 33.33%;
+  height: 52px;
+  vertical-align: top;
+}
+
+.custom-table .col-2 {
+  width: 66.67%;
+  height: 36px;
+
+}
+
+.custom-table-list {
+
+  width: calc(98% + 6px);
+  border-collapse: collapse;
+}
+
+.custom-table-list th,
+.custom-table-list td {
+  border: 1px solid #d9d9d9;
+  // padding: 8px;
+  padding-left: 10px;
+  height: 36px !important;
+}
+
+.custom-table-list .list-col-1 {
+  width: 4%;
+}
+
+.custom-table-list .list-col-2 {
+  width: 65%;
+}
+
+.custom-table-list .list-col-3 {
+  width: 15.5%;
+}
+
+.custom-table-list .list-col-4 {
+  width: 15.5%;
+}
+
+
+.headmodal {
+  font-size: 24px;
+  height: 28px;
+  line-height: 28px;
+  margin: 35px 0 35px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.form-col {
+  width: calc(100%/3);
+
+  div {
+    width: calc(100% - 16px);
+
+    .ant-form-item .ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .div {
+      width: 100%;
+    }
+  }
+
+
+}
+
+
+@media (max-width: 1155px) {
+  .form-col {
+    width: calc(50%);
+    /* Mỗi item chiếm 1/2 dòng, trừ đi khoảng cách */
+  }
+
+  /* Input thứ 3 bị đẩy xuống dòng dưới */
+  .form-col:nth-child(3) {
+    width: 100%;
+    /* Chiếm hết chiều rộng khi bị đẩy xuống */
+  }
+}
+
+.validate_input {
+  color: red;
+  font-size: 13px;
+}
+
+/* styles.css hoặc file CSS tương ứng */
+
+.disabled-input {
+  // background-color: #f5f5f5; /* Màu nền xám để thể hiện trạng thái disabled */
+  pointer-events: none; /* Ngăn không cho tương tác */
+  opacity: 0.5; /* Giảm độ trong suốt */
+}
+
+/* Nếu bạn muốn thêm hiệu ứng khi mờ */
+.disabled-input:hover {
+  cursor: not-allowed; /* Hiệu ứng con trỏ khi hover */
+}
+
+.nzSelect{
+  width: 100%;
+
+}
+
+
+
+///////////////////////////////////////////////
+/// 
+.form-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.input-wrapper {
+  width: calc(100% / 7);
+  min-width: calc(100% / 7);
+  padding: 0 8px; /* Tạo khoảng cách giữa các ô */
+}
+
+// @media (max-width: 1320px) {
+//   .input-wrapper {
+//     width: calc(100%/7); /* Khi nhỏ hơn 1320px, mỗi ô sẽ chiếm 100% chiều rộng */
+//     flex: 1 1 calc(100% / 4); /* Cho phép rơi xuống dòng khi chiều rộng giảm */
+//   }
+// }
+
+.input-form {
+  width: 100%; 
+  padding: 12px;
+  border: 1px solid rgba(209, 213, 219, 1);
+  height: 48px;
+  border-radius: 6px;
+}
+
+.input-form:focus {
+  outline:1px solid #3ea9f5;
+  box-shadow: 5px;
+}
+
+@media (max-width: 1024px) {
+  .input-wrapper {
+    width: calc(100%/7); 
+    flex: 1 1 calc(100% / 2); 
+  }
+  .recordStorage{
+    width: calc(100% - 24px)
+  }
+  .children{
+    width: calc(100% - 30px);
+  }
+  .adrress-input{
+    width: calc(100%/7);
+    flex: 1 1;
+  }
+}
+
+@media (max-width: 1280px) and (min-width: 1024px) {
+  .input-wrapper {
+    width: calc(100%/7); 
+    flex: 1 1 calc(100% / 3); 
+  }
+  // .recordStorage{
+  //   width: calc(100%/7*2 - 16px);
+  // }
+  .children{
+    width: calc(50% - 16px);
+  }
+  .adrress-input {
+    width :calc(100%/7*3 );
+    flex: 1 1;
+  }
+  .date-choose{
+    width: calc(50% - 16px);
+  }
+  .labor-contract{
+    width: calc(50% - 16px);
+  }
+  .recordStorage{
+    margin-left: 4px;
+    width: calc(100%/7*5 + 14px);
+    .lstArchivedRecords{
+      width: 100% !important
+    }
+  }
+  .children{
+    width: calc(100%/7*5 + 36px);
+  }
+
+}
+
+@media (max-width: 1366px) and (min-width: 1280px){
+  .date-choose{
+    width: calc(50% - 16px);
+  }
+  .adrress-input{
+    width: calc(100%/7*2 - 16px);
+  }
+  .labor-contract{
+    width: calc(50% - 16px);
+  }
+  .recordStorage{
+    width: calc(100%/7*6 - 130px)
+  }
+  .children{
+    width: calc(100%/7*5 + 36px);
+  }
+}
+
+@media (min-width: 1366px) {
+  .date-choose{
+    width: calc(28% - 8px);
+  }
+  .adrress-input{
+    width: calc(100%/7*2 - 16px);
+  }
+  .labor-contract{
+    width: calc(100%/7*3 - 18px);
+  }
+  .recordStorage{
+    width: calc(100%/7*4 - 2px);
+  }
+  .children{
+    width: calc(100%/7*3 - 18px) ;
+  }
+}
+
+// @media (max-width: 1440px){
+//   .date-choose{
+//         width: calc(28% - 8px);
+//       }
+//   .labor-contract{
+//     width: calc(100%/7*3 - 18px);
+//   }
+// }
+
+@media (min-width: 1660px){
+  .labor-contract{
+    width: calc(100%/7*3 - 16px);
+  }
+}
+// @media (max-width: 1280px){
+//   .date-choose{
+//     width: calc(100%/7*3 - 16px);
+//   }
+// }
+
+.error-container{
+  height: 18px
+}
+
+.label-form{
+  color: rgba(107, 114, 128, 1);
+  font-weight: 500;
+  font-size: 13px;
+}
+
+::ng-deep .reset-employee-modal .ant-modal-content {
+  border-radius: 12px;
+}
+
+.upload{
+  color: rgba(37, 44, 50, 1);
+  font-size: 24px;
+  font-weight: 500;
+}
+
+::ng-deep .ant-modal .ant-modal-content .ant-modal-header .ant-modal-title{
+  color: rgba(37, 44, 50, 1); 
+  font-weight: 500;
+  font-size: 24px;
+  padding: 30px 0px 0px 30px;
+
+}
+
+::ng-deep .ant-modal .ant-modal-content .ant-modal-header{
+  border-bottom: none !important;
+  border-radius: 12px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+}
+
+::ng-deep .ant-modal .ant-modal-content .ant-modal-close {
+  margin: 30px 30px 0px 0px;
+}
+
+::ng-deep .ant-modal .ant-modal-content .ant-modal-body {
+  padding: 10px 52px 52px 52px;
+}
+
+::ng-deep .custom-modal-full .ant-modal-content {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.full-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+}
+
+.upload-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.upload-container {
+  border: 2px dashed rgba(107, 114, 128, 1); /* Đường viền dạng dashed */
+  background-color: rgba(244, 247, 251, 1); /* Màu nền */
+  border-radius: 8px;
+  height: 320px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease; /* Thêm hiệu ứng mượt khi thay đổi */
+}
+
+.upload-container.has-image {
+  width: 400px; 
+  height: 400px; 
+}
+
+.image-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.image-container{
+  width: 100%;
+  height: 100%;
+}
+
+.image-preview.has-image{
+  width: 400px !important; 
+  height: 400px !important; 
+}
+
+.delete-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 8px 10px 8px 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: rgba(37, 44, 50, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  gap: 4px;
+  flex: 1 1;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+}
+
+.delete-icon:hover {
+  background-color: rgba(255, 0, 0, 0.8); /* Đổi màu khi hover */
+}

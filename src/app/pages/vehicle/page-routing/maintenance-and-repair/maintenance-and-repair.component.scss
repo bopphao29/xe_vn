@@ -1,0 +1,35 @@
+.tabs {
+    display: flex;
+    gap: 10px;
+  
+    .tab-link {
+      padding: 12px 32px 12px 32px;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 16.41px;
+      border: 1px solid rgba(209, 213, 219, 1);
+      border-radius: 29px;
+      text-decoration: none;
+      color: rgba(176, 186, 191, 1);
+      cursor: pointer;
+      transition: 0.3s;
+      -webkit-border-radius: 29px;
+      -moz-border-radius: 29px;
+      -ms-border-radius: 29px;
+      -o-border-radius: 29px;
+      &:hover{
+        background-color: #f0f0f0;
+      }
+  
+      &.active {
+        background-color: rgba(26, 105, 197, 0.1);
+        color:  rgba(39, 78, 161, 1);
+        border-color: rgba(39, 78, 161, 1);
+      }
+    }
+  }
+  
+  .tab-content {
+    margin-top: 20px;
+  }
+  

@@ -66,21 +66,22 @@ export class EmployeeManagementComponent implements OnInit{
      const localValue = localStorage.getItem('activeLink')
      console.log(localValue)
     if(this.activeLink != localValue){
-      localStorage.removeItem('searchEmployee')
+      localStorage.removeItem('search')
     }
   }
 
   routerEmployeeManagement(){
     this.activeLink = 'employeeManagement'
     this.romoveSearchEmployee();
+
     localStorage.setItem('activeLink', this.activeLink);
     this.routes.navigate(['employee/employee-management'])
   }
 
   routerListEmployeeProfile(){
     this.activeLink = 'employeeProfile'
-    localStorage.setItem('activeLink', this.activeLink);
     this.romoveSearchEmployee();
+    localStorage.setItem('activeLink', this.activeLink);
     this.routes.navigate(['employee/list-employee-profile'])
   }
 
@@ -89,27 +90,30 @@ export class EmployeeManagementComponent implements OnInit{
     this.romoveSearchEmployee();
 
     localStorage.setItem('activeLink', this.activeLink);
+
     this.routes.navigate(['employee/list-employee-probation'])
   }
 
   routerListEmployeeViolatesDiscipline(){
     this.activeLink = 'employeeViolatesDiscipline'
-    localStorage.setItem('activeLink', this.activeLink);
     this.romoveSearchEmployee();
+    localStorage.setItem('activeLink', this.activeLink);
     this.routes.navigate(['employee/list-employee-violates-discipline'])
   }
 
   routerListEmployeeSalarySetup(){
     this.activeLink = 'employeeSalarySetup'
-    localStorage.setItem('activeLink', this.activeLink);
     this.romoveSearchEmployee();
+
+    localStorage.setItem('activeLink', this.activeLink);
     this.routes.navigate(['employee/employee-salary-setup'])
   }
 
   routerListEmployeeResign(){
     this.activeLink = 'employeeResign'
-    localStorage.setItem('activeLink', this.activeLink);
     this.romoveSearchEmployee();
+
+    localStorage.setItem('activeLink', this.activeLink);
 
     this.routes.navigate(['employee/list-employee-resign'])
   }

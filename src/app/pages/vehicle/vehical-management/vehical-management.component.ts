@@ -29,7 +29,7 @@ export class VehicalManagementComponent {
   ){}
   ngOnInit(): void {
     const savedLink = localStorage.getItem('activeLink')
-    this.activeLink = savedLink ? savedLink : 'setupVehical'
+    this.activeLink = savedLink ? savedLink : ''
 
     this.navigatePage()
   }
@@ -60,43 +60,64 @@ export class VehicalManagementComponent {
     }
   }
 
+  romoveSearchVehical(){
+    const localValue = localStorage.getItem('activeLink')
+    console.log(localValue)
+   if(this.activeLink != localValue){
+     localStorage.removeItem('search')
+   }
+ }
+
   routerSetupVehical(){
     this.activeLink = 'setupVehical'
+    this.romoveSearchVehical()
     localStorage.setItem('activeLink', this.activeLink);
     this.routes.navigate(['vehical/setup-vehical'])
   }
 
   routerMaintenanceRepair(){
-    this.activeLink = 'employeeProfile'
+    this.activeLink = 'maintenanceRepair'
+    this.romoveSearchVehical()
+
     localStorage.setItem('activeLink', this.activeLink);
-    this.routes.navigate(['employee/list-employee-profile'])
+    this.routes.navigate(['vehical/maintenance-repair'])
   }
 
   routerDeepInteriorCleaning(){
     this.activeLink = 'employeeeProbation'
+    this.romoveSearchVehical()
+
     localStorage.setItem('activeLink', this.activeLink);
     this.routes.navigate(['employee/list-employee-probation'])
   }
 
   routerVehicleProfileManagement(){
     this.activeLink = 'vehicleProfileManagement'
+    this.romoveSearchVehical()
+
     localStorage.setItem('activeLink', this.activeLink);
     this.routes.navigate(['vehical/file-vehical-management'])
   }
 
   routerOperationalManagement(){
     this.activeLink = 'employeeSalarySetup'
+    this.romoveSearchVehical()
+
     localStorage.setItem('activeLink', this.activeLink);
     this.routes.navigate(['employee/employee-salary-setup'])
   }
 
   routerOperaterTimeManagement(){
     this.activeLink = 'employeeResign'
+    this.romoveSearchVehical()
+
     localStorage.setItem('activeLink', this.activeLink);
     this.routes.navigate(['employee/list-employee-resign'])
   }
   routerEmployeeSalarySetup(){
     this.activeLink = 'employeeResign'
+    this.romoveSearchVehical()
+
     localStorage.setItem('activeLink', this.activeLink);
     this.routes.navigate(['employee/list-employee-resign'])
   }
