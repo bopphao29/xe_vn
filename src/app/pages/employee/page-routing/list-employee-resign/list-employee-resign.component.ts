@@ -310,7 +310,16 @@ handleSubmitDelete(){
   }
 
   resetForm(){
-    this.form.reset()
+    this.form.reset({
+      txtSearch: '',
+      branchId: '',
+      officeId: '',
+      departmentId: '',
+      positionId: '',
+      leaveType: 1, 
+    });
+    localStorage.removeItem('search')
+
   }
 
   updateWorkStatus(){

@@ -50,6 +50,7 @@ export class SetupProfileCarComponent implements OnInit {
 
   data: IData = {
     id: null,
+    
     registerNo: null,
     frameNumber: null,
     machineNumber: null,

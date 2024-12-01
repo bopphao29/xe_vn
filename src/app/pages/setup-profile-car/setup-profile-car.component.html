@@ -421,7 +421,7 @@
   </div>
 </form>
 
-<nz-modal [(nzVisible)]="isShowModalUploadfile" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="null"
+<nz-modal [(nzVisible)]="isShowModalUploadfile" [nzTitle]="modalTitle" nzClassName="up-image" [nzContent]="modalContent" [nzFooter]="null" 
   (nzOnCancel)="handleCancel()">
   <ng-template #modalTitle>Tải ảnh lên</ng-template>
 

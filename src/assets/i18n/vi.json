@@ -113,7 +113,26 @@
         "driverList": "Danh sách lái xe",
         "setupRequestMR":"Thiết lập yêu cầu BDSC",
         "listRequestMR":"Danh sách yêu cầu BDSC",
-        "reportRequestMR":"Báo cáo BDSC"
+        "reportRequestMR":"Báo cáo BDSC",
+        "listVehicalRepair": "Danh sách xe đến kỳ bảo dưỡng",
+        "latestOdometer":"Km bảo dưỡng gần nhất",
+        "latestDate": "Ngày bảo dưỡng gần nhất",
+        "currentOdometer":"Số km hiện tại",
+        "levelMaintenance":"Cấp bảo dưỡng hiện tại",
+        "supposedStartTime":"",
+        "supposedStartDate":"",
+        "maintenancePlace": "",
+        "approvalStatus":"",
+        "priorityStatus":"",
+        "status":"",
+        "lstTestCategories":"",
+        "lstVehicleStatus":"",
+        "lstWorkPerformed":"",
+        "lstReplacementSupplies":"",
+        "itemCheck":"Hạng mục kiểm tra",
+        "workPerformed":"Công việc thực hiện",
+        "replacementSupplies":"Vật tư thay thế",
+        "priority":"Ưu tiên bảo dưỡng trước"
     },
     "navbar": {
         "ras": "Liên hệ",
@@ -182,10 +201,19 @@
     "table": {
         "stt":"STT",
         "time":"Thời gian",
-        "driverName":"Tên lái xe",
         "phone":"SĐT",
-        "fromDate":"Từ ngày",
-        "toDate":"Đến ngày"
+        "action": "Tác vụ",
+        "vehical": {
+            "fromDate":"Từ ngày",
+            "toDate":"Đến ngày",
+            "driver":"Lái xe",  
+            "driverName":"Tên lái xe",
+            "licensePlate": "Biển kiểm soát",
+            "maintenanceKm": "Km bảo dưỡng",
+            "count":"Số lượng",
+            "unitOfMeasure":"Đơn vị tính"
+        }
+        
         
     },
     "month":{

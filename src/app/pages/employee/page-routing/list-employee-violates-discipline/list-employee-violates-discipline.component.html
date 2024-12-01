@@ -58,7 +58,7 @@
                 <div class="">
                     <label class="form-label">Thời gian</label>
                     <div>
-                        <nz-range-picker formControlName="rangeDate" style="width: 100%; height: 48px;">  </nz-range-picker>
+                        <nz-range-picker formControlName="rangeDate" style="width: 100%; height: 48px;">  </nz-range-picker>    
                     </div>
                 </div>
             </div>
@@ -68,22 +68,21 @@
 
     <div class="flex justify-center m-2" style="min-width: 335px; margin-top: 20px !important;">
         <span>
-            <button class="button" nz-button nzType="default" style="border-color: #274ea1; min-width: 160px;" type="button"
-                (click)="resetForm()">
+            <button class="button" type="button" nz-button nzType="default" style="border-color: #274ea1; min-width: 160px;" (click)="resetForm()">
                 <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M9.66667 17.5V12.5H11.3333V14.1667H18V15.8333H11.3333V17.5H9.66667ZM3 15.8333V14.1667H8V15.8333H3ZM6.33333 12.5V10.8333H3V9.16667H6.33333V7.5H8V12.5H6.33333ZM9.66667 10.8333V9.16667H18V10.8333H9.66667ZM13 7.5V2.5H14.6667V4.16667H18V5.83333H14.6667V7.5H13ZM3 5.83333V4.16667H11.3333V5.83333H3Z"
                         fill="#274EA1" />
                 </svg>
 
-                <span style="color: #274ea1;" >
+                <span style="color: #274ea1;">
                     Xóa bộ lọc
                 </span>
             </button>
         </span>
         <span class="ml-2">
-            <button class="button" type="submit" style="background-color: #274ea1; color:  #f7f7f7;" nz-button
-                nzType="default">Tìm kiếm</button>
+            <button class="button" type="submit" style="background-color: #274ea1; color:  #f7f7f7;" nz-button nzType="default">Tìm
+                kiếm</button>
         </span>
     </div>
 </form>
@@ -119,7 +118,7 @@
                     <td class="list-col-3">{{data.punishmentForm || '-'}}</td>
 
                     <td class="list-col-2">
-                        <a *ngIf="data.id" class="button_show_detail" (click)="routerDetailEmployee(data.punishmentId)">
+                        <a *ngIf="data.id" class="button_show_detail" (click)="routerDetailEmployee(data.id)">
                             Xem chi tiết
                         </a>
                         <a *ngIf="!data.id">

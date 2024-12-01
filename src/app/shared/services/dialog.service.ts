@@ -15,11 +15,12 @@ export class DialogService {
     private translate: TranslateService,
     private ref: ApplicationRef
   ) {}
-  openDialog<T>(
+    openDialog<T>(
     component: string | TemplateRef<NzSafeAny> | Type<T>,
     title?: string,
+
     dialogData?: any,
-    option: ModalOptions = {}
+    option: ModalOptions = {},
   ): NzModalRef {
     return this.modal.create({
       nzContent: component,

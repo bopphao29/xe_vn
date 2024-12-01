@@ -158,9 +158,6 @@ export class ListProfileEmployeeComponent implements OnInit {
   routerDetailEmployee(id: any){
     this.routes.navigate(['/detail-employee/', id])
   }
-  // routerDetailEmployee(){
-  //   this.routes.navigate(['/employee-details/1'])
-  // }
 
   dataEmployee: any[] = []
 

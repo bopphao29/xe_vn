@@ -57,18 +57,21 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
 
   ngOnInit(): void {
 
+    const searchData = JSON.parse(localStorage.getItem('search') || '{}');
+    const violentDateFrom = searchData.violentDateFrom ? new Date(searchData.violentDateFrom) : null;
+    const violentDateTo = searchData.violentDateTo ? new Date(searchData.violentDateTo) : null;
+
+    const savedFormValue = localStorage.getItem('search');
+
     this.form = this.fb.group({
-      // code: '',
-      // name: '',
-      // phoneNumber: '',
-      txtSearch:'',
-      officeId: '',
-      branchId: '',
-      departmentId: '',
-      violentId: '',
-      rangeDate: ''
+      txtSearch: [savedFormValue ? JSON.parse(savedFormValue).txtSearch : ''],
+      officeId: [savedFormValue ? JSON.parse(savedFormValue).officeId : ''],
+      branchId: [savedFormValue ? JSON.parse(savedFormValue).branchId : ''],
+      departmentId: [savedFormValue ? JSON.parse(savedFormValue).departmentId : ''],
+      violentId: [savedFormValue ? JSON.parse(savedFormValue).violentId : ''],
+      rangeDate: [[violentDateFrom, violentDateTo].filter(date => date)],
     })
-    // this.listData
+
     this.search()
     this.getBranch()
     // this.getDepartment()
@@ -166,16 +169,6 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
 
   fromDate : Date = new Date()
   toDate : Date = new Date()
-
-  getToDateAndFromDate(){
-    const rangeDate = this.form.get('rangeDate')?.value
-     this.fromDate = rangeDate ? rangeDate[0] : null
-    this.toDate = rangeDate ? rangeDate[1] : null
-
-    console.log(this.fromDate)
-    console.log(this.toDate)
-  }
-
   ///////////////////////////show dữ liệu không có/////////////////////
   showEmpolyeeNoData(){
     const numberData = 12
@@ -194,24 +187,66 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
 
 
   search(){
-    const checkRangDate = this.form.get('rangeDate')?.value
-    console.log(checkRangDate)
+
+    const rangeDate = this.form.get('rangeDate')?.value
+    this.fromDate = rangeDate ? rangeDate[0] : null
+    this.toDate = rangeDate ? rangeDate[1] : null
+    console.log(rangeDate)
     this.form.updateValueAndValidity();
+    console.log(this.fromDate)
+    console.log(this.toDate)
+
     const dataForm = {
-      violentDateFrom : checkRangDate ? this.fromDate : '',
-      violentDateTo: checkRangDate ? this.toDate : '',
       ...this.form.value,
+      violentDateFrom : rangeDate ? this.fromDate : '',
+      violentDateTo: rangeDate ? this.toDate : '',
       type: 3,
       page: this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 ,
       size: 12,
     }
-    delete dataForm.rangeDate
+    // delete dataForm.rangeDate
+    delete dataForm.type
+    delete dataForm.page
+    delete dataForm.size
+
     this.getListEmployee(dataForm)
+    if(dataForm){
+      localStorage.setItem('search', JSON.stringify(dataForm));
+    }
+    
+    console.log(this.form.value)
+    this.setupValueIntoForm()
   }
 
   resetForm(){
-    this.form.reset()
+
+    this.form.reset({
+      txtSearch: '',
+      officeId: '',
+      branchId: '',
+      departmentId: '', 
+      violentId: '',
+      rangeDate: [], 
+    });
+  
+    localStorage.setItem('search', JSON.stringify({
+      txtSearch: '',
+      officeId: '',
+      branchId: '',
+      departmentId: '',
+      violentId: '',
+      violentDateFrom: '',
+      violentDateTo: ''
+    }));
+
   }
 
+  setupValueIntoForm(){
+    const formValue = localStorage.getItem('search');
+    console.log(formValue)
+    if(formValue){
+      this.form.patchValue(JSON.parse(formValue))
+    }
+  }
 
 }
