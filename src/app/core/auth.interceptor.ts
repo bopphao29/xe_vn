@@ -51,7 +51,8 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
           // clearStore();
-          this.router.navigate(['/']);
+          // this.router.navigate(['/']);
+          this.router.navigate(['vehical/setup-vehical']);
         } else {
           this.handleError(error);
         }
@@ -126,7 +127,8 @@ export const authInterceptor: HttpInterceptorFn = (
 
       if (err.status === 401) {
         // clearStore();
-        router.navigateByUrl('/login');
+        // router.navigateByUrl('/login');
+        router.navigateByUrl('vehical/setup-vehical')
       } else if (err.status >= 400 && err.status < 500 && err.status !== 401) {
         toastr.error(err.error.message);
       } else {

@@ -62,21 +62,6 @@ export const EMPPLOYEE_ROUTES: Routes = [
     ]
 
   },
-  // {
-  //   path: 'list-employee-probation',
-  //   loadComponent: () => 
-  //     import('./list-employee-probation/list-employee-probation.component').then(
-  //       (c) => c.ListEmployeeProbationComponent
-  //     )
-
-  // },
-  // {
-  //   path: 'employee-management',
-  //   loadComponent: () => 
-  //   import('./setup-profile-employee/setup-profile-employee.component').then(
-  //       (c) => c.SetupProfileEmployeeComponent
-  //   ),
-  // },
   {
     path: 'detail-employee/:id',
     loadComponent: () =>

@@ -11,6 +11,7 @@ import { AuthServiceService } from '../../../shared/services/auth-service.servic
 import { STORAGE_KEYS } from '../../../shared/constants/system.const';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -55,12 +56,31 @@ export class LoginComponent implements OnInit {
         console.log(response.data)
         const token = response.data 
         if(token){
-          localStorage.setItem(STORAGE_KEYS.TOKEN, token)
-          this.route.navigate(['/employee/employee-management'])
+          // localStorage.setItem(STORAGE_KEYS.TOKEN, token)
+          this.route.navigate(['employee/employee-management'])
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "success",
+            title: "Đăng nhập thành công"
+          });
           // localStorage.setItem('activeLink', 'employeeManagement')
         }else{
             this.notifiService.error("Error token")
             // localStorage.clear()
+            // Swal.fire({
+            //   icon: "success",
+            //   title: "Có lỗi "
+            // });
         }
       })
     }

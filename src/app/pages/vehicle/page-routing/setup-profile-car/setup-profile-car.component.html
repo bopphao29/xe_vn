@@ -1,18 +1,23 @@
-<div>
-  <form nz-form nzGutter="16" class="w-full" nzLayout="vertical" [formGroup]="form" style="background-color: #f3f3f3;">
+<div >
+  <form nz-form nzGutter="16" class="w-full" class="p-4" nzLayout="vertical" [formGroup]="form" style="background-color: #f3f3f3;">
 
     <!-- Mã thiết bị -->
-    <div class="input-wrapper">
-      <div class="">
-        <label class="label-form">{{'vehical.vehicleType' | translate}}</label>
-        <nz-select nzPlaceHolder="Chọn loại xe" formControlName="vehicleTypeId" style="width: 100%">
-          <nz-option *ngFor="let data of listVehical" [nzValue]="data.id" [nzLabel]="data.name"></nz-option>
-          <nz-option nzValue="solati" nzLabel="Solati"></nz-option>
-        </nz-select>
+    <div class="form-container">
+      <div class="input-wrapper p-0">
+        <div class="">
+          <label class="label-form">{{'vehical.vehicleType' | translate}}</label>
+          <nz-select nzPlaceHolder="Chọn loại xe" formControlName="vehicleTypeId" style="width: 100%">
+            <nz-option *ngFor="let data of listVehical" [nzValue]="data.id" [nzLabel]="data.name"></nz-option>
+            <!-- <nz-option nzValue="solati" nzLabel="Solati"></nz-option> -->
+          </nz-select>
+        </div>
       </div>
     </div>
+    <div class="p-2" style="padding-left:0px !important;">
+    <span style="color: rgba(37, 44, 50, 1); font-weight: 500; font-size: 16px; line-height: 18.75px;">{{'vehical.profile_vehical' | translate}}</span>
+
+    </div>
   
-    <h4>Hồ sơ phương tiện</h4>
     <div style="background-color: #fff; border-radius: 5px;">
   
       <div class="p-4 pb-0 form-container">
@@ -39,6 +44,7 @@
               <div class="error-container">
                   <div *ngIf="form.get('registerNo')?.invalid && (form.get('registerNo')?.dirty || form.get('registerNo')?.touched)">
                       <span class="validate_input" *ngIf="form.get('registerNo')?.errors?.['required']">{{'required.registerNo' | translate}}</span>
+                      <span class="validate_input" *ngIf="form.get('registerNo')?.errors?.['pattern']">{{'pattern.registerNo' | translate}}</span>
                   </div>
               </div>
           </div>
@@ -48,7 +54,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" for="" >{{'vehical.frameNumber' | translate}}</label>
-              <input class="input-form"  placeholder="Nguyễn văn A" type="text" formControlName="frameNumber">
+              <input class="input-form" maxlength="17"  placeholder="3VWCK21Y62M409688" type="text" formControlName="frameNumber">
               
           </div>
   
@@ -57,7 +63,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" for="" >{{'vehical.machineNumber' | translate}}</label>
-              <input class="input-form" formControlName="machineNumber"  placeholder="Nguyễn văn A" type="text" >
+              <input class="input-form" maxlength="17" formControlName="machineNumber" placeholder="3VWCK21Y62M409688"  placeholder="Nguyễn văn A" type="text" >
               
           </div>
   
@@ -66,10 +72,12 @@
         <div class="input-wrapper">
           <div class="">
               <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.manufactureYear' | translate}}</label>
-              <input class="input-form" formControlName="manufactureYear"  placeholder="2000" type="text" >
+              <input class="input-form" formControlName="manufactureYear" minlenght="4"  placeholder="2000" type="text" >
               <div class="error-container">
                   <div *ngIf="form.get('manufactureYear')?.invalid && (form.get('manufactureYear')?.dirty || form.get('manufactureYear')?.touched)">
                       <span class="validate_input" *ngIf="form.get('manufactureYear')?.errors?.['required']">{{'required.machineNumber' | translate}}</span>
+                      <span class="validate_input" *ngIf="form.get('manufactureYear')?.errors?.['min']">{{'required.machineNumber' | translate}}</span>
+                      <span class="validate_input" *ngIf="form.get('manufactureYear')?.errors?.['max']">{{'required.machineNumber' | translate}}</span>
                   </div>
               </div>
           </div>
@@ -104,7 +112,9 @@
         </div>
         <div class="input-wrapper">
           <div class="">
-              <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.capacity' | translate}}</label>
+              <span style="color: red;" >*</span>
+              <label class="label-form" *ngIf="labelTruck == false">{{'vehical.capacity' | translate}} <span style="color: rgba(239, 68, 68, 1); font-style: italic; font-size: 12px; line-height: 14.06px; font-weight: 400 !important;">{{'vehical.noDriver'| translate}}</span></label>
+              <label class="label-form" *ngIf="labelTruck == true" >{{'vehical.payload' | translate}} <span style="color: rgba(239, 68, 68, 1); font-style: italic; font-size: 12px; line-height: 14.06px; font-weight: 400 !important;">{{'vehical.noDriver'| translate}}</span></label>
               <input class="input-form"  placeholder="30E-8888" type="text" formControlName="capacity" >
               <div class="error-container">
                   <div *ngIf="form.get('capacity')?.invalid && (form.get('capacity')?.dirty || form.get('capacity')?.touched)">
@@ -118,8 +128,8 @@
         <div nz-col class="input-wrapper">
           <div class="">
             <label class="label-form">{{'vehical.image_vehical' | translate}}</label>
-            <div class="custom-upload"  style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
-                <input nz-input placeholder="Chọn" formControlName="image" readonly class="upload-input" style="border: none; outline: none; flex: 1; width: 100%;  height: 48px; "
+            <div class="custom-upload"  style="border: 1px solid #d9d9d9; border-radius: 5px; height: 48px !important;">
+                <input nz-input placeholder="Chọn" formControlName="image" readonly class="upload-input" style="border: none; outline: none; flex: 1; width: 100%;   "
                   [value]="fileCompressed.file.length > 0 ? fileCompressed.file[0].name : ''"  />
                 <button nz-button nzType="default" nzShape="circle" class="upload-button"
                   (click)="isShowModalUploadfile = true" style="border: none; background: transparent;">
@@ -447,7 +457,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" >{{'vehical.gpsDeviceSetupDate' | translate}} </label>
-              <nz-date-picker  nzFormat="dd/MM/yyyy" class="w-full" formControlName="gpsDevice" style="width: 100%; height: 48px;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+              <nz-date-picker  nzFormat="dd/MM/yyyy" class="w-full" formControlName="gpsDeviceSetupDate" style="width: 100%; height: 48px;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                   
           </div>
         </div>
@@ -455,7 +465,7 @@
   
       </div>
   
-      <div style="border-bottom: 1px solid #dddddd;margin-left: 30px; margin-bottom: 15px;"></div>
+      <div style="border-bottom: 1px solid #dddddd;margin-left: 30px; margin-bottom: 15px; margin-top: 30px"></div>
   
       <div class="mx-4 form-container ">
         <div class=" input-wrapper" >
@@ -507,18 +517,18 @@
                     </div>
                 </div>
                 
-                <div nz-col nzSpan="18" style="margin-top: 36px;">
+                <div nz-col nzSpan="18" style="margin-top: 36px; margin-bottom: 18px;" [class.disabled-input]="status_vehical == 0">
                     <div nz-row style="width: calc(100% - 8px); " formGroupName="driver" >
                         <div style="width: calc(50% - 8px); margin-right: 8px;" >
                             <div class="form-control" style="padding: 0px 0px 0px 0px !important">
                                 <label class="label-form">{{'vehical.fromDate' | translate}}</label>
                                 <div class="w-full">
-                                    <nz-date-picker class="w-full" nzFormat="dd/MM/yyyy" formControlName="startDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
-                                    <div class="error-container">
-                                        <div *ngIf="(form.get('fromDateProbation')?.invalid && (form.get('fromDateProbation')?.dirty ||form.get('fromDateProbation')?.touched)) && driver_status == 1">
+                                    <nz-date-picker class="w-full" style="height: 48px !important;" nzFormat="dd/MM/yyyy" formControlName="startDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
+                                    <!-- <div class="error-container">
+                                        <div *ngIf="(form.get('fromDateProbation')?.invalid && (form.get('fromDateProbation')?.dirty ||form.get('fromDateProbation')?.touched)) ">
                                             <span class="validate_input"  *ngIf="form.get('fromDateProbation')?.errors?.['required']">{{'required.date_required' | translate}}</span>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -527,12 +537,12 @@
                             <div class="form-control"  style="padding: 0px 0px 0px 0px !important">
                                 <label class="label-form">{{'vehical.toDate' | translate}}</label>
                                 <div class="w-full">
-                                    <nz-date-picker class="w-full" nzFormat="dd/MM/yyyy"  formControlName="endDate" nzPlaceHolder="Chọn ngày" ></nz-date-picker>
-                                        <div class="error-container" *ngIf="driver_status == 1">
+                                    <nz-date-picker class="w-full" nzFormat="dd/MM/yyyy" style="height: 48px !important;" formControlName="endDate" nzPlaceHolder="Chọn ngày" ></nz-date-picker>
+                                        <!-- <div class="error-container">
                                             <div *ngIf="(form.get('toDate')?.invalid && (form.get('toDate')?.dirty ||form.get('toDate')?.touched))">
                                                 <span class="validate_input">{{'required.date_required' | translate}}</span>
                                             </div>
-                                        </div>
+                                        </div> -->
                                 </div>
                             </div>
                         </div>
@@ -568,7 +578,12 @@
     <div class="upload-container flex justify-center items-center" [ngClass]="{'has-image': previewImage}">
       <!-- Khu vực chọn ảnh -->
       <div class="upload-area">
-        <div *ngIf="!previewImage" class="upload-placeholder">
+        <div *ngIf="!previewImage" class="upload-placeholder"
+        [class.drag-over]="isDragOver"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+        >
           <span class="justify-center align-items flex">
             <span class="justify-center align-items flex">
               <svg width="64" height="65" viewBox="0 0 64 65" fill="none" xmlns="http://www.w3.org/2000/svg">

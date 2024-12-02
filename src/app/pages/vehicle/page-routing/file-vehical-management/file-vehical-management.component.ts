@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
@@ -38,10 +38,16 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 })
 export class FileVehicalManagementComponent implements OnInit{
 
-  constructor(){}
+  constructor(
+    private fb: FormBuilder,
 
+  ){}
+
+  form!: FormGroup
   ngOnInit(): void {
-    
+    this.form = this.fb.group({
+      
+    })
   }
 
   listPrepareToExpire = [

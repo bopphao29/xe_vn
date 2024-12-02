@@ -48,6 +48,7 @@
         "relaxing": "Hiện đang nghỉ: "
      },
     "vehical":{
+        "profile_vehical":"Hồ sơ phương tiện",
         "detail_vehical_infor":"Chi Tiết Thông Tin Phương Tiện",
         "vehical_management":"Quản lý phương tiện",
         "setup_vehical":"Thiết lập hồ sơ phương tiện",
@@ -64,7 +65,9 @@
         "manufacturer": "Hãng sản xuất",
         "type_vehical":"Mẫu xe",
         "capacity": "Số chỗ",
-        "payload":"Trọng tải",
+        "noDriver":"(Không bao gồm LX)",
+        "payload":"Tải trọng",
+
         "image_vehical": "Hình ảnh phương tiện",
         "intendedUse": "Mục đích sử dụng xe",
         "route": "Định biên tuyến",
@@ -299,6 +302,9 @@
         "username": "Phải nhập tên đăng nhập",
         "password": "Phải nhập mật khẩu",
         "owningLegalEntity":"Phải chọn"
+    },
+    "pattern":{
+        "registerNo":"BKS dạng A...-01..."
     },
     "home-default": "tieng viet"
 }

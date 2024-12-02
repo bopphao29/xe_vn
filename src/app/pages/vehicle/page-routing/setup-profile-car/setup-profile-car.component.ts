@@ -56,10 +56,10 @@ export class SetupProfileCarComponent implements OnInit {
     file: []
   };
 
-  driver_status: number = 0
+  status_vehical: number = 0
   is_New: any
   form!: FormGroup;
-
+  labelTruck : boolean = false
   activeTab: number = 1;
   constructor(
     private translate: TranslateService,
@@ -90,15 +90,16 @@ export class SetupProfileCarComponent implements OnInit {
   }
 
   ngOnInit() {
+    const yearNow = new Date().getFullYear()
     this.form = this.fb.group({
         isNew: [null, Validators.required],
-        registerNo: [null, Validators.required],
-        frameNumber: [null, Validators.required],
-        machineNumber: [null],
-        manufactureYear: [null],
+        registerNo: [null, [Validators.required, Validators.pattern(/^[A-Za-z0-9\-.]+$/)]],
+        frameNumber: [null, Validators.maxLength(17)],
+        machineNumber: [null, Validators.maxLength(17)],
+        manufactureYear: [null, [Validators.min(1950), Validators.max(yearNow), Validators.maxLength(4)]],
         manufacturer: [null, Validators.required],
         vehicleModel: [null, Validators.required],
-        vehicleTypeId: [null, Validators.required],
+        vehicleTypeId: [null],
         capacity: [null, Validators.required],
         image: [null],
         intendedUse: [null],
@@ -139,19 +140,35 @@ export class SetupProfileCarComponent implements OnInit {
         })
       })
 
-
-      this.form.get('driverStatus')?.value
-      this.form.get('driverStatus')?.valueChanges.subscribe((value: any)=> {
-        console.log(value)
-        this.driver_status = value
+      this.form.get('driver.driverStatus')?.valueChanges.subscribe((value: any)=> {
+        // this.status_vehical = value
+        // console.log(value);
+        
+        if(value === '0' || value === 0){
+          this.status_vehical = 0
+        }else{
+          this.status_vehical = 1
+        }
       })
 
+      this.form.get('vehicleTypeId')?.valueChanges.subscribe((value : any)=> {
+        console.log(value);
+        const isTruck = this.listVehical.find((item: any)=> item.id === parseInt(value))
+        if(isTruck){
+        const codeTruck : any = isTruck.code
+
+        if(isTruck && codeTruck == 'XE_TAI'){
+          this.labelTruck = true
+        }
+        }
+      })
       this.form.get('isNew')?.valueChanges.subscribe((value: any)=> {
         console.log(value)
         this.is_New = value
       })
 
       this.getRoute()
+      this.getVehicalType()
   }
 
   listRoute : any[] = []
@@ -205,6 +222,69 @@ export class SetupProfileCarComponent implements OnInit {
     reader.readAsDataURL(img);
   }
 
+
+
+  /////////////////////////////////////keo tha anh:
+  isDragOver: boolean = false;
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver = true; // Thay đổi trạng thái để highlight
+  }
+
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver = false; // Bỏ highlight khi rời khỏi vùng thả
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver = false;
+
+    if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
+      const file = event.dataTransfer.files[0];
+      this.fileCompressed.file[0] = file
+      // console.log(file.name)
+      this.handleFile(file);
+    }
+  }
+
+  handleFile(file: File): void {
+    // Kiểm tra loại file
+    if (file.type.startsWith('image/')) {
+      this.readFileImage(file);
+    } else {
+      alert('Vui lòng tải lên một file hình ảnh hợp lệ!');
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ///////////////////////////////////////////////
   handleChangeFile(info: { file: NzUploadFile }): void {
     switch (info.file.status) {
       case 'uploading':
@@ -393,7 +473,8 @@ disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
 ///////////////////////////////////////////createVehical///////////////////////////////////////
   createVehical() {
     const dataForm = {
-      ...this.form.value
+      ...this.form.value,
+      image: this.fileCompressed.file[0].name
     }
 
     const formData = new FormData();
@@ -411,12 +492,60 @@ disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
     // console.log(formData.append('data', JSON.stringify(dataForm)))
 
     this.form.markAllAsTouched(); 
+    if(this.form.get('isNew')?.value == 1 || this.form.get('isNew')?.value == '1'){
+      this.form.get('firstStartDateXE')?.clearAsyncValidators()
+      this.form.get('firstSubcriptionDate')?.clearAsyncValidators()
+      this.form.get('fristRegistrationDate')?.clearAsyncValidators()
+    }else{
+      this.form.get('firstStartDateXE')?.setValidators(Validators.required)
+      this.form.get('firstSubcriptionDate')?.setValidators(Validators.required)
+      this.form.get('fristRegistrationDate')?.setValidators(Validators.required)
+    }
 
-    if(this.form.valid){
+    this.form.get('firstStartDateXE')?.updateValueAndValidity()
+      this.form.get('firstSubcriptionDate')?.updateValueAndValidity()
+      this.form.get('fristRegistrationDate')?.updateValueAndValidity()
+
+    if (this.form.valid) {
       this.vehicalService.createVehical(formData).subscribe((response: any) => {
         console.log(response)
       })
+    } else {
+      console.log('lỗi')
+      Object.keys(this.form.controls).forEach((field: any) => {
+        const control = this.form.get(field)
+
+        if (control && control.invalid) {
+          console.log("lỗi ở: " + field)
+
+          const errors = control.errors;
+          if (errors) {
+            Object.keys(errors).forEach((errkey: any) => {
+              switch (errkey) {
+                case 'required':
+                  console.log(field + "phai dien")
+                  break;
+                case 'minlength':
+                  console.log(field + "bi be hon gi day")
+                  break;
+                case 'pattern':
+                  console.log(field + 'dinh dang sai')
+                  break;
+                case 'email':
+                  console.log(field + 'mail sai')
+                  break;
+                default:
+                  console.log('loi khac o : ' + field, errors[errkey])
+                  break;
+              }
+            })
+          }
+        }
+      })
     }
+
+
+    
   }
 
 }

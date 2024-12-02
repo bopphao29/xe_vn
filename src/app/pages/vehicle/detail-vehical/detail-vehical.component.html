@@ -174,8 +174,8 @@
               <div nz-col class="input-wrapper">
                 <div class="">
                   <label class="label-form">{{'vehical.image_vehical' | translate}}</label>
-                  <div class="custom-upload"  style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
-                      <input nz-input placeholder="Chọn" formControlName="image" readonly class="upload-input" style="border: none; outline: none; flex: 1; width: 100%"
+                  <div class="custom-upload"  style="border: 1px solid #d9d9d9; border-radius: 5px; height: 48px !important">
+                      <input nz-input placeholder="Chọn" formControlName="image" readonly class="upload-input" style="border: none; outline: none; flex: 1; width: 100%; border-radius: 5px;"
                         [value]="fileCompressed.file.length > 0 ? fileCompressed.file[0].name : ''"  />
                       <button nz-button nzType="default" nzShape="circle" class="upload-button"
                         (click)="isShowModalUploadfile = true" style="border: none; background: transparent;">
@@ -562,18 +562,18 @@
                           </div>
                       </div>
                       
-                      <div nz-col nzSpan="18" >
+                      <div nz-col nzSpan="18">
                           <div nz-row style="width: calc(100% - 8px); " formGroupName="driver" >
                               <div style="width: calc(50% - 8px); margin-right: 16px;" >
                                   <div class="form-control">
                                       <label class="label-form">{{'vehical.fromDate' | translate}}</label>
                                       <div class="w-full">
-                                          <nz-date-picker class="w-full" nzFormat="dd/MM/yyyy" formControlName="startDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
-                                          <div class="error-container">
+                                          <nz-date-picker class="w-full" nzFormat="dd/MM/yyyy" style="height: 48px !important;" formControlName="startDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
+                                          <!-- <div class="error-container">
                                               <div *ngIf="(form.get('fromDateProbation')?.invalid && (form.get('fromDateProbation')?.dirty ||form.get('fromDateProbation')?.touched))">
                                                   <span class="validate_input"  *ngIf="form.get('fromDateProbation')?.errors?.['required']">{{'required.date_required' | translate}}</span>
                                               </div>
-                                          </div>
+                                          </div> -->
                                       </div>
                                   </div>
                               </div>
@@ -582,12 +582,12 @@
                                   <div class="form-control">
                                       <label class="label-form">{{'vehical.toDate' | translate}}</label>
                                       <div class="w-full">
-                                          <nz-date-picker class="w-full" nzFormat="dd/MM/yyyy"  formControlName="endDate" nzPlaceHolder="Chọn ngày" ></nz-date-picker>
-                                              <div class="error-container">
+                                          <nz-date-picker class="w-full" nzFormat="dd/MM/yyyy" style="height: 48px !important;" formControlName="endDate" nzPlaceHolder="Chọn ngày" ></nz-date-picker>
+                                              <!-- <div class="error-container">
                                                   <div *ngIf="(form.get('toDate')?.invalid && (form.get('toDate')?.dirty ||form.get('toDate')?.touched))">
                                                       <span class="validate_input">{{'required.date_required' | translate}}</span>
                                                   </div>
-                                              </div>
+                                              </div> -->
                                       </div>
                                   </div>
                               </div>

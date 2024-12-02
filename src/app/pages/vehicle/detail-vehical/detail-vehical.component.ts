@@ -113,7 +113,19 @@ export class DetailVehicalComponent implements OnInit{
         endDate: [null]
       })
     })
+
+    this.form.get('driverStatus')?.valueChanges.subscribe((value: any) => {
+      console.log(value)
+      if(value === '0' || value === 0){
+        this.status_vehical = 0
+      }else{
+        this.status_vehical = 1
+      }
+      
+    })
   }
+
+  status_vehical: number = -1
 
   isFixEmployeeButton: boolean = false
   previewImage: string | null | ArrayBuffer = null;
