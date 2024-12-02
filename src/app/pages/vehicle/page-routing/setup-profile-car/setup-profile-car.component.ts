@@ -18,6 +18,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable, Observer } from 'rxjs';
 import { VehicalServiceService } from '../../../../shared/services/vehical-service.service';
 import { NotificationService } from '../../../../shared/services/notification.service';
+import Swal from 'sweetalert2';
 
 interface FileCompressed {
   file: File[]
@@ -50,6 +51,7 @@ interface FileCompressed {
 export class SetupProfileCarComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
   date = null;
+  isSubmitted = false;
   isEnglish = false;
   fileList: NzUploadFile[] = [];
   fileCompressed: FileCompressed = {
@@ -247,7 +249,6 @@ export class SetupProfileCarComponent implements OnInit {
     if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
       const file = event.dataTransfer.files[0];
       this.fileCompressed.file[0] = file
-      // console.log(file.name)
       this.handleFile(file);
     }
   }
@@ -257,32 +258,12 @@ export class SetupProfileCarComponent implements OnInit {
     if (file.type.startsWith('image/')) {
       this.readFileImage(file);
     } else {
-      alert('Vui lòng tải lên một file hình ảnh hợp lệ!');
+      Swal.fire({
+        icon: 'error',
+        title:'Vui lòng tải lên một file hình ảnh hợp lệ!'
+      })
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   ///////////////////////////////////////////////
   handleChangeFile(info: { file: NzUploadFile }): void {
@@ -474,7 +455,7 @@ disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
   createVehical() {
     const dataForm = {
       ...this.form.value,
-      image: this.fileCompressed.file[0].name
+      image: this.fileCompressed.file ? this.fileCompressed.file[0].name : '',
     }
 
     const formData = new FormData();
@@ -509,6 +490,7 @@ disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
     if (this.form.valid) {
       this.vehicalService.createVehical(formData).subscribe((response: any) => {
         console.log(response)
+        this.isSubmitted = true;
       })
     } else {
       console.log('lỗi')

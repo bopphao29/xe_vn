@@ -77,10 +77,6 @@ export class LoginComponent implements OnInit {
         }else{
             this.notifiService.error("Error token")
             // localStorage.clear()
-            // Swal.fire({
-            //   icon: "success",
-            //   title: "Có lỗi "
-            // });
         }
       })
     }
