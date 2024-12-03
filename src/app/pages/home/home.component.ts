@@ -3,7 +3,6 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SetupProfileCarComponent } from "../setup-profile-car/setup-profile-car.component";
 
 @Component({
   selector: 'app-home',
@@ -15,7 +14,6 @@ import { SetupProfileCarComponent } from "../setup-profile-car/setup-profile-car
     FormsModule,
     TranslateModule,
     NzTabsModule,
-    SetupProfileCarComponent
 ]
 })
 export class HomeComponent implements OnInit {

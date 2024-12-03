@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { SetupProfileCarComponent } from '../../setup-profile-car/setup-profile-car.component';
 import { VehicalManagementComponent } from '../vehical-management/vehical-management.component';
 import { RouterModule } from '@angular/router';
 
@@ -7,7 +6,6 @@ import { RouterModule } from '@angular/router';
   selector: 'app-page-routing',
   standalone: true,
   imports: [
-    SetupProfileCarComponent,
     RouterModule,
     VehicalManagementComponent
   ],

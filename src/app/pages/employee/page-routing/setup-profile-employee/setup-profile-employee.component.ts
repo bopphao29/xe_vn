@@ -281,19 +281,6 @@ validateNumber(event : Event){
   valueNum.value = valueNum.value.replace(/[^0-9]/g, '')
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
   ///////////////////////////////////////////////List data when call api///////////////////////////////////////////////////////////////////
 
   codeEmployee : any

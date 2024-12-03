@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatNumber } from '@angular/common';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -95,18 +95,18 @@ export class SetupProfileCarComponent implements OnInit {
     const yearNow = new Date().getFullYear()
     this.form = this.fb.group({
         isNew: [null, Validators.required],
-        registerNo: [null, [Validators.required, Validators.pattern(/^[A-Za-z0-9\-.]+$/)]],
-        frameNumber: [null, Validators.maxLength(17)],
-        machineNumber: [null, Validators.maxLength(17)],
+        registerNo: [null, [Validators.required]],
+        frameNumber: [null, [Validators.maxLength(17)]],
+        machineNumber: [null, [Validators.maxLength(17)]],
         manufactureYear: [null, [Validators.min(1950), Validators.max(yearNow), Validators.maxLength(4)]],
-        manufacturer: [null, Validators.required],
+        manufacturer: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
         vehicleModel: [null, Validators.required],
         vehicleTypeId: [null],
         capacity: [null, Validators.required],
         image: [null],
         intendedUse: [null],
         routeId: [null, Validators.required],
-        odometer: [null, Validators.required],
+        odometer: [null,[ Validators.required, Validators.minLength(4)]],
         // payload: [null, Validators.required],
         firstSubcriptionDate: [null, Validators.required],
         fristRegistrationDate: [null, Validators.required],
@@ -142,14 +142,14 @@ export class SetupProfileCarComponent implements OnInit {
         })
       })
 
-      this.form.valueChanges.subscribe((value: any) => {
-        Object.keys(this.form.controls).forEach(controlName => {
-          const control = this.form.get(controlName);
-          if (control && control.errors) {
-            console.log(`Lỗi ở trường: ${controlName}`, control.errors);
-          }
-        });
-      });
+      // this.form.valueChanges.subscribe((value: any) => {
+      //   Object.keys(this.form.controls).forEach(controlName => {
+      //     const control = this.form.get(controlName);
+      //     if (control && control.errors) {
+      //       console.log(`Lỗi ở trường: ${controlName}`, control.errors);
+      //     }
+      //   });
+      // });
       
 
       this.form.get('driver.driverStatus')?.valueChanges.subscribe((value: any)=> {
@@ -181,6 +181,8 @@ export class SetupProfileCarComponent implements OnInit {
         this.is_New = value
       })
 
+      
+
       this.getRoute()
       this.getVehicalType()
   }
@@ -208,9 +210,38 @@ export class SetupProfileCarComponent implements OnInit {
     }, 1000);
   }
 
-  // handleCancel(): void {
-  //   this.isShowModalUploadfile = false;
-  // }
+  //////////////////////////////////////validate just enter text input/////////////////
+validateText(event : Event){
+  const valueInput = event.target as HTMLInputElement;
+  const pattern = /^[a-zA-ZÀ-ỹà-ỹ\s]*$/;
+  if(!pattern.test(valueInput.value)){
+    valueInput.value = valueInput.value.replace(/[^a-zA-ZÀ-ỹà-ỹ\s]/g, '') ///  nếu kí tự không hợp lệ thì loại bỏ
+  }
+}
+
+//////////////////////////////////////validate just enter number input/////////////////
+validateNumber(event : Event){
+  const valueNum = event.target as HTMLInputElement;
+  valueNum.value = valueNum.value.replace(/[^0-9]/g, '')
+}
+
+//////////////////////////////định dạng tiền////////////////////////////////////////
+updateFormattedPrice() {
+  const control = this.form.get('roadMaintenanceFee');
+    if (control) {
+      const rawValue = control.value.replace(/[^\d]/g, ''); // Loại bỏ ký tự không phải số
+      const formattedValue = this.addThousandSeparator(rawValue); // Thêm dấu phân cách hàng nghìn
+      control.setValue(formattedValue, { emitEvent: false }); // Cập nhật giá trị
+    }
+}
+
+// Loại bỏ định dạng khi nhập
+addThousandSeparator(value: any) {
+  if(value){
+    return value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+}
+
 
   beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]): Observable<boolean> =>
     new Observable((observer: Observer<boolean>) => {
@@ -320,9 +351,9 @@ export class SetupProfileCarComponent implements OnInit {
       this.previewImage = e.target?.result!;// Lưu base64 vào biến
       // console.log(this.previewImage)
     };
-    reader.onerror = (err) => {
-      console.error(err)
-    }
+    // reader.onerror = (err) => {
+    //   console.error(err)
+    // }
     reader.readAsDataURL(file);
   }
 
@@ -378,6 +409,7 @@ disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
     return beforeDate <= AfterDateObject;
   };
 }
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////createVehical///////////////////////////////////////

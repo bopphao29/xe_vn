@@ -52,7 +52,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" for="" >{{'vehical.frameNumber' | translate}}</label>
-              <input class="input-form"  placeholder="Nguyễn văn A" type="text" formControlName="frameNumber">
+              <input class="input-form" (input)="validateNumber($event)" placeholder="Nhập" type="text" formControlName="frameNumber">
               
           </div>
   
@@ -61,7 +61,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" for="" >{{'vehical.machineNumber' | translate}}</label>
-              <input class="input-form" formControlName="machineNumber"  placeholder="Nguyễn văn A" type="text" >
+              <input class="input-form" formControlName="machineNumber" (input)="validateNumber($event)" placeholder="Nhập" type="text" >
               
           </div>
   
@@ -83,7 +83,7 @@
         <div class="input-wrapper">
           <div class="">
               <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.manufacturer' | translate}}</label>
-              <input class="input-form" formControlName="manufacturer"  placeholder="Nhập" type="text" >
+              <input class="input-form" formControlName="manufacturer" (input)="validateText($event)"   placeholder="Nhập" type="text" >
               <div class="error-container">
                   <div *ngIf="form.get('manufacturer')?.invalid && (form.get('manufacturer')?.dirty || form.get('manufacturer')?.touched)">
                       <span class="validate_input" *ngIf="form.get('manufacturer')?.errors?.['required']">{{'required.manufacturer' | translate}}</span>
@@ -108,8 +108,11 @@
         </div>
         <div class="input-wrapper">
           <div class="">
-              <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.capacity' | translate}}</label>
-              <input class="input-form"  placeholder="30E-8888" type="text" formControlName="capacity" >
+              <label class="label-form" for="" >
+                <span style="color: red;" >*</span>{{ labelTruck == true ? ('vehical.payload' | translate) : ('vehical.capacity' | translate) }} 
+                <span style="color: rgba(239, 68, 68, 1);font-style: italic; font-weight: 400; font-size: 12px; line-height: 14.06px;"> {{'vehical.noDriver' | translate}}</span>
+              </label>
+              <input class="input-form"  placeholder="30E-8888" type="text" (input)="validateNumber($event)" formControlName="capacity" >
               <div class="error-container">
                   <div *ngIf="form.get('capacity')?.invalid && (form.get('capacity')?.dirty || form.get('capacity')?.touched)">
                       <span class="validate_input" *ngIf="form.get('capacity')?.errors?.['required']">{{'required.capacity' | translate}}</span>
@@ -125,7 +128,7 @@
             <div class="custom-upload"  style="border: 1px solid #d9d9d9; border-radius: 5px; height: 48px !important">
                 <input nz-input placeholder="Chọn" formControlName="image" readonly class="upload-input" style="border: none; outline: none; flex: 1; width: 100%; border-radius: 5px;"
                   [value]="fileCompressed.file.length > 0 ? fileCompressed.file[0].name : ''"  />
-                <button nz-button nzType="default" nzShape="circle" class="upload-button"
+                <button nz-button nzType="default" nzShape="circle" class="upload-button" type="button"
                   (click)="isShowModalUploadfile = true" style="border: none; background: transparent;">
                   <i nz-icon nzType="paper-clip"></i>
                 </button>
@@ -169,7 +172,7 @@
         <div class="input-wrapper">
           <div class="">
               <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.odometer' | translate}}</label>
-              <input class="input-form" formControlName="odometer" placeholder="" type="text" >
+              <input class="input-form" formControlName="odometer" (input)="validateNumber($event)" placeholder="KM" type="text" >
               <div class="error-container">
                   <div *ngIf="form.get('odometer')?.invalid && (form.get('odometer')?.dirty || form.get('odometer')?.touched)">
                       <span class="validate_input" *ngIf="form.get('odometer')?.errors?.['required']">{{'required.odometer' | translate}}</span>
@@ -373,7 +376,7 @@
         <div class="input-wrapper">
           <div class="">
               <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.roadMaintenanceFee' | translate}}</label>
-              <input class="input-form" formControlName="roadMaintenanceFee" placeholder="Nguyễn văn A"   type="text" >
+              <input class="input-form" formControlName="roadMaintenanceFee" (input)="updateFormattedPrice()"  placeholder="VNĐ"   type="text" >
               <div class="error-container">
                   <div *ngIf="form.get('roadMaintenanceFee')?.invalid && (form.get('roadMaintenanceFee')?.dirty || form.get('roadMaintenanceFee')?.touched)">
                       <span class="validate_input" *ngIf="form.get('roadMaintenanceFee')?.errors?.['required']">{{'required.roadMaintenanceFee' | translate}}</span>
@@ -411,7 +414,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" for="" >{{'vehical.cellphonePlan' | translate}}</label>
-              <input class="input-form" formControlName="cellphonePlan"  placeholder="Nguyễn văn A"   type="text" >
+              <input class="input-form" (input)="validateText($event)" formControlName="cellphonePlan"  placeholder="Nguyễn văn A"   type="text" >
              
           </div>
   
@@ -419,7 +422,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" for="" >{{'vehical.networkProvider' | translate}}</label>
-              <input class="input-form" formControlName="networkProvider" placeholder="Nguyễn văn A"   type="text" >
+              <input class="input-form" (input)="validateText($event)"  formControlName="networkProvider" placeholder="Nguyễn văn A"   type="text" >
               
           </div>
   
@@ -469,7 +472,7 @@
                 <div class="">
                   <div class="">
                       <label class="label-form" for="" >{{'vehical.vehicalDriverMonitor' | translate}}</label>
-                      <input class="input-form"  placeholder="Nguyễn văn A" formControlName="driverId"  type="text" >
+                      <input (input)="validateText($event)" class="input-form"  placeholder="Nguyễn văn A" formControlName="driverId"  type="text" >
                       
                   </div>
                   <div style="margin-top: 20px;"></div>
