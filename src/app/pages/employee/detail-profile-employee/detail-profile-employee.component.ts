@@ -159,12 +159,17 @@ export class DetailProfileEmployeeComponent implements OnInit {
 
   ngOnInit(): void {
     //khởi tạo form ban đầu
+    var year = new Date()
+    const maxYear = (year.getFullYear() - 18)
+    const minYear = (year.getFullYear() - 60)
+    this.maxYear = maxYear
+    this.minYear = minYear
     this.form = this.fb.group({
-      name: [null, Validators.required],
-      yearOfBirth: [null, Validators.required],
+      name: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+      yearOfBirth: [null, [Validators.required, Validators.min(minYear), Validators.max(maxYear), Validators.maxLength(4)]],
       gender: [null, Validators.required],
-      identifierId: [null, [Validators.required, Validators.pattern('^[0-9]{12}$')]],
-      phoneNumber: [null, [Validators.required, Validators.pattern('^(0[1-9]\\d{8}|84[1-9]\\d{8})$')]],
+      identifierId: [null, [Validators.required, Validators.pattern(/^(0)[0-9]{11}$/)]],
+      phoneNumber: [null, [Validators.required, Validators.pattern(/^(0|84)[0-9]{8,9}$/)]],
       zalo: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
       ethnicGroup: [null, Validators.required],
@@ -173,7 +178,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
       maritalStatus: [null, Validators.required],
       contactPerson: [null, Validators.required],
       contractFile: [null],
-      contactPersonPhone: [null, [Validators.required, Validators.pattern('^(0[1-9]\\d{8}|84[1-9]\\d{8})$')]],
+      contactPersonPhone: [null, [Validators.required, Validators.pattern(/^(0|84)[0-9]{8,9}$/)]],
       // contractDuration: [null, Validators.required],
       staffRelation: [null, Validators.required],
       permanentAddress: [null, Validators.required],
@@ -298,10 +303,6 @@ export class DetailProfileEmployeeComponent implements OnInit {
         this.userSevice.getDepartment(this.office_id).subscribe((response: any) => {
         this.listDepartment = response.data
       })}
-
-
-      
-     
 
       // Object.keys(response.data).forEach(key => {
       //   console.log(`${key}:`, response.data[key]);
@@ -491,7 +492,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
           arrCh.push(this.fb.group({
             name: ele.name,
             yearOfBirth: ele.yearOfBirth,
-            gender: ele.gender.toString()   
+            gender: ele.gender
           }))
         }) 
       }
@@ -601,6 +602,21 @@ export class DetailProfileEmployeeComponent implements OnInit {
 
     return dataRows
   }
+/////////////////////////////////////////////////validate just enter text input/////////////////
+validateText(event : Event){
+  const valueInput = event.target as HTMLInputElement;
+  const pattern = /^[a-zA-ZÀ-ỹà-ỹ\s]*$/;
+  if(!pattern.test(valueInput.value)){
+    valueInput.value = valueInput.value.replace(/[^a-zA-ZÀ-ỹà-ỹ\s]/g, '') ///  nếu kí tự không hợp lệ thì loại bỏ
+  }
+}
+
+//////////////////////////////////////validate just enter number input/////////////////
+validateNumber(event : Event){
+  const valueNum = event.target as HTMLInputElement;
+  valueNum.value = valueNum.value.replace(/[^0-9]/g, '')
+}
+
 
 
 

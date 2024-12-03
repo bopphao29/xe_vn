@@ -120,7 +120,6 @@
         "listVehicalRepair": "Danh sách xe đến kỳ bảo dưỡng",
         "latestOdometer":"Km bảo dưỡng gần nhất",
         "latestDate": "Ngày bảo dưỡng gần nhất",
-        "currentOdometer":"Số km hiện tại",
         "levelMaintenance":"Cấp bảo dưỡng hiện tại",
         "supposedStartTime":"",
         "supposedStartDate":"",
@@ -240,7 +239,7 @@
         "maxYearEmployee":"Năm sinh phải nhỏ hơn ",
         "gender": "Phải chọn giới tính",
         "identifier_required": "Phải nhập CCCD/CMND",
-        "identifier_pattern": "CCCD/CMND nhập 12 số",
+        "identifier_pattern": "Nhập 12 số dạng: 0...",
         "phoneNumber_required": "Phải nhập SĐT",
         "phone_pattern": "SĐT dạng: 0... hoặc 84...",
         "zalo_required": "Phải nhập tên zalo",
@@ -301,7 +300,8 @@
         "routeId": "Phải nhập tuyến",
         "username": "Phải nhập tên đăng nhập",
         "password": "Phải nhập mật khẩu",
-        "owningLegalEntity":"Phải chọn"
+        "owningLegalEntity":"Phải chọn",
+        "image": "Phải chọn ảnh"
     },
     "pattern":{
         "registerNo":"BKS dạng A...-01..."

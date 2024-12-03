@@ -142,10 +142,22 @@ export class SetupProfileCarComponent implements OnInit {
         })
       })
 
+      this.form.valueChanges.subscribe((value: any) => {
+        Object.keys(this.form.controls).forEach(controlName => {
+          const control = this.form.get(controlName);
+          if (control && control.errors) {
+            console.log(`Lỗi ở trường: ${controlName}`, control.errors);
+          }
+        });
+      });
+      
+
       this.form.get('driver.driverStatus')?.valueChanges.subscribe((value: any)=> {
         // this.status_vehical = value
         // console.log(value);
         
+      
+
         if(value === '0' || value === 0){
           this.status_vehical = 0
         }else{
@@ -336,89 +348,6 @@ removeImage(){
 
 }
 
-disableInToFirstSubcriptionDate = (firstSubcriptionDate: Date): boolean => {
-  const fristRegistrationDate = this.form.get('fristRegistrationDate')?.value
-  return fristRegistrationDate ? firstSubcriptionDate >= fristRegistrationDate : false
-}
-
-disableIntoFristRegistrationDate = (fristRegistrationDate: Date): boolean => {
-  const firstSubcriptionDate = this.form.get('firstSubcriptionDate')?.value
-  return firstSubcriptionDate ? fristRegistrationDate <= firstSubcriptionDate : false
-}
-///////////////////////đăng kiểm///////////////////////////////////////////////////////////////////
-disableInToRegistrationDate = (registrationDate: Date): boolean => {
-  const registrationExpireDate = this.form.get('registrationExpireDate')?.value
-  return registrationExpireDate ? registrationDate >= registrationExpireDate : false
-}
-
-disableIntoRegistrationExpireDate = (registrationExpireDate: Date): boolean => {
-  const registrationDate = this.form.get('registrationDate')?.value
-  return registrationDate ? registrationExpireDate <= registrationDate : false
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////bảo hiểm TNDS////////////////////////////////////////////////
-disableInToTndsInsuranceStartDate  = (tndsInsuranceStartDate: Date): boolean => {
-  const tndsInsuranceEndDate = this.form.get('tndsInsuranceEndDate')?.value
-  return tndsInsuranceEndDate ? tndsInsuranceStartDate >= tndsInsuranceEndDate : false
-}
-
-disableIntoTndsInsuranceEndDate = (tndsInsuranceEndDate: Date): boolean => {
-  const tndsInsuranceStartDate = this.form.get('tndsInsuranceStartDate')?.value
-  return tndsInsuranceStartDate ? tndsInsuranceEndDate <= tndsInsuranceStartDate : false
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////bảo hiểm vật chất xe//////////////////////////////////////////////////////////
-disableInToMaterialInsuranceStartDate  = (materialInsuranceStartDate: Date): boolean => {
-  const materialInsuranceEndDate = this.form.get('materialInsuranceEndDate')?.value
-  return materialInsuranceEndDate ? materialInsuranceStartDate >= materialInsuranceEndDate : false
-}
-
-disableIntoMaterialInsuranceEndDate = (materialInsuranceEndDate: Date): boolean => {
-  const materialInsuranceStartDate = this.form.get('materialInsuranceStartDate')?.value
-  return materialInsuranceStartDate ? materialInsuranceEndDate <= materialInsuranceStartDate : false
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////phù hiệu/////////////////////////////////////////////////////
-disableInToBadgeIssuanceStartDate  = (badgeIssuanceStartDate: Date): boolean => {
-  const badgeIssuanceEndDate = this.form.get('badgeIssuanceEndDate')?.value
-  return badgeIssuanceEndDate ? badgeIssuanceStartDate >= badgeIssuanceEndDate : false
-}
-
-disableIntoBadgeIssuanceEndDate= (badgeIssuanceEndDate: Date): boolean => {
-  const badgeIssuanceStartDate = this.form.get('badgeIssuanceStartDate')?.value
-  return badgeIssuanceStartDate ? badgeIssuanceEndDate <= badgeIssuanceStartDate : false
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////giấy đi đường/////////////////////////////////////////////////////
-disableInToTravelPermitStartDate  = (travelPermitStartDate: Date): boolean => {
-  const travelPermitEndDate = this.form.get('travelPermitEndDate')?.value
-  return travelPermitEndDate ? travelPermitStartDate >= travelPermitEndDate : false
-}
-
-disableIntoTravelPermitEndDate= (travelPermitEndDate: Date): boolean => {
-  const travelPermitStartDate = this.form.get('travelPermitStartDate')?.value
-  return travelPermitStartDate ? travelPermitEndDate <= travelPermitStartDate : false
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////Ngày đóng, ngày hết hạn bắt buộc/////////////////////////////////////////////////////
-
-disableInToFeePaymentDate = (feePaymentDate: Date): boolean => {
-  const feeExpireDate = this.form.get('feeExpireDate')?.value
-  return feeExpireDate ? feePaymentDate >= feeExpireDate : false
-}
-
-disableIntoFeeExpireDate= (feeExpireDate: Date): boolean => {
-  const feePaymentDate = this.form.get('feePaymentDate')?.value
-  return feePaymentDate ? feeExpireDate <= feePaymentDate : false
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////Ngày đóng, ngày hết hạn không bắt buộc/////////////////////////////////////////////////////
-
-disableInToNetworkRegisterDate = (networkRegisterDate: Date): boolean => {
-  const networkExpireDate = this.form.get('networkExpireDate')?.value
-  return networkExpireDate ? networkRegisterDate >= networkExpireDate : false
-}
-
 disableIntoNetworkExpireDate= (networkExpireDate: Date): boolean => {
   const networkRegisterDate = this.form.get('networkRegisterDate')?.value
   return networkRegisterDate ? networkExpireDate <= networkRegisterDate : false
@@ -453,9 +382,10 @@ disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////createVehical///////////////////////////////////////
   createVehical() {
+    console.log(this.fileCompressed.file[0])
     const dataForm = {
       ...this.form.value,
-      image: this.fileCompressed.file ? this.fileCompressed.file[0].name : '',
+      image: this.fileCompressed.file ? this.fileCompressed.file[0].name : null,
     }
 
     const formData = new FormData();
@@ -488,9 +418,9 @@ disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
       this.form.get('fristRegistrationDate')?.updateValueAndValidity()
 
     if (this.form.valid) {
+      this.isSubmitted = true;
       this.vehicalService.createVehical(formData).subscribe((response: any) => {
         console.log(response)
-        this.isSubmitted = true;
       })
     } else {
       console.log('lỗi')

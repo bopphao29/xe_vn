@@ -55,7 +55,7 @@
   }
 
   .ant-select:not(.ant-select-customize-input) .ant-select-selector {
-    height: 50px;
+    height: 48px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -67,12 +67,12 @@
   }
 
   .form-input {
-    height: 50px;
+    height: 48px;
     border-radius: 5px;
   }
 
   .ant-picker {
-    height: 50px;
+    height: 48px;
     border-radius: 5px;
   }
 
@@ -105,6 +105,8 @@
   .custom-upload {
     display: flex;
     align-items: center;
+    margin-left: 0px !important;
+    margin-left: 0px !important;
     width: 100% !important;
   }
 
@@ -420,7 +422,7 @@
     width: calc(100%/7*4 - 2px);
   }
   .children{
-    width: calc(100%/7*3 - 18px) ;
+    width: calc(100%/7*3 - 20px) ;
   }
 }
 

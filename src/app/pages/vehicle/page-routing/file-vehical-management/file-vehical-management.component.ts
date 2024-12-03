@@ -46,8 +46,12 @@ export class FileVehicalManagementComponent implements OnInit{
   form!: FormGroup
   ngOnInit(): void {
     this.form = this.fb.group({
-      
-    })
+      "routeId": "",
+      "registerNo": "",
+      "driverName": "staff_na",
+      "phoneNumber": "",
+      "identedUser": ""
+  })
   }
 
   listPrepareToExpire = [

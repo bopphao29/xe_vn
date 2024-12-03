@@ -35,7 +35,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (token) {
       request = request.clone({
         setHeaders: {
-          Authorization: 'Bearer ' + token,
+          // Authorization: 'Bearer ' + token,
           'Accept-Language': language,
         },
       });
@@ -109,7 +109,7 @@ export const authInterceptor: HttpInterceptorFn = (
   if (token) {
     request = req.clone({
       setHeaders: {
-        Authorization: 'Bearer ' + token,
+        // Authorization: 'Bearer ' + token,
         'Accept-Language': language,
       },
     });
@@ -126,9 +126,9 @@ export const authInterceptor: HttpInterceptorFn = (
       const translate = injector.get(TranslateService);
 
       if (err.status === 401) {
-        // clearStore();
-        // router.navigateByUrl('/login');
-        router.navigateByUrl('vehical/setup-vehical')
+        clearStore();
+        router.navigateByUrl('/login');
+        // router.navigateByUrl('vehical/setup-vehical')
       } else if (err.status >= 400 && err.status < 500 && err.status !== 401) {
         toastr.error(err.error.message);
       } else {

@@ -46,7 +46,19 @@ export class LoginComponent implements OnInit {
       username: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
+
+    const getToken = localStorage.getItem('TOKEN')
+    if(getToken){
+      this.route.navigate(['/employee/employee-management']) //f5 không mất token
+    }
   }
+
+  showPassword = false;
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
   onSubmit() {
     const data = {
       ...this.loginForm.value
@@ -56,7 +68,7 @@ export class LoginComponent implements OnInit {
         console.log(response.data)
         const token = response.data 
         if(token){
-          // localStorage.setItem(STORAGE_KEYS.TOKEN, token)
+          localStorage.setItem(STORAGE_KEYS.TOKEN, token)
           this.route.navigate(['employee/employee-management'])
           const Toast = Swal.mixin({
             toast: true,

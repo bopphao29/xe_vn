@@ -19,8 +19,8 @@ import { IData } from '../../../../models/setup-profile-car/models-employee/setu
 import { UserServiceService } from '../../../../shared/services/user-service.service';
 import { saveAs } from 'file-saver';
 import {PDF} from '../../../../shared/pdf/pdf.util';
-
-
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { NotificationService } from '../../../../shared/services/notification.service';
 import { PDFDocument, rgb } from 'pdf-lib';
 import { PdfService } from '../../../../shared/pdf/pdf.service';
@@ -61,7 +61,8 @@ interface ArchivedRecord {
     NzDatePickerModule,
     NzTabsModule,
     NzUploadModule,
-
+    NzToolTipModule,
+    MatTooltipModule
 
   ],
   templateUrl: './setup-profile-employee.component.html',
@@ -168,11 +169,11 @@ export class SetupProfileEmployeeComponent implements OnInit {
     this.maxYear = maxYear
     this.minYear = minYear
     this.form = this.fb.group({
-      name: [null, Validators.required],
+      name: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
       yearOfBirth: [null, [Validators.required, Validators.min(minYear), Validators.max(maxYear), Validators.maxLength(4)]],
       gender: [null, Validators.required],
-      identifierId: [null, [Validators.required, Validators.pattern('^[0-9]{12}$')]],
-      phoneNumber: [null, [Validators.required, Validators.pattern('^(0[1-9]\\d{8}|84[1-9]\\d{8})$')]],
+      identifierId: [null, [Validators.required, Validators.pattern(/^(0)[0-9]{11}$/)]],
+      phoneNumber: [null, [Validators.required, Validators.pattern(/^(0|84)[0-9]{8,9}$/)]],
       zalo: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
       ethnicGroup: [null, Validators.required],
@@ -181,7 +182,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
       maritalStatus: [null, Validators.required],
       contactPerson: [null, Validators.required],
       contractFile: [null],
-      contactPersonPhone: [null, [Validators.required, Validators.pattern('^(0[1-9]\\d{8}|84[1-9]\\d{8})$')]],
+      contactPersonPhone: [null, [Validators.required, Validators.pattern(/^(0|84)[0-9]{8,9}$/)]],
       // contractDuration: [null, Validators.required],
       staffRelation: [null, Validators.required],
       permanentAddress: [null, Validators.required],
@@ -264,6 +265,35 @@ export class SetupProfileEmployeeComponent implements OnInit {
     {id: 1, value: "Chưa kết hôn"},
     {id: 2, value: "Đã kết hôn"}
   ]
+
+//////////////////////////////////////validate just enter text input/////////////////
+validateText(event : Event){
+  const valueInput = event.target as HTMLInputElement;
+  const pattern = /^[a-zA-ZÀ-ỹà-ỹ\s]*$/;
+  if(!pattern.test(valueInput.value)){
+    valueInput.value = valueInput.value.replace(/[^a-zA-ZÀ-ỹà-ỹ\s]/g, '') ///  nếu kí tự không hợp lệ thì loại bỏ
+  }
+}
+
+//////////////////////////////////////validate just enter number input/////////////////
+validateNumber(event : Event){
+  const valueNum = event.target as HTMLInputElement;
+  valueNum.value = valueNum.value.replace(/[^0-9]/g, '')
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   ///////////////////////////////////////////////List data when call api///////////////////////////////////////////////////////////////////
 
   codeEmployee : any
