@@ -19,3 +19,108 @@
     background-color: #274EA1;
     color: white;
 }
+
+.container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .item {
+    margin-right: 15px;
+    white-space: wrap;
+  }
+  
+  .group {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .group .dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .group:hover .dropdown {
+    display: block;
+  }
+  
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(1px); 
+    z-index: 999; 
+  }
+  
+/* Mặc định ẩn menu nhỏ hơn 1290px */
+.custom-menu {
+    display: none;
+  }
+  
+  /* Hiển thị menu nhỏ hơn 1290px */
+  @media (max-width: 1300px) {
+    .custom-menu {
+      display: flex;
+    }
+  
+    .custom-menu-header {
+      display: none;
+    }
+    .infor-user{
+      display: none;
+
+    }
+    .css-custom-menu{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+  }
+  
+  /* Hiển thị menu lớn hơn hoặc bằng 1290px */
+  @media (min-width: 1301px) {
+    .custom-menu {
+      display: none;
+    }
+  
+    .custom-menu-header {
+      display: flex;
+      gap: 30px;
+    }
+  }
+  
+  
+.w-screen{
+    width: 180px !important;
+}
+
+.group:hover .group-hover\:opacity-100 {
+    opacity: 1 !important;
+    transition: opacity 0.3s ease;
+  }
+  
+  .group:hover .group-hover\:visible {
+    visibility: visible !important;
+    transition: visibility 0.3s ease;
+  }
+  
+  .group-hover\:opacity-100 {
+    opacity: 0 !important;
+  }
+  
+  .group-hover\:visible {
+    visibility: hidden !important;
+  }
+  
+  .text-activeLink {
+    color: #274EA1 !important;
+    // fill: #ffffff !important;
+  }

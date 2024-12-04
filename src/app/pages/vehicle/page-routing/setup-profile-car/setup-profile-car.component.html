@@ -376,7 +376,7 @@
         <div class="input-wrapper">
           <div class="">
               <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.roadMaintenanceFee' | translate}}</label>
-              <input class="input-form" formControlName="roadMaintenanceFee" (input)="updateFormattedPrice()"  placeholder="VNĐ"   type="text" >
+              <input class="input-form" formControlName="roadMaintenanceFee" (input)="updateFormattedPrice()" placeholder="VNĐ"   type="text" >
               <div class="error-container">
                   <div *ngIf="form.get('roadMaintenanceFee')?.invalid && (form.get('roadMaintenanceFee')?.dirty || form.get('roadMaintenanceFee')?.touched)">
                       <span class="validate_input" *ngIf="form.get('roadMaintenanceFee')?.errors?.['required']">{{'required.roadMaintenanceFee' | translate}}</span>

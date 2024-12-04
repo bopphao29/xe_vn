@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
 
     const getToken = localStorage.getItem('TOKEN')
     if(getToken){
-      this.route.navigate(['/employee/employee-management']) //f5 không mất token
+      this.route.navigate(['/employee/setup-profile-employee']) //f5 không mất token
     }
   }
 
@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit {
         const token = response.data 
         if(token){
           localStorage.setItem(STORAGE_KEYS.TOKEN, token)
-          this.route.navigate(['employee/employee-management'])
+          this.route.navigate(['employee/setup-profile-employee'])
           const Toast = Swal.mixin({
             toast: true,
             position: "top-end",

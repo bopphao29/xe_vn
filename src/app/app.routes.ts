@@ -7,7 +7,6 @@ import { EMPPLOYEE_ROUTES } from './pages/employee/employee-routing.module';
 import { AUTHEN_ROUTES } from './pages/authen/authen.module'
 import { VEHICLE_ROUTES } from './pages/vehicle/vehicle-routing.module';
 import { LoginComponent } from './pages/authen/login/login.component';
-// import { EMPLOYEE_MANAGEMENT_ROUTES } from './pages/employee/employee-management/employee-management.routes';
 
 export const routes: Routes = [
   {

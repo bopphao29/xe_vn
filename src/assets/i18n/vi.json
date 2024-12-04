@@ -40,7 +40,21 @@
         "add": "Thêm mới",
         "update": "Cập nhật",
         "err_validate_password_pattern": "Mật khẩu từ 8 - 20 ký tự, chứa ít nhất 1 ký tự chữ, 1 ký tự số, 1 ký tự đặc biệt và không có khoảng cách",
-        "create_by": "Người tạo"
+        "create_by": "Người tạo",
+        "employeeManagement":"Quản lý nhân sự",
+        "custommerManagement":"Quản lý khách hàng",
+        "vehicalManagement": "Quản lý phương tiện",
+        "operatorManagement": "Quản lý vận hành"
+        
+    },
+    "menuHeader": {
+        "manage": "Quản lý",
+        "report": "Báo Cáo",
+        "accountant": "Kế Toán",
+        "chartsAndtatistics":"Biểu đồ & Thống kê",
+        "administration": "Quản Trị",
+        "cmr": "CMR",
+        "other": "Khác"
     },
     "working": {
         "working": "Đang làm việc",

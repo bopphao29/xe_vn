@@ -75,7 +75,7 @@ export class EmployeeManagementComponent implements OnInit{
     this.romoveSearchEmployee();
 
     localStorage.setItem('activeLink', this.activeLink);
-    this.routes.navigate(['employee/employee-management'])
+    this.routes.navigate(['employee/setup-profile-employee'])
   }
 
   routerListEmployeeProfile(){

@@ -24,7 +24,7 @@ export const EMPPLOYEE_ROUTES: Routes = [
       },
       // },
       {
-        path: 'employee-management',
+        path: 'setup-profile-employee',
         loadComponent: () =>
           import('./page-routing/setup-profile-employee/setup-profile-employee.component').then(
             (c) => c.SetupProfileEmployeeComponent

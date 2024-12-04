@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
@@ -31,10 +31,45 @@ import Swal from 'sweetalert2';
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent {
-  constructor(private router: Router) {
+export class HeaderComponent implements OnInit{
+  constructor(
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {
   }
 
+  cssRouterLink = localStorage.getItem('activeLink')
+
+  ngOnInit(): void {
+    const cssRouterLink = localStorage.getItem('activeLink');
+    this.cssRouterLink = cssRouterLink; 
+  }
+  menuHeader = [
+    {id: 2, value: 'report'},
+    {id: 3, value: 'accountant'},
+    {id: 4, value: 'chartsAndtatistics'},
+    {id: 5, value: 'administration'},
+    {id: 6, value: 'cmr'},
+    {id: 7, value: 'other'}
+
+  ]
+
+  menuItemOfManage = [
+    {id: 1, value: 'employeeManagement', link: 'employee/setup-profile-employee', activeLink: 'employeeManagement'},
+    {id: 2, value: 'custommerManagement', link: 'customer/customer-management', activeLink: 'customerManagement'},
+    {id: 3, value: 'vehicalManagement', link: 'vehical/setup-vehical', activeLink: 'setupVehical'},
+    {id: 4, value: 'operatorManagement',link: 'oprerato/setup-operator', activeLink: 'operatorManagement'}
+  ]
+  isProductMenuOpen :boolean = false
+  isHidenMenu:boolean = false
+  isMenuitemOfHidden: boolean = false
+
+  routerLink(link : any, activeLink: any){
+    this.router.navigate([link])
+    localStorage.setItem('activeLink', activeLink)
+    this.cssRouterLink = activeLink;
+    this.cdr.detectChanges();
+  }
   logout() {
 
     Swal.fire({
