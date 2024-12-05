@@ -9,13 +9,8 @@
                     <div class="">
                         <label class="form-label">Tuyến </label>
                         <div class="w-full">
-                            <nz-select nzPlaceHolder="Tất cả" formControlName="branchId" style="width: 100%;">
+                            <nz-select nzPlaceHolder="Tất cả" formControlName="routeId" style="width: 100%;">
                                 <nz-option nzValue="1" nzLabel="value"></nz-option>
-
-                                <!-- <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
-                                <nz-option *ngFor="let branch of listBranch, let i =index" [nzValue]="branch.id"
-                                    [nzLabel]="branch.name"></nz-option> -->
-
                             </nz-select>
                         </div>
                     </div>
@@ -24,28 +19,28 @@
                 <div nz-col nzSpan="3" class="mx-2">
                     <div class="">
                         <label class="form-label">BKS</label>
-                        <input nz-input class="form-input" formControlName="txtSearch" placeholder="ID, Tên nhân sự, SĐT..." style="width: 100%;" />
+                        <input nz-input class="form-input" formControlName="registerNo" placeholder="ID, Tên nhân sự, SĐT..." style="width: 100%;" />
                     </div>
                 </div>
 
                 <div nz-col nzSpan="3" class="mx-2">
                     <div class="">
                         <label class="form-label">Lái xe</label>
-                        <input nz-input class="form-input" formControlName="txtSearch" placeholder="ID, Tên nhân sự, SĐT..." style="width: 100%;" />
+                        <input nz-input class="form-input" formControlName="driverName" placeholder="ID, Tên nhân sự, SĐT..." style="width: 100%;" />
                     </div>
                 </div>
 
                 <div nz-col nzSpan="3" class="mx-2">
                     <div class="">
-                        <label class="form-label">Thông tin nhân sự</label>
-                        <input nz-input class="form-input" formControlName="txtSearch" placeholder="ID, Tên nhân sự, SĐT..." style="width: 100%;" />
+                        <label class="form-label">SĐT</label>
+                        <input nz-input class="form-input" formControlName="phoneNumber" placeholder="ID, Tên nhân sự, SĐT..." style="width: 100%;" />
                     </div>
                 </div>
 
                 <div nz-col nzSpan="3" class="mx-2">
                     <div class="">
                         <label class="form-label">Hãng xe</label>
-                        <nz-select nzPlaceHolder="Tất cả" formControlName="officeId" style="width: 100%;" style="width: 100%;">
+                        <nz-select nzPlaceHolder="Tất cả" formControlName="vehicleModel" style="width: 100%;" style="width: 100%;">
                             <nz-option nzValue="1" nzLabel="value"></nz-option>
 
                             <!-- <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
@@ -59,7 +54,7 @@
                 <div nz-col nzSpan="3" class="mx-2">
                     <div class="">
                         <label class="form-label">Năm sản xuất</label>
-                        <nz-select nzPlaceHolder="Tất cả" formControlName="departmentId" style="width: 100%;">
+                        <nz-select nzPlaceHolder="Tất cả" formControlName="yearOfManufacture" style="width: 100%;">
                             <nz-option nzValue="1" nzLabel="value"></nz-option>
                             <!-- <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
                             <nz-option *ngFor="let department of listDepartment, let i =index"
@@ -73,7 +68,7 @@
                     <div class="">
                         <label class="form-label">Mục đích sử dụng</label>
                         <div>
-                            <nz-select nzPlaceHolder="Tất cả" formControlName="departmentId" style="width: 100%;">
+                            <nz-select nzPlaceHolder="Tất cả" formControlName="identedUser" style="width: 100%;">
                                 <nz-option nzValue="1" nzLabel="value"></nz-option>
                                 <!-- <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
                                 <nz-option *ngFor="let department of listDepartment, let i =index"

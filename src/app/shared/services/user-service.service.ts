@@ -15,7 +15,7 @@ export class UserServiceService {
   // url = environment.server
   // url = 'http://103.92.25.158:8998/'
   url = 'http://103.92.25.158:8991/user-service/'
-  minioUrl = 'http://103.92.25.158:9000/xevn/'
+  minioUrl = 'http://103.92.25.158:9000'
   getDetailEmployee(id: any){
     return this.httpClient.get(this.url + 'api/staff/'+ id)
   }

@@ -19,6 +19,8 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { UserServiceService } from '../../../shared/services/user-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 // import { MinioService } from '../../../shared/services/minio.service';
 
 interface FileCompressed {
@@ -48,6 +50,7 @@ interface FileCompressed {
     NzTabsModule,
     NzUploadModule,
     NzPaginationModule,
+    MatTooltipModule
 
   ],
   templateUrl: './detail-profile-employee.component.html',
@@ -279,7 +282,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
     this.userSevice.getDetailEmployee(id).subscribe((response: any) => {
       this.office_id = response.data.officeId
       this.showInforEmployee = response.data
-      console.log(response )
+      console.log(this.showInforEmployee )
       //thanhf tich
       if(response.data?.lstAchievements){
         this.lstAchievements = response.data.lstAchievements
@@ -842,19 +845,13 @@ validateNumber(event : Event){
   idDriver: number = -10
   hasDriver : boolean = false
   deparmentCode = '' 
-  listDepartment2 : any[]=[]
   checkDriver() {
-    console.log(this.office_id)
     if(this.office_id != null ){
       this.form.get('departmentId')?.valueChanges.subscribe((value: any) => {
-        this.userSevice.getDepartment(this.office_id).subscribe((response: any)=> {
-         
-        const isDriver = response.data.find((item: any) => item.id === parseInt(value))
-        console.log(isDriver)
+        const isDriver = this.listDepartment.find((item: any) => item.id === parseInt(value))
         if(isDriver){
           var codeDriver: any = isDriver.code
         this.deparmentCode = codeDriver
-        console.log(this.deparmentCode)
         if (isDriver && codeDriver == 'DRIVER') {
           this.hasDriver = true
         }
@@ -862,7 +859,7 @@ validateNumber(event : Event){
           this.hasDriver = false
         }
         }
-        })
+        
       })
     }
   }
@@ -1667,17 +1664,9 @@ validateNumber(event : Event){
 /////////////////////////////////////////////////DOWN FILE USE MINIO////////////////////////////////////
 fileMinio: string | null = null;
 
-downloadFileMinio(controlName: string, index: number): void {
-  const fileName = this.lstcontractDTO.at(index).get(controlName)?.value;
-  console.log(this.lstcontractDTO.at(index).get(controlName)?.value)
-  if (!fileName) {
-    console.error('File name is not available');
-    return;
-  }
-
-  const bucketName = 'xevn'; // Thay bằng tên bucket thực tế
-
-  this.userSevice.downloadFile(bucketName, fileName).subscribe({
+bucketName = 'xevn'; 
+apiDownloadFile(fileName: string){
+  this.userSevice.downloadFile(this.bucketName, fileName).subscribe({
     next: (blob) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -1693,6 +1682,43 @@ downloadFileMinio(controlName: string, index: number): void {
     },
   });
 }
+
+downloadFileMinio(controlName: string, index: number, nameList: string): void {
+  if(nameList === 'lstcontractDTO'){
+    const fileName = this.lstcontractDTO.at(index).get(controlName)?.value;
+    if (!fileName) {
+      console.error('File name is not available');
+      return;
+    }else{
+      this.apiDownloadFile(fileName)
+    }
+  }
+  if(nameList === 'lstArchivedRecords'){
+    const fileName = this.lstArchivedRecords.at(index).get(controlName)?.value;
+    if (!fileName) {
+      console.error('File name is not available');
+      return;
+    }else{
+      this.apiDownloadFile(fileName)
+    }
+  }
+}
+
+
+downloadImage(fileName: string){
+  if(fileName === 'bcImage'){
+    const file = this.showInforEmployee?.['bcImage']
+    this.apiDownloadFile(file)
+  }if(fileName === 'healthCertificate'){
+    const file = this.showInforEmployee?.['healthCertificate']
+    this.apiDownloadFile(file)
+  }if(fileName === 'dlImage'){
+    const file = this.showInforEmployee?.['dlImage']
+    this.apiDownloadFile(file)
+  }
+ 
+}
+
 
 
 }

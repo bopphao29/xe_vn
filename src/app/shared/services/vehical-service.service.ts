@@ -14,12 +14,12 @@ export class VehicalServiceService {
   // url = environment.server
   // url = 'http://103.92.25.158:8998/'
   // urlRoute = 'http://103.92.25.158:8998/'
-    url = 'http://103.92.25.158:8991/'
-  urlRoute = 'http://103.92.25.158:8991/'
+    url = 'http://103.92.25.158:8991/vehicle-service/api/'
+  urlRoute = 'http://103.92.25.158:8991/vehicle-service/api/'
 
   createVehical(formData : FormData){
  
-    return this.httpClient.post(this.urlRoute + 'vehicle-service/api/vehicles', formData)
+    return this.httpClient.post(this.urlRoute + 'vehicles', formData)
 
   }
 
@@ -27,10 +27,14 @@ export class VehicalServiceService {
   }
 
   getVehicalType(){
-      return this.httpClient.get(this.url + 'vehicle-service/api/vehicle-types')
+      return this.httpClient.get(this.url + 'vehicle-types')
   }
 
   getRoue(){
-    return this.httpClient.get(this.urlRoute + 'vehicle-service/api/routes')
+    return this.httpClient.get(this.urlRoute + 'routes')
+  }
+
+  searchVehical(){
+    return this.httpClient.get(this.url + 'vehicles/search')
   }
 }

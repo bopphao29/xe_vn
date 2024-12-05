@@ -486,11 +486,10 @@
                                                         <input type="file" #fileInput (change)="onFileChangeContract($event, 'file', i)"
                                                             style="display: none;" />
                                                     </button>
-                                                    <button *ngIf="isFixEmployeeButton == false" nz-button nzType="default" nzShape="circle" class="upload-button"
-                                                        type="button" (click)="downloadFileMinio('file', i)" style="border: none; background: transparent;">
+                                                    <button *ngIf="isFixEmployeeButton == false && lstcontractDTO.length > 0" nz-button nzType="default" matTooltip="Tải file" matTooltipPosition="above" nzShape="circle" class="upload-button"
+                                                        type="button" (click)="downloadFileMinio('file', i, 'lstcontractDTO')" style="border: none; background: transparent;">
                                                         <span nz-icon nzType="arrow-down" nzTheme="outline"></span>
-                                                        <!-- <input #fileContractMino (change)="downloadFileMinio('file', i)"
-                                                            style="display: none;" /> -->
+                                                        
                                                     </button>
                                                 </div>
                                                 <div class="error-container">
@@ -620,12 +619,17 @@
                                 style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;">
                                 <input nz-input placeholder="Chọn ảnh" readonly class="upload-input"
                                     style="border: none; outline: none; flex: 1;" formControlName="bcImage"
-                                    [value]="bcImageName" />
-                                <button nz-button nzType="default" nzShape="circle" type="button" class="upload-button"
+                                    [value]="bcImageName  || ''" />
+                                <button nz-button nzType="default" *ngIf="isFixEmployeeButton == true" nzShape="circle" type="button" class="upload-button"
                                     (click)="filebc.click()" style="border: none; background: transparent;">
                                     <i nz-icon nzType="paper-clip"></i>
                                     <input type="file" #filebc (change)="onChangeImage($event, 'bcImage')"
                                         style="display: none;" />
+                                </button>
+                                <button *ngIf="isFixEmployeeButton == false && this.form.get('bcImage')?.value" nz-button nzType="default" matTooltip="Tải xuống" matTooltipPosition="above" nzShape="circle" class="upload-button"
+                                    type="button" (click)="downloadImage('bcImage')" style="border: none; background: transparent;">
+                                    <span nz-icon nzType="arrow-down" nzTheme="outline"></span>
+            
                                 </button>
                             </div>
                             <div class="error-container">
@@ -645,11 +649,15 @@
                                     style="border: none; outline: none; flex: 1; width: 100%" formControlName="healthCertificate"
                                     [value]="fileCompressed.healthCertificate.length > 0 ? fileCompressed.healthCertificate[0].name : ''" />
     
-                                <button nz-button nzType="default" nzShape="circle" class="upload-button" type="button"
+                                <button *ngIf="isFixEmployeeButton == true" nz-button nzType="default" nzShape="circle" class="upload-button" type="button"
                                     (click)="fileInput.click()" style="border: none; background: transparent;">
                                     <i nz-icon nzType="paper-clip"></i>
                                     <input type="file" #fileInput (change)="onChange($event, 'healthCertificate')"
                                         style="display: none;" />
+                                </button>
+                                <button *ngIf="isFixEmployeeButton == false && this.form.get('healthCertificate')?.value" nz-button nzType="default" matTooltip="Tải xuống" matTooltipPosition="above" nzShape="circle" class="upload-button"
+                                    type="button" (click)="downloadImage('healthCertificate')" style="border: none; background: transparent;">
+                                    <span nz-icon nzType="arrow-down" nzTheme="outline"></span>
                                 </button>
                             </div>
                             <div class="error-container">
@@ -746,11 +754,15 @@
                                 <input nz-input placeholder="Chọn ảnh" readonly class="upload-input" style="width: 100%"
                                     style="border: none; outline: none; flex: 1;" formControlName="dlImage"
                                     [value]="dlImageName" />
-                                <button nz-button nzType="default" nzShape="circle" class="upload-button" type="button"
+                                <button *ngIf="isFixEmployeeButton == true" nz-button nzType="default" nzShape="circle" class="upload-button" type="button"
                                     (click)="fileImg.click()" style="border: none; background: transparent;">
                                     <i nz-icon nzType="paper-clip"></i>
                                     <input type="file" #fileImg (change)="onChangeImage($event, 'dlImage')"
                                         style="display: none;" />
+                                </button>
+                                <button *ngIf="isFixEmployeeButton == false && this.form.get('dlImage')?.value" nz-button nzType="default" matTooltip="Tải xuống" matTooltipPosition="above" nzShape="circle" class="upload-button"
+                                    type="button" (click)="downloadImage('dlImage')" style="border: none; background: transparent;">
+                                    <span nz-icon nzType="arrow-down" nzTheme="outline"></span>
                                 </button>
                             </div>
                             <div *ngIf="form.get('dlImage')?.invalid && (form.get('dlImage')?.dirty) || form.get('dlImage')?.touched">
@@ -825,11 +837,16 @@
                                                 <input nz-input placeholder="Chọn file" readonly class="upload-input"
                                                     style="border: none; outline: none; flex: 1;" formControlName="file"
                                                     [value]="lstArchivedRecords.at(docIndex).get('file')?.value?.name || ''" />
-                                                <button nz-button nzType="default" nzShape="circle" class="upload-button" 
+                                                <button *ngIf="isFixEmployeeButton == true" nz-button nzType="default" nzShape="circle" class="upload-button" 
                                                     (click)="fileInput.click()" type="button"
                                                     style="border: none; background: transparent;">
                                                     <i nz-icon nzType="paper-clip"></i>
                                                     <input type="file" #fileInput (change)="onFileChangeAchi($event,'file', docIndex)" style="display: none;" />
+                                                </button>
+                                                <button *ngIf="isFixEmployeeButton == false && showInforEmployee['lstArchivedRecords'].length > 0" nz-button nzType="default" matTooltip="Tải file" matTooltipPosition="above" nzShape="circle" class="upload-button"
+                                                    type="button" (click)="downloadFileMinio('file', docIndex, 'lstArchivedRecords')" style="border: none; background: transparent;">
+                                                    <span nz-icon nzType="arrow-down" nzTheme="outline"></span>
+                                                    
                                                 </button>
                                             </div>
                                             <div class="error-container">

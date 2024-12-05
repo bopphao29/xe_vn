@@ -12,6 +12,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { VehicalServiceService } from '../../../../shared/services/vehical-service.service';
 
 @Component({
   selector: 'app-file-vehical-management',
@@ -40,17 +41,19 @@ export class FileVehicalManagementComponent implements OnInit{
 
   constructor(
     private fb: FormBuilder,
-
+    private vehicalService: VehicalServiceService
   ){}
 
   form!: FormGroup
   ngOnInit(): void {
     this.form = this.fb.group({
-      "routeId": "",
-      "registerNo": "",
-      "driverName": "staff_na",
-      "phoneNumber": "",
-      "identedUser": ""
+      routeId: null,
+      registerNo: null,
+      driverName: null,
+      phoneNumber: null,
+      identedUser: null,
+      vehicleModel: null,
+      yearOfManufacture : null
   })
   }
 
@@ -74,7 +77,11 @@ export class FileVehicalManagementComponent implements OnInit{
 
   }
 
+  listVehical : any[] = []
   search(){
-    
+    this.vehicalService.searchVehical().subscribe((response : any)=> {
+      this.listVehical = response
+      console.log(response)
+    })
   }
 }
