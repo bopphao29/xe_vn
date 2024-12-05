@@ -520,6 +520,18 @@ validateNumber(event : Event){
           }
           else{
             this.hasDriver = false
+            this.form.get('routeId')?.reset()
+            this.form.get('businessCardNumber')?.reset()
+            this.form.get('bcStartDate')?.reset()
+            this.form.get('bcEndDate')?.reset()
+            this.form.get('bcImage')?.reset()
+            this.form.get('healthCertificate')?.reset()
+            this.form.get('hcEndDate')?.reset()
+            this.form.get('driverLicenseNumber')?.reset()
+            this.form.get('driverLicenseType')?.reset()
+            this.form.get('dlStartDate')?.reset()
+            this.form.get('dlEndDate')?.reset()
+            this.form.get('dlImage')?.reset()
         }
       
         }

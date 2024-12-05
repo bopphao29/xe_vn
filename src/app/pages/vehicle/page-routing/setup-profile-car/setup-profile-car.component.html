@@ -52,7 +52,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" for="" >{{'vehical.frameNumber' | translate}}</label>
-              <input class="input-form" (input)="validateNumber($event)" placeholder="Nhập" type="text" formControlName="frameNumber">
+              <input class="input-form" (input)="validateNumber($event)" placeholder="Nhập" maxlength="17" type="text" formControlName="frameNumber">
               
           </div>
   
@@ -61,7 +61,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" for="" >{{'vehical.machineNumber' | translate}}</label>
-              <input class="input-form" formControlName="machineNumber" (input)="validateNumber($event)" placeholder="Nhập" type="text" >
+              <input class="input-form" formControlName="machineNumber" (input)="validateNumber($event)" maxlength="17" placeholder="Nhập" type="text" >
               
           </div>
   
@@ -70,10 +70,12 @@
         <div class="input-wrapper">
           <div class="">
               <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.manufactureYear' | translate}}</label>
-              <input class="input-form" formControlName="manufactureYear"  placeholder="2000" type="text" >
+              <input class="input-form" formControlName="manufactureYear" maxlength="4" (input)="validateNumber($event)"  placeholder="2000" type="text" >
               <div class="error-container">
                   <div *ngIf="form.get('manufactureYear')?.invalid && (form.get('manufactureYear')?.dirty || form.get('manufactureYear')?.touched)">
                       <span class="validate_input" *ngIf="form.get('manufactureYear')?.errors?.['required']">{{'required.machineNumber' | translate}}</span>
+                        <span class="validate_input" *ngIf="form.get('manufactureYear')?.errors?.['max']">{{ ('required.manufactureYearMax' | translate)+maxYear }}</span>
+                        <span class="validate_input" *ngIf="form.get('manufactureYear')?.errors?.['min']">{{ ('required.manufactureYearMin' | translate) + minYear }}</span>
                   </div>
               </div>
           </div>
@@ -83,7 +85,7 @@
         <div class="input-wrapper">
           <div class="">
               <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.manufacturer' | translate}}</label>
-              <input class="input-form" formControlName="manufacturer" (input)="validateText($event)"   placeholder="Nhập" type="text" >
+              <input class="input-form" formControlName="manufacturer" (blur)="validateText($event)"   placeholder="Nhập" type="text" >
               <div class="error-container">
                   <div *ngIf="form.get('manufacturer')?.invalid && (form.get('manufacturer')?.dirty || form.get('manufacturer')?.touched)">
                       <span class="validate_input" *ngIf="form.get('manufacturer')?.errors?.['required']">{{'required.manufacturer' | translate}}</span>
@@ -97,7 +99,7 @@
         <div class="input-wrapper">
           <div class="">
               <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.type_vehical' | translate}}</label>
-              <input class="input-form"  placeholder="30E-8888" type="text" formControlName="vehicleModel" >
+              <input class="input-form"  placeholder="Nhập" type="text" formControlName="vehicleModel" >
               <div class="error-container">
                   <div *ngIf="form.get('vehicleModel')?.invalid && (form.get('vehicleModel')?.dirty || form.get('vehicleModel')?.touched)">
                       <span class="validate_input" *ngIf="form.get('vehicleModel')?.errors?.['required']">{{'required.vehicleModel' | translate}}</span>
@@ -112,7 +114,7 @@
                 <span style="color: red;" >*</span>{{ labelTruck == true ? ('vehical.payload' | translate) : ('vehical.capacity' | translate) }} 
                 <span style="color: rgba(239, 68, 68, 1);font-style: italic; font-weight: 400; font-size: 12px; line-height: 14.06px;"> {{'vehical.noDriver' | translate}}</span>
               </label>
-              <input class="input-form"  placeholder="30E-8888" type="text" (input)="validateNumber($event)" formControlName="capacity" >
+              <input class="input-form"  placeholder="Nhập" type="text" (input)="validateNumber($event)" formControlName="capacity" >
               <div class="error-container">
                   <div *ngIf="form.get('capacity')?.invalid && (form.get('capacity')?.dirty || form.get('capacity')?.touched)">
                       <span class="validate_input" *ngIf="form.get('capacity')?.errors?.['required']">{{'required.capacity' | translate}}</span>
@@ -414,7 +416,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" for="" >{{'vehical.cellphonePlan' | translate}}</label>
-              <input class="input-form" (input)="validateText($event)" formControlName="cellphonePlan"  placeholder="Nguyễn văn A"   type="text" >
+              <input class="input-form" (blur)="validateText($event)" formControlName="cellphonePlan"  placeholder="Nguyễn văn A"   type="text" >
              
           </div>
   
@@ -422,7 +424,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" for="" >{{'vehical.networkProvider' | translate}}</label>
-              <input class="input-form" (input)="validateText($event)"  formControlName="networkProvider" placeholder="Nguyễn văn A"   type="text" >
+              <input class="input-form" (blur)="validateText($event)"  formControlName="networkProvider" placeholder="Nguyễn văn A"   type="text" >
               
           </div>
   
@@ -472,7 +474,7 @@
                 <div class="">
                   <div class="">
                       <label class="label-form" for="" >{{'vehical.vehicalDriverMonitor' | translate}}</label>
-                      <input (input)="validateText($event)" class="input-form"  placeholder="Nguyễn văn A" formControlName="driverId"  type="text" >
+                      <input (blur)="validateText($event)" class="input-form"  placeholder="Nguyễn văn A" formControlName="driverId"  type="text" >
                       
                   </div>
                   <div style="margin-top: 20px;"></div>
@@ -567,7 +569,8 @@
   </form>
 </div>
 
-<nz-modal [(nzVisible)]="isShowModalUploadfile" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="null" nzClassName="reset-employee-modal"
+<nz-modal [(nzVisible)]="isShowModalUploadfile" [nzTitle]="modalTitle" 
+[nzContent]="modalContent" [nzFooter]="null" nzClassName="reset-employee-modal" [nzMaskClosable]="false"
   (nzOnCancel)="handleCancel()" [nzStyle]="previewImage ? {'width': '496px', 'height': '612px'} : {'width': '576px', 'height': '468px'}" nzCentered="true">
   <ng-template #modalTitle>Tải ảnh lên</ng-template>
 
@@ -630,7 +633,7 @@
 <nz-modal 
   [(nzVisible)]="isFullImageVisible" 
   [nzFooter]="null" 
-  [nzClosable]="true" 
+  [nzClosable]="false" 
   (nzOnCancel)="isFullImageVisible = false" 
   [nzContent]="modalContentFull" 
   [nzStyle]="{'min-width' : '1200px', 'min-height':'800px'}"

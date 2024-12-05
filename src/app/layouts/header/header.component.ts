@@ -68,6 +68,8 @@ export class HeaderComponent implements OnInit{
     this.router.navigate([link])
     localStorage.setItem('activeLink', activeLink)
     this.cssRouterLink = activeLink;
+    this.isHidenMenu = false
+
     this.cdr.detectChanges();
   }
   logout() {

@@ -91,14 +91,20 @@ export class SetupProfileCarComponent implements OnInit {
     this.fileList = fileList;
   }
 
+  maxYear: number = 0
+  minYear: number = 0
   ngOnInit() {
-    const yearNow = new Date().getFullYear()
+    var year = new Date()
+    const maxYear = new Date().getFullYear()
+    const minYear = (year.getFullYear() - 60)
+    this.maxYear = maxYear
+    this.minYear = minYear
     this.form = this.fb.group({
         isNew: [null, Validators.required],
         registerNo: [null, [Validators.required]],
         frameNumber: [null, [Validators.maxLength(17)]],
         machineNumber: [null, [Validators.maxLength(17)]],
-        manufactureYear: [null, [Validators.min(1950), Validators.max(yearNow), Validators.maxLength(4)]],
+        manufactureYear: [null, [Validators.min(1940), Validators.max(maxYear), Validators.maxLength(4)]],
         manufacturer: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
         vehicleModel: [null, Validators.required],
         vehicleTypeId: [null],
@@ -106,7 +112,7 @@ export class SetupProfileCarComponent implements OnInit {
         image: [null],
         intendedUse: [null],
         routeId: [null, Validators.required],
-        odometer: [null,[ Validators.required, Validators.minLength(4)]],
+        odometer: [null,[ Validators.required, Validators.maxLength(16)]],
         // payload: [null, Validators.required],
         firstSubcriptionDate: [null, Validators.required],
         fristRegistrationDate: [null, Validators.required],
@@ -142,22 +148,19 @@ export class SetupProfileCarComponent implements OnInit {
         })
       })
 
-      // this.form.valueChanges.subscribe((value: any) => {
-      //   Object.keys(this.form.controls).forEach(controlName => {
-      //     const control = this.form.get(controlName);
-      //     if (control && control.errors) {
-      //       console.log(`Lỗi ở trường: ${controlName}`, control.errors);
-      //     }
-      //   });
-      // });
+      this.form.valueChanges.subscribe((value: any) => {
+        Object.keys(this.form.controls).forEach(controlName => {
+          const control = this.form.get(controlName);
+          if (control && control.errors) {
+            console.log(`Lỗi ở trường: ${controlName}`, control.errors);
+          }
+        });
+      });
       
 
       this.form.get('driver.driverStatus')?.valueChanges.subscribe((value: any)=> {
         // this.status_vehical = value
         // console.log(value);
-        
-      
-
         if(value === '0' || value === 0){
           this.status_vehical = 0
         }else{
@@ -179,9 +182,12 @@ export class SetupProfileCarComponent implements OnInit {
       this.form.get('isNew')?.valueChanges.subscribe((value: any)=> {
         console.log(value)
         this.is_New = value
+        if(this.is_New !== 0 || this.is_New !== '0'){
+          this.form.get('firstStartDateXE')?.reset()
+          this.form.get('firstSubcriptionDate')?.reset()
+          this.form.get('fristRegistrationDate')?.reset()
+        }
       })
-
-      
 
       this.getRoute()
       this.getVehicalType()
@@ -435,19 +441,20 @@ disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
     // console.log(formData.append('data', JSON.stringify(dataForm)))
 
     this.form.markAllAsTouched(); 
-    if(this.form.get('isNew')?.value == 1 || this.form.get('isNew')?.value == '1'){
-      this.form.get('firstStartDateXE')?.clearAsyncValidators()
-      this.form.get('firstSubcriptionDate')?.clearAsyncValidators()
-      this.form.get('fristRegistrationDate')?.clearAsyncValidators()
-    }else{
+    // console.log(this.form.get('isNew')?.value)
+    if(this.form.get('isNew')?.value == 0 || this.form.get('isNew')?.value == '0'){
       this.form.get('firstStartDateXE')?.setValidators(Validators.required)
       this.form.get('firstSubcriptionDate')?.setValidators(Validators.required)
       this.form.get('fristRegistrationDate')?.setValidators(Validators.required)
+    }else{
+      this.form.get('firstStartDateXE')?.clearValidators()
+      this.form.get('firstSubcriptionDate')?.clearValidators()
+      this.form.get('fristRegistrationDate')?.clearValidators()
     }
 
     this.form.get('firstStartDateXE')?.updateValueAndValidity()
-      this.form.get('firstSubcriptionDate')?.updateValueAndValidity()
-      this.form.get('fristRegistrationDate')?.updateValueAndValidity()
+    this.form.get('firstSubcriptionDate')?.updateValueAndValidity()
+    this.form.get('fristRegistrationDate')?.updateValueAndValidity()
 
     if (this.form.valid) {
       this.isSubmitted = true;

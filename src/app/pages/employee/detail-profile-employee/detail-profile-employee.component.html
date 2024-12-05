@@ -481,16 +481,16 @@
                                                         style="border: none; outline: none; flex: 1;" formControlName="file"
                                                         [value]="lstcontractDTO.at(i).get('file')?.value?.name || ''" />
                                                     <button *ngIf="isFixEmployeeButton == true" nz-button nzType="default" nzShape="circle" class="upload-button"
-                                                        (click)="fileInput.click()" style="border: none; background: transparent;">
+                                                        (click)="fileInput.click()" style="border: none; background:s transparent;" type="button">
                                                         <i nz-icon nzType="paper-clip"></i>
                                                         <input type="file" #fileInput (change)="onFileChangeContract($event, 'file', i)"
                                                             style="display: none;" />
                                                     </button>
                                                     <button *ngIf="isFixEmployeeButton == false" nz-button nzType="default" nzShape="circle" class="upload-button"
-                                                        (click)="fileContractMino.click()" style="border: none; background: transparent;">
+                                                        type="button" (click)="downloadFileMinio('file', i)" style="border: none; background: transparent;">
                                                         <span nz-icon nzType="arrow-down" nzTheme="outline"></span>
-                                                        <input type="file" #fileContractMino (change)="downloadFileMinio('file', i)"
-                                                            style="display: none;" />
+                                                        <!-- <input #fileContractMino (change)="downloadFileMinio('file', i)"
+                                                            style="display: none;" /> -->
                                                     </button>
                                                 </div>
                                                 <div class="error-container">

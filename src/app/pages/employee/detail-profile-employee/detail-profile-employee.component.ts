@@ -14,7 +14,7 @@ import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
 import { IData } from '../../../models/setup-profile-car/models-employee/setup-profile-employee/index.model';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, FormArray, Validators,AbstractControl } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Observable, Observer } from 'rxjs';
+import { Observable, Observer, firstValueFrom  } from 'rxjs';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { UserServiceService } from '../../../shared/services/user-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -1455,10 +1455,10 @@ validateNumber(event : Event){
 
     if(this.lstArchivedRecords.controls.length >= 2){
       this.lstArchivedRecords.controls.forEach((value: any) => {
-        value.get('name')?.markAsTouched();
-        value.get('code')?.markAsTouched();
-        value.get('type')?.markAsTouched();
-        value.get('file')?.markAsTouched();
+        value.get('name')?.setValidators(Validators.required);
+        value.get('code')?.setValidators(Validators.required);
+        value.get('type')?.setValidators(Validators.required);
+        value.get('file')?.setValidators(Validators.required);
       })
     }else{
       this.lstArchivedRecords.controls.forEach((value: any) => {
@@ -1668,26 +1668,31 @@ validateNumber(event : Event){
 fileMinio: string | null = null;
 
 downloadFileMinio(controlName: string, index: number): void {
-  // const fileName = this.lstcontractDTO.at(index).get(controlName)?.value?.name;
-  // if (!fileName) {
-  //   console.error('File name is not available');
-  //   return;
-  // }
+  const fileName = this.lstcontractDTO.at(index).get(controlName)?.value;
+  console.log(this.lstcontractDTO.at(index).get(controlName)?.value)
+  if (!fileName) {
+    console.error('File name is not available');
+    return;
+  }
 
-  // const bucketName = 'your-bucket-name'; // Thay bằng tên bucket thực tế
+  const bucketName = 'xevn'; // Thay bằng tên bucket thực tế
 
-  // // Gọi service Minio để lấy pre-signed URL
-  // this.minitoService
-  //   .getPreSignedUrl(bucketName, fileName)
-  //   .then((url) => {
-  //     if (url) {
-  //       // Mở file trong tab mới
-  //       window.open(url, '_blank');
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error fetching file from Minio:', error);
-  //   });
+  this.userSevice.downloadFile(bucketName, fileName).subscribe({
+    next: (blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    },
+    error: (err) => {
+      console.error('Error downloading file:', err);
+    },
+  });
 }
+
 
 }

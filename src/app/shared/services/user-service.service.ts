@@ -15,7 +15,7 @@ export class UserServiceService {
   // url = environment.server
   // url = 'http://103.92.25.158:8998/'
   url = 'http://103.92.25.158:8991/user-service/'
-
+  minioUrl = 'http://103.92.25.158:9000/xevn/'
   getDetailEmployee(id: any){
     return this.httpClient.get(this.url + 'api/staff/'+ id)
   }
@@ -118,5 +118,10 @@ export class UserServiceService {
 
   exportPDFInToVioLet(data: any){
     return this.httpClient.post(this.url + 'api/staff/print-staff-punishment', data)
+  }
+
+  downloadFile(bucketName: string, fileName: string) {
+    const url = `${this.minioUrl}/${bucketName}/${fileName}`;
+    return this.httpClient.get(url, { responseType: 'blob' });
   }
 }
