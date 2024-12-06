@@ -570,7 +570,7 @@
 </div>
 
 <nz-modal [(nzVisible)]="isShowModalUploadfile" [nzTitle]="modalTitle" 
-[nzContent]="modalContent" [nzFooter]="null" nzClassName="reset-employee-modal" [nzMaskClosable]="false"
+[nzContent]="modalContent" [nzFooter]="null" nzClassName="reset-employee-modal" [nzMaskClosable]="true"
   (nzOnCancel)="handleCancel()" [nzStyle]="previewImage ? {'width': '496px', 'height': '612px'} : {'width': '576px', 'height': '468px'}" nzCentered="true">
   <ng-template #modalTitle>Tải ảnh lên</ng-template>
 
@@ -634,12 +634,15 @@
   [(nzVisible)]="isFullImageVisible" 
   [nzFooter]="null" 
   [nzClosable]="false" 
+  [nzMaskClosable]="true"
   (nzOnCancel)="isFullImageVisible = false" 
   [nzContent]="modalContentFull" 
-  [nzStyle]="{'min-width' : '1200px', 'min-height':'800px'}"
+  [nzStyle]="{'width': '100%', 'height': '100vh'}"
   nzClassName="custom-modal-full"
 >
   <ng-template #modalContentFull>
-    <img [src]="fullImageSrc" class="full-image" />
+    <div class="div-img-full">
+      <img [src]="fullImageSrc" class="full-image" />
+    </div>
   </ng-template>
 </nz-modal>

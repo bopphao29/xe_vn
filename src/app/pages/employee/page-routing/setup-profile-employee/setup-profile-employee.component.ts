@@ -163,7 +163,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
   ngOnInit(): void {
     var year = new Date()
     const maxYear = (year.getFullYear() - 18)
-    const minYear = (year.getFullYear() - 60)
+    const minYear = (year.getFullYear() - 59)
     this.maxYear = maxYear
     this.minYear = minYear
     this.form = this.fb.group({
@@ -171,16 +171,16 @@ export class SetupProfileEmployeeComponent implements OnInit {
       yearOfBirth: [null, [Validators.required, Validators.min(minYear), Validators.max(maxYear), Validators.maxLength(4)]],
       gender: [null, Validators.required],
       identifierId: [null, [Validators.required, Validators.pattern(/^(0)[0-9]{11}$/)]],
-      phoneNumber: [null, [Validators.required, Validators.pattern(/^(0|84)[0-9]{8,9}$/)]],
+      phoneNumber: [null, [Validators.required, Validators.pattern(/^(0|84)[0-9]{8}$/)]],
       zalo: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
       ethnicGroup: [null, Validators.required],
-      religion: [null, Validators.required],
+      religion: [null],
       professionalLevel: [null, Validators.required],
       maritalStatus: [null, Validators.required],
       contactPerson: [null, Validators.required],
       contractFile: [null],
-      contactPersonPhone: [null, [Validators.required, Validators.pattern(/^(0|84)[0-9]{8,9}$/)]],
+      contactPersonPhone: [null, [Validators.required, Validators.pattern(/^(0|84)[0-9]{8}$/)]],
       // contractDuration: [null, Validators.required],
       staffRelation: [null, Validators.required],
       permanentAddress: [null, Validators.required],
@@ -331,6 +331,16 @@ validateNumber(event : Event){
       this.listRoute = response.data
     })
   }
+
+  isAnyFieldFilled(): boolean {
+    return this.lstArchivedRecords.controls.some((control) => {
+      return Object.values(control.value).some((value) => {
+        return typeof value === 'string' && value?.trim() !== '';
+      });
+    });
+  }
+  
+  
 
   //////////////////////////////////////////////////////////Create form array//////////////////////////////////////////////////
   get lstArchivedRecords(): FormArray {
@@ -876,13 +886,6 @@ validateNumber(event : Event){
         value.get('file')?.markAsTouched();
       })
     }
-    
-    this.lstArchivedRecords.controls.forEach((value: any) => {
-      value.get('name')?.markAsTouched();
-      value.get('code')?.markAsTouched();
-      value.get('type')?.markAsTouched();
-      value.get('file')?.markAsTouched();
-    })
 
     if(this.lstArchivedRecords.controls.length === 1){
       this.lstArchivedRecords.controls.forEach((value: any) => {
