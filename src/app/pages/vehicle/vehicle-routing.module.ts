@@ -18,7 +18,7 @@ export const VEHICLE_ROUTES: Routes = [
             )
         },
         {
-          path: 'file-vehical-management',
+          path: 'profile-vehical-management',
           loadComponent: () => 
             import('./page-routing/file-vehical-management/file-vehical-management.component').then(
               (c) => c.FileVehicalManagementComponent
@@ -29,6 +29,34 @@ export const VEHICLE_ROUTES: Routes = [
           loadComponent: () => 
             import('./page-routing/maintenance-and-repair/maintenance-and-repair.component').then(
               (c) => c.MaintenanceAndRepairComponent
+            )
+        },
+        {
+          path: 'deep-interior-cleaning',
+          loadComponent: () => 
+            import('./page-routing/deep-interior-cleaning/deep-interior-cleaning.component').then(
+              (c) => c.DeepInteriorCleaningComponent
+            )
+        },
+        {
+          path: 'operational-management',
+          loadComponent: () => 
+            import('./page-routing/operational-management/operational-management.component').then(
+              (c) => c.OperationalManagementComponent
+            )
+        },
+        {
+          path: 'operater-time-management',
+          loadComponent: () => 
+            import('./page-routing/operater-time-management/operater-time-management.component').then(
+              (c) => c.OperaterTimeManagementComponent
+            )
+        },
+        {
+          path: 'fuel-anagement',
+          loadComponent: () => 
+            import('./page-routing/fuel-anagement/fuel-anagement.component').then(
+              (c) => c.FuelAnagementComponent
             )
         },
 

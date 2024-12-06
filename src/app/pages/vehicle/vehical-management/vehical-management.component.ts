@@ -94,7 +94,7 @@ export class VehicalManagementComponent {
     this.activeLink = 'vehicleProfileManagement'
     this.romoveSearchVehical()
     localStorage.setItem('activeLink', this.activeLink);
-    this.routes.navigate(['vehical/file-vehical-management'])
+    this.routes.navigate(['vehical/profile-vehical-management'])
   }
 
   routerOperationalManagement(){
@@ -102,13 +102,12 @@ export class VehicalManagementComponent {
     this.romoveSearchVehical()
 
     localStorage.setItem('activeLink', this.activeLink);
-    this.routes.navigate(['vehical/operationa-management'])
+    this.routes.navigate(['vehical/operational-management'])
   }
 
   routerOperaterTimeManagement(){
     this.activeLink = 'operaterTimeManagement'
     this.romoveSearchVehical()
-
     localStorage.setItem('activeLink', this.activeLink);
     this.routes.navigate(['vehical/operater-time-management'])
   }

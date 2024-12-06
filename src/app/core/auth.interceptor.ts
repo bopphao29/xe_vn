@@ -127,6 +127,7 @@ export const authInterceptor: HttpInterceptorFn = (
 
       if (err.status === 401) {
         clearStore();
+        localStorage.clear()
         router.navigateByUrl('/login');
         // router.navigateByUrl('vehical/setup-vehical')
       } else if (err.status >= 400 && err.status < 500 && err.status !== 401) {
