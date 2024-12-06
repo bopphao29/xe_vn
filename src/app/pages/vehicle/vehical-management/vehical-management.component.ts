@@ -55,8 +55,8 @@ export class VehicalManagementComponent {
       case 'operaterTimeManagement':
         this.routerOperaterTimeManagement()
         break;
-      case 'employeeSalarySetup':
-        this.routerEmployeeSalarySetup()
+      case 'fuelAnagement':
+        this.routerFuelAnagement()
     }
   }
 
@@ -84,42 +84,40 @@ export class VehicalManagementComponent {
   }
 
   routerDeepInteriorCleaning(){
-    this.activeLink = 'employeeeProbation'
+    this.activeLink = 'deepInteriorCleaning'
     this.romoveSearchVehical()
-
     localStorage.setItem('activeLink', this.activeLink);
-    this.routes.navigate(['employee/list-employee-probation'])
+    this.routes.navigate(['vehical/deep-interior-cleaning'])
   }
 
   routerVehicleProfileManagement(){
     this.activeLink = 'vehicleProfileManagement'
     this.romoveSearchVehical()
-
     localStorage.setItem('activeLink', this.activeLink);
     this.routes.navigate(['vehical/file-vehical-management'])
   }
 
   routerOperationalManagement(){
-    this.activeLink = 'employeeSalarySetup'
+    this.activeLink = 'operationalManagement'
     this.romoveSearchVehical()
 
     localStorage.setItem('activeLink', this.activeLink);
-    this.routes.navigate(['employee/employee-salary-setup'])
+    this.routes.navigate(['vehical/operationa-management'])
   }
 
   routerOperaterTimeManagement(){
-    this.activeLink = 'employeeResign'
+    this.activeLink = 'operaterTimeManagement'
     this.romoveSearchVehical()
 
     localStorage.setItem('activeLink', this.activeLink);
-    this.routes.navigate(['employee/list-employee-resign'])
+    this.routes.navigate(['vehical/operater-time-management'])
   }
-  routerEmployeeSalarySetup(){
-    this.activeLink = 'employeeResign'
+  routerFuelAnagement(){
+    this.activeLink = 'fuelAnagement'
     this.romoveSearchVehical()
 
     localStorage.setItem('activeLink', this.activeLink);
-    this.routes.navigate(['employee/list-employee-resign'])
+    this.routes.navigate(['vehical/fuel-anagement'])
   }
 
 

@@ -81,7 +81,10 @@ export class FileVehicalManagementComponent implements OnInit{
 
   listVehical : any[] = []
   search(){
-    this.vehicalService.searchVehical().subscribe((response : any)=> {
+    const dataForm = {
+      ...this.form.value
+    }
+    this.vehicalService.searchVehical(dataForm).subscribe((response : any)=> {
       this.listVehical = response
       console.log(response)
     })

@@ -51,7 +51,9 @@ interface FileCompressed {
 export class SetupProfileCarComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
   date = null;
-  isSubmitted = false;
+  isSubmitted = false; // Đánh dấu trạng thái xác nhận
+  submitDisabled = true; // Ban đầu nút "Xác nhận" bị vô hiệu hóa
+  resetDisabled = true; // Ban đầu nút "Reset" bị vô hiệu hóa
   isEnglish = false;
   fileList: NzUploadFile[] = [];
   fileCompressed: FileCompressed = {
@@ -149,6 +151,7 @@ export class SetupProfileCarComponent implements OnInit {
       })
 
       this.form.valueChanges.subscribe((value: any) => {
+        this.submitDisabled = !this.form.valid;
         Object.keys(this.form.controls).forEach(controlName => {
           const control = this.form.get(controlName);
           if (control && control.errors) {
@@ -166,6 +169,7 @@ export class SetupProfileCarComponent implements OnInit {
         }else{
           this.status_vehical = 1
         }
+        
       })
 
       this.form.get('vehicleTypeId')?.valueChanges.subscribe((value : any)=> {
@@ -182,11 +186,24 @@ export class SetupProfileCarComponent implements OnInit {
       this.form.get('isNew')?.valueChanges.subscribe((value: any)=> {
         console.log(value)
         this.is_New = value
-        if(this.is_New !== 0 || this.is_New !== '0'){
+        if(this.is_New !== "0"){
           this.form.get('firstStartDateXE')?.reset()
           this.form.get('firstSubcriptionDate')?.reset()
           this.form.get('fristRegistrationDate')?.reset()
+          this.form.get('firstStartDateXE')?.clearValidators()
+          this.form.get('firstSubcriptionDate')?.clearValidators()
+          this.form.get('fristRegistrationDate')?.clearValidators()
         }
+          else{
+          this.form.get('firstStartDateXE')?.setValidators(Validators.required)
+          this.form.get('firstSubcriptionDate')?.setValidators(Validators.required)
+          this.form.get('fristRegistrationDate')?.setValidators(Validators.required)
+        }
+    
+        this.form.get('firstStartDateXE')?.updateValueAndValidity()
+        this.form.get('firstSubcriptionDate')?.updateValueAndValidity()
+        this.form.get('fristRegistrationDate')?.updateValueAndValidity()
+    
       })
 
       this.getRoute()
@@ -219,6 +236,9 @@ export class SetupProfileCarComponent implements OnInit {
   ///////reset form/////
   resetForm(){
     this.form.reset()
+    this.isSubmitted = false;
+    this.submitDisabled = true; 
+    this.resetDisabled = true; 
   }
 
   //////////////////////////////////////validate just enter text input/////////////////
@@ -428,13 +448,15 @@ disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
     console.log(this.fileCompressed.file[0])
     const dataForm = {
       ...this.form.value,
-      image: this.fileCompressed.file ? this.fileCompressed.file[0].name : null,
+      image: (this.fileCompressed.file && this.form.get('image')?.value) ? this.fileCompressed.file[0].name : null,
     }
 
     const formData = new FormData();
 
     formData.append('data', JSON.stringify(dataForm));
-    formData.append('image', this.fileCompressed.file[0]);
+    if(this.fileCompressed.file && this.form.get('image')?.value){
+      formData.append('image', this.fileCompressed.file[0]);
+    }
     console.log(this.fileCompressed.file[0])
 
     formData.forEach(elm => {
@@ -447,24 +469,19 @@ disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
 
     this.form.markAllAsTouched(); 
     // console.log(this.form.get('isNew')?.value)
-    if(this.form.get('isNew')?.value == 0 || this.form.get('isNew')?.value == '0'){
-      this.form.get('firstStartDateXE')?.setValidators(Validators.required)
-      this.form.get('firstSubcriptionDate')?.setValidators(Validators.required)
-      this.form.get('fristRegistrationDate')?.setValidators(Validators.required)
-    }else{
-      this.form.get('firstStartDateXE')?.clearValidators()
-      this.form.get('firstSubcriptionDate')?.clearValidators()
-      this.form.get('fristRegistrationDate')?.clearValidators()
-    }
-
-    this.form.get('firstStartDateXE')?.updateValueAndValidity()
-    this.form.get('firstSubcriptionDate')?.updateValueAndValidity()
-    this.form.get('fristRegistrationDate')?.updateValueAndValidity()
 
     if (this.form.valid) {
-      this.isSubmitted = true;
-      this.vehicalService.createVehical(formData).subscribe((response: any) => {
-        console.log(response)
+      
+      this.vehicalService.createVehical(formData).subscribe( {
+        next : (response: any) => {
+          this.isSubmitted = true; // Đánh dấu trạng thái đã xác nhận
+          this.submitDisabled = true; // Vô hiệu hóa nút "Xác nhận"
+          this.resetDisabled = false; // Bật nút "Reset"
+          this.notifiService.success('Tạo mới thành công')
+        },
+        error: (error: any)=>{
+          this.notifiService.error('Có lỗi xảy ra')
+        }
       })
     } else {
       console.log('lỗi')

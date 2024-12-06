@@ -381,6 +381,12 @@
   }
 }
 
+@media (min-width: 1660px){
+  .date-choose{
+    width: calc(100%/7 * 2 - 16px);
+  }
+}
+
 .error-container{
   height: 18px
 }

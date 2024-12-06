@@ -560,10 +560,10 @@
   
     <div class="flex justify-end m-2">
       <span>
-        <button class="button" (click)="resetForm()" type="button" nz-button nzType="default" [disabled]="form.invalid || isSubmitted">Reset</button>
+        <button class="button" (click)="resetForm()" type="button" nz-button nzType="default" [disabled]="!isSubmitted || resetDisabled">Reset</button>
       </span>
       <span class="ml-2">
-        <button class="button" type="submit"  nz-button nzType="default" [disabled]="form.invalid" >Xác nhận</button>
+        <button class="button" type="submit"  nz-button nzType="default" [disabled]="!form.valid || submitDisabled" >Xác nhận</button>
       </span>
     </div>
   </form>

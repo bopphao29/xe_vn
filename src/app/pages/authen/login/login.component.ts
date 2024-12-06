@@ -60,6 +60,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loginForm.markAllAsTouched()
     const data = {
       ...this.loginForm.value
     }

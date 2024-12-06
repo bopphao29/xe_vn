@@ -35,7 +35,7 @@ export class VehicalServiceService {
     return this.httpClient.get(this.urlRoute + 'routes')
   }
 
-  searchVehical(){
-    return this.httpClient.get(this.url + 'vehicles/search')
+  searchVehical(data: any){
+    return this.httpClient.post(this.url + 'vehicles/search', {data})
   }
 }
