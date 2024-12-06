@@ -55,6 +55,8 @@ export class FileVehicalManagementComponent implements OnInit{
       vehicleModel: null,
       yearOfManufacture : null
   })
+
+  this.search()
   }
 
   listPrepareToExpire = [

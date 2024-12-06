@@ -282,7 +282,6 @@ export class DetailProfileEmployeeComponent implements OnInit {
     this.userSevice.getDetailEmployee(id).subscribe((response: any) => {
       this.office_id = response.data.officeId
       this.showInforEmployee = response.data
-      console.log(this.showInforEmployee )
       //thanhf tich
       if(response.data?.lstAchievements){
         this.lstAchievements = response.data.lstAchievements
@@ -297,10 +296,6 @@ export class DetailProfileEmployeeComponent implements OnInit {
         this.lstPunishments = response.data.lstPunishments
         }
       //ki luat
-
-      console.log(this.lstAchievements)
-      console.log(this.lstPraises)
-      console.log(this.lstPunishments)
 
       if(this.office_id){
         this.userSevice.getDepartment(this.office_id).subscribe((response: any) => {

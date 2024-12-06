@@ -985,7 +985,7 @@
     </form>
 
     <div nzGutter="16" class="w-full" style="margin-top: 20px" *ngIf="isFixEmployeeButton == false">
-        <span class="label_setup mx-2">Khen thưởng, thành tích, kỷ luật</span>
+        <span class="label_setup mx-2">{{'employee.AchiPunishPra' | translate}}</span>
     </div>
 
     <div class="p-4 pb-0" style="margin-top: 15px; background-color: #ffffff; border-radius: 8px" class="" *ngIf="isFixEmployeeButton == false">
@@ -993,13 +993,13 @@
         <div nz-row style="margin: 15px 18px 0px 18px; width: 100% !important">
             <div nz-col style="width: calc(40% - 16px); margin-bottom: 100px; ">
                 <div nz-col class="w-full" style="padding: 8px 8px 8px 8px ;">
-                <span style="font-size: 16px;color: #252C32; font-weight: 500; line-height: 18.75px;">Khen thưởng</span>
+                <span style="font-size: 16px;color: #252C32; font-weight: 500; line-height: 18.75px;">{{'employee.praise' | translate}}</span>
 
                     <table class="custom-table">
                         <tbody class="css-table">
                             <tr>
-                                <th style="text-align: center;" class="list-col-1">Thời gian</th>
-                                <th class="col-2">Nội dung khen thưởng</th>
+                                <th style="text-align: center;" class="list-col-1">{{'table.time' | translate}}</th>
+                                <th class="col-2">{{'table.employee.notePra' | translate}}</th>
                             </tr>
                             <tr *ngFor="let data of showEmpolyeeNoDataofLstPraises()">
                                 <td class="col-1"  style="text-align: center;">{{(data.praiseDate | date: 'dd/MM/yyyy') || '-'}}</td>
@@ -1017,13 +1017,13 @@
             </div>
             <div nz-col style="width: calc(40% - 16px);">
                 <div  nz-col class="w-full" style="padding:8px 8px 8px 8px ;">
-                <span style="font-size: 16px;color: #252C32; font-weight: 500; line-height: 18.75px;">Kỷ luật</span>
+                <span style="font-size: 16px;color: #252C32; font-weight: 500; line-height: 18.75px;">{{'employee.punishment' | translate}}</span>
 
                     <table class="custom-table">
                         <tbody class="css-table">
                             <tr>
-                                <th style="text-align: center;" class="col-1">Thời gian</th>
-                                <th class="col-2">Nội dung kỉ luật</th>
+                                <th style="text-align: center;" class="col-1">{{'table.time' | translate}}</th>
+                                <th class="col-2">{{'table.employee.notePush' | translate}}</th>
                             </tr>
                             <tr *ngFor="let data of showEmpolyeeNoDataofLstPunishments()" >
                                 <td class="col-1" style="text-align: center;">{{ (data.violationDate | date: 'dd/MM/yyyy')  || '-'}}</td>
@@ -1042,20 +1042,20 @@
             </div>
             <div nz-col style="width: calc(20% - 16px);">
                 <div nz-col class="w-full" style="padding: 8px 0px 8px 8px ;">
-                <span style="font-size: 16px;color: #252C32; font-weight: 500; line-height: 18.75px;">Thành tích</span>
+                <span style="font-size: 16px;color: #252C32; font-weight: 500; line-height: 18.75px;">{{'employee.noteAchi' | translate}}</span>
 
                     <table class="custom-table">
                         <tbody class="css-table">
                             <tr>
-                                <th style="text-align: center;" class="col-1">Thời gian</th>
-                                <th class="col-2">Thành tích</th>
+                                <th style="text-align: center;" class="col-1">{{'table.time' | translate}}</th>
+                                <th class="col-2">{{'table.employee.noteAchi' | translate}}</th>
                             </tr>
                             
                             <tr *ngFor="let data of showEmpolyeeNoDataofLstAchievements()" >
                                 <td class="col-1" style="text-align: center !important; background-color: #ffffff !important;">{{data?.item || '-'}}</td>
                                 <td class="col-2"style="text-align: center !important; background-color: #ffffff !important;">
                                     <a *ngIf="data" (click)="openModalAchievements(data?.item)" class="button_show_detail">
-                                        Xem chi tiết
+                                        {{'table.detailShow' | translate}}
                                     </a>
                                     <span *ngIf="!data">
                                         -

@@ -67,10 +67,6 @@ export class ListProfileEmployeeComponent implements OnInit {
 
   ngOnInit(): void {
     const savedFormValue = localStorage.getItem('search');
-
-    
-    console.log(savedFormValue)
-    
   // Khởi tạo form với giá trị từ localStorage nếu có, ngược lại dùng giá trị mặc định
   this.form = this.fb.group({
     txtSearch: [savedFormValue ? JSON.parse(savedFormValue).txtSearch : ''],
@@ -132,7 +128,6 @@ export class ListProfileEmployeeComponent implements OnInit {
     var idOffice :number =0
     this.form.get('officeId')?.valueChanges.subscribe((value: any)=> {
      idOffice = value
-      // console.log(idOffice)
      if(value){
       this.userSevice.getDepartment(idOffice).subscribe((response: any) => {
         this.listDepartment = response.data
@@ -181,7 +176,6 @@ export class ListProfileEmployeeComponent implements OnInit {
   onDateChange(date: Date): void {
     if (date) {
       this.isoDate = date.toISOString(); // Chuyển đổi sang ISO 8601
-      // console.log(this.isoDate)
     } else {
       this.isoDate = null;
     }
@@ -245,7 +239,6 @@ export class ListProfileEmployeeComponent implements OnInit {
     if (this.dataEmployee && this.dataEmployee.length > 0) {  // Kiểm tra nếu dataEmployee có dữ liệu
       this.isModalOnLeaveEmployee = true;
       this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
-      console.log(this.selectedEmployee)
       this.leaveToDate = this.selectedEmployee?.leaveToDate
       this.leaveFromDate = this.selectedEmployee?.leaveFromDate
       this.workingStatusNum = this.selectedEmployee?.workingStatusNum
@@ -253,8 +246,6 @@ export class ListProfileEmployeeComponent implements OnInit {
     } else {
       // console.log("Data Employee is empty or not loaded");
       // this.notification.error('Đặt lịch nghỉ phép thành công!')
-
-
     }
   }
 
@@ -271,7 +262,6 @@ export class ListProfileEmployeeComponent implements OnInit {
       localStorage.setItem('search', JSON.stringify(formValue));
     }
     
-    console.log(formValue)
     this.setupValueIntoForm()
   }
 
@@ -294,8 +284,6 @@ export class ListProfileEmployeeComponent implements OnInit {
       ...this.formOnLeave.value,
       type : 2
     }
-
-    console.log(dataFormEndWork)
 
     if(this.formOnLeave.invalid){
       this.notification.error('Hãy lập lịch nghỉ phép')
@@ -321,7 +309,6 @@ export class ListProfileEmployeeComponent implements OnInit {
 
   setupValueIntoForm(){
     const formValue = localStorage.getItem('search');
-    console.log(formValue)
     if(formValue){
       this.form.patchValue(JSON.parse(formValue))
     }

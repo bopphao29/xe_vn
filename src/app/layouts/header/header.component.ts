@@ -96,7 +96,9 @@ export class HeaderComponent implements OnInit{
           }
         });
         clearStore();
-        this.router.navigateByUrl('/login');
+        localStorage.clear()
+        this.router.navigate(['/login']);
+        this.isHidenMenu = false
         Toast.fire({
           icon: "success",
           title: "Đăng xuất thành công"

@@ -216,6 +216,11 @@ export class SetupProfileCarComponent implements OnInit {
     }, 1000);
   }
 
+  ///////reset form/////
+  resetForm(){
+    this.form.reset()
+  }
+
   //////////////////////////////////////validate just enter text input/////////////////
 validateText(event : Event){
   const valueInput = event.target as HTMLInputElement;

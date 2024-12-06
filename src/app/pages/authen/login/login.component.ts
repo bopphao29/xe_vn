@@ -85,7 +85,7 @@ export class LoginComponent implements OnInit {
             icon: "success",
             title: "Đăng nhập thành công"
           });
-          // localStorage.setItem('activeLink', 'employeeManagement')
+          localStorage.setItem('activeLink', 'employeeManagement')
         }else{
             this.notifiService.error("Error token")
             // localStorage.clear()

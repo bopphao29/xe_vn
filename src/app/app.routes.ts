@@ -12,6 +12,7 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
+    canActivate: [authGuard],
     children: [
       ...EMPPLOYEE_ROUTES,
       ...VEHICLE_ROUTES,

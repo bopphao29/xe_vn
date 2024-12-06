@@ -152,7 +152,6 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
 
   getListEmployee(data: any){
     this.userSevice.searchEmployee(data ).subscribe((response: any)=>{
-      // console.log(response)
       this.dataEmployee = response.data.content
       this.total = response.data.totalElements
       console.log(this.total)
@@ -191,11 +190,7 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
     const rangeDate = this.form.get('rangeDate')?.value
     this.fromDate = rangeDate ? rangeDate[0] : null
     this.toDate = rangeDate ? rangeDate[1] : null
-    console.log(rangeDate)
     this.form.updateValueAndValidity();
-    console.log(this.fromDate)
-    console.log(this.toDate)
-
     const dataForm = {
       ...this.form.value,
       violentDateFrom : rangeDate ? this.fromDate : '',
@@ -213,8 +208,6 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
     if(dataForm){
       localStorage.setItem('search', JSON.stringify(dataForm));
     }
-    
-    console.log(this.form.value)
     this.setupValueIntoForm()
   }
 
@@ -243,7 +236,6 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
 
   setupValueIntoForm(){
     const formValue = localStorage.getItem('search');
-    console.log(formValue)
     if(formValue){
       this.form.patchValue(JSON.parse(formValue))
     }

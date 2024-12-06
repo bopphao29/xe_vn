@@ -85,7 +85,6 @@ export class ListEmployeeResignComponent {
     })  
     this.form.get('leaveType')?.valueChanges.subscribe((value : any)=> {
       this.changeLeave = value
-      console.log(this.changeLeave)
     })
   }
 
@@ -133,7 +132,6 @@ export class ListEmployeeResignComponent {
     var idOffice :number =0
     this.form.get('officeId')?.valueChanges.subscribe((value: any)=> {
      idOffice = value
-      console.log(idOffice)
      if(value){
       this.userSevice.getDepartment(idOffice).subscribe((response: any) => {
         this.listDepartment = response.data
@@ -167,7 +165,6 @@ export class ListEmployeeResignComponent {
   onDateChange(date: Date): void {
     if (date) {
       this.isoDate = date.toISOString(); // Chuyển đổi sang ISO 8601
-      // console.log(this.isoDate)
     } else {
       this.isoDate = null;
     }
@@ -187,10 +184,8 @@ export class ListEmployeeResignComponent {
 
   getListEmployee(  data: any){
     this.userSevice.searchEmployee(data ).subscribe((response: any)=>{
-      // console.log(response)
       this.dataEmployee = response.data.content
       this.total = response.data.totalElements
-      console.log(this.total)
       if(response.data.totalElements == 0){
         Swal.fire({
           icon: "warning",
@@ -234,7 +229,6 @@ handleSubmitDelete(){
   selectedEmployee: any = null;
   openModalonLeave(id: number){
     if (this.dataEmployee && this.dataEmployee.length > 0) {  // Kiểm tra nếu dataEmployee có dữ liệu
-      console.log(this.changeLeave)
       if(this.changeLeave == 2 || this.changeLeave == '2'){
         this.isResetEmployee = true;
         this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
@@ -242,8 +236,6 @@ handleSubmitDelete(){
         this.isModalOnLeaveEmployee = true;
         this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
       }
-      
-      console.log("Selected Employee:", this.selectedEmployee);  // Kiểm tra giá trị của selectedEmployee
     } else {
       console.log("Data Employee is empty or not loaded");
     }
@@ -289,7 +281,6 @@ handleSubmitDelete(){
       localStorage.setItem('search', JSON.stringify(formValue));
     }
     
-    // console.log(formValue)
     this.setupValueIntoForm()
       if(this.changeLeave == 2 || this.changeLeave == '2'){
         this.isLeave = true;
@@ -329,11 +320,8 @@ handleSubmitDelete(){
       ...this.formChangeInforLeave.value,
       type : 4
     }
-    console.log(dataFormEndWork)
-
     if(this.formChangeInforLeave.invalid){
       this.notification.success('Hãy lập lịch nghỉ phép')
-
     }else{
       this.userSevice.updateStatusWork(dataFormEndWork).subscribe( {
         next: (response) => {
@@ -358,8 +346,6 @@ handleSubmitDelete(){
       leave_from_date: null,
       type : 1
     }
-    console.log(dataFormEndWork)
-
     this.userSevice.updateStatusWork(dataFormEndWork).subscribe( {
       next: (response) => {
         this.notification.success('Đặt lịch nghỉ phép thành công!')
@@ -379,7 +365,6 @@ handleSubmitDelete(){
 
   setupValueIntoForm(){
     const formValue = localStorage.getItem('search');
-    console.log(formValue)
     if(formValue){
       this.form.patchValue(JSON.parse(formValue))
     }

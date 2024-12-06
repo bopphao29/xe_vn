@@ -161,8 +161,6 @@ export class SetupProfileEmployeeComponent implements OnInit {
   contract_type: number = 1
   has_child : any
   ngOnInit(): void {
-    //khởi tạo form ban đầu
-    console.log(localStorage.getItem('activeLink'))
     var year = new Date()
     const maxYear = (year.getFullYear() - 18)
     const minYear = (year.getFullYear() - 60)
@@ -223,13 +221,11 @@ export class SetupProfileEmployeeComponent implements OnInit {
     this.getDriverLicense()
     this.trackFormChanges();
     this.form.get('contractType')?.valueChanges.subscribe((value: any)=> {
-      console.log(value)
       this.contract_type = value
     })
 
     this.form.get('hasChild')?.valueChanges.subscribe((value: any)=>{
       this.has_child = value
-      console.log(value)
       if (value == 1) {
         this.lstChildren.controls.forEach(control => {
           control.get("")?.setValidators(Validators.required)
@@ -320,11 +316,9 @@ validateNumber(event : Event){
     var idOffice :number =0
     this.form.get('officeId')?.valueChanges.subscribe((value: any)=> {
      idOffice = value
-      console.log(idOffice)
      if(idOffice != null){
       this.userSevice.getDepartment(idOffice).subscribe((response: any) => {
         this.listDepartment = response.data
-        console.log(this.listDepartment)
       })
      }else{
       this.listDepartment = []
@@ -377,34 +371,12 @@ validateNumber(event : Event){
     const maxYear = year.getFullYear()
     const minYear = (year.getFullYear() - 42)
     this.maxYearChild = maxYear
-    // console.log(maxYearEmployee)
 
     const ChildForm = this.fb.group({
       name:  ['', Validators.required] ,
       yearOfBirth: ['', [Validators.required, Validators.min(minYear), Validators.max(this.maxYearChild), Validators.maxLength(4)]] ,
       gender: ['', Validators.required],
     });
-
-    // ChildForm.get('name')?.clearValidators()
-    //     ChildForm.get('yearOfBirth')?.clearValidators()
-    //     ChildForm.get('gender')?.clearValidators()
-    // this.form.get('hasChild')?.valueChanges.subscribe((value : any)=> {
-    //   console.log(value)
-    //   this.has_child = value
-    //   if(this.has_child === '1' || this.form.get('hasChild')?.value == '1'){
-    //     ChildForm.get('name')?.setValidators(Validators.required)
-    //     ChildForm.get('yearOfBirth')?.setValidators(Validators.required)
-    //     ChildForm.get('gender')?.setValidators(Validators.required)
-    //   }else{
-    //     ChildForm.get('name')?.clearValidators()
-    //     ChildForm.get('yearOfBirth')?.clearValidators()
-    //     ChildForm.get('gender')?.clearValidators()
-    //   }
-    //   ChildForm.get('name')?.updateValueAndValidity();
-    //   ChildForm.get('yearOfBirth')?.updateValueAndValidity();
-    //   ChildForm.get('gender')?.updateValueAndValidity();
-
-    // })
     return ChildForm
   }
 
@@ -505,16 +477,11 @@ validateNumber(event : Event){
   //Check driver - check when choose list deparment and find item have code == DRIVER
   checkDriver() {
     this.form.get('departmentId')?.valueChanges.subscribe((value: any) => {
-      console.log(value)
-      this.idDriver = value // 1
-      const isDriver = this.listDepartment.find(item => item.id === Number(this.idDriver))
-      console.log(isDriver)
-      
+      this.idDriver = value 
+      const isDriver = this.listDepartment.find(item => item.id === Number(this.idDriver))      
         if(isDriver){
           var codeDriver: any = isDriver.code
-          
           this.deparmentCode = codeDriver
-          console.log(this.deparmentCode)
           if (isDriver && codeDriver == 'DRIVER' && codeDriver != null) {
             this.hasDriver = true
           }
@@ -544,8 +511,6 @@ validateNumber(event : Event){
   checkChild() {
     this.form.get('hasChild')?.valueChanges.subscribe((value: any) => {
       this.hasChildren = value
-      console.log(this.hasChildren)
-
     })
   }
 
@@ -562,21 +527,21 @@ validateNumber(event : Event){
   /////////////////////////////////////////////////////////////////////////// FILE ///////////////////////////////////////////////////////////////////
 
 
-  // beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]): Observable<boolean> => {
-  //   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  //   const isLt2M = file.size! / 1024 / 1024 < 2;
+  beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]): Observable<boolean> => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    const isLt2M = file.size! / 1024 / 1024 < 2;
 
-  //   if (!isJpgOrPng) {
-  //     this.msg.error('You can only upload JPG/PNG files!');
-  //     return of(false); 
-  //   }
-  //   if (!isLt2M) {
-  //     this.msg.error('Image must be smaller than 2MB!');
-  //     return of(false); 
-  //   }
+    if (!isJpgOrPng) {
+      this.msg.error('You can only upload JPG/PNG files!');
+      return of(false); 
+    }
+    if (!isLt2M) {
+      this.msg.error('Image must be smaller than 2MB!');
+      return of(false); 
+    }
 
-  //   return of(true); 
-  // };
+    return of(true); 
+  };
 
   // private getBase64(img: File, callback: (img: string) => void): void {
   //   const reader = new FileReader();
@@ -597,13 +562,13 @@ validateNumber(event : Event){
   bcImgFile: File[] = []
   dlImage: File[] = []
 
-  beforeUpload = (file: NzUploadFile): boolean => {// sau khi file được tải lên
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'; //lọc file png 
-    if (!isJpgOrPng) { // check điều kiện
-      this.msg.error('Bạn chỉ có thể tải lên file JPG hoặc PNG!');
-    }
-    return isJpgOrPng; // Ngăn không cho tải lên file không hợp lệ
-  };
+  // beforeUpload = (file: NzUploadFile): boolean => {// sau khi file được tải lên
+  //   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'; //lọc file png 
+  //   if (!isJpgOrPng) { // check điều kiện
+  //     this.msg.error('Bạn chỉ có thể tải lên file JPG hoặc PNG!');
+  //   }
+  //   return isJpgOrPng; // Ngăn không cho tải lên file không hợp lệ
+  // };
 
   //function onFileSelected is observerble check file
   onFileSelected(event: any): Observable<File> {
@@ -670,7 +635,7 @@ validateNumber(event : Event){
         }
       },
       error: (err) => {
-        console.log(err)
+        this.notification.error('Error')
       },
       complete: () => {
 
@@ -694,7 +659,7 @@ validateNumber(event : Event){
         }
       },
       error: (err) => {
-        console.log(err)
+        this.notification.error('Error')
       },
       complete: () => {
 
@@ -729,7 +694,6 @@ validateNumber(event : Event){
   onDateChange(date: Date): void {
     if (date) {
       this.isoDate = date.toISOString(); // Chuyển đổi sang ISO 8601
-      // console.log(this.isoDate)
     } else {
       this.isoDate = null;
     }
@@ -803,7 +767,6 @@ validateNumber(event : Event){
   showDataEmployee() {
     this.inforEmployee = this.form.value
     this.form.markAllAsTouched(); 
-    console.log(this.form.get('contractType')?.value)
     if(this.form.get('contractType')?.value == '2'){
       this.form.get('fromDateProbation')?.markAsTouched()
         this.form.get('toDate')?.markAsTouched()
@@ -818,7 +781,6 @@ validateNumber(event : Event){
     }
 
     this.form.get('contractType')?.valueChanges.subscribe((value) => {
-      console.log(value)
       if (value === '1') {
         this.form.get('fromDateProbation')?.clearValidators();
         this.form.get('toDate')?.clearValidators();
@@ -887,7 +849,6 @@ validateNumber(event : Event){
     //     value.get('file')?.markAsTouched();
     //   })
     // }
-    console.log(this.has_child)
     if(this.form.get('hasChild')?.value  === '1'){
       this.lstChildren.controls.forEach((value: any) => {
         value.get('name')?.setValidators(Validators.required);
@@ -922,8 +883,6 @@ validateNumber(event : Event){
       value.get('type')?.markAsTouched();
       value.get('file')?.markAsTouched();
     })
-
-    console.log(this.lstArchivedRecords.controls.length)
 
     if(this.lstArchivedRecords.controls.length === 1){
       this.lstArchivedRecords.controls.forEach((value: any) => {
@@ -961,7 +920,6 @@ validateNumber(event : Event){
     /////////////////////// show data in to modal employee
     if(this.lstArchivedRecords.value){
       this.lstArchivedRecords.controls.forEach((value: any, index: number) => {
-        // console.log(value.value)
         this.listAR.push(value.value)
       })
     }else{
@@ -970,7 +928,6 @@ validateNumber(event : Event){
 
     if (this.lstChildren.value) {
       this.lstChildren.controls.forEach((value: any, index: number) => {
-        // console.log(value.value)
         this.listCh.push(value.value)
       })
     }else{
@@ -1090,9 +1047,6 @@ nameOfPDF(): string {
 
   //////////////////////////////////////////////////////Button save data when enough infor save///////////////////////////////////////
   saveDataEmployee(field : string) {
-
-    console.log(this.form.value.lstcontractDTO)
-
     if(this.contract_type == 1){
       this.fromDateOfOffical = this.form.value.fromDateOfOffical
     }
@@ -1132,8 +1086,6 @@ nameOfPDF(): string {
       })),
 
     };
-
-    console.log(dataForm)
     delete dataForm.contractFile
     delete dataForm.bcImage
     delete dataForm.healthCertificate
@@ -1149,7 +1101,6 @@ nameOfPDF(): string {
     }
     var archivedRecordFile: any = this.fileCompressed.file
 
-    console.log(this.fileCompressed.contractFile)
     archivedRecordFile.forEach((value: any) => {
       formData.append('archivedRecordFiles', value)
     })
@@ -1172,7 +1123,6 @@ nameOfPDF(): string {
     if(this.form.valid){
       this.userSevice.saveEmployee(formData).subscribe({
         next: (response) => {
-          console.log('File đã được gửi đi thành công', response);
           this.notification.success('Lưu hồ sơ nhân viên thành công!')
           this.isModalInforEmployee = false
           this.isDone = true
@@ -1193,9 +1143,7 @@ nameOfPDF(): string {
       this.userSevice.exportPDF(dataForm).subscribe((response : any )=>{
         {
           const base64 = response.data
-          console.log(base64)
           const blob = PDF.base64ToBlob(base64, 'application/pdf')
-          // const blob = this.base64ToBlob(base64, 'application/pdf')
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = url;

@@ -13,9 +13,10 @@ export class VehicalServiceService {
 
   // url = environment.server
   // url = 'http://103.92.25.158:8998/'
-  // urlRoute = 'http://103.92.25.158:8998/'
+  // url98 = 'http://103.92.25.158:8998/vehicle-service/api/'
     url = 'http://103.92.25.158:8991/vehicle-service/api/'
   urlRoute = 'http://103.92.25.158:8991/vehicle-service/api/'
+
 
   createVehical(formData : FormData){
  

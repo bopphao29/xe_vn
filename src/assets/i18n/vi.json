@@ -212,13 +212,18 @@
         "name_child": "Tên con",
         "reason_off": "Lý do nghỉ",
         "reason_submitEnd": "Lý do thôi việc",
-        "prepareToExpire": "Giấy Tờ Hồ Sơ Chuẩn Bị Hết Hạn"
+        "prepareToExpire": "Giấy Tờ Hồ Sơ Chuẩn Bị Hết Hạn",
+        "AchiPunishPra":"Khen thưởng, thành tích, kỷ luật",
+        "achivement":"Thành tích",
+        "punishment":"Kỷ luật",
+        "praise": "Khen thưởng"
     },
     "table": {
         "stt":"STT",
         "time":"Thời gian",
         "phone":"SĐT",
         "action": "Tác vụ",
+        "detailShow": "Xem chi tiết",
         "vehical": {
             "fromDate":"Từ ngày",
             "toDate":"Đến ngày",
@@ -228,6 +233,11 @@
             "maintenanceKm": "Km bảo dưỡng",
             "count":"Số lượng",
             "unitOfMeasure":"Đơn vị tính"
+        },
+        "employee": {
+            "notePra": "Nội dung khen thưởng",
+            "notePush": "Nội dung kỉ luật",
+            "noteAchi": "Thành tích"
         }
         
         
