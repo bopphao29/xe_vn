@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { environment } from '../../../enviroments/enviroment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +13,13 @@ export class VehicalServiceService {
 
   ) { }
 
-  // url = environment.server
-  // url = 'http://103.92.25.158:8998/'
-  // url98 = 'http://103.92.25.158:8998/vehicle-service/api/'
-  urlRoute = 'http://103.92.25.158:8991/vehicles/api/'
+  url = environment.server + '/vehicles/'
+
 
 
   createVehical(formData : FormData){
  
-    return this.httpClient.post(this.urlRoute + 'vehicles', formData)
+    return this.httpClient.post(this.url + 'api/vehicles', formData)
 
   }
 
@@ -27,14 +27,14 @@ export class VehicalServiceService {
   }
 
   getVehicalType(){
-      return this.httpClient.get(this.urlRoute + 'vehicle-types')
+      return this.httpClient.get(this.url + 'api/vehicle-types')
   }
 
   getRoue(){
-    return this.httpClient.get(this.urlRoute + 'routes')
+    return this.httpClient.get(this.url + 'api/routes')
   }
 
   searchVehical(data: any){
-    return this.httpClient.post(this.urlRoute + 'vehicles/search', {data})
+    return this.httpClient.post(this.url + 'api/vehicles/search', {data})
   }
 }

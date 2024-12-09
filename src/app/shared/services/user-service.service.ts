@@ -11,11 +11,10 @@ export class UserServiceService {
   constructor(
     private httpClient : HttpClient
   ) { }
-
-  // url = environment.server
-  // url = 'http://103.92.25.158:8998/'
-  url = 'http://103.92.25.158:8991/users/'
+  baseUrl = environment.server 
+  url = this.baseUrl + '/users/'
   minioUrl = 'http://103.92.25.158:9000'
+
   getDetailEmployee(id: any){
     return this.httpClient.get(this.url + 'api/staff/'+ id)
   }
@@ -50,7 +49,7 @@ export class UserServiceService {
 
   getRoute(){
     // return this.httpClient.get(this.url + 'vehicle-service/api/routes')
-    return this.httpClient.get('http://103.92.25.158:8991/vehicles/api/routes')
+    return this.httpClient.get(this.baseUrl+'/vehicles/api/routes')
 
   }
 
@@ -61,7 +60,7 @@ export class UserServiceService {
   searchEmployee( data: any){
     // tạo param
     // const params = 'page='+page.toString()+'&size='+size.toString()
-    return this.httpClient.post('http://103.92.25.158:8998/api/staff/search' , data,{
+    return this.httpClient.post(this.url+'api/staff/search' , data,{
     // return this.httpClient.post('http://103.92.25.158:8991/user-service/api/staff/search' , data,{
       // headers: new HttpHeaders({'Origin':'http://localhost:4200'}),
       // observe: 'response'
@@ -70,7 +69,7 @@ export class UserServiceService {
   
   updateStatusWork(data: any){
     // return this.httpClient.post('http://103.92.25.158:8998/api/staff/update-working-status' , data)
-    return this.httpClient.post('http://103.92.25.158:8998/api/staff/update-working-status' , data)
+    return this.httpClient.post(this.url +'api/staff/update-working-status' , data)
     
   }
 
