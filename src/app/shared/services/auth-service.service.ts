@@ -11,10 +11,11 @@ export class AuthServiceService {
   ) { }
 
   // url = 'http://103.92.25.158:8991/user-service/'
-  // urlRoute = 'http://192.168.0.3:8998/'
   urlRoute = 'http://103.92.25.158:8998/'
 
   login(data: any){
     return this.httpClient.post(this.urlRoute + 'auth/login', data)
+    // return this.httpClient.post(this.url + 'auth/login', data)
+
   }
 }

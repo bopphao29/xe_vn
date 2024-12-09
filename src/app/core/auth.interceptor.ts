@@ -35,7 +35,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (token) {
       request = request.clone({
         setHeaders: {
-          // Authorization: 'Bearer ' + token,
+          Authorization: 'Bearer ' + token,
           'Accept-Language': language,
         },
       });
@@ -109,7 +109,7 @@ export const authInterceptor: HttpInterceptorFn = (
   if (token) {
     request = req.clone({
       setHeaders: {
-        // Authorization: 'Bearer ' + token,
+        Authorization: 'Bearer ' + token,
         'Accept-Language': language,
       },
     });
