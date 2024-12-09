@@ -168,6 +168,16 @@
     color: #bfbfbf; 
   }
 
+  .disabled-input {
+    // background-color: #f5f5f5; /* Màu nền xám để thể hiện trạng thái disabled */
+    pointer-events: none; /* Ngăn không cho tương tác */
+    opacity: 0.5; /* Giảm độ trong suốt */
+  }
+
+  .disabled-input:hover {
+    cursor: not-allowed; /* Hiệu ứng con trỏ khi hover */
+  }
+
   .headmodal{
     font-size: 24px; 
     height: 28px; 

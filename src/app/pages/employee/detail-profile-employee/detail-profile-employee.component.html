@@ -76,10 +76,11 @@
                 <div class="input-wrapper">
                     <div class="">
                         <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.employeeName' | translate}}</label>
-                        <input class="input-form" (input)="validateText($event)"  placeholder="Nguyễn văn A"  formControlName="name" type="text" >
+                        <input class="input-form" (input)="validateText('name',$event)" (blur)="onBlur('name')" placeholder="Nguyễn văn A"  formControlName="name" type="text" >
                         <div class="error-container">
                             <div *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)">
                                 <span class="validate_input" *ngIf="form.get('name')?.errors?.['required']">{{'required.name' | translate}}</span>
+                                <span class="instruct" *ngIf="form.get('phoneNumber')?.errors?.['pattern']">{{'required.phone_pattern'  | translate}}</span>
                             </div>
                         </div>
                     </div>
@@ -92,9 +93,10 @@
                         <input class="input-form"  (input)="validateNumber($event)" placeholder="2000" formControlName="yearOfBirth" maxlength="4" type="text">
                         <div class="error-container">
                             <div *ngIf="form.get('yearOfBirth')?.invalid && (form.get('yearOfBirth')?.dirty) || form.get('yearOfBirth' | translate)?.touched">
-                            <span class="validate_input" *ngIf="form.get('yearOfBirth')?.errors?.['required']">{{'required.yearOfBirth' | translate}}</span>
-                            <span class="validate_input" *ngIf="form.get('yearOfBirth')?.errors?.['min']">{{ ('required.minYearEmployee' | translate) + minYear }}</span>
-                            <span class="validate_input" *ngIf="form.get('yearOfBirth')?.errors?.['max']">{{ ('required.maxYearEmployee' | translate)+maxYear }}</span>
+                                <span class="validate_input" *ngIf="form.get('yearOfBirth')?.errors?.['required']">{{'required.yearOfBirth' | translate}}</span>
+                                <span class="instruct" *ngIf="form.get('yearOfBirth')?.errors?.['min'] && !form.get('yearOfBirth')?.errors?.['pattern']">{{ ('required.minYearEmployee' | translate) + minYear }}</span>
+                                <span class="instruct" *ngIf="form.get('yearOfBirth')?.errors?.['max'] && !form.get('yearOfBirth')?.errors?.['pattern']">{{ ('required.maxYearEmployee' | translate)+maxYear }}</span>
+                                <span class="instruct" *ngIf="form.get('yearOfBirth')?.errors?.['pattern']" >{{'required.number_pattern' | translate}}</span>
                         </div>
                         </div>
                     </div>
@@ -123,7 +125,8 @@
                             <div class="error-container"> 
                                 <div *ngIf="form.get('identifierId')?.invalid && (form.get('identifierId')?.dirty) || form.get('identifierId')?.touched">
                                 <span class="validate_input" *ngIf="form.get('identifierId')?.errors?.['required']">{{'required.identifier_required'  | translate}}</span>
-                                <span class="validate_input" *ngIf="form.get('identifierId')?.errors?.['pattern']">{{'required.identifier_pattern'  | translate}}</span>
+                                <span class="instruct" *ngIf="form.get('identifierId')?.errors?.['pattern']">{{'required.identifier_pattern'  | translate}}</span>
+
                                 </div>
                             </div>
                         </div>
@@ -137,7 +140,7 @@
                         <div class="error-container">
                             <div *ngIf="form.get('phoneNumber')?.invalid && (form.get('phoneNumber')?.dirty) || form.get('phoneNumber')?.touched">
                                 <span class="validate_input" *ngIf="form.get('phoneNumber')?.errors?.['required']">{{'required.phoneNumber_required'  | translate}}</span>
-                                <span class="validate_input" *ngIf="form.get('phoneNumber')?.errors?.['pattern']">{{'required.phone_pattern'  | translate}}</span>
+                                <span class="instruct" *ngIf="form.get('phoneNumber')?.errors?.['pattern']">{{'required.phone_pattern'  | translate}}</span>
                             </div>
                         </div>
                     </div>
@@ -146,10 +149,11 @@
                 <div class="input-wrapper">
                     <div class="">
                         <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.zalo' | translate}}</label>
-                        <input class="input-form" (input)="validateText($event)"  placeholder="Nguyễn văn A" formControlName="zalo" type="text">
+                        <input class="input-form" (input)="validateText('zalo',$event)" (blur)="onBlur('zalo')"  placeholder="Nguyễn văn A" formControlName="zalo" type="text">
                         <div class="error-container">
                             <div *ngIf="form.get('zalo')?.invalid && (form.get('zalo')?.dirty) || form.get('zalo')?.touched">
                                 <span class="validate_input" *ngIf="form.get('zalo')?.errors?.['required']">{{'required.zalo_required' | translate}}</span>
+                                <span class="instruct" *ngIf="form.get('zalo')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
                             </div>
                         </div>
                     </div>
@@ -162,7 +166,7 @@
                         <div class="error-container">
                             <div *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty) || form.get('email')?.touched">
                             <span class="validate_input" *ngIf="form.get('email')?.errors?.['required']">{{'required.email_required' | translate}}</span>
-                            <span class="validate_input" *ngIf="form.get('email')?.errors?.['email']">{{'required.email_pattern' | translate}}</span>
+                            <span class="instruct" *ngIf="form.get('email')?.errors?.['email']">{{'required.email_pattern' | translate}}</span>
                         </div>
                         </div>
                     </div>
@@ -171,10 +175,11 @@
                 <div class="input-wrapper">
                     <div class="">
                         <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.ethnicGroup' | translate}}</label>
-                        <input class="input-form" formControlName="ethnicGroup" (input)="validateText($event)" placeholder="Nhập" />
+                        <input class="input-form" formControlName="ethnicGroup" (input)="validateText('ethnicGroup',$event)" (blur)="onBlur('ethnicGroup')"  placeholder="Nhập" />
                             <div class="error-container">
                                 <div *ngIf="form.get('ethnicGroup')?.invalid && (form.get('ethnicGroup')?.dirty) || form.get('ethnicGroup')?.touched">
                                     <span class="validate_input" *ngIf="form.get('ethnicGroup')?.errors?.['required']">{{'required.ethnicGroup_required' | translate}}</span>
+                                    <span class="instruct" *ngIf="form.get('ethnicGroup')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
                                 </div>
                             </div>
                     </div>
@@ -183,10 +188,11 @@
                 <div class="input-wrapper">
                     <div class="">
                         <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.religion' | translate}}</label>
-                        <input class="input-form" formControlName="religion" (input)="validateText($event)"  placeholder="Nhập" />
+                        <input class="input-form" formControlName="religion" (input)="validateText('religion',$event)" (blur)="onBlur('religion')"  placeholder="Nhập" />
                             <div class="error-container">
                                 <div *ngIf="form.get('religion')?.invalid && (form.get('religion')?.dirty) || form.get('religion')?.touched">
                                     <span class="validate_input" *ngIf="form.get('religion')?.errors?.['required']">{{'required.religion_required' | translate}}</span>
+                                    <span class="instruct" *ngIf="form.get('religion')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
                                 </div>
                             </div>
                     </div>
@@ -222,10 +228,11 @@
                 <div class="input-wrapper">
                     <div class="">
                         <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.contactPerson' | translate}}</label>
-                        <input class="input-form" formControlName="contactPerson"  (input)="validateText($event)" placeholder="Nhập" />
+                        <input class="input-form" formControlName="contactPerson"  (input)="validateText('contactPerson',$event)" (blur)="onBlur('contactPerson')" placeholder="Nhập" />
                             <div class="error-container">
                                 <div *ngIf="form.get('contactPerson')?.invalid && (form.get('contactPerson')?.dirty) || form.get('contactPerson')?.touched">
                                     <span class="validate_input" *ngIf="form.get('contactPerson')?.errors?.['required']">{{'required.contactPerson_required' | translate}}</span>
+                                    <span class="instruct" *ngIf="form.get('contactPerson')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
                                 </div>
                             </div>
                     </div>
@@ -239,7 +246,8 @@
                                 <div class="error-container">
                                     <div *ngIf="form.get('contactPersonPhone')?.invalid && (form.get('contactPersonPhone')?.dirty) || form.get('contactPersonPhone')?.touched">
                                         <span class="validate_input" *ngIf="form.get('contactPersonPhone')?.errors?.['required']">{{'required.phoneNumber_required' | translate}}</span>
-                                        <span class="validate_input" *ngIf="form.get('contactPersonPhone')?.errors?.['pattern']">{{'required.phone_pattern' | translate}}</span>
+                                        <span class="instruct" *ngIf="form.get('contactPersonPhone')?.errors?.['pattern']">{{'required.phone_pattern' | translate}}</span>
+
                                     </div>
                                 </div>
                             </div>
@@ -249,10 +257,11 @@
                 <div class="input-wrapper">
                     <div class="">
                         <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.staffRelation' | translate}}</label>
-                        <input class="input-form" formControlName="staffRelation"  (input)="validateText($event)" placeholder="Nhập" />
+                        <input class="input-form" formControlName="staffRelation"  (input)="validateText('staffRelation',$event)" (blur)="onBlur('staffRelation')"  placeholder="Nhập" />
                             <div class="error-container">
                                 <div *ngIf="form.get('staffRelation')?.invalid && (form.get('staffRelation')?.dirty) || form.get('staffRelation')?.touched">
                                     <span class="validate_input" *ngIf="form.get('staffRelation')?.errors?.['required']">{{'required.staffRelation_required' | translate}}</span>
+                                    <span class="instruct" *ngIf="form.get('staffRelation')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
                                 </div>
                             </div>
                     </div>
@@ -576,6 +585,7 @@
                         <div class="error-container">
                             <div *ngIf="form.get('businessCardNumber')?.invalid && (form.get('businessCardNumber')?.dirty || form.get('businessCardNumber')?.touched)">
                                 <span class="validate_input" *ngIf="form.get('businessCardNumber')?.errors?.['required']">{{'required.businessCardNumber_required' | translate}}</span>
+                                 <span class="instruct" *ngIf="form.get('businessCardNumber')?.errors?.['pattern']">{{'required.number_pattern' | translate}}</span>
                                 
                             </div>
                         </div>
@@ -910,10 +920,12 @@
                                         <div class="">
                                             <label class="label-form"><span style="color: red">*</span>{{'employee.name_child' | translate}}</label>
                                             <div>
-                                                <input  nz-input class="form-input" (input)="validateText($event)" formControlName="name" placeholder="Nhập"  style="width: 100%"  />
+                                                <input  nz-input class="form-input" (input)="validateText(['lstChildren', childIndex, 'name'],$event)"  (blur)="onBlur(['lstChildren', childIndex, 'name'])"  formControlName="name" placeholder="Nhập"  style="width: 100%"  />
                                                     <div class="error-container">
                                                         <div *ngIf="child.get('name')?.touched && has_child == 1">
                                                             <span class="validate_input" *ngIf="child.get('name')?.errors?.['required']">{{'required.name_child' | translate}}</span>
+                                                            <span class="instruct" *ngIf="child.get('name')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
+
                                                         </div>
                                                     </div>
                                             </div>
@@ -926,13 +938,14 @@
                                             <label class="label-form"><span style="color: red">*</span>{{'employee.yearOfBirth' | translate}}</label>
                                             <div>
                                                 <input nz-input class="form-input" type="number" maxlength="4" formControlName="yearOfBirth" placeholder="Nhập năm" style="width: 100%"/>
-                                                    <div class="error-container">
-                                                        <div *ngIf="(child.get('yearOfBirth')?.invalid && child.get('yearOfBirth')?.dirty || child.get('yearOfBirth')?.touched) && has_child == '1'">
-                                                            <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['required']">{{'required.yearOfBirth' | translate}}</span>
-                                                            <!-- <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['min']">Năm sinh phải lớn hơn {{minYearChild}}</span> -->
-                                                            <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['max']"> {{('required.maxYearEmployee' | translate) + maxYearChild}}</span>
-                                                        </div>
+                                                <div class="error-container">
+                                                    <div *ngIf="(child.get('yearOfBirth')?.invalid && child.get('yearOfBirth')?.dirty || child.get('yearOfBirth')?.touched) && has_child == 1">
+                                                        <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['required']" >{{'required.yearOfBirth' | translate}}</span>
+                                                        <span class="instruct" *ngIf="child.get('yearOfBirth')?.errors?.['pattern']" >{{'required.number_pattern' | translate}}</span>
+                                                        <span class="instruct" *ngIf="child.get('yearOfBirth')?.errors?.['min'] && !child.get('yearOfBirth')?.errors?.['pattern']"> {{('required.minYearEmployee' | translate) + minYearChild}}</span>
+                                                        <span class="instruct" *ngIf="child.get('yearOfBirth')?.errors?.['max'] && !child.get('yearOfBirth')?.errors?.['pattern']"> {{('required.maxYearEmployee' | translate) + maxYearChild}}</span>
                                                     </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

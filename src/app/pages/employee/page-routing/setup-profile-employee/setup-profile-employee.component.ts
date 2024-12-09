@@ -179,9 +179,9 @@ export class SetupProfileEmployeeComponent implements OnInit {
       phoneNumber: [null, [Validators.required, Validators.pattern(/^(0[0-9]{9}|8[4][0-9]{9})$/)]],
       zalo: [null,[ Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
       email: [null, [Validators.required, Validators.email]],
-      ethnicGroup: [null,[Validators.required , Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
-      religion: [null,[Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
-      professionalLevel: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+      ethnicGroup: [null,[Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+      religion: [null,[Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+      professionalLevel: [null, [Validators.required]],
       maritalStatus: [null, [Validators.required]],
       contactPerson: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
       contractFile: [null],
@@ -199,7 +199,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
       officeId: [null, Validators.required],
       routeId: [null, Validators.required],
       positionId: [null, Validators.required],
-      businessCardNumber: [null, Validators.required],
+      businessCardNumber: [null, [Validators.required, Validators.pattern(/^[0-9]*$/)]],
       bcStartDate: [null, Validators.required],
       bcEndDate: [null, Validators.required],
       hcEndDate: [null, Validators.required],
@@ -284,6 +284,16 @@ validateNumber(event : Event){
   this.validateService.validateNumber(event)
 }
 
+onBlur(path: string | (string | number)[]) {
+  // Đánh dấu form control là "touched" khi người dùng nhấn ra ngoài
+  const control = this.form.get(path)?.value;
+  console.log(control)
+  if(control){
+    this.form.get(path)?.clearValidators()
+  }
+  this.form.get(path)?.updateValueAndValidity()
+
+}
   ///////////////////////////////////////////////List data when call api///////////////////////////////////////////////////////////////////
 
   codeEmployee : any
@@ -461,9 +471,6 @@ validateNumber(event : Event){
   ////////////////////////////////////////////////funcion delete in form array (archivement, contract, children)////////////////////////////////
 
   removeArchivedRecord(index: number): void {
-    // Kiểm tra FormArray có phần tử không
-    console.log(this.lstArchivedRecords)
-
     if (this.lstArchivedRecords.length > 1) {
       if(index == 0){
         this.lstArchivedRecords.removeAt(0)
@@ -575,8 +582,10 @@ validateNumber(event : Event){
   //Check contractype => if contractType = 1 is official
   checkContractType: any
   checkWork() {
+    console.log(this.form.get('contractType')?.value)
     this.form.get('contractType')?.valueChanges.subscribe((value: any) => {
       this.checkContractType = value
+      console.log(value)
     })
   }
 
@@ -1023,6 +1032,7 @@ beforeUpload = (file: NzUploadFile): boolean => {
 
     if(this.form.invalid){
       this.isModalInforEmployee == false
+      this.notification.error('Kiểm tra lại các trường bắt buộc nhập!')
       // this.form.markAllAsTouched();
     }else{
       this.isModalInforEmployee == true

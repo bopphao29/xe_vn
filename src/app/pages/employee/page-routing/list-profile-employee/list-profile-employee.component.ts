@@ -224,7 +224,7 @@ export class ListProfileEmployeeComponent implements OnInit {
 
   handleCancel() {
     this.isModalOnLeaveEmployee = false
-    
+    this.formOnLeave.reset()
   }
 
   handleSubmit(): void {
@@ -232,17 +232,26 @@ export class ListProfileEmployeeComponent implements OnInit {
   }
 
   selectedEmployee: any = null;
-  leaveToDate: string = ''
-  leaveFromDate: string = ''
+  leaveToDate: any
+  leaveFromDate: any
   workingStatusNum  : number = 0
 
+  isOnLeave: boolean = false;
   openModalonLeave(id: number){
     if (this.dataEmployee && this.dataEmployee.length > 0) {  // Kiểm tra nếu dataEmployee có dữ liệu
       this.isModalOnLeaveEmployee = true;
       this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
-      this.leaveToDate = this.selectedEmployee?.leaveToDate
-      this.leaveFromDate = this.selectedEmployee?.leaveFromDate
+      this.leaveToDate = this.selectedEmployee?.leaveToDate ? new Date(this.selectedEmployee.leaveToDate) : null
+      this.leaveFromDate = this.selectedEmployee?.leaveFromDate ? new Date(this.selectedEmployee.leaveFromDate) : null
       this.workingStatusNum = this.selectedEmployee?.workingStatusNum
+
+      const toDay = new Date()
+     
+      if (this.leaveFromDate && this.leaveToDate) {
+        this.isOnLeave = this.leaveFromDate <= toDay && toDay <= this.leaveToDate;
+      } else {
+        this.isOnLeave = false; // Không hiển thị nếu thiếu dữ liệu ngày
+      }
 
     } else {
       // console.log("Data Employee is empty or not loaded");
@@ -296,7 +305,7 @@ export class ListProfileEmployeeComponent implements OnInit {
           this.isModalOnLeaveEmployee = false
           this.formOnLeave.reset()
           this.search()
-          window.location.reload();
+          // window.location.reload();
         },
         error: (error) => {
           // if(error.status === 400){
@@ -316,10 +325,42 @@ export class ListProfileEmployeeComponent implements OnInit {
     }
   }
 
-  disableFromdate(fromDate: string){
-    this.disableService.disableBeforeDate(fromDate, this.formOnLeave)
+  disableAfterDate(name: string): (afterDate: Date | null) => boolean {
+    return (afterDate: Date | null): boolean => {
+      if (!afterDate || !this.formOnLeave) return false;
+  
+      const beforeDate = this.formOnLeave.get(name)?.value;
+      const today = new Date();
+      // Đặt giờ, phút, giây, và mili giây của ngày hôm nay về 0 để chỉ so sánh ngày
+      today.setHours(0, 0, 0, 0);
+      // Nếu không có beforeDate, chỉ kiểm tra ngày hôm nay
+      if (!beforeDate) {
+        return afterDate <= today;
+      }
+      const beforeDateObject = new Date(beforeDate);
+      // Ngày được chọn phải lớn hơn hôm nay và nhỏ hơn beforeDate
+      return afterDate <= today || afterDate >= beforeDateObject;
+    };
   }
+  
+  
+  disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
+    return (beforeDate: Date | null): boolean => {
+      if (!beforeDate || !this.formOnLeave) return false;
+      const afterDate = this.formOnLeave.get(name)?.value;
+      if (!afterDate || !this.formOnLeave) return false;
+  
+      const today = new Date()
+      today.setHours(0, 0, 0, 0);
 
-
+      if(!afterDate){
+        return beforeDate <= today
+      }
+      const AfterDateObject = new Date(afterDate);
+  
+      return afterDate <= today || beforeDate <= AfterDateObject;
+    };
+  }
+  
 
 }

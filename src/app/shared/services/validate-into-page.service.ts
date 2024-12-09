@@ -13,31 +13,13 @@ export class ValidateIntoPageService {
 
   validateText(form: FormGroup, path: string | (string | number)[], event: Event) {
     const inputElement = event.target as HTMLInputElement;
-    let originalValue = inputElement.value;
   
-    // Biểu thức chính quy cho phép chữ cái tiếng Việt và dấu cách
     const pattern = /^[a-zA-Zà-ỹÀ-Ỹ\s]*$/;
   
     if (inputElement.value && !pattern.test(inputElement.value)) {
-      this.notification.warning('Không nhập ký tự đặc biệt hoặc số!')
-      // valueNum.value = valueNum.value.slice(1); // Loại bỏ ký tự đầu tiên
+      inputElement.value = inputElement.value.replace(/[^a-zA-Zà-ỹÀ-Ỹ\s]/g, ''); // Loại bỏ ký tự đầu tiên
     }
-    // Loại bỏ tất cả ký tự không hợp lệ (chỉ cho phép chữ cái và dấu cách)
-    // let sanitizedValue = originalValue.replace(/[^a-zA-Zà-ỹÀ-Ỹ\s]/g, '');
-  
-    // // Nếu có ký tự đầu tiên không hợp lệ, xóa nó
-    // if (sanitizedValue[0] && !/^[a-zA-Zà-ỹÀ-Ỹ]/.test(sanitizedValue[0])) {
-    //   sanitizedValue = sanitizedValue.slice(1);
-    // }
-  
-    // // Cập nhật giá trị trong FormControl, không trực tiếp thay đổi input
-    // const control = form.get(path);
-    // if (control) {
-    //   control.setValue(sanitizedValue, { emitEvent: false });
-    // }
   }
-  
-  
   
   //////////////////////////////////////validate just enter number input/////////////////
   validateNumber(event: Event) {
@@ -45,11 +27,21 @@ export class ValidateIntoPageService {
   
     // Kiểm tra ký tự đầu tiên
     if (valueNum.value && /[^0-9]/.test(valueNum.value)) {
-      this.notification.warning('Không được nhập ký tự đặc biệt và chữ!')
-      // valueNum.value = valueNum.value.slice(1); // Loại bỏ ký tự đầu tiên
+      // this.notification.warning('Không được nhập ký tự đặc biệt và chữ!')
+    valueNum.value = valueNum.value.replace(/[^0-9]/g, '');
+
     }
     // Loại bỏ tất cả ký tự không phải số
     // valueNum.value = valueNum.value.replace(/[^0-9]/g, '');
+  }
+
+  onBlur(form: FormGroup, path: string | (string | number)[]) {
+    const control = form.get(path)?.value;
+    console.log(control)
+    if(control){
+      form.get(path)?.clearValidators()
+    }
+    form.get(path)?.updateValueAndValidity()
   }
   //////////check phone //////////////////////////////
   checkPhoneNumber(form: FormGroup, fieldName: string, maxLengthMap: { [key: string]: number }): void {

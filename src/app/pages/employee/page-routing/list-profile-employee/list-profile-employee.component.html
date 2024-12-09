@@ -165,7 +165,7 @@
 </div>
 
 
-<nz-modal [(nzVisible)]="isModalOnLeaveEmployee" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()"
+<nz-modal [(nzVisible)]="isModalOnLeaveEmployee" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()" [nzMaskClosable]="false"
     [nzContent]="modalContent" [nzFooter]="null" [nzStyle]="{'min-width' : '1200px', 'min-height':'580px','margin-top': '205px'}">
     <ng-template #modalContent>
         <div class="headmodal">
@@ -203,7 +203,7 @@
         <div style="margin-top: 22px;">
         </div>
         <div style="display: flex; justify-content: center;">
-            <span style="font-weight: 500 ;color: rgba(239, 68, 68, 1); font-size: 14px;" *ngIf="workingStatusNum === 2">{{'working.relaxing' | translate}} {{leaveFromDate | date: 'dd/MM/yyyy'}} - {{leaveToDate | date: 'dd/MM/yyyy'}}</span>
+            <span style="font-weight: 500 ;color: rgba(239, 68, 68, 1); font-size: 14px;" *ngIf="workingStatusNum === 2 && isOnLeave">{{'working.relaxing' | translate}} {{leaveFromDate | date: 'dd/MM/yyyy'}} - {{leaveToDate | date: 'dd/MM/yyyy'}}</span>
         </div>
         <div style="margin-top: 22px;">
         </div>
@@ -214,15 +214,15 @@
                         <div nz-row class="w-full" >
                             <div nz-col style="width: 30%;">
                                 <div class="">
-                                    <label class="form-label"> <span style="color: red;">*</span>Từ ngày</label>
+                                    <label class="form-label"> <span style="color: red;">*</span>{{'employee.fromDate' | translate}}</label>
                                     <div>
                                         <nz-date-picker class="w-full"
-                                            nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableFromDate"
+                                            nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableAfterDate('toDate')"
                                             formControlName="fromDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                         <div style="height: 18px;">
                                             <div *ngIf="formOnLeave.get('fromDate')?.touched" style="height: 20px;">
                                                 <span class="validate_input"
-                                                    *ngIf="formOnLeave.get('fromDate')?.errors?.['required']">Phải chọn ngày</span>
+                                                    *ngIf="formOnLeave.get('fromDate')?.errors?.['required']">{{'required.date_required'| translate}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -230,16 +230,16 @@
                             </div>
 
                             <div style="margin-left: 10px; width: 30%;" >
-                                <div >
-                                    <label class="form-label"><span style="color: red;">*</span>Đến ngày</label>
+                                <div  [class.disabled-input]="!formOnLeave.get('fromDate')?.value">
+                                    <label class="form-label"><span style="color: red;">*</span>{{'employee.toDate' | translate}}</label>
                                     <div>
-                                        <nz-date-picker class="w-full" [nzDisabledDate]="disableIntoToDate"
-                                            nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange($event)"
+                                        <nz-date-picker class="w-full" [nzDisabledDate]="disableBeforeDate('fromDate')"
+                                            nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange($event)" 
                                             formControlName="toDate" nzPlaceHolder="Chọn ngày" ></nz-date-picker>
-                                            <div style="height: 18px;">
-                                                <div *ngIf="formOnLeave.get('toDate')?.touched">
+                                            <div style="height: 18px;" *ngIf="formOnLeave.get('fromDate')?.value">
+                                                <div *ngIf="formOnLeave.get('toDate')?.invalid && formOnLeave.get('toDate')?.dirty || formOnLeave.get('toDate')?.touched">
                                                     <span class="validate_input"
-                                                        *ngIf="formOnLeave.get('toDate')?.errors?.['required']">Phải chọn ngày</span>
+                                                        *ngIf="formOnLeave.get('toDate')?.errors?.['required']">{{'required.date_required' | translate}}</span>
                                                 </div>
                                             </div>
                                     </div>
@@ -249,7 +249,7 @@
                                 <div class="">
                                     <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.reason_off' | translate}}</label>
                                     <input nz-input (keydown.enter)="search()" style="margin-top: 8px;" class="form-input" formControlName="reason" placeholder="ID, Tên nhân sự, SĐT..."  />
-                                    <div class="error-container">
+                                    <div class="error-container" >
                                         <div *ngIf="formOnLeave.get('reason')?.invalid && (formOnLeave.get('reason')?.dirty || formOnLeave.get('reason')?.touched)">
                                             <span class="validate_input" *ngIf="formOnLeave.get('reason')?.errors?.['required']">{{'required.reason' | translate}}</span>
                                         </div>

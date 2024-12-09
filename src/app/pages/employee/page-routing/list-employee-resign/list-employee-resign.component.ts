@@ -214,6 +214,7 @@ export class ListEmployeeResignComponent {
   }
 
   handleSubmitResest(){
+    
   }
 /////////////////////////////////////////DELETE /////////////////////////////////
 handleCancelDelete(){
@@ -307,7 +308,7 @@ handleSubmitDelete(){
       officeId: '',
       departmentId: '',
       positionId: '',
-      leaveType: 1, 
+      leaveType: 2, 
     });
     localStorage.removeItem('search')
 

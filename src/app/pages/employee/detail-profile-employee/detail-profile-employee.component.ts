@@ -21,6 +21,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {PDF} from '../../../shared/pdf/pdf.util';
+import { ValidateIntoPageService } from '../../../shared/services/validate-into-page.service';
+
 
 
 // import { MinioService } from '../../../shared/services/minio.service';
@@ -156,6 +158,8 @@ export class DetailProfileEmployeeComponent implements OnInit {
     private notification: NotificationService,
     private router: Router,
     private route: ActivatedRoute,
+    private validateService: ValidateIntoPageService
+
     // private minitoService : MinioService
 
   ) {
@@ -170,24 +174,24 @@ export class DetailProfileEmployeeComponent implements OnInit {
     this.maxYear = maxYear
     this.minYear = minYear
     this.form = this.fb.group({
-      name: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
-      yearOfBirth: [null, [Validators.required, Validators.min(minYear), Validators.max(maxYear), Validators.maxLength(4)]],
+      name: [null, [Validators.required, Validators.pattern('^[a-zA-Zà-ỹÀ-Ỹ\\s]+$')]],
+      yearOfBirth: [null, [Validators.required, Validators.min(minYear), Validators.max(maxYear), Validators.maxLength(4), Validators.pattern(/^[0-9]*$/)]],
       gender: [null, Validators.required],
-      identifierId: [null, [Validators.required, Validators.pattern(/^(0)[0-9]{11}$/)]],
-      phoneNumber: [null, [Validators.required, Validators.pattern(/^(0|84)[0-9]{8,9}$/)]],
-      zalo: [null, Validators.required],
+      identifierId: [null, [Validators.required,  Validators.pattern(/^(0[0-9]{11})$/)]],
+      phoneNumber: [null, [Validators.required, Validators.pattern(/^(0[0-9]{9}|8[4][0-9]{9})$/)]],
+      zalo: [null,[ Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
       email: [null, [Validators.required, Validators.email]],
-      ethnicGroup: [null, Validators.required],
-      religion: [null, Validators.required],
-      professionalLevel: [null, Validators.required],
-      maritalStatus: [null, Validators.required],
-      contactPerson: [null, Validators.required],
+      ethnicGroup: [null,[Validators.required]],
+      religion: [null,[Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+      professionalLevel: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+      maritalStatus: [null, [Validators.required]],
+      contactPerson: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
       contractFile: [null],
-      contactPersonPhone: [null, [Validators.required, Validators.pattern(/^(0|84)[0-9]{8,9}$/)]],
+      contactPersonPhone: [null, [Validators.required, Validators.pattern(/^(0\d{9}|84\d{9})$/)]],
       // contractDuration: [null, Validators.required],
-      staffRelation: [null, Validators.required],
-      permanentAddress: [null, Validators.required],
-      temporaryAddress: [null, Validators.required],
+      staffRelation: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+      permanentAddress: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+      temporaryAddress: [null,[ Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
       contractType: ['1', Validators.required],
       fromDateOfOffical: [null, Validators.required],
       fromDateProbation: [null, Validators.required],
@@ -198,7 +202,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
       officeId: [null, Validators.required],
       routeId: [null, Validators.required],
       positionId: [null, Validators.required],
-      businessCardNumber: [null, Validators.required],
+      businessCardNumber: [null, [Validators.required, Validators.pattern(/^[0-9]*$/)]],
       bcStartDate: [null, Validators.required],
       bcEndDate: [null, Validators.required],
       hcEndDate: [null, Validators.required],
@@ -528,6 +532,16 @@ export class DetailProfileEmployeeComponent implements OnInit {
   totalPush = 0
   totalPrai = 0
 
+  onBlur(path: string | (string | number)[]) {
+    // Đánh dấu form control là "touched" khi người dùng nhấn ra ngoài
+    const control = this.form.get(path)?.value;
+    console.log(control)
+    if(control){
+      this.form.get(path)?.clearValidators()
+    }
+    this.form.get(path)?.updateValueAndValidity()
+  
+  }
 
   getAchievement(){
     
@@ -603,20 +617,15 @@ export class DetailProfileEmployeeComponent implements OnInit {
     return dataRows
   }
 /////////////////////////////////////////////////validate just enter text input/////////////////
-validateText(event : Event){
-  const valueInput = event.target as HTMLInputElement;
-  const pattern = /^[a-zA-ZÀ-ỹà-ỹ\s]*$/;
-  if(!pattern.test(valueInput.value)){
-    valueInput.value = valueInput.value.replace(/[^a-zA-ZÀ-ỹà-ỹ\s]/g, '') ///  nếu kí tự không hợp lệ thì loại bỏ
-  }
+validateText(inputName : string | (string | number)[], event: Event) {
+  this.validateService.validateText(this.form, inputName, event)
 }
+
 
 //////////////////////////////////////validate just enter number input/////////////////
 validateNumber(event : Event){
-  const valueNum = event.target as HTMLInputElement;
-  valueNum.value = valueNum.value.replace(/[^0-9]/g, '')
+  this.validateService.validateNumber(event)
 }
-
 
 
 
@@ -779,6 +788,7 @@ validateNumber(event : Event){
   }
 
   addArchivedRecords() {
+    // Thêm một phần tử mới vào lstArchivedRecords
     this.lstArchivedRecords.push(this.createArchivedRecords({
       name: null,
       code: null,
@@ -786,8 +796,32 @@ validateNumber(event : Event){
       file: null
     }));
 
-    // this.fileCompressed.file.push(null);
+    if (this.lstArchivedRecords.controls.length == 1) {
+      this.lstArchivedRecords.controls.forEach((control: any) => {
+        control.get('name')?.clearValidators();
+        control.get('code')?.clearValidators();
+        control.get('type')?.clearValidators();
+        control.get('file')?.clearValidators();
+      });
+    } else if (this.lstArchivedRecords.controls.length > 1) {
+      // Nếu có nhiều hơn một phần tử, thiết lập validators yêu cầu
+      this.lstArchivedRecords.controls.forEach((control: any) => {
+        control.get('name')?.setValidators(Validators.required);
+        control.get('code')?.setValidators(Validators.required);
+        control.get('type')?.setValidators(Validators.required);
+        control.get('file')?.setValidators(Validators.required);
+      });
+    }
+  
+    // Cập nhật lại giá trị và tính hợp lệ cho tất cả các trường trong form
+    this.lstArchivedRecords.controls.forEach((control: any) => {
+      control.get('name')?.updateValueAndValidity();
+      control.get('code')?.updateValueAndValidity();
+      control.get('type')?.updateValueAndValidity();
+      control.get('file')?.updateValueAndValidity();
+    });
   }
+  
 
   addContract() {
     this.lstcontractDTO.push(this.createContract({
@@ -808,9 +842,18 @@ validateNumber(event : Event){
     }));
   }
 
-  removeArchivedRecord(index: number) {
-    this.lstArchivedRecords.removeAt(index)
+  removeArchivedRecord(index: number): void {
+    if (this.lstArchivedRecords.length > 1) {
+      if(index == 0){
+        this.lstArchivedRecords.removeAt(0)
+      }else{
+        this.lstArchivedRecords.removeAt(index);
+      }
+    } else {
+      this.lstArchivedRecords.at(0).reset(); // Nếu chỉ còn một phần tử, reset thay vì xóa
+    }
   }
+  
 
   removeContract(index: number) {
     this.lstcontractDTO.removeAt(index)

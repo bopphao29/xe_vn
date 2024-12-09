@@ -268,7 +268,7 @@
         "identifier_required": "Cần nhập CCCD/CMND",
         "identifier_pattern": "Nhập 12 số dạng: 0...",
         "phoneNumber_required": "Cần nhập SĐT",
-        "phone_pattern": "SĐT dạng: 0... hoặc 84...",
+        "phone_pattern": "Nhập 10 số đầu: 0... hoặc 84...",
         "zalo_required": "Cần nhập tên zalo",
         "email_required": "Cần nhập email",
         "email_pattern": "Nhập đúng dạng email",
