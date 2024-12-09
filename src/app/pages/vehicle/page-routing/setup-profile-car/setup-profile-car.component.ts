@@ -12,6 +12,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { UploadImageService } from '../../../../shared/services/upload-image.service';
 
 import { IData } from '../../../../models/setup-profile-car/index.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -70,7 +71,9 @@ export class SetupProfileCarComponent implements OnInit {
     private fb: FormBuilder,
     private msg: NzMessageService,
     private vehicalService: VehicalServiceService,
-    private notifiService: NotificationService
+    private notifiService: NotificationService,
+    private uploadImageService: UploadImageService
+
   ) {
   }
 
@@ -273,32 +276,11 @@ addThousandSeparator(value: any) {
   }
 }
 
-
-  beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]): Observable<boolean> =>
-    new Observable((observer: Observer<boolean>) => {
-      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-      if (!isJpgOrPng) {
-        this.msg.error('You can only upload JPG file!');
-        observer.complete();
-        return;
-      }
-      const isLt2M = file.size! / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        this.msg.error('Image must smaller than 2MB!');
-        observer.complete();
-        return;
-      }
-      observer.next(isJpgOrPng && isLt2M);
-      observer.complete();
-    });
-
   private getBase64(img: File, callback: (img: string) => void): void {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result!.toString()));
     reader.readAsDataURL(img);
   }
-
-
 
   /////////////////////////////////////keo tha anh:
   isDragOver: boolean = false;
@@ -365,11 +347,23 @@ addThousandSeparator(value: any) {
     if (input?.files && input.files.length > 0) {
       const file = input.files[0];
       this.fileCompressed.file[0] = file
+
+      const nzFile: NzUploadFile = {
+        uid: `${Date.now()}`, // Tạo UID duy nhất
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        originFileObj: file, // Gắn file gốc
+      };
+      
+      const isValid = this.uploadImageService.beforeUpload(nzFile);
       // Đọc file thành base64
-      if(file){
-        this.readFileImage(file)
-      }else{
-        this.notifiService.error('File lỗi')
+      if(isValid){
+        if(file){
+          this.readFileImage(file)
+        }else{
+          this.notifiService.error('File lỗi')
+        }
       }
     }
   }

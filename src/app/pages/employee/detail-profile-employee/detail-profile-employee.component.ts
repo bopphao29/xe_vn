@@ -20,6 +20,8 @@ import { UserServiceService } from '../../../shared/services/user-service.servic
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {PDF} from '../../../shared/pdf/pdf.util';
+
 
 // import { MinioService } from '../../../shared/services/minio.service';
 
@@ -1516,7 +1518,7 @@ validateNumber(event : Event){
         }
       })
     }else{
-      this.notification.error('Có lỗi xảy ra')
+      this.notification.error('Có trường để trống!')
 
     }
   }
@@ -1715,5 +1717,27 @@ downloadImage(fileName: string){
 }
 
 
+nameOfPDF(): string {
+  const now = new Date()
+  const date = now.toLocaleDateString('vi-VN', {year: 'numeric', month: '2-digit', day: '2-digit'}).replace(/\//g, '_');
+  return `Thongtinnhanvien-${date}`
+}
+
+pdfExport(){
+  this.userSevice.exportPDF(this.showInforEmployee).subscribe((response : any) => {
+    const base64 = response.data
+    console.log(base64)
+    const blob = PDF.base64ToBlob(base64, 'application/pdf')
+    // const blob = this.base64ToBlob(base64, 'application/pdf')
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${this.nameOfPDF()}.pdf`
+    a.click();
+    this.notification.success('Xuất file thành công!')
+    // Dọn dẹp bộ nhớ
+    window.URL.revokeObjectURL(url);
+  })
+}
 
 }

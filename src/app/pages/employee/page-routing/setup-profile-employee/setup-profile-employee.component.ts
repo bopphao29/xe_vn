@@ -12,7 +12,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzUploadChangeParam, NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, FormArray, Validators , AbstractControl} from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { from, Observable, Observer, of } from 'rxjs';
 import { IData } from '../../../../models/setup-profile-car/models-employee/setup-profile-employee/index.model';
@@ -26,6 +26,8 @@ import { PDFDocument, rgb } from 'pdf-lib';
 import { PdfService } from '../../../../shared/pdf/pdf.service';
 import { Router } from '@angular/router';
 import de from 'date-fns/locale/de';
+import { UploadImageService } from '../../../../shared/services/upload-image.service';
+import { ValidateIntoPageService } from '../../../../shared/services/validate-into-page.service';
 
 interface FileCompressed {
   contractFile: File[];
@@ -139,7 +141,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
   file = true
   isShowModalUploadfile = false
   isModalInforEmployee = false
-
+  maxLengthMap: { [key: string]: number } = {};
   loading = false;
   avatarUrl?: string;
   inforEmployee: any = {}
@@ -151,7 +153,9 @@ export class SetupProfileEmployeeComponent implements OnInit {
     private userSevice: UserServiceService,
     private notification: NotificationService,
     private pdfService: PdfService,
-    private routes: Router
+    private routes: Router,
+    private uploadImageService: UploadImageService,
+    private validateService: ValidateIntoPageService
   ) {
     this.form = this.fb.group(this.data)
   }
@@ -160,31 +164,32 @@ export class SetupProfileEmployeeComponent implements OnInit {
   minYear: number = 0
   contract_type: number = 1
   has_child : any
+  maxLength = 10
   ngOnInit(): void {
     var year = new Date()
     const maxYear = (year.getFullYear() - 18)
-    const minYear = (year.getFullYear() - 59)
+    const minYear = (year.getFullYear() - 60)
     this.maxYear = maxYear
     this.minYear = minYear
     this.form = this.fb.group({
-      name: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
-      yearOfBirth: [null, [Validators.required, Validators.min(minYear), Validators.max(maxYear), Validators.maxLength(4)]],
+      name: [null, [Validators.required, Validators.pattern('^[a-zA-Zà-ỹÀ-Ỹ\\s]+$')]],
+      yearOfBirth: [null, [Validators.required, Validators.min(minYear), Validators.max(maxYear), Validators.maxLength(4), Validators.pattern(/^[0-9]*$/)]],
       gender: [null, Validators.required],
-      identifierId: [null, [Validators.required, Validators.pattern(/^(0)[0-9]{11}$/)]],
-      phoneNumber: [null, [Validators.required, Validators.pattern(/^(0|84)[0-9]{8}$/)]],
-      zalo: [null, Validators.required],
+      identifierId: [null, [Validators.required,  Validators.pattern(/^(0[0-9]{11})$/)]],
+      phoneNumber: [null, [Validators.required, Validators.pattern(/^(0[0-9]{9}|8[4][0-9]{9})$/)]],
+      zalo: [null,[ Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
       email: [null, [Validators.required, Validators.email]],
-      ethnicGroup: [null, Validators.required],
-      religion: [null],
-      professionalLevel: [null, Validators.required],
-      maritalStatus: [null, Validators.required],
-      contactPerson: [null, Validators.required],
+      ethnicGroup: [null,[Validators.required , Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+      religion: [null,[Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+      professionalLevel: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+      maritalStatus: [null, [Validators.required]],
+      contactPerson: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
       contractFile: [null],
-      contactPersonPhone: [null, [Validators.required, Validators.pattern(/^(0|84)[0-9]{8}$/)]],
+      contactPersonPhone: [null, [Validators.required, Validators.pattern(/^(0\d{9}|84\d{9})$/)]],
       // contractDuration: [null, Validators.required],
-      staffRelation: [null, Validators.required],
-      permanentAddress: [null, Validators.required],
-      temporaryAddress: [null, Validators.required],
+      staffRelation: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+      permanentAddress: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+      temporaryAddress: [null,[ Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
       contractType: ['1', Validators.required],
       fromDateOfOffical: [null, Validators.required],
       fromDateProbation: [null, Validators.required],
@@ -233,6 +238,10 @@ export class SetupProfileEmployeeComponent implements OnInit {
       }
     })
 
+
+    this.validateService.checkPhoneNumber(this.form, 'phoneNumber', this.maxLengthMap)
+    this.validateService.checkPhoneNumber(this.form, 'contactPersonPhone', this.maxLengthMap)
+
   }
 
   deparmentCode = '' 
@@ -263,18 +272,16 @@ export class SetupProfileEmployeeComponent implements OnInit {
   ]
 
 //////////////////////////////////////validate just enter text input/////////////////
-validateText(event : Event){
-  const valueInput = event.target as HTMLInputElement;
-  const pattern = /^[a-zA-ZÀ-ỹà-ỹ\s]*$/;
-  if(!pattern.test(valueInput.value)){
-    valueInput.value = valueInput.value.replace(/[^a-zA-ZÀ-ỹà-ỹ\s]/g, '') ///  nếu kí tự không hợp lệ thì loại bỏ
-  }
+
+
+validateText(inputName : string | (string | number)[], event: Event) {
+  this.validateService.validateText(this.form, inputName, event)
 }
+
 
 //////////////////////////////////////validate just enter number input/////////////////
 validateNumber(event : Event){
-  const valueNum = event.target as HTMLInputElement;
-  valueNum.value = valueNum.value.replace(/[^0-9]/g, '')
+  this.validateService.validateNumber(event)
 }
 
   ///////////////////////////////////////////////List data when call api///////////////////////////////////////////////////////////////////
@@ -333,12 +340,12 @@ validateNumber(event : Event){
   }
 
   isAnyFieldFilled(): boolean {
-    return this.lstArchivedRecords.controls.some((control) => {
-      return Object.values(control.value).some((value) => {
-        return typeof value === 'string' && value?.trim() !== '';
-      });
+    return this.lstArchivedRecords.controls.some((control: AbstractControl) => {
+      const group = control as FormGroup; // Ép kiểu thành FormGroup
+      return Object.values(group.value).some(value => value && value.toString().trim() !== '');
     });
   }
+  
   
   
 
@@ -355,13 +362,15 @@ validateNumber(event : Event){
     return this.form.get('lstChildren') as FormArray;
   }
 
-  createArchivedRecords(record: { name: string | null; code: string | null; type: string | null; file: string | null }): FormGroup {
+  createArchivedRecords(record: { name: string | null; code: string | null; type: string | null; file: string | null }): FormGroup { 
     return this.fb.group({
       name: ['', Validators.required],
       code: ['' , Validators.required],
       type: ['', Validators.required],
       file: ['', Validators.required]
     });
+
+
   }
 
   createContract(contract: { id: string | null; signDate: string | null; endDate: string | null; file: string | null }): FormGroup {
@@ -381,10 +390,10 @@ validateNumber(event : Event){
     const maxYear = year.getFullYear()
     const minYear = (year.getFullYear() - 42)
     this.maxYearChild = maxYear
-
+    this.minYearChild = minYear
     const ChildForm = this.fb.group({
-      name:  ['', Validators.required] ,
-      yearOfBirth: ['', [Validators.required, Validators.min(minYear), Validators.max(this.maxYearChild), Validators.maxLength(4)]] ,
+      name:  ['',[ Validators.required, , Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')] ] ,
+      yearOfBirth: ['', [Validators.required, Validators.min(minYear), Validators.max(this.maxYearChild), Validators.maxLength(4), Validators.pattern(/^[0-9]*$/)]] ,
       gender: ['', Validators.required],
     });
     return ChildForm
@@ -392,15 +401,42 @@ validateNumber(event : Event){
 
   /////////////////////////////////////////////////Add form array////////////////////////////////////////////////////////////
   addArchivedRecords() {
+    // Thêm một phần tử mới vào lstArchivedRecords
     this.lstArchivedRecords.push(this.createArchivedRecords({
       name: null,
       code: null,
       type: null,
       file: null
     }));
-
-    // this.fileCompressed.file.push(null);
+  
+    // Kiểm tra số lượng phần tử trong lstArchivedRecords
+    if (this.lstArchivedRecords.controls.length == 1) {
+      // Nếu chỉ có một phần tử, xóa tất cả các validators
+      this.lstArchivedRecords.controls.forEach((control: any) => {
+        control.get('name')?.clearValidators();
+        control.get('code')?.clearValidators();
+        control.get('type')?.clearValidators();
+        control.get('file')?.clearValidators();
+      });
+    } else if (this.lstArchivedRecords.controls.length > 1) {
+      // Nếu có nhiều hơn một phần tử, thiết lập validators yêu cầu
+      this.lstArchivedRecords.controls.forEach((control: any) => {
+        control.get('name')?.setValidators(Validators.required);
+        control.get('code')?.setValidators(Validators.required);
+        control.get('type')?.setValidators(Validators.required);
+        control.get('file')?.setValidators(Validators.required);
+      });
+    }
+  
+    // Cập nhật lại giá trị và tính hợp lệ cho tất cả các trường trong form
+    this.lstArchivedRecords.controls.forEach((control: any) => {
+      control.get('name')?.updateValueAndValidity();
+      control.get('code')?.updateValueAndValidity();
+      control.get('type')?.updateValueAndValidity();
+      control.get('file')?.updateValueAndValidity();
+    });
   }
+  
 
   addContract() {
     this.lstcontractDTO.push(this.createContract({
@@ -424,9 +460,21 @@ validateNumber(event : Event){
 
   ////////////////////////////////////////////////funcion delete in form array (archivement, contract, children)////////////////////////////////
 
-  removeArchivedRecord(index: number) {
-    this.lstArchivedRecords.removeAt(index)
+  removeArchivedRecord(index: number): void {
+    // Kiểm tra FormArray có phần tử không
+    console.log(this.lstArchivedRecords)
+
+    if (this.lstArchivedRecords.length > 1) {
+      if(index == 0){
+        this.lstArchivedRecords.removeAt(0)
+      }else{
+        this.lstArchivedRecords.removeAt(index);
+      }
+    } else {
+      this.lstArchivedRecords.at(0).reset(); // Nếu chỉ còn một phần tử, reset thay vì xóa
+    }
   }
+  
 
   removelstChildren(index: number) {
     this.lstChildren.removeAt(index)
@@ -536,23 +584,6 @@ validateNumber(event : Event){
 
   /////////////////////////////////////////////////////////////////////////// FILE ///////////////////////////////////////////////////////////////////
 
-
-  beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]): Observable<boolean> => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    const isLt2M = file.size! / 1024 / 1024 < 2;
-
-    if (!isJpgOrPng) {
-      this.msg.error('You can only upload JPG/PNG files!');
-      return of(false); 
-    }
-    if (!isLt2M) {
-      this.msg.error('Image must be smaller than 2MB!');
-      return of(false); 
-    }
-
-    return of(true); 
-  };
-
   // private getBase64(img: File, callback: (img: string) => void): void {
   //   const reader = new FileReader();
   //   reader.addEventListener('load', () => callback(reader.result!.toString()));
@@ -572,13 +603,22 @@ validateNumber(event : Event){
   bcImgFile: File[] = []
   dlImage: File[] = []
 
-  // beforeUpload = (file: NzUploadFile): boolean => {// sau khi file được tải lên
-  //   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'; //lọc file png 
-  //   if (!isJpgOrPng) { // check điều kiện
-  //     this.msg.error('Bạn chỉ có thể tải lên file JPG hoặc PNG!');
-  //   }
-  //   return isJpgOrPng; // Ngăn không cho tải lên file không hợp lệ
-  // };
+beforeUpload = (file: NzUploadFile): boolean => {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'; // Lọc file JPG/PNG
+  const isLt1GB = file.size! / 1024 / 1024 / 1024 < 1; // Kiểm tra kích thước file < 1GB
+  
+  if (!isJpgOrPng) {
+    this.notification.error('Bạn chỉ có thể tải lên file JPG hoặc PNG!');
+    return false; // Ngăn tải lên nếu không phải JPG/PNG
+  }
+  
+  if (!isLt1GB) {
+    this.notification.error('File phải nhỏ hơn 1GB!');
+    return false; // Ngăn tải lên nếu file lớn hơn 1GB
+  }
+
+  return true; // File hợp lệ
+};
 
   //function onFileSelected is observerble check file
   onFileSelected(event: any): Observable<File> {
@@ -599,31 +639,44 @@ validateNumber(event : Event){
     const input = event.target as HTMLInputElement;// sự kiến ckick trong html
     if (input.files && input.files.length > 0) {// nếu là file và có file
       const file = input.files[0]; // Lấy file đầu tiên
+
       this.fileCompressed.healthCertificate = [file];
-      // Cập nhật giá trị cho FormControl
+      // // Cập nhật giá trị cho FormControl
       this.form.patchValue({ healthCertificate: [file] });
     }
   }
  
+  //check Business card image and  Driver's license image
   //check Business card image and  Driver's license image
   onChangeImage(event: Event, field: string) {
     // this.isShowModalUploadfile = true;
     const target = event.target as HTMLInputElement;
     if (target.files && target.files.length > 0) {
       const file = target.files[0];
+      const nzFile: NzUploadFile = {
+        uid: `${Date.now()}`, // Tạo UID duy nhất
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        originFileObj: file, // Gắn file gốc
+      };
+      
+      const isValid = this.uploadImageService.beforeUpload(nzFile);
 
-      if (field == 'bcImage') {
-        this.isBcImageVisible = true;
-        this.isDlImageVisible = false;
-        this.bcImageName = file.name
-        this.bcImgFile = [file]
-        this.form.patchValue({ bcImage: [file] })
-      } else if (field == 'dlImage') {
-        this.isBcImageVisible = false;
-        this.isDlImageVisible = true;
-        this.dlImageName = file.name
-        this.dlImage = [file]
-        this.form.patchValue({ dlImage: [file] })
+      if(isValid){
+        if (field == 'bcImage') {
+          this.isBcImageVisible = true;
+          this.isDlImageVisible = false;
+          this.bcImageName = file.name
+          this.bcImgFile = [file]
+          this.form.patchValue({ bcImage: [file] })
+        } else{
+          this.isBcImageVisible = false;
+          this.isDlImageVisible = true;
+          this.dlImageName = file.name
+          this.dlImage = [file]
+          this.form.patchValue({ dlImage: [file] })
+        }
       }
     }
   }
@@ -682,7 +735,7 @@ validateNumber(event : Event){
   }
 
   endClick(){
-
+    this.isDone = false
     this.form.reset({
        contractType : '1',
       hasChild: '0'
@@ -861,9 +914,9 @@ validateNumber(event : Event){
     // }
     if(this.form.get('hasChild')?.value  === '1'){
       this.lstChildren.controls.forEach((value: any) => {
-        value.get('name')?.setValidators(Validators.required);
+        value.get('name')?.setValidators(Validators.required, Validators.pattern);
         value.get('gender')?.setValidators(Validators.required);
-        value.get('yearOfBirth')?.setValidators(Validators.required);
+        value.get('yearOfBirth')?.setValidators(Validators.required, Validators.pattern);
       })
     }else{
       this.lstChildren.controls.forEach((value: any) => {

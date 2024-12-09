@@ -289,6 +289,12 @@
   font-size: 13px;
 }
 
+.instruct{
+  color: green;
+  font-size: 13px;
+
+}
+
 /* styles.css hoặc file CSS tương ứng */
 
 .disabled-input {
@@ -435,12 +441,12 @@
 ::ng-deep .custom-modal-full {
   margin-top: 0 !important;
   top: 0 !important;
-  position: fixed !important;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100vw; /* Modal vẫn chiếm toàn bộ màn hình để căn giữa nội dung */
   height: 100vh;
+  padding-bottom: 0px !important;
 }
 
 ::ng-deep .custom-modal-full .ant-modal-content {
@@ -457,7 +463,6 @@
 }
 
 .div-img-full {
-  display: inline-block; /* Cho phép chiều rộng của div tự điều chỉnh theo nội dung */
   max-width: 100%;
   max-height: 100%;
 }

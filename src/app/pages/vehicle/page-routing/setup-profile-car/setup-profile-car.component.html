@@ -74,8 +74,8 @@
               <div class="error-container">
                   <div *ngIf="form.get('manufactureYear')?.invalid && (form.get('manufactureYear')?.dirty || form.get('manufactureYear')?.touched)">
                       <span class="validate_input" *ngIf="form.get('manufactureYear')?.errors?.['required']">{{'required.machineNumber' | translate}}</span>
-                        <span class="validate_input" *ngIf="form.get('manufactureYear')?.errors?.['max']">{{ ('required.manufactureYearMax' | translate)+maxYear }}</span>
-                        <span class="validate_input" *ngIf="form.get('manufactureYear')?.errors?.['min']">{{ ('required.manufactureYearMin' | translate) + minYear }}</span>
+                        <span class="instruct" *ngIf="form.get('manufactureYear')?.errors?.['max']">{{ ('required.manufactureYearMax' | translate)+maxYear }}</span>
+                        <span class="instruct" *ngIf="form.get('manufactureYear')?.errors?.['min']">{{ ('required.manufactureYearMin' | translate) + minYear }}</span>
                   </div>
               </div>
           </div>

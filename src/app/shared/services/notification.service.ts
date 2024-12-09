@@ -28,4 +28,16 @@ export class NotificationService {
       },
     });
   }
+
+  warning(content: string) {
+    const translate = this.injector.get(TranslateService);
+    return this.notification.warning('', translate.instant(content), {
+      nzStyle: {
+        backgroundColor: '#fff3cd',
+        border: '1px solid #FF8C00',
+        color: '#FF8C00'
+      },
+    });
+  }
+  
 }

@@ -19,6 +19,7 @@ import { UserServiceService } from '../../../../shared/services/user-service.ser
 import { NotificationService } from '../../../../shared/services/notification.service';
 import { SearchEmployeeProfileService } from '../../../../shared/services/search-employee-profile.service';
 import Swal from 'sweetalert2';
+import { DisableService } from '../../../../shared/services/disable.service';
 
 
 
@@ -55,8 +56,8 @@ export class ListProfileEmployeeComponent implements OnInit {
     private fb :FormBuilder,
     private userSevice: UserServiceService,
     private notification: NotificationService,
-    private searchEmployeeProfile : SearchEmployeeProfileService 
- 
+    private searchEmployeeProfile : SearchEmployeeProfileService,
+    private disableService: DisableService
   ){
 
   }
@@ -292,9 +293,10 @@ export class ListProfileEmployeeComponent implements OnInit {
       this.userSevice.updateStatusWork(dataFormEndWork).subscribe( {
         next: (response) => {
           this.notification.success('Đặt lịch nghỉ phép thành công!')
-          this.isModalOnLeaveEmployee = false  
+          this.isModalOnLeaveEmployee = false
           this.formOnLeave.reset()
           this.search()
+          window.location.reload();
         },
         error: (error) => {
           // if(error.status === 400){
@@ -312,6 +314,10 @@ export class ListProfileEmployeeComponent implements OnInit {
     if(formValue){
       this.form.patchValue(JSON.parse(formValue))
     }
+  }
+
+  disableFromdate(fromDate: string){
+    this.disableService.disableBeforeDate(fromDate, this.formOnLeave)
   }
 
 
