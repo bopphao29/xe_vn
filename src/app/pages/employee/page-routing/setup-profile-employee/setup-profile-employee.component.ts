@@ -28,6 +28,7 @@ import { Router } from '@angular/router';
 import de from 'date-fns/locale/de';
 import { UploadImageService } from '../../../../shared/services/upload-image.service';
 import { ValidateIntoPageService } from '../../../../shared/services/validate-into-page.service';
+import { VIETNAMESE_REGEX } from '../../../../shared/constants/common.const';
 
 interface FileCompressed {
   contractFile: File[];
@@ -177,20 +178,20 @@ export class SetupProfileEmployeeComponent implements OnInit {
       gender: [null, Validators.required],
       identifierId: [null, [Validators.required,  Validators.pattern(/^(0[0-9]{11})$/)]],
       phoneNumber: [null, [Validators.required, Validators.pattern(/^(0[0-9]{9}|8[4][0-9]{9})$/)]],
-      zalo: [null,[ Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+      zalo: [null,[ Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
       email: [null, [Validators.required, Validators.email]],
-      ethnicGroup: [null,[Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
-      religion: [null,[Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+      ethnicGroup: [null,[Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
+      religion: [null,[Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
       professionalLevel: [null, [Validators.required]],
       maritalStatus: [null, [Validators.required]],
-      contactPerson: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+      contactPerson: [null, [Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
       contractFile: [null],
       contactPersonPhone: [null, [Validators.required, Validators.pattern(/^(0\d{9}|84\d{9})$/)]],
       // contractDuration: [null, Validators.required],
-      staffRelation: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
-      permanentAddress: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
-      temporaryAddress: [null,[ Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
-      contractType: ['1', Validators.required],
+      staffRelation: [null, [Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
+      permanentAddress: [null, [Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
+      temporaryAddress: [null,[ Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
+      contractType: ['1'],
       fromDateOfOffical: [null, Validators.required],
       fromDateProbation: [null, Validators.required],
       toDate: [null, Validators.required],
@@ -207,7 +208,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
       driverLicenseType: [null, Validators.required],
       dlStartDate: [null, Validators.required],
       dlEndDate: [null, Validators.required],
-      hasChild: ['0', Validators.required],
+      hasChild: ['0'],
       bcImage: [[], Validators.required],
       healthCertificate: [[], Validators.required],
       dlImage: [[], Validators.required],
@@ -274,9 +275,22 @@ export class SetupProfileEmployeeComponent implements OnInit {
 //////////////////////////////////////validate just enter text input/////////////////
 
 
-validateText(inputName : string | (string | number)[], event: Event) {
-  this.validateService.validateText(this.form, inputName, event)
-}
+
+  validateText( path: string | (string | number)[], event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+  
+    const pattern = VIETNAMESE_REGEX;
+  
+    if (inputElement.value && !pattern.test(inputElement.value)) {
+      inputElement.value = inputElement.value.replace(/[^a-zA-ZÀÁÂẤÃẠÈÉÊÌÍÒÓÔÕỌÙÚĂĐẰẮĨŨƠàáâãạằắèéêìíòóôõọùúăđĩũơăĨŨƯẰẮẴẶỜỚỠỢỪỨỮỰắằẵặấầẫậốồỗộớờỡợếềễệứừữựỲÝỴỶỸỳýỵỷỹ\s]/g, '');
+      this.form.get(path)?.setValidators(Validators.pattern(VIETNAMESE_REGEX))
+    }
+    // if(inputElement.value == ""){
+    //   this.form.get(path)?.setValidators(Validators.required)
+
+    // }
+  }
+
 
 
 //////////////////////////////////////validate just enter number input/////////////////
@@ -287,12 +301,22 @@ validateNumber(event : Event){
 onBlur(path: string | (string | number)[]) {
   // Đánh dấu form control là "touched" khi người dùng nhấn ra ngoài
   const control = this.form.get(path)?.value;
-  console.log(control)
+  const firstChar = control.charAt(0);
+  const isSpecialOrNumber =  /^[a-zA-Zà-ỹÀ-Ỹ\s]*$/.test(firstChar);
+  // console.log(control)
   if(control){
-    this.form.get(path)?.clearValidators()
+    if(!isSpecialOrNumber){
+      this.form.get(path)?.setValidators(Validators.required)
+      // this.form.get(path)?.setValidators(Validators.pattern(VIETNAMESE_REGEX))
+    }else{
+      // this.form.get(path)?.clearValidators()
+      this.form.get(path)?.setValidators(Validators.required)
+    }
+  }else{
+    this.form.get(path)?.setValidators(Validators.required)
   }
+  
   this.form.get(path)?.updateValueAndValidity()
-
 }
   ///////////////////////////////////////////////List data when call api///////////////////////////////////////////////////////////////////
 
@@ -402,7 +426,7 @@ onBlur(path: string | (string | number)[]) {
     this.maxYearChild = maxYear
     this.minYearChild = minYear
     const ChildForm = this.fb.group({
-      name:  ['',[ Validators.required, , Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')] ] ,
+      name:  ['',[ Validators.required, , Validators.pattern(VIETNAMESE_REGEX)] ] ,
       yearOfBirth: ['', [Validators.required, Validators.min(minYear), Validators.max(this.maxYearChild), Validators.maxLength(4), Validators.pattern(/^[0-9]*$/)]] ,
       gender: ['', Validators.required],
     });
@@ -746,8 +770,8 @@ beforeUpload = (file: NzUploadFile): boolean => {
   endClick(){
     this.isDone = false
     this.form.reset({
-       contractType : '1',
-      hasChild: '0'
+      contractType: this.form.get('contractType')?.value || '1',
+    hasChild: this.form.get('hasChild')?.value || '0'
     })
   }
 

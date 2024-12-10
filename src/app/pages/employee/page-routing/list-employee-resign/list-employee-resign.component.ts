@@ -223,6 +223,29 @@ handleCancelDelete(){
 }
 
 handleSubmitDelete(){
+  console.log(this.selectedEmployee['id']);
+
+  const dataDelete ={
+    staffId : this.selectedEmployee['id'],
+    type : 1,
+    fromDate: null,
+    toDate: null,
+  }
+
+  this.userSevice.updateStatusWork(dataDelete).subscribe( {
+    next: (response) => {
+      this.notification.success('Xóa nhân viên chờ nghỉ việc thành công!')
+      this.isDelete = false  
+      this.search()
+      // this.form.reset()
+      // this.getUser(this.idEmployee)
+    },
+    error: (error) => {
+      // if(error.status === 400){
+      //   this.notification.error(error.message)
+      // }
+
+    }})
 
 }
 
@@ -230,13 +253,23 @@ handleSubmitDelete(){
   selectedEmployee: any = null;
   openModalonLeave(id: number){
     if (this.dataEmployee && this.dataEmployee.length > 0) {  // Kiểm tra nếu dataEmployee có dữ liệu
-      if(this.changeLeave == 2 || this.changeLeave == '2'){
-        this.isResetEmployee = true;
-        this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
-      }else{
         this.isModalOnLeaveEmployee = true;
         this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
-      }
+        this.isModalOnLeaveEmployee = true;
+        this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
+        if (this.selectedEmployee?.leaveFromDate) {
+          const date = new Date(this.selectedEmployee.leaveFromDate);
+          this.formChangeInforLeave.patchValue({
+            fromDate: date
+
+          });
+        }
+        if (this.selectedEmployee?.reason) {
+          this.formChangeInforLeave.patchValue({
+            reason:this.selectedEmployee?.reason
+          });
+        }
+      
     } else {
       console.log("Data Employee is empty or not loaded");
     }
@@ -316,6 +349,7 @@ handleSubmitDelete(){
 
   updateWorkStatus(){
     this.formChangeInforLeave.markAllAsTouched()
+    
     const dataFormEndWork ={
       staffId : this.selectedEmployee['id'],
       ...this.formChangeInforLeave.value,
@@ -326,7 +360,7 @@ handleSubmitDelete(){
     }else{
       this.userSevice.updateStatusWork(dataFormEndWork).subscribe( {
         next: (response) => {
-          this.notification.success('Đặt lịch nghỉ phép thành công!')
+          this.notification.success('Thiết lập lại lịch nghỉ phép thành công!')
           this.isModalOnLeaveEmployee = false  
           // this.form.reset()
           // this.getUser(this.idEmployee)

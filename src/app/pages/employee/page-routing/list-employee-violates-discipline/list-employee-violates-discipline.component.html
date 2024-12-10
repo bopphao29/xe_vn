@@ -58,7 +58,7 @@
                 <div class="">
                     <label class="form-label">Thời gian</label>
                     <div>
-                        <nz-range-picker formControlName="rangeDate" style="width: 100%; height: 48px;">  </nz-range-picker>    
+                        <nz-range-picker formControlName="rangeDate" [nzFormat]="'dd/MM/yyyy'"  style="width: 100%; height: 48px;"> </nz-range-picker>    
                     </div>
                 </div>
             </div>
@@ -118,7 +118,7 @@
                     <td class="list-col-3">{{data.punishmentForm || '-'}}</td>
 
                     <td class="list-col-2">
-                        <a *ngIf="data.id" class="button_show_detail" (click)="routerDetailEmployee(data.id)">
+                        <a *ngIf="data.punishmentId" class="button_show_detail" (click)="routerDetailEmployee(data.punishmentId)">
                             Xem chi tiết
                         </a>
                         <a *ngIf="!data.id">

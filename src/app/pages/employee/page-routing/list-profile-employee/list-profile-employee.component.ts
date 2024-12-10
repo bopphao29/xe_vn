@@ -75,7 +75,7 @@ export class ListProfileEmployeeComponent implements OnInit {
     branchId: [savedFormValue ? JSON.parse(savedFormValue).branchId : ''],
     departmentId: [savedFormValue ? JSON.parse(savedFormValue).departmentId : ''],
     positionId: [savedFormValue ? JSON.parse(savedFormValue).positionId : ''],
-    status: [savedFormValue ? JSON.parse(savedFormValue).status : ''],
+    workingStatus: [savedFormValue ? JSON.parse(savedFormValue).workingStatus : ''],
     // reason: [savedFormValue ? JSON.parse(savedFormValue).reason : ''],
   });
     this.search()
@@ -245,10 +245,12 @@ export class ListProfileEmployeeComponent implements OnInit {
       this.leaveFromDate = this.selectedEmployee?.leaveFromDate ? new Date(this.selectedEmployee.leaveFromDate) : null
       this.workingStatusNum = this.selectedEmployee?.workingStatusNum
 
+      console.log(this.leaveToDate)
       const toDay = new Date()
      
       if (this.leaveFromDate && this.leaveToDate) {
         this.isOnLeave = this.leaveFromDate <= toDay && toDay <= this.leaveToDate;
+        // this.isOnLeave = true
       } else {
         this.isOnLeave = false; // Không hiển thị nếu thiếu dữ liệu ngày
       }

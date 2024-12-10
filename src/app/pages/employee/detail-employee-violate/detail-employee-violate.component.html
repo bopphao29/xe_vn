@@ -102,9 +102,21 @@
                 <div nz-col style="width: calc(100% - 8px);">
                     <table class="custom-table-list">
                         <tbody>
-                            <tr *ngFor="let dataCouncils of inforCouncils">
-                                <td class="col-3">{{ dataCouncils?.positionName}}</td>
-                                <td class="col-4">{{ dataCouncils?.staffName || '' }}</td>
+                            <tr>
+                                <td class="col-3">{{inforEmployee?.managerPosition}}</td>
+                                <td class="col-4">{{ inforEmployee?.manager || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-3">Trưởng phòng HCNS</td>
+                                <td class="col-4">{{ inforEmployee?.headOfHcns || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-3">Trưởng phòng kế toán</td>
+                                <td class="col-4">{{ inforEmployee?.headOfKt || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-3">Phó giám đốc</td>
+                                <td class="col-4">{{ inforEmployee?.deputyDirector || '' }}</td>
                             </tr>
                         </tbody>
                     </table>

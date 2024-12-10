@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NotificationService } from './notification.service';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
+import { VIETNAMESE_REGEX } from '../constants/common.const';
 
 @Injectable({
   providedIn: 'root'
@@ -14,13 +15,14 @@ export class ValidateIntoPageService {
   validateText(form: FormGroup, path: string | (string | number)[], event: Event) {
     const inputElement = event.target as HTMLInputElement;
   
-    const pattern = /^[a-zA-Zà-ỹÀ-Ỹ\s]*$/;
+    const pattern = VIETNAMESE_REGEX;
   
     if (inputElement.value && !pattern.test(inputElement.value)) {
-      inputElement.value = inputElement.value.replace(/[^a-zA-Zà-ỹÀ-Ỹ\s]/g, ''); // Loại bỏ ký tự đầu tiên
+      inputElement.value = inputElement.value.replace(/[^a-zA-ZÀÁÂẤÃẠÈÉÊÌÍÒÓÔÕỌÙÚĂĐẰẮĨŨƠàáâãạằắèéêìíòóôõọùúăđĩũơăĨŨƯẰẮẴẶỜỚỠỢỪỨỮỰắằẵặấầẫậốồỗộớờỡợếềễệứừữựỲÝỴỶỸỳýỵỷỹ\s]/g, '');
+      form.get(path)?.setValidators(Validators.pattern(VIETNAMESE_REGEX))
     }
   }
-  
+
   //////////////////////////////////////validate just enter number input/////////////////
   validateNumber(event: Event) {
     const valueNum = event.target as HTMLInputElement;
@@ -35,14 +37,6 @@ export class ValidateIntoPageService {
     // valueNum.value = valueNum.value.replace(/[^0-9]/g, '');
   }
 
-  onBlur(form: FormGroup, path: string | (string | number)[]) {
-    const control = form.get(path)?.value;
-    console.log(control)
-    if(control){
-      form.get(path)?.clearValidators()
-    }
-    form.get(path)?.updateValueAndValidity()
-  }
   //////////check phone //////////////////////////////
   checkPhoneNumber(form: FormGroup, fieldName: string, maxLengthMap: { [key: string]: number }): void {
     form.get(fieldName)?.valueChanges.subscribe((value: string) => {
@@ -60,11 +54,11 @@ export class ValidateIntoPageService {
 
       // Cập nhật maxlength dựa trên đầu số
       let maxLength = 10; // Giá trị mặc định
-      if (sanitizedValue.startsWith('84')) {
+      if (sanitizedValue?.startsWith('84')) {
         maxLength = 11;
-      } else if (sanitizedValue.startsWith('0')) {
+      } else if (sanitizedValue?.startsWith('0')) {
         maxLength = 10;
-      }else if (sanitizedValue.startsWith('8')) {
+      }else if (sanitizedValue?.startsWith('8')) {
         maxLength = 11;
       } else {
         maxLength = 10; // Mặc định

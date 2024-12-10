@@ -200,9 +200,6 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
       size: 12,
     }
     // delete dataForm.rangeDate
-    delete dataForm.type
-    delete dataForm.page
-    delete dataForm.size
 
     this.getListEmployee(dataForm)
     if(dataForm){

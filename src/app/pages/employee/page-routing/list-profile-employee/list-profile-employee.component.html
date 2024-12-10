@@ -71,7 +71,7 @@
                     <div class="">
                         <label class="form-label">Trạng thái</label>
                         <div>
-                            <nz-select nzPlaceHolder="Tất cả" formControlName="status" style="width: 100%;" (keydown.enter)="search()">
+                            <nz-select nzPlaceHolder="Tất cả" formControlName="workingStatus" style="width: 100%;" (keydown.enter)="search()">
                                 <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
                                 <!-- <nz-option nzValue="1" nzLabel="Đang làm việc"></nz-option>
                                 <nz-option nzValue="2" nzLabel="Tất cả"></nz-option> -->
@@ -203,7 +203,7 @@
         <div style="margin-top: 22px;">
         </div>
         <div style="display: flex; justify-content: center;">
-            <span style="font-weight: 500 ;color: rgba(239, 68, 68, 1); font-size: 14px;" *ngIf="workingStatusNum === 2 && isOnLeave">{{'working.relaxing' | translate}} {{leaveFromDate | date: 'dd/MM/yyyy'}} - {{leaveToDate | date: 'dd/MM/yyyy'}}</span>
+            <span style="font-weight: 500 ;color: rgba(239, 68, 68, 1); font-size: 14px;" *ngIf="workingStatusNum === 2 && isOnLeave == true">{{'working.relaxing' | translate}} {{leaveFromDate | date: 'dd/MM/yyyy'}} - {{leaveToDate | date: 'dd/MM/yyyy'}}</span>
         </div>
         <div style="margin-top: 22px;">
         </div>

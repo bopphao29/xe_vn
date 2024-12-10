@@ -12,7 +12,9 @@
             
             <div class="input-wrapper">
                 <div class="">
-                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.employeeName' | translate}}</label>
+                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.employeeName' | translate}}
+                        <!-- {{form.get('name')?.errors | json}} -->
+                    </label>
                     <input class="input-form" (blur)="onBlur('name')" (input)="validateText('name',$event)"  placeholder="Nguyễn văn A"  formControlName="name" type="text" >
                     <div class="error-container">
                         <div *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)">
