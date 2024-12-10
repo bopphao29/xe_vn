@@ -278,46 +278,66 @@ export class SetupProfileEmployeeComponent implements OnInit {
 
   validateText( path: string | (string | number)[], event: Event) {
     const inputElement = event.target as HTMLInputElement;
-  
-    const pattern = VIETNAMESE_REGEX;
-  
-    if (inputElement.value && !pattern.test(inputElement.value)) {
+    
+    if(inputElement.value.length == 0){
+      this.form.get(path)?.setValidators(Validators.required)
+    }
+    else{
       inputElement.value = inputElement.value.replace(/[^a-zA-ZÀÁÂẤÃẠÈÉÊÌÍÒÓÔÕỌÙÚĂĐẰẮĨŨƠàáâãạằắèéêìíòóôõọùúăđĩũơăĨŨƯẰẮẴẶỜỚỠỢỪỨỮỰắằẵặấầẫậốồỗộớờỡợếềễệứừữựỲÝỴỶỸỳýỵỷỹ\s]/g, '');
       this.form.get(path)?.setValidators(Validators.pattern(VIETNAMESE_REGEX))
     }
-    // if(inputElement.value == ""){
-    //   this.form.get(path)?.setValidators(Validators.required)
+    this.form.get(path)?.updateValueAndValidity()
 
-    // }
   }
 
 
 
 //////////////////////////////////////validate just enter number input/////////////////
-validateNumber(event : Event){
+validateNumber(name:string , event : Event){
   this.validateService.validateNumber(event)
 }
 
 onBlur(path: string | (string | number)[]) {
-  // Đánh dấu form control là "touched" khi người dùng nhấn ra ngoài
-  const control = this.form.get(path)?.value;
-  const firstChar = control.charAt(0);
-  const isSpecialOrNumber =  /^[a-zA-Zà-ỹÀ-Ỹ\s]*$/.test(firstChar);
-  // console.log(control)
-  if(control){
-    if(!isSpecialOrNumber){
-      this.form.get(path)?.setValidators(Validators.required)
-      // this.form.get(path)?.setValidators(Validators.pattern(VIETNAMESE_REGEX))
-    }else{
-      // this.form.get(path)?.clearValidators()
-      this.form.get(path)?.setValidators(Validators.required)
-    }
-  }else{
-    this.form.get(path)?.setValidators(Validators.required)
+  const control = this.form.get(path);
+  const value = control?.value?.trim(); // Loại bỏ khoảng trắng đầu/cuối
+
+  // Loại bỏ ký tự không phải số
+  const cleanStr = value?.replace(/[^a-zA-ZaAÁáÀàẠạÃãẢảăĂắẮẰằẶặẲẳẴẵÂâẤấẦầẪẫẨẩẬậeEèÈẺẻÉéẸẹẼẽÊêỀềẾếỂểỄễỆệiIìÌíÍỉỈịỊĨĩoOòÓóỎỏỌọÕõÔôỒồỐốỔổỘộỖỗƠơỜờỚớỞởỢợỠỡuUùÙÚúỦủỤụŨũƯưỪừỨứỬửỰựỮữyYỳỲýỶỷỴỵỸỹÝ\s]/g, "") || ""; 
+  // Kiểm tra nếu giá trị không hợp lệ (NaN, null, undefined, chuỗi rỗng)
+  if (cleanStr == "") {
+    // Thêm validator nếu không hợp lệ
+    control?.setValue("")
+    control?.setValidators(Validators.required);
+  } else {
+    // Xóa validator nếu hợp lệ
+    control?.clearValidators();
   }
-  
-  this.form.get(path)?.updateValueAndValidity()
+
+  // Cập nhật trạng thái form control
+  control?.updateValueAndValidity();
 }
+
+onBlurNumber(path: string | (string | number)[]) {
+  const control = this.form.get(path);
+  const value = control?.value?.trim(); // Loại bỏ khoảng trắng đầu/cuối
+
+  // Loại bỏ ký tự không phải số
+  const cleanStr = value?.replace(/[^0-9]/g, "");
+  // Kiểm tra nếu giá trị không hợp lệ (NaN, null, undefined, chuỗi rỗng)
+  if (cleanStr == "") {
+    // Thêm validator nếu không hợp lệ
+    control?.setValue("")
+    control?.setValidators(Validators.required);
+  } else {
+    // Xóa validator nếu hợp lệ
+    control?.clearValidators();
+  }
+
+  // Cập nhật trạng thái form control
+  control?.updateValueAndValidity();
+}
+
+
   ///////////////////////////////////////////////List data when call api///////////////////////////////////////////////////////////////////
 
   codeEmployee : any

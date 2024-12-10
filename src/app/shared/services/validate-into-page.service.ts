@@ -18,7 +18,7 @@ export class ValidateIntoPageService {
     const pattern = VIETNAMESE_REGEX;
   
     if (inputElement.value && !pattern.test(inputElement.value)) {
-      inputElement.value = inputElement.value.replace(/[^a-zA-ZÀÁÂẤÃẠÈÉÊÌÍÒÓÔÕỌÙÚĂĐẰẮĨŨƠàáâãạằắèéêìíòóôõọùúăđĩũơăĨŨƯẰẮẴẶỜỚỠỢỪỨỮỰắằẵặấầẫậốồỗộớờỡợếềễệứừữựỲÝỴỶỸỳýỵỷỹ\s]/g, '');
+      inputElement.value = inputElement.value.replace(VIETNAMESE_REGEX, '');
       form.get(path)?.setValidators(Validators.pattern(VIETNAMESE_REGEX))
     }
   }

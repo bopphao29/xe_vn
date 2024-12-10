@@ -29,7 +29,7 @@
             <div class="input-wrapper">
                 <div class="">
                     <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.yearOfBirth' | translate}}</label>
-                    <input class="input-form" placeholder="2000" (input)="validateNumber($event)" formControlName="yearOfBirth" maxlength="4" type="text">
+                    <input class="input-form" placeholder="2000" (blur)="onBlurNumber('yearOfBirth')" (input)="validateNumber('yearOfBirth',$event)" formControlName="yearOfBirth" maxlength="4" type="text">
                     <div class="error-container">
                         <div *ngIf="form.get('yearOfBirth')?.invalid && (form.get('yearOfBirth')?.dirty) || form.get('yearOfBirth' | translate)?.touched">
                             <span class="validate_input" *ngIf="form.get('yearOfBirth')?.errors?.['required']">{{'required.yearOfBirth' | translate}}</span>
@@ -59,7 +59,7 @@
             <div class="input-wrapper">
                 <div class="">
                     <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.identifier' | translate}}</label>
-                    <input class="input-form" (input)="validateNumber($event)" placeholder="002096278955" formControlName="identifierId" type="text" maxlength="12">
+                    <input class="input-form" (input)="validateNumber('identifier', $event)" placeholder="002096278955" formControlName="identifierId" type="text" maxlength="12">
                     <div class="error-container">
                         <div class="error-container"> 
                             <div *ngIf="form.get('identifierId')?.invalid && (form.get('identifierId')?.dirty) || form.get('identifierId')?.touched">
@@ -74,7 +74,7 @@
             <div class="input-wrapper">
                 <div class="">
                     <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.phoneNumber' | translate}}</label>
-                    <input class="input-form" placeholder="0379458632" (input)="validateNumber($event)" [maxlength]="maxLengthMap['phoneNumber'] || 10" 
+                    <input class="input-form" placeholder="0379458632" (input)="validateNumber('phoneNumber',$event)" [maxlength]="maxLengthMap['phoneNumber'] || 10" 
                     formControlName="phoneNumber" type="text">
                     <div class="error-container">
                         <div *ngIf="form.get('phoneNumber')?.invalid && (form.get('phoneNumber')?.dirty) || form.get('phoneNumber')?.touched">
@@ -130,13 +130,13 @@
                 <div class="">
                     <label class="label-form" for="" >{{'employee.religion' | translate}}<span style="font-weight: 400; line-height: 14.06px; color: gray; font-style: italic; font-size: 12px">{{'employee.ifHave'| translate}}</span></label>
                     <input class="input-form" (input)="validateText('religion',$event)" (blur)="onBlur('religion')"  formControlName="religion" placeholder="Nhập" />
-                        <div class="error-container">
+                        <!-- <div class="error-container">
                             <div *ngIf="form.get('religion')?.invalid && (form.get('religion')?.dirty) || form.get('religion')?.touched">
                                 <span class="validate_input" *ngIf="form.get('religion')?.errors?.['required']">{{'required.religion_required' | translate}}</span>
                                 <span class="instruct" *ngIf="form.get('religion')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
 
                             </div>
-                        </div>
+                        </div> -->
                 </div>
 
             </div>
@@ -185,7 +185,7 @@
             <div class="input-wrapper">
                 <div class="">
                     <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.contactPersonPhone' | translate}}</label>
-                    <input class="input-form" formControlName="contactPersonPhone" (input)="validateNumber($event)" placeholder="Nhập" maxlength="10"/>
+                    <input class="input-form" formControlName="contactPersonPhone" (input)="validateNumber('contactPersonPhone',$event)" placeholder="Nhập" maxlength="10"/>
                         <div class="error-container">
                             <div class="error-container">
                                 <div *ngIf="form.get('contactPersonPhone')?.invalid && (form.get('contactPersonPhone')?.dirty) || form.get('contactPersonPhone')?.touched">
@@ -507,7 +507,7 @@
             <div class="input-wrapper">
                 <div class="">
                     <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.businessCardNumber' | translate}}</label>
-                    <input class="input-form" (input)="validateNumber($event)"  placeholder="03256659"  formControlName="businessCardNumber" type="text" >
+                    <input class="input-form" (input)="validateNumber('businessCardNumber',$event)"  placeholder="03256659"  formControlName="businessCardNumber" type="text" >
                     <div class="error-container">
                         <div *ngIf="form.get('businessCardNumber')?.invalid && (form.get('businessCardNumber')?.dirty || form.get('businessCardNumber')?.touched)">
                             <span class="validate_input" *ngIf="form.get('businessCardNumber')?.errors?.['required']">{{'required.businessCardNumber_required' | translate}}</span>
@@ -610,7 +610,7 @@
             <div class="input-wrapper">
                 <div class="">
                     <label class="label-form" ><span style="color: red">*</span>{{'employee.number_healthCertificate' | translate}}</label>
-                    <input nz-input class="form-input" formControlName="driverLicenseNumber" placeholder="Nhập" (input)="validateNumber($event)" class="form-input" style="width: 100%;"/>
+                    <input nz-input class="form-input" formControlName="driverLicenseNumber" placeholder="Nhập" (input)="validateNumber('number_healthCertificate``',$event)" class="form-input" style="width: 100%;"/>
                         <div class="error-container">
                             <div *ngIf="form.get('driverLicenseNumber')?.invalid && (form.get('driverLicenseNumber')?.dirty) || form.get('driverLicenseNumber')?.touched">
                                 <span class="validate_input" *ngIf="form.get('driverLicenseNumber')?.errors?.['required']">{{'required.number_healthCertificate' | translate}}</span>
@@ -839,7 +839,7 @@
                                     <div class="">
                                         <label class="label-form"><span style="color: red">*</span>{{'employee.yearOfBirth' | translate}}</label>
                                         <div>
-                                            <input nz-input class="form-input" type="text" (input)="validateNumber($event)" maxlength="4" formControlName="yearOfBirth" placeholder="Nhập năm" style="width: 100%"/>
+                                            <input nz-input class="form-input" type="text" (input)="validateNumber('yearOfBirth',$event)" maxlength="4" formControlName="yearOfBirth" placeholder="Nhập năm" style="width: 100%"/>
                                                 <div class="error-container">
                                                     <div *ngIf="(child.get('yearOfBirth')?.invalid && child.get('yearOfBirth')?.dirty || child.get('yearOfBirth')?.touched) && has_child == 1">
                                                         <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['required']" >{{'required.yearOfBirth' | translate}}</span>
