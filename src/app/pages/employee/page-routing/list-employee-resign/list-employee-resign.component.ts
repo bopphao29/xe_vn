@@ -15,6 +15,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { ChangeFunctionService } from '../../../../shared/services/change-function.service';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NotificationService } from '../../../../shared/services/notification.service';
 import Swal from 'sweetalert2';
@@ -50,12 +51,15 @@ export class ListEmployeeResignComponent {
     private routes: Router,
     private fb :FormBuilder,
     private userSevice: UserServiceService,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private changeFunctionService: ChangeFunctionService
+
   ){
    
   }
   form!: FormGroup
   formChangeInforLeave !: FormGroup
+  formOnLeave !: FormGroup
 
 
   ngOnInit(): void {
@@ -86,6 +90,13 @@ export class ListEmployeeResignComponent {
     this.form.get('leaveType')?.valueChanges.subscribe((value : any)=> {
       this.changeLeave = value
     })
+
+    this.formOnLeave = this.fb.group({
+      fromDate: ['', Validators.required],
+      toDate : ['', Validators.required],
+      reason: ['', Validators.required]
+
+    })
   }
 
   listBranch: any[] = []
@@ -95,11 +106,14 @@ export class ListEmployeeResignComponent {
   isModalOnLeaveEmployee = false
   dataEmployee: any[] = []
   isResetEmployee: boolean = false
+  isChangeEmployee : boolean = false
   isDelete: boolean = false
   changeLeave: any
   isWaitLeave :boolean = false
   onLeave : boolean = false
   isLeave: boolean = false
+  workingStatusNum  : number = 0
+
 
 
   formOfLeave = [
@@ -162,14 +176,8 @@ export class ListEmployeeResignComponent {
   total = 1
 
   isoDate: string | null = null;
-  onDateChange(date: Date): void {
-    if (date) {
-      this.isoDate = date.toISOString(); // Chuyển đổi sang ISO 8601
-    } else {
-      this.isoDate = null;
-    }
-
-    this.form.get('toDate')?.updateValueAndValidity()
+  onDateChange(name: string | (string | number)[], date: Date): void {
+    this.changeFunctionService.onDateChange(this.formChangeInforLeave, name, date)
   }
 
   disableIntoToDate = (toDate: Date): boolean => {
@@ -323,8 +331,9 @@ handleSubmitDelete(){
       }
       if(this.changeLeave == 3){
         this.isLeave = false
-        this.isWaitLeave = true 
-        this.onLeave = true
+        this.isWaitLeave = false 
+        this.onLeave = false
+        this.isChangeEmployee = true
       }
       if(this.changeLeave == 1){
         this.isLeave = false 
@@ -405,5 +414,68 @@ handleSubmitDelete(){
     }
   }
 
+  disableAfterDate(name: string): (afterDate: Date | null) => boolean {
+    return (afterDate: Date | null): boolean => {
+      if (!afterDate || !this.formOnLeave) return false;
+  
+      const beforeDate = this.formOnLeave.get(name)?.value;
+      const today = new Date();
+      // Đặt giờ, phút, giây, và mili giây của ngày hôm nay về 0 để chỉ so sánh ngày
+      today.setHours(0, 0, 0, 0);
+      // Nếu không có beforeDate, chỉ kiểm tra ngày hôm nay
+      if (!beforeDate) {
+        return afterDate <= today;
+      }
+      const beforeDateObject = new Date(beforeDate);
+      // Ngày được chọn phải lớn hơn hôm nay và nhỏ hơn beforeDate
+      return afterDate <= today || afterDate >= beforeDateObject;
+    };
+  }
+  
+  
+  disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
+    return (beforeDate: Date | null): boolean => {
+      if (!beforeDate || !this.formOnLeave) return false;
+      const afterDate = this.formOnLeave.get(name)?.value;
+      if (!afterDate || !this.formOnLeave) return false;
+  
+      const today = new Date()
+      today.setHours(0, 0, 0, 0);
 
+      if(!afterDate){
+        return beforeDate <= today
+      }
+      const AfterDateObject = new Date(afterDate);
+  
+      return afterDate <= today || beforeDate <= AfterDateObject;
+    };
+  }
+
+  leaveToDate: any
+  leaveFromDate: any
+  workingStatusNumChange  : number = 0
+  isOnLeave: boolean = false;
+  openModalChangeonLeave(id: number){
+    if (this.dataEmployee && this.dataEmployee.length > 0) {  // Kiểm tra nếu dataEmployee có dữ liệu
+      this.isModalOnLeaveEmployee = true;
+      this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
+      this.leaveToDate = this.selectedEmployee?.leaveToDate ? new Date(this.selectedEmployee.leaveToDate) : null
+      this.leaveFromDate = this.selectedEmployee?.leaveFromDate ? new Date(this.selectedEmployee.leaveFromDate) : null
+      this.workingStatusNumChange = this.selectedEmployee?.workingStatusNum
+
+      console.log(this.leaveToDate)
+      const toDay = new Date()
+     
+      if (this.leaveFromDate && this.leaveToDate) {
+        this.isOnLeave = this.leaveFromDate <= toDay && toDay <= this.leaveToDate;
+        // this.isOnLeave = true
+      } else {
+        this.isOnLeave = false; // Không hiển thị nếu thiếu dữ liệu ngày
+      }
+
+    } else {
+      // console.log("Data Employee is empty or not loaded");
+      // this.notification.error('Đặt lịch nghỉ phép thành công!')
+    }
+  }
 }

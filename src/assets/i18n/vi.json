@@ -43,7 +43,7 @@
         "create_by": "Người tạo",
         "employeeManagement":"Quản lý nhân sự",
         "custommerManagement":"Quản lý khách hàng",
-        "vehicalManagement": "Quản lý phương tiện",
+        "vehicleManagement": "Quản lý phương tiện",
         "operatorManagement": "Quản lý vận hành"
         
     },
@@ -61,11 +61,11 @@
         "relax": "Nghỉ phép",
         "relaxing": "Hiện đang nghỉ: "
      },
-    "vehical":{
-        "profile_vehical":"Hồ sơ phương tiện",
-        "detail_vehical_infor":"Chi Tiết Thông Tin Phương Tiện",
-        "vehical_management":"Quản lý phương tiện",
-        "setup_vehical":"Thiết lập hồ sơ phương tiện",
+    "vehicle":{
+        "profile_vehicle":"Hồ sơ phương tiện",
+        "detail_vehicle_infor":"Chi Tiết Thông Tin Phương Tiện",
+        "vehicle_management":"Quản lý phương tiện",
+        "setup_vehicle":"Thiết lập hồ sơ phương tiện",
         "maintenance_repair": "Bảo dưỡng sửa chữa",
         "deep_interior_cleaning":"Vệ sinh nội thất chuyên sâu",
         "vehicle_profile_management":"Quản lý hồ sơ phương tiện",
@@ -77,12 +77,11 @@
         "frameNumber": "Số khung",
         "machineNumber": "Số máy",
         "manufacturer": "Hãng sản xuất",
-        "type_vehical":"Mẫu xe",
+        "type_vehicle":"Mẫu xe",
         "capacity": "Số chỗ",
         "noDriver":"(Không bao gồm LX)",
         "payload":"Tải trọng",
-
-        "image_vehical": "Hình ảnh phương tiện",
+        "image_vehicle": "Hình ảnh phương tiện",
         "intendedUse": "Mục đích sử dụng xe",
         "route": "Định biên tuyến",
         "odometer": "Số KM hiện tại",
@@ -112,13 +111,13 @@
         "temporary": "Tạm thời",
         "fromDate": "Từ ngày",
         "toDate": "Đến ngày",
-        "vehicalStatus": "Tình trạng xe",
-        "vehicalDriverMonitor": "Lái xe chính",
-        "vehicalPhone": "SĐT",
+        "vehicleStatus": "Tình trạng xe",
+        "vehicleDriverMonitor": "Lái xe chính",
+        "vehiclePhone": "SĐT",
         "manufactureYear": "Năm sản xuất",
-        "owningLegalEntity":"Pháp nhân sở hữu",
+        "legalOwnerId":"Pháp nhân sở hữu",
         "firstStartDateXE": "Ngày hoạt động lần đầu tại X.E",
-        "firstSubcriptionDate" : "Ngày đăng ký lần đầu",
+        "firstSubscriptionDate" : "Ngày đăng ký lần đầu",
         "fristRegistrationDate": "Ngày đăng kiểm lần đầu",
         "loanOrganization":"Tổ chức vay",
         "loanDate": "Ngày vay",
@@ -148,7 +147,8 @@
         "itemCheck":"Hạng mục kiểm tra",
         "workPerformed":"Công việc thực hiện",
         "replacementSupplies":"Vật tư thay thế",
-        "priority":"Ưu tiên bảo dưỡng trước"
+        "priority":"Ưu tiên bảo dưỡng trước",
+        "enterAllInStar":"Nhập đủ tất cả các trường thông tin có dấu *"
     },
     "navbar": {
         "ras": "Liên hệ",
@@ -225,7 +225,7 @@
         "phone":"SĐT",
         "action": "Tác vụ",
         "detailShow": "Xem chi tiết",
-        "vehical": {
+        "vehicle": {
             "fromDate":"Từ ngày",
             "toDate":"Đến ngày",
             "driver":"Lái xe",  
@@ -258,6 +258,7 @@
         "December": "Tháng 12"
     },
     "required":{
+        "cannotBlank":"Không được bỏ trống",
         "name":"Cần nhập tên nhân viên",
         "text_pattern":"Chỉ cho phép nhập chữ",
         "yearOfBirth": "Cần nhập năm sinh",
@@ -304,7 +305,7 @@
         "manufactureYearMin": "Năm sản xuất lớn hơn ",
         "registerNo": "Cần nhập BKS",
         "manufacturer": "Cần nhập hãng",
-        "type_vehical":"Cần nhập mẫu xe",
+        "type_vehicle":"Cần nhập mẫu xe",
         "capacity": "Cần nhập số chỗ",
         "payload":"Cần nhập trọng tải",
         "intendedUse": "Cần nhập mục đích sử dụng xe",
@@ -315,12 +316,12 @@
         "routeId": "Cần nhập tuyến",
         "username": "Cần nhập tên đăng nhập",
         "password": "Cần nhập mật khẩu",
-        "owningLegalEntity":"Cần chọn",
+        "legalOwnerId":"Cần chọn",
         "image": "Cần chọn ảnh",
         "vehicleModel":"Cần nhập mẫu xe"
     },
     "pattern":{
         "registerNo":"BKS dạng A...-01..."
-    },
+        },
     "home-default": "tieng viet"
 }

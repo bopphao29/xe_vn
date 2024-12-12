@@ -4,21 +4,21 @@ import { Routes } from '@angular/router';
 
 export const VEHICLE_ROUTES: Routes = [
   {
-    path: 'vehical',
+    path: 'vehicle',
     loadComponent: () =>
       import('./page-routing/page-routing.component').then(
         (c)=> c.PageRoutingComponent
       ),
       children: [
         {
-          path: 'setup-vehical',
+          path: 'setup-vehicle',
           loadComponent: () => 
             import('./page-routing/setup-profile-car/setup-profile-car.component').then(
               (c) => c.SetupProfileCarComponent
             )
         },
         {
-          path: 'profile-vehical-management',
+          path: 'profile-vehicle-management',
           loadComponent: () => 
             import('./page-routing/file-vehical-management/file-vehical-management.component').then(
               (c) => c.FileVehicalManagementComponent
@@ -65,7 +65,7 @@ export const VEHICLE_ROUTES: Routes = [
   },
   {
     // path: 'detail-vehical/:id',
-    path: 'detail-vehical/1',
+    path: 'detail-vehicle/1',
     loadComponent: () =>
       import('./detail-vehical/detail-vehical.component').then(
         (c) => c.DetailVehicalComponent

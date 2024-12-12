@@ -19,12 +19,13 @@
             <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
           </svg>
         </button>
-        <div class="absolute -left-2 top-full z-10 mt-3 w-screen max-w-md overflow-hidden bg-white shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-          <div *ngFor="let menuItem of menuItemOfManage">
-            <div class="group relative flex items-center gap-x-6 text-sm/6 hover:bg-gray-100" 
-            [ngClass]="{'bg-gray-100': cssRouterLink === menuItem.activeLink}">
-              <div class="flex-auto" style="margin: 6px 10px 6px 10px;">
-                <a (click)="routerLink(menuItem.link, menuItem.activeLink)" class="block hover:text-[#274EA1] hover:bg-gray-100" [ngClass]="{'text-activeLink': cssRouterLink === menuItem.activeLink}"  >
+        <div class="absolute top-full z-10 max-w-md overflow-hidden bg-white shadow-lg opacity-0 invisible group-hover:opacity-100 -left-21 group-hover:visible transition-all duration-200" style="border-radius: 8px; width: 354px !important;padding-top: 16px; padding-bottom: 16px; margin-top: 2.1rem !important; margin-left: -4rem">
+          <div style="padding: 0px 16px 0px 16px;" *ngFor="let menuItem of menuItemOfManage">
+            <div class="group relative flex p-2 items-center gap-x-3 hover:bg-gray-100" style="padding: 0px 0px 0px 16px" [ngClass]="{'bg-gray-100': cssRouterLink === menuItem.activeLink}">
+              <div class="flex size-11 flex-none items-center justify-center rounded-lg " [innerHTML]="menuItem.svg">
+              </div>
+              <div class="">
+                <a (click)="routerLink(menuItem.link, menuItem.activeLink)" style="color: rgba(37, 44, 50, 1); font-size: 16px; font-weight: 500;line-height: 18.75px;" class="block hover:text-[#274EA1] hover:bg-gray-100" [ngClass]="{'text-activeLink': cssRouterLink === menuItem.activeLink}"  >
                   {{ 'common.' + menuItem.value | translate }}
                   <span class="absolute inset-0"></span>
                 </a>
@@ -32,18 +33,37 @@
             </div>
           </div>
         </div>
+        
+        <!-- <button style="font-size: 16px; font-weight: 400; color: rgba(37, 44, 50, 1);" type="button" class="flex items-center gap-x-1 text-sm/6">
+          {{ 'menuHeader.manage' | translate }}
+          <svg class="size-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+            <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+          </svg>
+        </button>
+        <div class="absolute top-full z-10 mt-3 max-w-md overflow-hidden left-21 bg-white shadow-lg opacity-100 visible transition-all duration-200" style="border-radius: 8px; width: 354px !important;padding-top: 16px; padding-bottom: 16px;">
+          <div style="padding: 0px 16px 0px 16px;" *ngFor="let menuItem of menuItemOfManage">
+            <div class="group relative flex p-2 items-center gap-x-3 hover:bg-gray-100" style="padding: 0px 0px 0px 16px" [ngClass]="{'bg-gray-100': cssRouterLink === menuItem.activeLink}">
+              <div class="flex size-11 flex-none items-center justify-center rounded-lg" [innerHTML]="menuItem.svg"></div>
+              <div>
+                <a (click)="routerLink(menuItem.link, menuItem.activeLink)" style="color: rgba(37, 44, 50, 1); font-size: 16px; font-weight: 500; line-height: 18.75px;" class="block hover:text-[#274EA1] hover:bg-gray-100" [ngClass]="{'text-activeLink': cssRouterLink === menuItem.activeLink}">
+                  {{ 'common.' + menuItem.value | translate }}
+                  <span class="absolute inset-0"></span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div> -->
       </div>
       
 
       <a *ngFor="let menuItem of menuHeader" href="#" class="text-sm/6  text-gray-900" >{{'menuHeader.' + menuItem.value | translate}}</a>
     </div>
     <div class="backdrop" *ngIf="isHidenMenu">
-      <!-- Background backdrop, show/hide based on slide-over state. -->
+
       <div class="fixed inset-0 z-10" ></div>
       <div class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
         <div class="flex items-center justify-between">
           <span class="-m-1.5 p-1.5">
-            <!-- <span class="sr-only">Your Company</span> -->
             <div class="mr-[20px]">
               <div class="flex justify-start items-center h-[16px] mb-[6px]">
                 <span class="block mr-[8px]">
@@ -183,5 +203,8 @@
     </span>
   </div>
 </div>
+
+
+
 
 

@@ -12,13 +12,13 @@
             
             <div class="input-wrapper">
                 <div class="">
-                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.employeeName' | translate}}
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.employeeName' | translate}}
                         <!-- {{form.get('name')?.errors | json}} -->
                     </label>
-                    <input class="input-form" (blur)="onBlur('name')" (input)="validateText('name',$event)"  placeholder="Nguyễn văn A"  formControlName="name" type="text" >
+                    <input class="input-form" (input)="validateText('name',$event)"  placeholder="Nguyễn văn A"  formControlName="name" type="text" >
                     <div class="error-container">
                         <div *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)">
-                            <span class="validate_input" *ngIf="form.get('name')?.errors?.['required']">{{'required.name' | translate}}</span>
+                            <span class="validate_input" *ngIf="form.get('name')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                             <span class="instruct" *ngIf="form.get('name')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
                         </div>
                     </div>
@@ -28,11 +28,11 @@
 
             <div class="input-wrapper">
                 <div class="">
-                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.yearOfBirth' | translate}}</label>
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.yearOfBirth' | translate}}</label>
                     <input class="input-form" placeholder="2000" (blur)="onBlurNumber('yearOfBirth')" (input)="validateNumber('yearOfBirth',$event)" formControlName="yearOfBirth" maxlength="4" type="text">
                     <div class="error-container">
                         <div *ngIf="form.get('yearOfBirth')?.invalid && (form.get('yearOfBirth')?.dirty) || form.get('yearOfBirth' | translate)?.touched">
-                            <span class="validate_input" *ngIf="form.get('yearOfBirth')?.errors?.['required']">{{'required.yearOfBirth' | translate}}</span>
+                            <span class="validate_input" *ngIf="form.get('yearOfBirth')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                             <span class="instruct" *ngIf="form.get('yearOfBirth')?.errors?.['min'] && !form.get('yearOfBirth')?.errors?.['pattern']">{{ ('required.minYearEmployee' | translate) + minYear }}</span>
                             <span class="instruct" *ngIf="form.get('yearOfBirth')?.errors?.['max'] && !form.get('yearOfBirth')?.errors?.['pattern']">{{ ('required.maxYearEmployee' | translate)+maxYear }}</span>
                             <span class="instruct" *ngIf="form.get('yearOfBirth')?.errors?.['pattern']" >{{'required.number_pattern' | translate}}</span>
@@ -44,13 +44,13 @@
 
             <div class="input-wrapper">
                 <div class="">
-                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.gender' | translate}}</label>
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.gender' | translate}}</label>
                     <nz-select nzPlaceHolder="Nam" formControlName="gender" class="nzSelect">
                         <nz-option *ngFor="let gender of listGender" [nzValue]="gender.id" [nzLabel]="gender.value"></nz-option>
                     </nz-select>
                     <div class="error-container">
                         <div *ngIf="form.get('gender')?.invalid && (form.get('gender')?.dirty) || form.get('gender')?.touched">
-                            <span class="validate_input" *ngIf="form.get('gender')?.errors?.['required']">{{'required.gender' | translate}}</span>
+                            <span class="validate_input" *ngIf="form.get('gender')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                         </div>
                     </div>
                 </div>
@@ -58,12 +58,12 @@
 
             <div class="input-wrapper">
                 <div class="">
-                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.identifier' | translate}}</label>
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.identifier' | translate}}</label>
                     <input class="input-form" (input)="validateNumber('identifier', $event)" placeholder="002096278955" formControlName="identifierId" type="text" maxlength="12">
                     <div class="error-container">
                         <div class="error-container"> 
                             <div *ngIf="form.get('identifierId')?.invalid && (form.get('identifierId')?.dirty) || form.get('identifierId')?.touched">
-                            <span class="validate_input" *ngIf="form.get('identifierId')?.errors?.['required']">{{'required.identifier_required'  | translate}}</span>
+                            <span class="validate_input" *ngIf="form.get('identifierId')?.errors?.['required']">{{'required.cannotBlank'  | translate}}</span>
                             <span class="instruct" *ngIf="form.get('identifierId')?.errors?.['pattern']">{{'required.identifier_pattern'  | translate}}</span>
                             </div>
                         </div>
@@ -73,12 +73,12 @@
 
             <div class="input-wrapper">
                 <div class="">
-                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.phoneNumber' | translate}}</label>
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.phoneNumber' | translate}}</label>
                     <input class="input-form" placeholder="0379458632" (input)="validateNumber('phoneNumber',$event)" [maxlength]="maxLengthMap['phoneNumber'] || 10" 
                     formControlName="phoneNumber" type="text">
                     <div class="error-container">
                         <div *ngIf="form.get('phoneNumber')?.invalid && (form.get('phoneNumber')?.dirty) || form.get('phoneNumber')?.touched">
-                            <span class="validate_input" *ngIf="form.get('phoneNumber')?.errors?.['required']">{{'required.phoneNumber_required'  | translate}}</span>
+                            <span class="validate_input" *ngIf="form.get('phoneNumber')?.errors?.['required']">{{'required.cannotBlank'  | translate}}</span>
                             <span class="instruct" *ngIf="form.get('phoneNumber')?.errors?.['pattern']">{{'required.phone_pattern'  | translate}}</span>
                         </div>
                     </div>
@@ -87,13 +87,11 @@
 
             <div class="input-wrapper">
                 <div class="">
-                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.zalo' | translate}}</label>
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.zalo' | translate}}</label>
                     <input class="input-form" (input)="validateText('zalo',$event)" (blur)="onBlur('zalo')" placeholder="Nguyễn văn A" formControlName="zalo" type="text">
                     <div class="error-container">
                         <div *ngIf="form.get('zalo')?.invalid && (form.get('zalo')?.dirty) || form.get('zalo')?.touched">
-                            <span class="validate_input" *ngIf="form.get('zalo')?.errors?.['required']">{{'required.zalo_required' | translate}}</span>
-                            <span class="instruct" *ngIf="form.get('zalo')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
-
+                            <span class="validate_input" *ngIf="form.get('zalo')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                         </div>
                     </div>
                 </div>
@@ -101,11 +99,11 @@
 
             <div class="input-wrapper">
                 <div class="">
-                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.email' | translate}}</label>
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.email' | translate}}</label>
                     <input class="input-form" placeholder="@gmail.com" formControlName="email" type="text">
                     <div class="error-container">
                         <div *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty) || form.get('email')?.touched">
-                        <span class="validate_input" *ngIf="form.get('email')?.errors?.['required']">{{'required.email_required' | translate}}</span>
+                        <span class="validate_input" *ngIf="form.get('email')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                         <span class="instruct" *ngIf="form.get('email')?.errors?.['email']">{{'required.email_pattern' | translate}}</span>
                     </div>
                     </div>
@@ -114,11 +112,11 @@
 
             <div class="input-wrapper">
                 <div class="">
-                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.ethnicGroup' | translate}}</label>
-                    <input class="input-form" (input)="validateText('ethnicGroup',$event)" (blur)="onBlur('ethnicGroup')" formControlName="ethnicGroup" placeholder="Nhập" />
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.ethnicGroup' | translate}}</label>
+                    <input class="input-form" (blur)="validateText('ethnicGroup',$event)" (blur)="onBlur('ethnicGroup')" formControlName="ethnicGroup" placeholder="Nhập" />
                         <div class="error-container">
                             <div *ngIf="form.get('ethnicGroup')?.invalid && (form.get('ethnicGroup')?.dirty) || form.get('ethnicGroup')?.touched">
-                                <span class="validate_input" *ngIf="form.get('ethnicGroup')?.errors?.['required']">{{'required.ethnicGroup_required' | translate}}</span>
+                                <span class="validate_input" *ngIf="form.get('ethnicGroup')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                 <span class="instruct" *ngIf="form.get('ethnicGroup')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
 
                             </div>
@@ -130,23 +128,17 @@
                 <div class="">
                     <label class="label-form" for="" >{{'employee.religion' | translate}}<span style="font-weight: 400; line-height: 14.06px; color: gray; font-style: italic; font-size: 12px">{{'employee.ifHave'| translate}}</span></label>
                     <input class="input-form" (input)="validateText('religion',$event)" (blur)="onBlur('religion')"  formControlName="religion" placeholder="Nhập" />
-                        <!-- <div class="error-container">
-                            <div *ngIf="form.get('religion')?.invalid && (form.get('religion')?.dirty) || form.get('religion')?.touched">
-                                <span class="validate_input" *ngIf="form.get('religion')?.errors?.['required']">{{'required.religion_required' | translate}}</span>
-                                <span class="instruct" *ngIf="form.get('religion')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
-
-                            </div>
-                        </div> -->
+                       
                 </div>
 
             </div>
             <div class="input-wrapper">
                 <div class="">
-                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.professionalLevel' | translate}}</label>
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.professionalLevel' | translate}}</label>
                     <input class="input-form" formControlName="professionalLevel" placeholder="Nhập" />
                         <div class="error-container">
                             <div *ngIf="form.get('professionalLevel')?.invalid && (form.get('professionalLevel')?.dirty) || form.get('professionalLevel')?.touched">
-                                <span class="validate_input" *ngIf="form.get('professionalLevel')?.errors?.['required']">{{'required.professionalLevel_required' | translate}}</span>
+                                <span class="validate_input" *ngIf="form.get('professionalLevel')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                 
                             </div>
                         </div>
@@ -156,13 +148,13 @@
 
             <div class="input-wrapper">
                 <div class="">
-                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.maritalStatus' | translate}}</label>
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.maritalStatus' | translate}}</label>
                     <nz-select nzPlaceHolder="Chưa kết hôn" formControlName="maritalStatus" class="nzSelect">
                         <nz-option *ngFor="let marialStatus of listMarialStatus" [nzValue]="marialStatus.id" [nzLabel]="marialStatus.value"></nz-option>
                     </nz-select>
                     <div class="error-container">
                         <div *ngIf=" form.get('maritalStatus')?.invalid && (form.get('maritalStatus')?.dirty) ||form.get('maritalStatus')?.touched">
-                        <span class="validate_input" *ngIf="form.get('maritalStatus')?.hasError('required')">{{'required.maritalStatus_required' | translate}}</span>
+                        <span class="validate_input" *ngIf="form.get('maritalStatus')?.hasError('required')">{{'required.cannotBlank' | translate}}</span>
                     </div>
                     </div>
                 </div>
@@ -170,11 +162,11 @@
 
             <div class="input-wrapper">
                 <div class="">
-                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.contactPerson' | translate}}</label>
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.contactPerson' | translate}}</label>
                     <input class="input-form" (input)="validateText('contactPerson',$event)" (blur)="onBlur('contactPerson')"  formControlName="contactPerson" placeholder="Nhập" />
                         <div class="error-container">
                             <div *ngIf="form.get('contactPerson')?.invalid && (form.get('contactPerson')?.dirty) || form.get('contactPerson')?.touched">
-                                <span class="validate_input" *ngIf="form.get('contactPerson')?.errors?.['required']">{{'required.contactPerson_required' | translate}}</span>
+                                <span class="validate_input" *ngIf="form.get('contactPerson')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                 <span class="instruct" *ngIf="form.get('contactPerson')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
 
                             </div>
@@ -184,13 +176,13 @@
 
             <div class="input-wrapper">
                 <div class="">
-                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.contactPersonPhone' | translate}}</label>
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.contactPersonPhone' | translate}}</label>
                     <input class="input-form" formControlName="contactPersonPhone" (input)="validateNumber('contactPersonPhone',$event)" placeholder="Nhập" maxlength="10"/>
                         <div class="error-container">
                             <div class="error-container">
                                 <div *ngIf="form.get('contactPersonPhone')?.invalid && (form.get('contactPersonPhone')?.dirty) || form.get('contactPersonPhone')?.touched">
-                                    <span class="validate_input" *ngIf="form.get('contactPersonPhone')?.errors?.['required']">{{'required.phoneNumber_required' | translate}}</span>
-                                    <span class="instruct" *ngIf="form.get('contactPersonPhone')?.errors?.['pattern']">{{'required.phone_pattern' | translate}}</span>
+                                    <span class="validate_input" *ngIf="form.get('contactPersonPhone')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                                    <span class="instruct" *ngIf="form.get('contactPersonPhone')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
                                 </div>
                             </div>
                         </div>
@@ -199,11 +191,11 @@
 
             <div class="input-wrapper">
                 <div class="">
-                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.staffRelation' | translate}}</label>
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.staffRelation' | translate}}</label>
                     <input class="input-form" (input)="validateText('staffRelation',$event)"  (blur)="onBlur('staffRelation')"  formControlName="staffRelation" placeholder="Nhập" />
                         <div class="error-container">
                             <div *ngIf="form.get('staffRelation')?.invalid && (form.get('staffRelation')?.dirty) || form.get('staffRelation')?.touched">
-                                <span class="validate_input" *ngIf="form.get('staffRelation')?.errors?.['required']">{{'required.staffRelation_required' | translate}}</span>
+                                <span class="validate_input" *ngIf="form.get('staffRelation')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                 <span class="instruct" *ngIf="form.get('staffRelation')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
 
                             </div>
@@ -217,11 +209,11 @@
            
             <div class="mx-2 adrress-input" >
                 <div class="">
-                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.permanentAddress' | translate}}</label>
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.permanentAddress' | translate}}</label>
                     <input class="input-form" formControlName="permanentAddress" placeholder="Nhập" />
                         <div class="error-container">
                             <div *ngIf="form.get('permanentAddress')?.invalid && (form.get('permanentAddress')?.dirty) || form.get('permanentAddress')?.touched">
-                                <span class="validate_input" *ngIf="form.get('permanentAddress')?.errors?.['required']">{{'required.permanentAddress_required' | translate}}</span>
+                                <span class="validate_input" *ngIf="form.get('permanentAddress')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                             </div>
                         </div>
                 </div>
@@ -229,11 +221,11 @@
 
             <div class="mx-2 adrress-input" >
                 <div class="">
-                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.temporaryAddress' | translate}}</label>
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.temporaryAddress' | translate}}</label>
                     <input class="input-form" formControlName="temporaryAddress" placeholder="Nhập" />
                         <div class="error-container">
                             <div *ngIf="form.get('temporaryAddress')?.invalid && (form.get('temporaryAddress')?.dirty) || form.get('temporaryAddress')?.touched">
-                                <span class="validate_input" *ngIf="form.get('temporaryAddress')?.errors?.['required']">{{'required.temporaryAddress_required' | translate}}</span>
+                                <span class="validate_input" *ngIf="form.get('temporaryAddress')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                             </div>
                         </div>
                 </div>
@@ -262,14 +254,14 @@
                     <div nz-col nzSpan="18" >
                         <div nz-row style="width: calc(100% - 8px);" [class.disabled-input]="contract_type == 2">
                             <div class="form-control">
-                                <label class="label-form"><span style="width: 100%; color: red;">*</span>{{'employee.fromDate' | translate}}</label>
+                                <label class="label-form "><span class="required-star" style="width: 100%; ">*</span>{{'employee.fromDate' | translate}}</label>
                                 <div class="w-full">
                                     <nz-date-picker nzFormat="dd/MM/yyyy" style="width: calc(100% + 8px)"
-                                        (ngModelChange)="onDateChange($event)" class="w-full" formControlName="fromDateOfOffical"
+                                        (ngModelChange)="onDateChange('fromDateOfOffical',$event)" class="w-full" formControlName="fromDateOfOffical"
                                         nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                         <div class="error-container">
                                             <div *ngIf="(form.get('fromDateOfOffical')?.invalid && (form.get('fromDateOfOffical')?.dirty ||form.get('fromDateOfOffical')?.touched)) && contract_type == 1">
-                                                <span class="validate_input" *ngIf="form.get('fromDateOfOffical')?.errors?.['required']">{{'required.date_required' | translate}}</span>
+                                                <span class="validate_input" *ngIf="form.get('fromDateOfOffical')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                             </div>
                                         </div>
                                 </div>
@@ -279,14 +271,14 @@
                         <div nz-row style="width: calc(100% + 8px);" >
                             <div style="width: calc(50% - 8px);" [class.disabled-input]="contract_type == 1">
                                 <div class="form-control">
-                                    <label class="label-form"><span style="width: 100%; color: red;">*</span>{{'employee.fromDate' | translate}}</label>
+                                    <label class="label-form"><span class="required-star" style="width: 100%; ">*</span>{{'employee.fromDate' | translate}}</label>
                                     <div class="w-full">
                                         <nz-date-picker class="w-full" style="width: calc(100% + 8px)"
-                                            nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableFromDate"
+                                            nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange('fromDateProbation',$event)" [nzDisabledDate]="disableFromDate"
                                             formControlName="fromDateProbation" nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                         <div class="error-container">
                                             <div *ngIf="(form.get('fromDateProbation')?.invalid && (form.get('fromDateProbation')?.dirty ||form.get('fromDateProbation')?.touched)) && contract_type == 2">
-                                                <span class="validate_input"  *ngIf="form.get('fromDateProbation')?.errors?.['required']">{{'required.date_required' | translate}}</span>
+                                                <span class="validate_input"  *ngIf="form.get('fromDateProbation')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -295,10 +287,10 @@
 
                             <div style="width: calc(50% - 8px);" [class.disabled-input]="contract_type == 1">
                                 <div class="form-control">
-                                    <label class="label-form"><span style="width: 100%; color: red;">*</span>{{'employee.toDate' | translate}}</label>
+                                    <label class="label-form"><span class="required-star" style="width: 100%; ">*</span>{{'employee.toDate' | translate}}</label>
                                     <div class="w-full">
                                         <nz-date-picker class="w-full" [nzDisabledDate]="disableIntoToDate" [disabled]="!form.get('fromDate')?.value"
-                                            nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange($event)" style="width: calc(100% + 8px)"
+                                            nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange('fromDate',$event)" style="width: calc(100% + 8px)"
                                             formControlName="toDate" nzPlaceHolder="Chọn ngày" ></nz-date-picker>
                                             <div class="error-container" *ngIf="contract_type == 2">
                                                 <div *ngIf="(form.get('toDate')?.invalid && (form.get('toDate')?.dirty ||form.get('toDate')?.touched))">
@@ -319,7 +311,7 @@
                     <div nz-col nzSpan="12">
                         <div style="width: calc(100% - 8px);">
                             <div class="">
-                                <label class="label-form" nzRequired><span style="color: red">*</span> {{'employee.office' | translate}}</label>
+                                <label class="label-form" nzRequired><span class="required-star" class="required-star">*</span> {{'employee.office' | translate}}</label>
                                 <div class="w-full">
                                     <nz-select nzPlaceHolder="Chọn" formControlName="officeId" style="width: 100%;">
                                         <nz-option *ngFor="let office of listOffice, let i =index" [nzValue]="office.id"
@@ -328,7 +320,7 @@
                                     </nz-select>
                                     <div class="error-container">
                                         <div *ngIf="form.get('officeId')?.touched">
-                                            <span class="validate_input" *ngIf="form.get('officeId')?.hasError('required')">{{'required.office_required' | translate}}</span>
+                                            <span class="validate_input" *ngIf="form.get('officeId')?.hasError('required')">{{'required.cannotBlank' | translate}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -340,7 +332,7 @@
                         <div style="width: calc(100% - 8px); margin-left: 8px" >
                            
                             <div class="">
-                                <label class="label-form" nzRequired><span style="color: red">*</span> {{'employee.branch' | translate}}</label>
+                                <label class="label-form" nzRequired><span class="required-star">*</span> {{'employee.branch' | translate}}</label>
                                 <div class="w-full">
                                     <nz-select nzPlaceHolder="Chọn" formControlName="branchId" style="width: 100%;">
                                         <nz-option *ngFor="let branch of listBranch, let i =index" [nzValue]="branch.id"
@@ -350,7 +342,7 @@
                                     <div class="error-container">
                                         <div *ngIf="form.get('branchId')?.touched">
                                             <span class="validate_input"
-                                                *ngIf="form.get('branchId')?.hasError('required')">{{'required.branch_required' | translate}}</span>
+                                                *ngIf="form.get('branchId')?.hasError('required')">{{'required.cannotBlank' | translate}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -363,7 +355,7 @@
                         <div style="width: calc(100% - 8px);">
                             
                             <div class="">
-                                <label class="label-form" nzRequired><span style="color: red">*</span> {{'employee.department' | translate}}</label>
+                                <label class="label-form" nzRequired><span class="required-star">*</span> {{'employee.department' | translate}}</label>
                                 <div class="w-full">
                                     <nz-select nzPlaceHolder="Chọn" formControlName="departmentId" style="width: 100%;">
                                         <nz-option *ngFor="let department of listDepartment, let i =index" [nzValue]="department.id"
@@ -373,7 +365,7 @@
                                     <div class="error-container">
                                         <div *ngIf="form.get('departmentId')?.touched">
                                             <span class="validate_input"
-                                                *ngIf="form.get('departmentId')?.hasError('required')">{{'required.department_required' | translate}}</span>
+                                                *ngIf="form.get('departmentId')?.hasError('required')">{{'required.cannotBlank' | translate}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -383,7 +375,7 @@
                     <div nz-col nzSpan="12">
                        
                         <div style="width: calc(100% - 8px);  margin-left: 8px">
-                            <label class="label-form"><span style="color: red">*</span> {{'employee.position' | translate}}</label>
+                            <label class="label-form"><span class="required-star">*</span> {{'employee.position' | translate}}</label>
                             <div class="w-full">
                                 <nz-select nzPlaceHolder="Chọn" formControlName="positionId" style="width: 100%;">
                                     <nz-option *ngFor="let position of listPosstion, let i =index" [nzValue]="position.id"
@@ -393,7 +385,7 @@
                                 <div class="error-container">
                                     <div *ngIf="form.get('positionId')?.touched">
                                         <span class="validate_input"
-                                            *ngIf="form.get('positionId')?.hasError('required')">{{'required.position_required' | translate}}</span>
+                                            *ngIf="form.get('positionId')?.hasError('required')">{{'required.cannotBlank' | translate}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -407,14 +399,14 @@
                     <div  nz-row *ngFor="let contract of lstcontractDTO.controls; let i = index" [formGroupName]="i" >
                         <div class="form-col" nz-col>
                             <div class="mx-2 ">
-                                <label class="label-form"><span style="color: red">*</span>{{ 'employee.dateOfSigning' | translate}}</label>
+                                <label class="label-form"><span class="required-star">*</span>{{ 'employee.dateOfSigning' | translate}}</label>
                                     <div style="width: 100%;" >
-                                        <nz-date-picker nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange($event)"
+                                        <nz-date-picker nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange(['lstcontractDTO', i, 'signDate'],$event)"
                                             formControlName="signDate" class="w-full" [nzDisabledDate]="disableSignDate(i)"
                                             nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                         <div class="error-container">
                                             <div *ngIf=" contract.get('signDate')?.touched">
-                                            <span class="validate_input" *ngIf="contract.get('signDate')?.errors?.['required']">{{'required.signDate' | translate}}</span>
+                                            <span class="validate_input" *ngIf="contract.get('signDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                         </div>
                                         </div>
                                     </div>
@@ -423,7 +415,7 @@
                         <div class="form-col" nz-col>
                             <div class="mx-2">
                                 <div style="width: 100%;">
-                                    <label class="label-form"><span style="color: red">*</span> {{ 'employee.laborContractFile' | translate}}</label>
+                                    <label class="label-form"><span class="required-star">*</span> {{ 'employee.laborContractFile' | translate}}</label>
                                     <div style="width: 100%;">
                                             <div nz-row class="custom-upload"
                                                 style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px; width: 100%; height: 48px !important;">
@@ -440,7 +432,7 @@
                                             <div class="error-container">
                                                 <div *ngIf="contract.get('file')?.touched">
                                                     <span class="validate_input"
-                                                        *ngIf="contract.get('file')?.errors?.['required']">{{ 'required.file_required' | translate}}</span>
+                                                        *ngIf="contract.get('file')?.errors?.['required']">{{ 'required.cannotBlank' | translate}}</span>
                                                 </div>
                                             </div>
                                     </div>
@@ -449,7 +441,7 @@
                         </div>
                         <!-- <div nz-col class="form-col" >
                             <div class="">
-                                <label class="label-form" nzRequired><span style="color: red">*</span> {{'employee.duration' | translate}}</label>
+                                <label class="label-form" nzRequired><span class="required-star">*</span> {{'employee.duration' | translate}}</label>
                                 <div class="w-full">
                                     <nz-select nzPlaceHolder="Chọn" formControlName="type" style="width: 100%;">
                                         <nz-option *ngFor="let type of listDuration, let i =index" [nzValue]="type.id"
@@ -469,7 +461,7 @@
                             <div class="mx-2 ">
                                 <label class="label-form">{{ 'employee.toDate' | translate}}</label>
                                     <div style="width: 100%;" >
-                                        <nz-date-picker nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange($event)"
+                                        <nz-date-picker nzFormat="dd/MM/yyyy" (ngModelChange)="onDateChange(['lstcontractDTO', i , 'toDate'],$event)"
                                             formControlName="endDate" class="w-full" [nzDisabledDate]="disableIntoEndDate(i)"
                                             nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                         <!-- <div class="error-container">
@@ -489,7 +481,7 @@
 
             <div class="input-wrapper ">
                 <div class="">
-                    <label class="label-form" ><span style="color: red">*</span> {{'employee.route' | translate}}</label>
+                    <label class="label-form" ><span class="required-star">*</span> {{'employee.route' | translate}}</label>
                     <nz-select nzPlaceHolder="Chọn" formControlName="routeId" style="width: 100%;">
                         <nz-option *ngFor="let route of listRoute, let i =index" [nzValue]="route.id"
                             [nzLabel]="route.name"></nz-option>
@@ -498,7 +490,7 @@
                     <div class="error-container">
                         <div *ngIf="form.get('routeId')?.touched">
                             <span class="validate_input"
-                                *ngIf="form.get('routeId')?.hasError('required')">{{'required.route_required' | translate}}</span>
+                                *ngIf="form.get('routeId')?.hasError('required')">{{'required.cannotBlank' | translate}}</span>
                         </div>
                     </div>
                 </div>
@@ -506,11 +498,11 @@
 
             <div class="input-wrapper">
                 <div class="">
-                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.businessCardNumber' | translate}}</label>
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.businessCardNumber' | translate}}</label>
                     <input class="input-form" (input)="validateNumber('businessCardNumber',$event)"  placeholder="03256659"  formControlName="businessCardNumber" type="text" >
                     <div class="error-container">
                         <div *ngIf="form.get('businessCardNumber')?.invalid && (form.get('businessCardNumber')?.dirty || form.get('businessCardNumber')?.touched)">
-                            <span class="validate_input" *ngIf="form.get('businessCardNumber')?.errors?.['required']">{{'required.businessCardNumber_required' | translate}}</span>
+                            <span class="validate_input" *ngIf="form.get('businessCardNumber')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                             <span class="instruct" *ngIf="form.get('businessCardNumber')?.errors?.['pattern']">{{'required.number_pattern' | translate}}</span>
                         </div>
                     </div>
@@ -520,13 +512,13 @@
 
             <div  class="input-wrapper">
                 <div class="">
-                    <label class="label-form" ><span style="color: red">*</span> {{'employee.day_start' | translate}}</label>
-                    <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange($event)" style="width: 100%"
+                    <label class="label-form" ><span class="required-star">*</span> {{'employee.day_start' | translate}}</label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange('bcStartDate',$event)" style="width: 100%"
                         [nzDisabledDate]="disableBcStartDate"
                             formControlName="bcStartDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                         <div class="error-container">
                             <div *ngIf="form.get('bcStartDate')?.touched">
-                                <span class="validate_input" *ngIf="form.get('bcStartDate')?.errors?.['required']">{{'required.date_required' | translate}}</span>
+                                <span class="validate_input" *ngIf="form.get('bcStartDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                             </div>
                         </div>
                 </div>
@@ -534,13 +526,13 @@
 
             <div  class="input-wrapper">
                 <div class="">
-                    <label class="label-form" > <span style="color: red">*</span>{{'employee.day_end' | translate}}</label>
-                    <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange($event)" style="width: 100%"
+                    <label class="label-form" > <span class="required-star">*</span>{{'employee.day_end' | translate}}</label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange('bcEndDate',$event)" style="width: 100%"
                             [nzDisabledDate]="disableIntobcEndDate"
                             formControlName="bcEndDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                         <div class="error-container">
                             <div *ngIf="form.get('bcEndDate')?.touched">
-                                <span class="validate_input" *ngIf="form.get('bcEndDate')?.errors?.['required']">{{'required.date_required' | translate}}</span>
+                                <span class="validate_input" *ngIf="form.get('bcEndDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                             </div>
                         </div>
                 </div>
@@ -548,7 +540,7 @@
 
             <div class="input-wrapper">
                 <div class="">
-                    <span style="color: red;" >*</span><label class="label-form" >{{'employee.picture_card' | translate}}</label>
+                    <span class="required-star" >*</span><label class="label-form" >{{'employee.picture_card' | translate}}</label>
                     <div nz-row nzGutter="8" class="custom-upload"
                             style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px; height: 48px !important;">
                             <input nz-input placeholder="Chọn ảnh" readonly class="upload-input"
@@ -571,7 +563,7 @@
 
             <div  class="input-wrapper">
                 <div class="">
-                    <label class="label-form" ><span style="color: red">*</span>{{'employee.healthCertificate' | translate}} </label>
+                    <label class="label-form" ><span class="required-star">*</span>{{'employee.healthCertificate' | translate}} </label>
                     <div nz-row nzGutter="8" class="custom-upload"
                             style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;  height: 48px !important;">
                             <input nz-input placeholder="Chọn file" readonly class="upload-input" 
@@ -596,8 +588,8 @@
 
             <div  class="input-wrapper">
                 <div class="">
-                    <label class="label-form" ><span style="color: red">*</span> {{'employee.dayend_healthCertificate' | translate}} </label>
-                    <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange($event)" style="width: 100%;"
+                    <label class="label-form" ><span class="required-star">*</span> {{'employee.dayend_healthCertificate' | translate}} </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange('hcEndDate',$event)" style="width: 100%;"
                             formControlName="hcEndDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                         <div class="error-container">
                             <div *ngIf="form.get('hcEndDate')?.touched">
@@ -609,7 +601,7 @@
 
             <div class="input-wrapper">
                 <div class="">
-                    <label class="label-form" ><span style="color: red">*</span>{{'employee.number_healthCertificate' | translate}}</label>
+                    <label class="label-form" ><span class="required-star">*</span>{{'employee.number_healthCertificate' | translate}}</label>
                     <input nz-input class="form-input" formControlName="driverLicenseNumber" placeholder="Nhập" (input)="validateNumber('number_healthCertificate``',$event)" class="form-input" style="width: 100%;"/>
                         <div class="error-container">
                             <div *ngIf="form.get('driverLicenseNumber')?.invalid && (form.get('driverLicenseNumber')?.dirty) || form.get('driverLicenseNumber')?.touched">
@@ -621,7 +613,7 @@
 
             <div  class="input-wrapper">
                 <div class="">
-                    <label class="label-form"  style="padding-left: none;"><span style="color: red">*</span> {{'employee.driverLicense' | translate}}</label>
+                    <label class="label-form"  style="padding-left: none;"><span class="required-star">*</span> {{'employee.driverLicense' | translate}}</label>
                     <nz-select nzPlaceHolder="Chọn" formControlName="driverLicenseType" style="width: 100%;">
                         <nz-option *ngFor="let driverL of driverLicense, let i = index"[nzValue]="driverL.id" [nzLabel]="driverL.value"></nz-option>
                         
@@ -639,8 +631,8 @@
 
             <div class="input-wrapper">
                 <div class="">
-                    <label class="label-form" ><span style="color: red">*</span> {{'employee.day_start' | translate}} </label>
-                    <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange($event)"
+                    <label class="label-form" ><span class="required-star">*</span> {{'employee.day_start' | translate}} </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange('dlStartDate',$event)"
                         [nzDisabledDate]="disabledlStartDate" style="width: 100%"
 
                             formControlName="dlStartDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
@@ -654,8 +646,8 @@
 
             <div  class="input-wrapper">
                 <div class="">
-                    <label class="label-form" ><span style="color: red">*</span>{{'employee.day_end' | translate}}  </label>
-                    <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange($event)"
+                    <label class="label-form" ><span class="required-star">*</span>{{'employee.day_end' | translate}}  </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange('dlEndDate',$event)"
                         [nzDisabledDate]="disabledlEndDate" style="width: 100%"
                             formControlName="dlEndDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                         <div class="error-container">
@@ -668,7 +660,7 @@
 
             <div  class="input-wrapper">
                 <div class="">
-                    <span style="color: red;" >*</span><label class="label-form" >{{'employee.picture_driverLicens' | translate}}</label>
+                    <span class="required-star" >*</span><label class="label-form" >{{'employee.picture_driverLicens' | translate}}</label>
                     <div nz-row nzGutter="8" class="custom-upload"
                             style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px;  height: 48px !important;">
                             <input nz-input placeholder="Chọn ảnh" readonly class="upload-input" style="width: 100%"
@@ -820,7 +812,7 @@
                             <div nz-col nzSpan="10">
                                 <div class="mx-2">
                                     <div class="">
-                                        <label class="label-form"><span style="color: red">*</span>{{'employee.name_child' | translate}}</label>
+                                        <label class="label-form"><span class="required-star">*</span>{{'employee.name_child' | translate}}</label>
                                         <div>
                                             <input nz-input class="form-input" (input)="validateText(['lstChildren', childIndex, 'name'],$event)"  (blur)="onBlur(['lstChildren', childIndex, 'name'])"  formControlName="name" placeholder="Nhập"  style="width: 100%"  />
                                                 <div class="error-container">
@@ -837,7 +829,7 @@
                             <div nz-col nzSpan="6">
                                 <div class="mx-2">
                                     <div class="">
-                                        <label class="label-form"><span style="color: red">*</span>{{'employee.yearOfBirth' | translate}}</label>
+                                        <label class="label-form"><span class="required-star">*</span>{{'employee.yearOfBirth' | translate}}</label>
                                         <div>
                                             <input nz-input class="form-input" type="text" (input)="validateNumber('yearOfBirth',$event)" maxlength="4" formControlName="yearOfBirth" placeholder="Nhập năm" style="width: 100%"/>
                                                 <div class="error-container">
@@ -855,7 +847,7 @@
                             <div nz-col nzSpan="6">
                                 <div class="mx-2">
                                     <div class="">
-                                        <label class="label-form"><span style="color: red">*</span>{{'employee.gender' | translate}}</label>
+                                        <label class="label-form"><span class="required-star">*</span>{{'employee.gender' | translate}}</label>
                                         <nz-select nzPlaceHolder="Chọn" formControlName="gender"  style="width: 100%">
                                             <nz-option *ngFor="let gender of listGender" [nzValue]="gender.id" [nzLabel]="gender.value"></nz-option>
                                         </nz-select>

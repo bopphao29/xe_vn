@@ -29,6 +29,9 @@ import de from 'date-fns/locale/de';
 import { UploadImageService } from '../../../../shared/services/upload-image.service';
 import { ValidateIntoPageService } from '../../../../shared/services/validate-into-page.service';
 import { VIETNAMESE_REGEX } from '../../../../shared/constants/common.const';
+import { NUMBER_REGEX } from '../../../../shared/constants/common.const';
+import { ChangeFunctionService } from '../../../../shared/services/change-function.service';
+
 
 interface FileCompressed {
   contractFile: File[];
@@ -156,7 +159,8 @@ export class SetupProfileEmployeeComponent implements OnInit {
     private pdfService: PdfService,
     private routes: Router,
     private uploadImageService: UploadImageService,
-    private validateService: ValidateIntoPageService
+    private validateService: ValidateIntoPageService,
+    private changeFunctionService: ChangeFunctionService
   ) {
     this.form = this.fb.group(this.data)
   }
@@ -173,20 +177,20 @@ export class SetupProfileEmployeeComponent implements OnInit {
     this.maxYear = maxYear
     this.minYear = minYear
     this.form = this.fb.group({
-      name: [null, [Validators.required, Validators.pattern('^[a-zA-Zà-ỹÀ-Ỹ\\s]+$')]],
+      name: [null, [Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
       yearOfBirth: [null, [Validators.required, Validators.min(minYear), Validators.max(maxYear), Validators.maxLength(4), Validators.pattern(/^[0-9]*$/)]],
       gender: [null, Validators.required],
       identifierId: [null, [Validators.required,  Validators.pattern(/^(0[0-9]{11})$/)]],
       phoneNumber: [null, [Validators.required, Validators.pattern(/^(0[0-9]{9}|8[4][0-9]{9})$/)]],
-      zalo: [null,[ Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
+      zalo: [null,[ Validators.required]],
       email: [null, [Validators.required, Validators.email]],
       ethnicGroup: [null,[Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
-      religion: [null,[Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
+      religion: [null,[ Validators.pattern(VIETNAMESE_REGEX)]],
       professionalLevel: [null, [Validators.required]],
       maritalStatus: [null, [Validators.required]],
       contactPerson: [null, [Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
       contractFile: [null],
-      contactPersonPhone: [null, [Validators.required, Validators.pattern(/^(0\d{9}|84\d{9})$/)]],
+      contactPersonPhone: [null, [Validators.required, Validators.pattern(/^(0[0-9]{9}|8[4][0-9]{9})$/)]],
       // contractDuration: [null, Validators.required],
       staffRelation: [null, [Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
       permanentAddress: [null, [Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
@@ -272,39 +276,25 @@ export class SetupProfileEmployeeComponent implements OnInit {
     {id: 2, value: "Đã kết hôn"}
   ]
 
-//////////////////////////////////////validate just enter text input/////////////////
-
-
-
-  validateText( path: string | (string | number)[], event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    
-    if(inputElement.value.length == 0){
-      this.form.get(path)?.setValidators(Validators.required)
-    }
-    else{
-      inputElement.value = inputElement.value.replace(/[^a-zA-ZÀÁÂẤÃẠÈÉÊÌÍÒÓÔÕỌÙÚĂĐẰẮĨŨƠàáâãạằắèéêìíòóôõọùúăđĩũơăĨŨƯẰẮẴẶỜỚỠỢỪỨỮỰắằẵặấầẫậốồỗộớờỡợếềễệứừữựỲÝỴỶỸỳýỵỷỹ\s]/g, '');
-      this.form.get(path)?.setValidators(Validators.pattern(VIETNAMESE_REGEX))
-    }
-    this.form.get(path)?.updateValueAndValidity()
-
+  validateText(path: string | (string | number)[], event: Event) {
+    this.validateService.validateText(this.form, path, event)
   }
-
-
+  
 
 //////////////////////////////////////validate just enter number input/////////////////
 validateNumber(name:string , event : Event){
   this.validateService.validateNumber(event)
 }
 
+validatorsRequired(name: string | (string | number)[]){
+  this.validateService.validatorsRequired(this.form, name)
+}
+
 onBlur(path: string | (string | number)[]) {
   const control = this.form.get(path);
   const value = control?.value?.trim(); // Loại bỏ khoảng trắng đầu/cuối
 
-  // Loại bỏ ký tự không phải số
-  const cleanStr = value?.replace(/[^a-zA-ZaAÁáÀàẠạÃãẢảăĂắẮẰằẶặẲẳẴẵÂâẤấẦầẪẫẨẩẬậeEèÈẺẻÉéẸẹẼẽÊêỀềẾếỂểỄễỆệiIìÌíÍỉỈịỊĨĩoOòÓóỎỏỌọÕõÔôỒồỐốỔổỘộỖỗƠơỜờỚớỞởỢợỠỡuUùÙÚúỦủỤụŨũƯưỪừỨứỬửỰựỮữyYỳỲýỶỷỴỵỸỹÝ\s]/g, "") || ""; 
-  // Kiểm tra nếu giá trị không hợp lệ (NaN, null, undefined, chuỗi rỗng)
-  if (cleanStr == "") {
+  if (value == "") {
     // Thêm validator nếu không hợp lệ
     control?.setValue("")
     control?.setValidators(Validators.required);
@@ -807,15 +797,11 @@ beforeUpload = (file: NzUploadFile): boolean => {
   isoDate: string | null = null;
   /////////////////////////////////////////////////////////////////////////DATE/////////////////////////////////////////////////////////////
   // Hàm xử lý thay đổi ngày
-  onDateChange(date: Date): void {
-    if (date) {
-      this.isoDate = date.toISOString(); // Chuyển đổi sang ISO 8601
-    } else {
-      this.isoDate = null;
-    }
-
-    this.form.get('toDate')?.updateValueAndValidity()
+  onDateChange(name: string | (string | number)[], date: Date): void {
+    this.changeFunctionService.onDateChange(this.form, name, date)
   }
+
+  
 
 
   startValue: Date | null = null
@@ -865,6 +851,32 @@ beforeUpload = (file: NzUploadFile): boolean => {
     return dlEndDate ? dlStartDate >= dlEndDate : false
   }
 
+  disableAfterDate(name: string): (afterDate: Date | null) => boolean {
+    return (afterDate: Date | null): boolean => {
+      if (!afterDate || !this.form) return false;
+  
+      const beforeDate = this.form.get(name)?.value;
+      if (!beforeDate) return false;
+  
+      const beforeDateObject = new Date(beforeDate);
+  
+      return afterDate >= beforeDateObject;
+    };
+  }
+  
+  disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
+    return (beforeDate: Date | null): boolean => {
+      if (!beforeDate || !this.form) return false;
+  
+      const afterDate = this.form.get(name)?.value;
+      if (!afterDate) return false;
+  
+      const AfterDateObject = new Date(afterDate);
+  
+      return beforeDate <= AfterDateObject;
+    };
+  }
+  
 
   ///////////////////////////////////////////////////////////////////////SHOW DATA///////////////////////////////////////////////////////////////////////
   officeEmployee: any

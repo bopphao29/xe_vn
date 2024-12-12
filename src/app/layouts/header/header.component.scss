@@ -105,9 +105,9 @@
   }
   
   
-.w-screen{
-    width: 180px !important;
-}
+// .w-screen{
+//     width: 180px !important;
+// }
 
 .group:hover .group-hover\:opacity-100 {
     opacity: 1 !important;
@@ -131,3 +131,16 @@
     color: #274EA1 !important;
     // fill: #ffffff !important;
   }
+
+  .triangle {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 86.6px solid #3498db; /* Màu của tam giác */
+    /* Để đảm bảo tam giác đều, chiều cao = (sqrt(3) / 2) * đáy */
+  }
+
+  .left-21 {
+    left: calc(var(--spacing)* -21) !important;
+}

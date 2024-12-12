@@ -22,6 +22,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {PDF} from '../../../shared/pdf/pdf.util';
 import { ValidateIntoPageService } from '../../../shared/services/validate-into-page.service';
+import { ChangeFunctionService } from '../../../shared/services/change-function.service';
 
 
 
@@ -75,6 +76,8 @@ export class DetailProfileEmployeeComponent implements OnInit {
   has_child : any
 
   driverLicense: any[] = [];
+  yearNow = new Date().getFullYear();
+
 
   data: IData = {
     name: null,
@@ -158,7 +161,8 @@ export class DetailProfileEmployeeComponent implements OnInit {
     private notification: NotificationService,
     private router: Router,
     private route: ActivatedRoute,
-    private validateService: ValidateIntoPageService
+    private validateService: ValidateIntoPageService,
+    private changeFunctionService: ChangeFunctionService
 
     // private minitoService : MinioService
 
@@ -1169,13 +1173,8 @@ validateNumber(event : Event){
   isoDate: string | null = null;
 
   // Hàm xử lý thay đổi ngày
-  onDateChange(date: Date): void {
-    if (date instanceof Date) {
-      this.isoDate = date.toISOString(); // Chuyển đổi sang ISO 8601
-      console.log(this.isoDate)
-    } else {
-      this.isoDate = null;
-    }
+  onDateChange(name: string | (string | number)[], date: Date): void {
+    this.changeFunctionService.onDateChange(this.form, name, date)
   }
 
   onBack(event: Event){
@@ -1603,7 +1602,6 @@ validateNumber(event : Event){
 
   ///////////////////////////////////////////////////// Modal Achievements///////////////////////////////////////////////////
   isModalAchievements: boolean = false
-  yearNow = new Date().getFullYear();
   optionMonth = [
     {id : '1', value: 'Tháng 1'},
     {id : '2', value: 'Tháng 2'},

@@ -51,4 +51,7 @@ export const FILE_TYPE_VALID = /\.(xls|xlsx)$/i
 
 export const LOCALE = 'en-US'
 
-export const VIETNAMESE_REGEX = /^[a-zA-ZaAÁáÀàẠạÃãẢảăĂắẮẰằẶặẲẳẴẵÂâẤấẦầẪẫẨẩẬậeEèÈẺẻÉéẸẹẼẽÊêỀềẾếỂểỄễỆệiIìÌíÍỉỈịỊĨĩoOòÓóỎỏỌọÕõÔôỒồỐốỔổỘộỖỗƠơỜờỚớỞởỢợỠỡuUùÙÚúỦủỤụŨũƯưỪừỨứỬửỰựỮữyYỳỲýỶỷỴỵỸỹÝ\s]+$/
+export const VIETNAMESE_REGEX = /^[a-zA-Zàáạảãâấầẫẩậăắằặẳẵâẽệẹẻêíìíịỉĩoóòọỏõôồốỗổộơởớờỡọùúủụũưừứữửựỳýỵỷỹ\s]+$/;
+
+
+export const NUMBER_REGEX = /^[0-9]+$/

@@ -37,7 +37,7 @@ export class VehicalManagementComponent {
 
   navigatePage(){
     switch (this.activeLink){
-      case 'setupVehical':
+      case 'setupVehicel':
         this.routerSetupVehical();
         break;
       case 'maintenanceRepair':
@@ -69,10 +69,10 @@ export class VehicalManagementComponent {
  }
 
   routerSetupVehical(){
-    this.activeLink = 'setupVehical'
+    this.activeLink = 'setupVehicel'
     this.romoveSearchVehical()
     localStorage.setItem('activeLink', this.activeLink);
-    this.routes.navigate(['vehical/setup-vehical'])
+    this.routes.navigate(['vehicle/setup-vehicle'])
   }
 
   routerMaintenanceRepair(){
@@ -80,21 +80,21 @@ export class VehicalManagementComponent {
     this.romoveSearchVehical()
 
     localStorage.setItem('activeLink', this.activeLink);
-    this.routes.navigate(['vehical/maintenance-repair'])
+    this.routes.navigate(['vehicle/maintenance-repair'])
   }
 
   routerDeepInteriorCleaning(){
     this.activeLink = 'deepInteriorCleaning'
     this.romoveSearchVehical()
     localStorage.setItem('activeLink', this.activeLink);
-    this.routes.navigate(['vehical/deep-interior-cleaning'])
+    this.routes.navigate(['vehicle/deep-interior-cleaning'])
   }
 
   routerVehicleProfileManagement(){
     this.activeLink = 'vehicleProfileManagement'
     this.romoveSearchVehical()
     localStorage.setItem('activeLink', this.activeLink);
-    this.routes.navigate(['vehical/profile-vehical-management'])
+    this.routes.navigate(['vehicle/profile-vehicle-management'])
   }
 
   routerOperationalManagement(){
@@ -102,21 +102,21 @@ export class VehicalManagementComponent {
     this.romoveSearchVehical()
 
     localStorage.setItem('activeLink', this.activeLink);
-    this.routes.navigate(['vehical/operational-management'])
+    this.routes.navigate(['vehicle/operational-management'])
   }
 
   routerOperaterTimeManagement(){
     this.activeLink = 'operaterTimeManagement'
     this.romoveSearchVehical()
     localStorage.setItem('activeLink', this.activeLink);
-    this.routes.navigate(['vehical/operater-time-management'])
+    this.routes.navigate(['vehicle/operater-time-management'])
   }
   routerFuelAnagement(){
     this.activeLink = 'fuelAnagement'
     this.romoveSearchVehical()
 
     localStorage.setItem('activeLink', this.activeLink);
-    this.routes.navigate(['vehical/fuel-anagement'])
+    this.routes.navigate(['vehicle/fuel-anagement'])
   }
 
 

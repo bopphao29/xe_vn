@@ -61,7 +61,7 @@ export class SetupProfileCarComponent implements OnInit {
     file: []
   };
 
-  status_vehical: number = 0
+  status_vehicle: number = 0
   is_New: any
   form!: FormGroup;
   labelTruck : boolean = false
@@ -109,7 +109,7 @@ export class SetupProfileCarComponent implements OnInit {
         registerNo: [null, [Validators.required]],
         frameNumber: [null, [Validators.maxLength(17)]],
         machineNumber: [null, [Validators.maxLength(17)]],
-        manufactureYear: [null, [Validators.min(1940), Validators.max(maxYear), Validators.maxLength(4)]],
+        manufactureYear: [null, [Validators.required, Validators.min(1940), Validators.max(maxYear), Validators.maxLength(4)]],
         manufacturer: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
         vehicleModel: [null, Validators.required],
         vehicleTypeId: [null],
@@ -119,10 +119,10 @@ export class SetupProfileCarComponent implements OnInit {
         routeId: [null, Validators.required],
         odometer: [null,[ Validators.required, Validators.maxLength(16)]],
         // payload: [null, Validators.required],
-        firstSubcriptionDate: [null, Validators.required],
+        firstSubscriptionDate: [null, Validators.required],
         fristRegistrationDate: [null, Validators.required],
         firstStartDateXE: [null, Validators.required],
-        owningLegalEntity: [null, Validators.required],
+        legalOwnerId: [null, Validators.required],
         firstStartDate: [null, Validators.required],
         subscriptionDate: [null, Validators.required],
         registrationDate: [null, Validators.required],
@@ -165,12 +165,12 @@ export class SetupProfileCarComponent implements OnInit {
       
 
       this.form.get('driver.driverStatus')?.valueChanges.subscribe((value: any)=> {
-        // this.status_vehical = value
+        // this.status_vehicle = value
         // console.log(value);
         if(value === '0' || value === 0){
-          this.status_vehical = 0
+          this.status_vehicle = 0
         }else{
-          this.status_vehical = 1
+          this.status_vehicle = 1
         }
         
       })
@@ -191,20 +191,20 @@ export class SetupProfileCarComponent implements OnInit {
         this.is_New = value
         if(this.is_New !== "0"){
           this.form.get('firstStartDateXE')?.reset()
-          this.form.get('firstSubcriptionDate')?.reset()
+          this.form.get('firstSubscriptionDate')?.reset()
           this.form.get('fristRegistrationDate')?.reset()
           this.form.get('firstStartDateXE')?.clearValidators()
-          this.form.get('firstSubcriptionDate')?.clearValidators()
+          this.form.get('firstSubscriptionDate')?.clearValidators()
           this.form.get('fristRegistrationDate')?.clearValidators()
         }
           else{
           this.form.get('firstStartDateXE')?.setValidators(Validators.required)
-          this.form.get('firstSubcriptionDate')?.setValidators(Validators.required)
+          this.form.get('firstSubscriptionDate')?.setValidators(Validators.required)
           this.form.get('fristRegistrationDate')?.setValidators(Validators.required)
         }
     
         this.form.get('firstStartDateXE')?.updateValueAndValidity()
-        this.form.get('firstSubcriptionDate')?.updateValueAndValidity()
+        this.form.get('firstSubscriptionDate')?.updateValueAndValidity()
         this.form.get('fristRegistrationDate')?.updateValueAndValidity()
     
       })

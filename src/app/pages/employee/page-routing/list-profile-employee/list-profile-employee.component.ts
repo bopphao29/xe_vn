@@ -20,6 +20,7 @@ import { NotificationService } from '../../../../shared/services/notification.se
 import { SearchEmployeeProfileService } from '../../../../shared/services/search-employee-profile.service';
 import Swal from 'sweetalert2';
 import { DisableService } from '../../../../shared/services/disable.service';
+import { ChangeFunctionService } from '../../../../shared/services/change-function.service';
 
 
 
@@ -57,7 +58,8 @@ export class ListProfileEmployeeComponent implements OnInit {
     private userSevice: UserServiceService,
     private notification: NotificationService,
     private searchEmployeeProfile : SearchEmployeeProfileService,
-    private disableService: DisableService
+    private disableService: DisableService,
+    private changeFunctionService: ChangeFunctionService
   ){
 
   }
@@ -174,16 +176,52 @@ export class ListProfileEmployeeComponent implements OnInit {
   }
 
   isoDate: string | null = null;
-  onDateChange(date: Date): void {
-    if (date) {
-      this.isoDate = date.toISOString(); // Chuyển đổi sang ISO 8601
-    } else {
-      this.isoDate = null;
+  onDateChange( name: string | (string | number)[], date: any): void {
+    console.log("onDateChange called with", { name, date });
+  
+    const currentValue = this.form.get(name)?.value;
+  
+    // Chuyển đổi date thành Date hợp lệ
+    const parsedDate = date instanceof Date ? date : new Date(date);
+  
+    // Kiểm tra nếu parsedDate không hợp lệ
+    if (isNaN(parsedDate.getTime())) {
+      this.form.get(name)?.setValue(null, { emitEvent: false });
+      return;
     }
-
-    // this.form.get('toDate')?.updateValueAndValidity()
+  
+    // Lấy ngày cũ và ngày mới để so sánh
+    const currentDate = currentValue ? new Date(currentValue) : null;
+    const selectedDate = new Date(parsedDate);
+  
+    // Nếu đã có giá trị "fromDate" (ngày trước) và đang thay đổi "toDate" (ngày sau)
+    if (currentDate) {
+      // So sánh ngày
+      if (selectedDate < currentDate) {
+        console.log("Ngày sau phải lớn hơn hoặc bằng ngày trước");
+        this.form.get(name)?.setValue(null, { emitEvent: false });
+        return;
+      }
+  
+      // So sánh giờ nếu ngày giống nhau
+      if (selectedDate.toDateString() === currentDate.toDateString()) {
+        const selectedTime = selectedDate.getTime();
+        const currentTime = currentDate.getTime();
+  
+        // Nếu giờ phút của ngày sau < giờ phút của ngày trước, vô hiệu hóa
+        if (selectedTime < currentTime) {
+          console.log("Giờ phút của ngày sau phải lớn hơn hoặc bằng giờ phút của ngày trước.");
+          this.form.get(name)?.setValue(null, { emitEvent: false });
+          return;
+        }
+      }
+    }
+  
+    // Nếu không có vấn đề gì, cập nhật ngày
+    const formattedDate = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
+    this.form.get(name)?.setValue(formattedDate, { emitEvent: false });
   }
-
+  
   disableIntoToDate = (toDate: Date): boolean => {
     const fromDate = this.form.get('fromDate')?.value;
   const parsedFromDate = fromDate ? new Date(fromDate) : null;
@@ -332,16 +370,31 @@ export class ListProfileEmployeeComponent implements OnInit {
       if (!afterDate || !this.formOnLeave) return false;
   
       const beforeDate = this.formOnLeave.get(name)?.value;
-      const today = new Date();
-      // Đặt giờ, phút, giây, và mili giây của ngày hôm nay về 0 để chỉ so sánh ngày
-      today.setHours(0, 0, 0, 0);
-      // Nếu không có beforeDate, chỉ kiểm tra ngày hôm nay
-      if (!beforeDate) {
-        return afterDate <= today;
-      }
+      if (!beforeDate) return false;
+  
       const beforeDateObject = new Date(beforeDate);
-      // Ngày được chọn phải lớn hơn hôm nay và nhỏ hơn beforeDate
-      return afterDate <= today || afterDate >= beforeDateObject;
+
+      beforeDateObject.setDate(beforeDateObject.getDate() - 1);
+  
+      // So sánh ngày trước và ngày sau
+      if (afterDate < beforeDateObject) {
+        return true; // Vô hiệu hóa nếu ngày sau < ngày trước
+      }
+  
+      // Nếu ngày trước và ngày sau giống nhau, kiểm tra giờ
+      if (afterDate.toDateString() === beforeDateObject.toDateString()) {
+        const afterHours = afterDate.getHours();
+        const afterMinutes = afterDate.getMinutes();
+        const beforeHours = beforeDateObject.getHours();
+        const beforeMinutes = beforeDateObject.getMinutes();
+  
+        // Kiểm tra giờ phút của ngày sau <= giờ phút của ngày trước
+        if (afterHours < beforeHours || (afterHours === beforeHours && afterMinutes <= beforeMinutes)) {
+          return true; // Vô hiệu hóa nếu giờ của ngày sau <= giờ của ngày trước
+        }
+      }
+  
+      return false; // Không có vấn đề gì, không vô hiệu hóa
     };
   }
   
@@ -349,20 +402,35 @@ export class ListProfileEmployeeComponent implements OnInit {
   disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
     return (beforeDate: Date | null): boolean => {
       if (!beforeDate || !this.formOnLeave) return false;
+  
       const afterDate = this.formOnLeave.get(name)?.value;
-      if (!afterDate || !this.formOnLeave) return false;
+      if (!afterDate) return false;
   
-      const today = new Date()
-      today.setHours(0, 0, 0, 0);
-
-      if(!afterDate){
-        return beforeDate <= today
+      const afterDateObject = new Date(afterDate);
+  
+      // So sánh ngày trước với ngày sau
+      if (beforeDate > afterDateObject) {
+        return true; // Vô hiệu hóa nếu ngày trước lớn hơn ngày sau
       }
-      const AfterDateObject = new Date(afterDate);
   
-      return afterDate <= today || beforeDate <= AfterDateObject;
+      // Nếu ngày trước và ngày sau giống nhau, kiểm tra giờ
+      if (beforeDate.toDateString() === afterDateObject.toDateString()) {
+        const beforeTime = beforeDate.getTime();
+        const afterTime = afterDateObject.getTime();
+  
+        // So sánh giờ, phút. Vô hiệu hóa nếu giờ, phút của ngày trước > giờ, phút của ngày sau
+        if (beforeTime > afterTime) {
+          return true; // Vô hiệu hóa nếu giờ của ngày trước > giờ của ngày sau
+        }
+      }
+  
+      return false; // Nếu không có vấn đề gì, không vô hiệu hóa
     };
   }
+  
+  
+  
+  
   
 
 }
