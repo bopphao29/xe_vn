@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { NotificationService } from './notification.service';
 import { FormGroup, Validators } from '@angular/forms';
-import { VIETNAMESE_REGEX } from '../constants/common.const';
+import { NUMBER_REGEX, VIETNAMESE_REGEX } from '../constants/common.const';
+import { error } from 'pdf-lib';
+import { TranslateService } from '@ngx-translate/core';
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,19 +12,24 @@ import { VIETNAMESE_REGEX } from '../constants/common.const';
 export class ValidateIntoPageService {
 
   constructor(
-    private notification: NotificationService
+    private notification: NotificationService,
+    private translate: TranslateService
   ) { }
 
-  validateText(form: FormGroup, path: string | (string | number)[], event: Event) {
+  validateText(form: FormGroup,path: string | (string | number)[], event: Event) {
     const inputElement = event.target as HTMLInputElement;
+    const value = inputElement.value;
+    const invalidCharacters = /[^a-zA-Z\u00C0-\u017F\s]/.test(value);
   
-    const pattern = VIETNAMESE_REGEX;
-  
-    if (inputElement.value && !pattern.test(inputElement.value)) {
-      inputElement.value = inputElement.value.replace(VIETNAMESE_REGEX, '');
-      form.get(path)?.setValidators(Validators.pattern(VIETNAMESE_REGEX))
+    if (invalidCharacters) {
+      form.get(path)?.setValidators(Validators.pattern(VIETNAMESE_REGEX));
+    } else {
+      form.get(path)?.clearValidators()
     }
+
+    form.get(path)?.updateValueAndValidity(); 
   }
+  
 
   //////////////////////////////////////validate just enter number input/////////////////
   validateNumber(event: Event) {
@@ -35,6 +43,34 @@ export class ValidateIntoPageService {
     }
     // Loại bỏ tất cả ký tự không phải số
     // valueNum.value = valueNum.value.replace(/[^0-9]/g, '');
+  }
+
+  validateTextAndNumber(form: FormGroup,path: string | (string | number)[],event: Event){
+    const valueInput = event.target as HTMLInputElement
+
+    if(valueInput){
+      const isNumber = NUMBER_REGEX.test(valueInput.value)
+      if(isNumber){
+
+      }
+    }
+  }
+
+
+  validatorsRequired(form: FormGroup,path: string | (string | number)[]): string | undefined{
+    const value = form.get(path)
+    if(value){
+      if(value.invalid  && (value.dirty || value.touched)){
+        if(value?.errors?.['required'] || value?.hasError('required')){
+          return this.translate.instant('required.cannotBlank');
+        }
+        if(value?.errors?.['pattern']){
+          return this.translate.instant('required.cannotBlank');
+          
+        } 
+      }
+    }
+    return undefined
   }
 
   //////////check phone //////////////////////////////
