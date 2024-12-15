@@ -1,15 +1,17 @@
 <div >
-  <form nz-form nzGutter="16" class="w-full" class="p-4 pt-0" (ngSubmit)="createVehical()" nzLayout="vertical" [formGroup]="form" style="background-color: #f3f3f3;">
-
-    <!-- Mã thiết bị -->
+  <form nz-form nzGutter="16" class="w-full" class="p-4 pt-0" (ngSubmit)="createVehicle()" nzLayout="vertical" [formGroup]="form" style="background-color: #f3f3f3;">
     <div class="form-container">
       <div class="input-wrapper p-0">
         <div class="">
-          <label class="label-form">{{'vehicle.vehicleType' | translate}}</label>
+          <span class="required-star" >*</span><label class="label-form">{{'vehicle.vehicleType' | translate}}</label>
           <nz-select nzPlaceHolder="Chọn loại xe" formControlName="vehicleTypeId" style="width: 100%">
-            <nz-option *ngFor="let data of listVehical" [nzValue]="data.id" [nzLabel]="data.name"></nz-option>
-            <!-- <nz-option nzValue="solati" nzLabel="Solati"></nz-option> -->
+            <nz-option *ngFor="let data of listVehicle" [nzValue]="data.id" [nzLabel]="data.name"></nz-option>
           </nz-select>
+          <div class="error-container">
+            <div *ngIf="form.get('vehicleTypeId')?.invalid && (form.get('vehicleTypeId')?.dirty || form.get('vehicleTypeId')?.touched)">
+                <span class="validate_input" *ngIf="form.get('vehicleTypeId')?.hasError('required')">{{'required.cannotBlank' | translate}}</span>
+            </div>
+        </div>
         </div>
       </div>
     </div>
@@ -20,7 +22,6 @@
   
     <div style="background-color: #fff; border-radius: 5px;">
       <div class="p-4 pb-0 form-container">
-        
         <div class="input-wrapper">
           <div class="">
             <span class="required-star" >*</span><label class="label-form" for="" >{{'vehicle.vehicleStatus' | translate}}</label>
@@ -99,10 +100,13 @@
         <div class="input-wrapper">
           <div class="">
               <span class="required-star" >*</span><label class="label-form" for="" >{{'vehicle.type_vehicle' | translate}}</label>
-              <input class="input-form"  placeholder="Nhập" type="text" formControlName="vehicleModel" >
+              <nz-select nzPlaceHolder="Chọn" formControlName="vehicleModelId" style="width: 100%">
+                <nz-option *ngFor="let data of listVehicleModel" [nzValue]="data.id" [nzLabel]="data.name"></nz-option>
+                <!-- <nz-option nzValue="solati" nzLabel="Solati"></nz-option> -->
+              </nz-select>
               <div class="error-container">
-                  <div *ngIf="form.get('vehicleModel')?.invalid && (form.get('vehicleModel')?.dirty || form.get('vehicleModel')?.touched)">
-                      <span class="validate_input" *ngIf="form.get('vehicleModel')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                  <div *ngIf="form.get('vehicleModelId')?.invalid && (form.get('vehicleModelId')?.dirty || form.get('vehicleModelId')?.touched)">
+                      <span class="validate_input" *ngIf="form.get('vehicleModelId')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                   </div>
               </div>
           </div>
@@ -212,8 +216,7 @@
           <div class="">
             <span class="required-star" >*</span><label class="label-form" for="" >{{'vehicle.legalOwnerId' | translate}}</label>
             <nz-select nzPlaceHolder="Chọn" class="nzSelect"  formControlName="legalOwnerId">
-              <nz-option nzValue="0" nzLabel="XE VIETNAM"></nz-option>
-              <nz-option nzValue="1" nzLabel="XE"></nz-option>
+              <nz-option *ngFor="let data of listLegalOwner" [nzValue]="data.id" [nzLabel]="data.name"></nz-option>
             </nz-select>
             <div class="error-container">
                 <div *ngIf="form.get('legalOwnerId')?.invalid && (form.get('legalOwnerId')?.dirty) || form.get('legalOwnerId')?.touched">
@@ -474,8 +477,10 @@
                 <div class="">
                   <div class="">
                       <label class="label-form" for="" >{{'vehicle.vehicleDriverMonitor' | translate}}</label>
-                      <input (blur)="validateText($event)" class="input-form"  placeholder="Nguyễn văn A" formControlName="driverId"  type="text" >
-                      
+                      <nz-select nzShowSearch nzAllowClear style="width: 100%;" nzPlaceHolder="Chọn lái xe" formControlName="driverName" >
+                        <nz-option *ngFor="let data of listDriver"  [nzLabel]="data.name" [nzValue]="data.id"></nz-option>
+                
+                      </nz-select>
                   </div>
                   <div style="margin-top: 20px;"></div>
           
@@ -491,7 +496,7 @@
                 <div class="">
                   <div class="">
                       <label class="label-form" for="" >{{'vehicle.vehiclePhone' | translate}}</label>
-                      <input class="input-form"  placeholder="Nguyễn văn A" formControlName="id"  type="text" >
+                      <input class="input-form"  placeholder="Nguyễn văn A" formControlName="phoneNumber"  type="text" >
                       
                   </div>
           
@@ -648,4 +653,29 @@
       <img [src]="fullImageSrc" class="full-image" />
     </div>
   </ng-template>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="isDone" (nzOnCancel)="handleCancelDone1()" (nzOnOk)="handleSubmitDone()"
+    [nzContent]="modalContentDone" [nzFooter]="null" [nzStyle]="{'min-width' : '560px', 'min-height':'760px'}">
+    <ng-template #modalContentDone>
+        <div class="headmodal">
+            <span style="color: green; justify-content: center; align-items: center; font-size: 55px" nz-icon nzType="check-circle" nzTheme="outline"></span>
+        </div>
+        <div >
+            <div style="text-align: center;"><span style="color: green; font-size: 25px; ">Thêm thành công!</span><br><span style="font-size: 20px;">Bạn có muốn tiếp tục thêm nhân sự không? </span></div>
+            
+            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 20px"> 
+                <span>
+                    <button class="button-infor" nz-button style="color: #274EA1;" nzType="default"
+                        (click)="endClick()">Thêm mới</button>
+                </span>
+                <span>
+                    <button class="button-infor" nz-button style="color: #ffffff; background-color: #274EA1;" nzType="default"
+                        (click)="handleSubmitDone()">Đến danh sách</button>
+                </span>
+            </div>
+        </div>
+        
+    </ng-template>
 </nz-modal>

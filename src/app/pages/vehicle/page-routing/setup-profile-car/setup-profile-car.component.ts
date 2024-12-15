@@ -20,6 +20,7 @@ import { Observable, Observer } from 'rxjs';
 import { VehicalServiceService } from '../../../../shared/services/vehical-service.service';
 import { NotificationService } from '../../../../shared/services/notification.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 interface FileCompressed {
   file: File[]
@@ -72,8 +73,8 @@ export class SetupProfileCarComponent implements OnInit {
     private msg: NzMessageService,
     private vehicalService: VehicalServiceService,
     private notifiService: NotificationService,
-    private uploadImageService: UploadImageService
-
+    private uploadImageService: UploadImageService,
+    private routes: Router
   ) {
   }
 
@@ -83,6 +84,8 @@ export class SetupProfileCarComponent implements OnInit {
   previewImage: string | null | ArrayBuffer = null;
   loading = false;
   avatarUrl?: string;
+  isDone : boolean = false
+
 
   handleChange(info: NzUploadChangeParam): void {
     let fileList = [...info.fileList];
@@ -111,8 +114,8 @@ export class SetupProfileCarComponent implements OnInit {
         machineNumber: [null, [Validators.maxLength(17)]],
         manufactureYear: [null, [Validators.required, Validators.min(1940), Validators.max(maxYear), Validators.maxLength(4)]],
         manufacturer: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
-        vehicleModel: [null, Validators.required],
-        vehicleTypeId: [null],
+        vehicleModelId: [null, Validators.required],
+        vehicleTypeId: [null, [Validators.required]],
         capacity: [null, Validators.required],
         image: [null],
         intendedUse: [null],
@@ -145,49 +148,52 @@ export class SetupProfileCarComponent implements OnInit {
         gpsDevice: [null],
         gpsDeviceSetupDate: [null],
         driver: this.fb.group({
-          id: null,
-          driverId: [null],
+          driverId: null,
+          driverName: [null],
           driverStatus: ['0'],
+          phoneNumber: null,
           startDate: [null],
           endDate: [null]
         })
       })
 
-      this.form.valueChanges.subscribe((value: any) => {
-        this.submitDisabled = !this.form.valid;
-        Object.keys(this.form.controls).forEach(controlName => {
-          const control = this.form.get(controlName);
-          if (control && control.errors) {
-            console.log(`Lỗi ở trường: ${controlName}`, control.errors);
-          }
-        });
-      });
+      // this.form.valueChanges.subscribe((value: any) => {
+      //   this.submitDisabled = !this.form.valid;
+      //   Object.keys(this.form.controls).forEach(controlName => {
+      //     const control = this.form.get(controlName);
+      //     if (control && control.errors) {
+      //       console.log(`Lỗi ở trường: ${controlName}`, control.errors);
+      //     }
+      //   });
+      // });
       
 
       this.form.get('driver.driverStatus')?.valueChanges.subscribe((value: any)=> {
-        // this.status_vehicle = value
-        // console.log(value);
         if(value === '0' || value === 0){
           this.status_vehicle = 0
         }else{
           this.status_vehicle = 1
         }
-        
       })
 
       this.form.get('vehicleTypeId')?.valueChanges.subscribe((value : any)=> {
         console.log(value);
-        const isTruck = this.listVehical.find((item: any)=> item.id === parseInt(value))
+        const isTruck = this.listVehicle.find((item: any)=> item.id === parseInt(value))
         if(isTruck){
-        const codeTruck : any = isTruck.code
+          const codeTruck : any = isTruck.code
 
-        if(isTruck && codeTruck == 'XE_TAI'){
-          this.labelTruck = true
+          if(isTruck && codeTruck == 'XE_TAI'){
+            this.labelTruck = true
+          }
         }
-        }
+
+      if(value){
+        this.getVehicleModel(value)
+      }
+
+
       })
       this.form.get('isNew')?.valueChanges.subscribe((value: any)=> {
-        console.log(value)
         this.is_New = value
         if(this.is_New !== "0"){
           this.form.get('firstStartDateXE')?.reset()
@@ -209,8 +215,27 @@ export class SetupProfileCarComponent implements OnInit {
     
       })
 
+      this.form.get('driver.driverName')?.valueChanges.subscribe((value: any) => {
+        const selectedDriver = this.listDriver.find((driver: any) => driver.id === value); // Sửa thành so sánh đúng
+        if (selectedDriver) {
+          // Nếu tìm thấy lái xe, cập nhật số điện thoại
+          this.form.get('driver')?.patchValue({
+            phoneNumber: selectedDriver.phoneNumber, // Sử dụng đúng trường dữ liệu
+            driverId: selectedDriver.id
+          });
+        } else {
+          // Nếu không tìm thấy hoặc giá trị trống, đặt lại phoneNumber
+          this.form.get('driver')?.patchValue({
+            phoneNumber: '',
+          });
+        }
+      });
+      
+
       this.getRoute()
-      this.getVehicalType()
+      this.getVehicleType()
+      this.getLegalOwners()
+      this.searchDriver()
   }
 
   listRoute : any[] = []
@@ -221,13 +246,42 @@ export class SetupProfileCarComponent implements OnInit {
     })
   }
 
-  listVehical : any[] = []
-  getVehicalType(){
-    this.vehicalService.getVehicalType().subscribe((response : any)=> {
-      this.listVehical = response.data
+  listVehicle : any[] = []
+  getVehicleType(){
+    this.vehicalService.getVehicleType().subscribe((response : any)=> {
+      this.listVehicle = response.data
+      console.log(response)
     })
   }
 
+  listVehicleModel : any[]= []
+  getVehicleModel(id : any){
+    this.vehicalService.getVehicleModel(id).subscribe((response: any)=> {
+      this.listVehicleModel = response.data
+      console.log(response)
+    })
+  }
+
+  listLegalOwner : any[]= []
+  getLegalOwners(){
+    this.vehicalService.getLegalOwners().subscribe((response: any)=> {
+      this.listLegalOwner = response.data
+      console.log(response.data)
+    })
+  }
+
+  listDriver: any[] = []
+  searchDriver(){
+    const dataSearch = {
+      ids: [],
+      name: "",
+      phoneNumber: ""
+    }
+
+    this.vehicalService.searchDriver(dataSearch).subscribe((response: any)=> {
+      this.listDriver = response.data
+    })
+  }
   handleOk(): void {
     this.isConfirmLoading = true;
     setTimeout(() => {
@@ -236,12 +290,31 @@ export class SetupProfileCarComponent implements OnInit {
     }, 1000);
   }
 
+  handleCancelDone1(){
+    this.isDone = false
+  }
+
+  handleSubmitDone(){
+    this.routes.navigate(['employee/list-employee-profile'])
+    localStorage.setItem('activeLink','employeeProfile')
+  }
+
   ///////reset form/////
   resetForm(){
-    this.form.reset()
+    this.form.reset({
+      driverStatus: this.form.get('driverStatus')?.value || '0',
+    })
     this.isSubmitted = false;
     this.submitDisabled = true; 
     this.resetDisabled = true; 
+  }
+
+  
+  endClick(){
+    this.isDone = false
+    this.form.reset({
+      driverStatus: this.form.get('driverStatus')?.value || '0',
+    })
   }
 
   //////////////////////////////////////validate just enter text input/////////////////
@@ -275,6 +348,12 @@ addThousandSeparator(value: any) {
     return value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 }
+/////dữ liệu roadMaintenanceFee không có dấu ,
+getRawValue() {
+  const rawValue = this.form.get('roadMaintenanceFee')?.value;
+  return rawValue ? rawValue.replace(/,/g, '') : ''; // Loại bỏ dấu phẩy
+}
+
 
   private getBase64(img: File, callback: (img: string) => void): void {
     const reader = new FileReader();
@@ -438,11 +517,12 @@ disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////createVehical///////////////////////////////////////
-  createVehical() {
+  createVehicle() {
     console.log(this.fileCompressed.file[0])
     const dataForm = {
       ...this.form.value,
       image: (this.fileCompressed.file && this.form.get('image')?.value) ? this.fileCompressed.file[0].name : null,
+      roadMaintenanceFee: this.getRawValue(),
     }
 
     const formData = new FormData();
@@ -466,49 +546,50 @@ disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
 
     if (this.form.valid) {
       
-      this.vehicalService.createVehical(formData).subscribe( {
+      this.vehicalService.createVehicle(formData).subscribe( {
         next : (response: any) => {
           this.isSubmitted = true; // Đánh dấu trạng thái đã xác nhận
           this.submitDisabled = true; // Vô hiệu hóa nút "Xác nhận"
           this.resetDisabled = false; // Bật nút "Reset"
           this.notifiService.success('Tạo mới thành công')
+          this.isDone = true
         },
         error: (error: any)=>{
           this.notifiService.error('Có lỗi xảy ra')
         }
       })
     } else {
-      console.log('lỗi')
-      Object.keys(this.form.controls).forEach((field: any) => {
-        const control = this.form.get(field)
+      // console.log('lỗi')
+      // Object.keys(this.form.controls).forEach((field: any) => {
+      //   const control = this.form.get(field)
 
-        if (control && control.invalid) {
-          console.log("lỗi ở: " + field)
+      //   if (control && control.invalid) {
+      //     console.log("lỗi ở: " + field)
 
-          const errors = control.errors;
-          if (errors) {
-            Object.keys(errors).forEach((errkey: any) => {
-              switch (errkey) {
-                case 'required':
-                  console.log(field + "phai dien")
-                  break;
-                case 'minlength':
-                  console.log(field + "bi be hon gi day")
-                  break;
-                case 'pattern':
-                  console.log(field + 'dinh dang sai')
-                  break;
-                case 'email':
-                  console.log(field + 'mail sai')
-                  break;
-                default:
-                  console.log('loi khac o : ' + field, errors[errkey])
-                  break;
-              }
-            })
-          }
-        }
-      })
+      //     const errors = control.errors;
+      //     if (errors) {
+      //       Object.keys(errors).forEach((errkey: any) => {
+      //         switch (errkey) {
+      //           case 'required':
+      //             console.log(field + "phai dien")
+      //             break;
+      //           case 'minlength':
+      //             console.log(field + "bi be hon gi day")
+      //             break;
+      //           case 'pattern':
+      //             console.log(field + 'dinh dang sai')
+      //             break;
+      //           case 'email':
+      //             console.log(field + 'mail sai')
+      //             break;
+      //           default:
+      //             console.log('loi khac o : ' + field, errors[errkey])
+      //             break;
+      //         }
+      //       })
+      //     }
+      //   }
+      // })
     }
 
 

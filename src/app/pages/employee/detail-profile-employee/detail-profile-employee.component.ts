@@ -627,8 +627,8 @@ validateText(inputName : string | (string | number)[], event: Event) {
 
 
 //////////////////////////////////////validate just enter number input/////////////////
-validateNumber(event : Event){
-  this.validateService.validateNumber(event)
+validateNumber(name: string | (string | number)[], event : Event){
+  this.validateService.validateNumber(this.form, name,event)
 }
 
 

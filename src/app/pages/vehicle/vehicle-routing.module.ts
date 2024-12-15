@@ -65,7 +65,7 @@ export const VEHICLE_ROUTES: Routes = [
   },
   {
     // path: 'detail-vehical/:id',
-    path: 'detail-vehicle/1',
+    path: 'detail-vehicle/3',
     loadComponent: () =>
       import('./detail-vehical/detail-vehical.component').then(
         (c) => c.DetailVehicalComponent

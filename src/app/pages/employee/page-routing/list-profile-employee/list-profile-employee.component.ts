@@ -373,14 +373,13 @@ export class ListProfileEmployeeComponent implements OnInit {
       if (!beforeDate) return false;
   
       const beforeDateObject = new Date(beforeDate);
-
-      beforeDateObject.setDate(beforeDateObject.getDate() - 1);
+                  
   
       // So sánh ngày trước và ngày sau
       if (afterDate < beforeDateObject) {
         return true; // Vô hiệu hóa nếu ngày sau < ngày trước
       }
-  
+
       // Nếu ngày trước và ngày sau giống nhau, kiểm tra giờ
       if (afterDate.toDateString() === beforeDateObject.toDateString()) {
         const afterHours = afterDate.getHours();

@@ -60,6 +60,7 @@ export class ListEmployeeResignComponent {
   form!: FormGroup
   formChangeInforLeave !: FormGroup
   formOnLeave !: FormGroup
+  formLeaveType3 !: FormGroup
 
 
   ngOnInit(): void {
@@ -91,11 +92,10 @@ export class ListEmployeeResignComponent {
       this.changeLeave = value
     })
 
-    this.formOnLeave = this.fb.group({
+    this.formLeaveType3 = this.fb.group({
       fromDate: ['', Validators.required],
       toDate : ['', Validators.required],
       reason: ['', Validators.required]
-
     })
   }
 
@@ -104,6 +104,7 @@ export class ListEmployeeResignComponent {
   listOffice: any[] = []
   listDepartment: any[] = []
   isModalOnLeaveEmployee = false
+  isLeaveType3 = false
   dataEmployee: any[] = []
   isResetEmployee: boolean = false
   isChangeEmployee : boolean = false
@@ -213,6 +214,18 @@ export class ListEmployeeResignComponent {
     
   }
 
+
+  handleCancelLeaveType3() {
+    this.isLeaveType3 = false
+    this.formChangeInforLeave.reset()
+    
+  }
+  
+
+  handleSubmitLeaveType3(): void {
+    this.isLeaveType3 = false;
+  }
+
   handleSubmit(): void {
     this.isModalOnLeaveEmployee = false;
   }
@@ -227,11 +240,30 @@ export class ListEmployeeResignComponent {
 /////////////////////////////////////////DELETE /////////////////////////////////
 handleCancelDelete(){
   this.isDelete = false
+  const dataDelete ={
+    staffId : this.selectedEmployee['id'],
+    type : 1,
+    fromDate: null,
+    toDate: null,
+  }
 
+  this.userSevice.updateStatusWork(dataDelete).subscribe( {
+    next: (response) => {
+      this.notification.success('Xóa nhân viên đi làm lại thành công!')
+      this.isDelete = false  
+      this.search()
+      // this.form.reset()
+      // this.getUser(this.idEmployee)
+    },
+    error: (error) => {
+      // if(error.status === 400){
+      //   this.notification.error(error.message)
+      // }
+
+    }})
 }
 
 handleSubmitDelete(){
-  console.log(this.selectedEmployee['id']);
 
   const dataDelete ={
     staffId : this.selectedEmployee['id'],
@@ -290,6 +322,12 @@ handleSubmitDelete(){
     }
   }
 
+  openModalResest(id : number){
+    if (this.dataEmployee && this.dataEmployee.length > 0) {
+      this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
+      this.isResetEmployee = true
+  }
+}
 
   checkLeaveType(){
 
@@ -457,7 +495,7 @@ handleSubmitDelete(){
   isOnLeave: boolean = false;
   openModalChangeonLeave(id: number){
     if (this.dataEmployee && this.dataEmployee.length > 0) {  // Kiểm tra nếu dataEmployee có dữ liệu
-      this.isModalOnLeaveEmployee = true;
+      this.isLeaveType3 = true;
       this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
       this.leaveToDate = this.selectedEmployee?.leaveToDate ? new Date(this.selectedEmployee.leaveToDate) : null
       this.leaveFromDate = this.selectedEmployee?.leaveFromDate ? new Date(this.selectedEmployee.leaveFromDate) : null
@@ -466,6 +504,11 @@ handleSubmitDelete(){
       console.log(this.leaveToDate)
       const toDay = new Date()
      
+      this.formLeaveType3.patchValue({
+        fromDate: this.leaveFromDate, 
+        toDate: this.leaveToDate,    
+        reason: this.selectedEmployee?.reason || '', 
+      });
       if (this.leaveFromDate && this.leaveToDate) {
         this.isOnLeave = this.leaveFromDate <= toDay && toDay <= this.leaveToDate;
         // this.isOnLeave = true

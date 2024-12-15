@@ -180,9 +180,9 @@ export class SetupProfileEmployeeComponent implements OnInit {
       name: [null, [Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
       yearOfBirth: [null, [Validators.required, Validators.min(minYear), Validators.max(maxYear), Validators.maxLength(4), Validators.pattern(/^[0-9]*$/)]],
       gender: [null, Validators.required],
-      identifierId: [null, [Validators.required,  Validators.pattern(/^(0[0-9]{11})$/)]],
+      identifierId: [null, [Validators.required, Validators.pattern(/^[0-9]*$/)]],
       phoneNumber: [null, [Validators.required, Validators.pattern(/^(0[0-9]{9}|8[4][0-9]{9})$/)]],
-      zalo: [null,[ Validators.required]],
+      zalo: [null,[ Validators.required,Validators.pattern(/^(0\d{9}|84\d{9}|[a-zA-Z]*)$/)]],
       email: [null, [Validators.required, Validators.email]],
       ethnicGroup: [null,[Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
       religion: [null,[ Validators.pattern(VIETNAMESE_REGEX)]],
@@ -246,7 +246,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
 
     this.validateService.checkPhoneNumber(this.form, 'phoneNumber', this.maxLengthMap)
     this.validateService.checkPhoneNumber(this.form, 'contactPersonPhone', this.maxLengthMap)
-
+    
   }
 
   deparmentCode = '' 
@@ -280,14 +280,25 @@ export class SetupProfileEmployeeComponent implements OnInit {
     this.validateService.validateText(this.form, path, event)
   }
   
+  validateEnterTextNumber( path: string | (string | number)[], event: Event) {
+    this.validateService.validateEnterTextNumber(this.form, path, event)
+  }
 
 //////////////////////////////////////validate just enter number input/////////////////
 validateNumber(name:string , event : Event){
-  this.validateService.validateNumber(event)
+  this.validateService.validateNumber(this.form, name, event)
 }
 
 validatorsRequired(name: string | (string | number)[]){
   this.validateService.validatorsRequired(this.form, name)
+}
+
+validateYearOfBirth(name: string | (string | number)[], event: Event){
+  this.validateService.validateYearOfBirth(this.form, name,event, this.minYear, this.maxYear)
+}
+
+validateYearOfBirthChild(name: string | (string | number)[], event: Event){
+  this.validateService.validateYearOfBirth(this.form, name,event, this.minYearChild, this.maxYearChild)
 }
 
 onBlur(path: string | (string | number)[]) {
@@ -310,21 +321,22 @@ onBlur(path: string | (string | number)[]) {
 onBlurNumber(path: string | (string | number)[]) {
   const control = this.form.get(path);
   const value = control?.value?.trim(); // Loại bỏ khoảng trắng đầu/cuối
-
-  // Loại bỏ ký tự không phải số
-  const cleanStr = value?.replace(/[^0-9]/g, "");
+  if(value){
+    const cleanStr = value?.replace(/[^0-9]/g, "");
   // Kiểm tra nếu giá trị không hợp lệ (NaN, null, undefined, chuỗi rỗng)
-  if (cleanStr == "") {
-    // Thêm validator nếu không hợp lệ
-    control?.setValue("")
-    control?.setValidators(Validators.required);
-  } else {
-    // Xóa validator nếu hợp lệ
-    control?.clearValidators();
-  }
+    if (cleanStr == "") {
+      // Thêm validator nếu không hợp lệ
+      control?.setValue("")
+      control?.setValidators(Validators.required);
+    } else {
+      // Xóa validator nếu hợp lệ
+      control?.clearValidators();
+    }
 
-  // Cập nhật trạng thái form control
-  control?.updateValueAndValidity();
+    // Cập nhật trạng thái form control
+    control?.updateValueAndValidity();
+  }
+  
 }
 
 

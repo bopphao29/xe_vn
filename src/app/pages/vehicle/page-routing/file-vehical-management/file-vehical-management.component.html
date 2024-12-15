@@ -105,15 +105,15 @@
         </div>
     </form>
 
-    <span class="mx-4" style="margin-top: 50px; font-size: 14px; color: rgba(37, 44, 50, 1); font-weight: 500;">{{'vehical.prepareToExpire' | translate}}</span>
+    <span class="mx-4" style="margin-top: 50px; font-size: 14px; color: rgba(37, 44, 50, 1); font-weight: 500;">{{'vehicle.prepareToExpire' | translate}}</span>
 
     <div nz-row class="mx-4" style="margin-top: 15px;"> 
         <div class="prepare-to-expire">
-            <div class="prepare-to-expire-item" *ngFor="let data of listPrepareToExpire">
+            <button type="button" class="prepare-to-expire-item" *ngFor="let data of listPrepareToExpire">
                 <span class="">
                     {{data.value}} <span style="color: rgba(227, 60, 60, 1);">(2)</span>
                 </span>
-            </div>
+            </button>
         </div>
     </div>
     <div nz-row style="margin-top: 32px;" class="mx-4">

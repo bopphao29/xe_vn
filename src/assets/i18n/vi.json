@@ -62,6 +62,7 @@
         "relaxing": "Hiện đang nghỉ: "
      },
     "vehicle":{
+        "vehicle_status":"Trạng thái hoạt động",
         "profile_vehicle":"Hồ sơ phương tiện",
         "detail_vehicle_infor":"Chi Tiết Thông Tin Phương Tiện",
         "vehicle_management":"Quản lý phương tiện",
@@ -267,9 +268,9 @@
         "maxYearEmployee":"Không lớn hơn ",
         "gender": "Cần chọn giới tính",
         "identifier_required": "Cần nhập CCCD/CMND",
-        "identifier_pattern": "Nhập 12 số dạng: 0...",
+        "identifier_pattern": "Nhập 12 số (dạng 0xx) hoặc 9 số",
         "phoneNumber_required": "Cần nhập SĐT",
-        "phone_pattern": "Nhập 10 số đầu: 0... hoặc 84...",
+        "phone_pattern": "Nhập 10 số dạng: 0xxx hoặc 84xxx",
         "zalo_required": "Cần nhập tên zalo",
         "email_required": "Cần nhập email",
         "email_pattern": "Nhập đúng dạng email",
@@ -301,8 +302,8 @@
         "reason": "Cần nhập lý do nghỉ",
         "reason_sumitEnd":"Cần nhập lý do thôi việc",
         "manufactureYear": "Cần nhập năm",
-        "manufactureYearMax": "Năm sản xuất nhỏ hơn ",
-        "manufactureYearMin": "Năm sản xuất lớn hơn ",
+        "manufactureYearMax": "Không nhỏ hơn ",
+        "manufactureYearMin": "Không lớn hơn ",
         "registerNo": "Cần nhập BKS",
         "manufacturer": "Cần nhập hãng",
         "type_vehicle":"Cần nhập mẫu xe",
@@ -321,7 +322,8 @@
         "vehicleModel":"Cần nhập mẫu xe"
     },
     "pattern":{
-        "registerNo":"BKS dạng A...-01..."
+        "registerNo":"BKS dạng A...-01...",
+        "zalo": "Chỉ nhập số hoặc chữ"
         },
     "home-default": "tieng viet"
 }

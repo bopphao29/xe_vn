@@ -14,19 +14,21 @@ export class VehicalServiceService {
   ) { }
 
   url = environment.server + '/vehicles/'
+  urlUser = environment.server + '/users/'
 
 
 
-  createVehical(formData : FormData){
+  createVehicle(formData : FormData){
  
     return this.httpClient.post(this.url + 'api/vehicles', formData)
 
   }
 
-  getVehicalDetail(){
+  getVehicleDetail(id : any){
+    return this.httpClient.get(this.url + 'api/vehicles/'+id)
   }
 
-  getVehicalType(){
+  getVehicleType(){
       return this.httpClient.get(this.url + 'api/vehicle-types')
   }
 
@@ -34,7 +36,24 @@ export class VehicalServiceService {
     return this.httpClient.get(this.url + 'api/routes')
   }
 
-  searchVehical(data: any){
-    return this.httpClient.post(this.url + 'api/vehicles/search', {data})
+  searchVehicle(data: any){
+    return this.httpClient.post(this.url + 'api/vehicles/search', data)
   }
+
+  getVehicleModel(id: any){
+    return this.httpClient.get(this.url + 'api/vehicle-models?vehicleTypeId=' + id)
+  }
+
+  getLegalOwners(){
+    return this.httpClient.get(this.url + 'api/legal-owners')
+  }
+
+  searchDriver(data: any){
+    return this.httpClient.post(this.urlUser + 'api/staff/get-drivers', {data})
+  }
+
+  updateVehicle(formData: FormData){
+    return this.httpClient.post(this.url + 'api/vehicles', formData)
+  }
+
 }

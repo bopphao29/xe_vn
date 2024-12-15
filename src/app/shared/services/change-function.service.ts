@@ -16,13 +16,18 @@ export class ChangeFunctionService {
     if (currentValue !== date) {
       const parsedDate = date instanceof Date ? date : new Date(date);
       if (!isNaN(parsedDate.getTime())) {
-        const formattedDate = `${parsedDate.getFullYear()}-${String(parsedDate.getMonth() + 1).padStart(2, '0')}-${String(parsedDate.getDate()).padStart(2, '0')}`;
-        form.get(name)?.setValue(formattedDate, { emitEvent: false }); // Ngăn vòng lặp
+
+        const apiDate = `${parsedDate.getFullYear()}/${String(parsedDate.getMonth() + 1).padStart(2, '0')}/${String(parsedDate.getDate()).padStart(2, '0')}`;
+  
+        // Lưu giá trị hiển thị (nếu cần) và giá trị API vào form control
+        form.get(name)?.setValue(apiDate, { emitEvent: false }); // Giá trị để gửi API
+        console.log("Display Date:", apiDate);
       } else {
         form.get(name)?.setValue(null, { emitEvent: false });
       }
     }
   }
+  
   
   
 }

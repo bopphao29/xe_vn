@@ -47,13 +47,13 @@ export class FileVehicalManagementComponent implements OnInit{
   form!: FormGroup
   ngOnInit(): void {
     this.form = this.fb.group({
-      routeId: null,
-      registerNo: null,
-      driverName: null,
-      phoneNumber: null,
-      identedUser: null,
-      vehicleModel: null,
-      yearOfManufacture : null
+      routeId: "",
+      registerNo: "",
+      driverName: "",
+      phoneNumber: "",
+      identedUser: "",
+      vehicleModel: "",
+      yearOfManufacture : ""
   })
 
   this.search()
@@ -79,12 +79,24 @@ export class FileVehicalManagementComponent implements OnInit{
 
   }
 
+  pageIndex = 1
+  pageSize = 9
+
+  pagedData : any[] = []
+
+  onPageChange(page: number): void {
+    this.pageIndex = page;
+    this.search()
+  }
+
   listVehical : any[] = []
   search(){
     const dataForm = {
-      ...this.form.value
+      ...this.form.value,
+      page:this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 ,
+      size: 9,
     }
-    this.vehicalService.searchVehical(dataForm).subscribe((response : any)=> {
+    this.vehicalService.searchVehicle(dataForm).subscribe((response : any)=> {
       this.listVehical = response
       console.log(response)
     })

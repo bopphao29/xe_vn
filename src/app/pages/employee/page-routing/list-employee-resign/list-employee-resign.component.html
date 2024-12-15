@@ -115,16 +115,19 @@
                     <td class="list-col-2">{{data.officeName || '-'}}</td>
                     <td class="list-col-2">{{data.branchName || '-'}}</td>
                     <td class="list-col-2">{{data.departmentName || '-'}}</td>
-                    <td class="list-col-2">{{(changeLeave == 3 ? (data.absenceFromDate | date: 'dd/MM/yyyy' ) : (data.leaveFromDate | date: 'dd/MM/yyyy' ))   || '-'}}</td>
-                    <td class="list-col-4">{{(changeLeave == 3 ? data.absenceNote  : data.reason) || '-'}} </td>
+                    <td class="list-col-2">{{(data.leaveFromDate | date: 'dd/MM/yyyy' )   || '-'}}</td>
+                    <td class="list-col-4">{{data.reason || '-'}} </td>
                     <td class="list-col-2" style="text-align: center;">
                         <a *ngIf="isLeave == false && onLeave == true && data.id" style="border-color: rgba(39, 78, 161, 0.3);" class="mx-1 button_show_detail" (click)="openModalonLeave(data.id)">
+                            Sửa
+                        </a>
+                        <a *ngIf="isLeave == false && onLeave == false && isWaitLeave == false && data.id && isChangeEmployee == true" style="border-color: rgba(39, 78, 161, 0.3);" class="mx-1 button_show_detail" (click)="openModalChangeonLeave(data.id)">
                             Sửa
                         </a>
                         <a *ngIf="isLeave == false && isWaitLeave == false && onLeave == true && data.id" style="border-color: rgba(239, 68, 68, 1); color: rgba(239, 68, 68, 1);" class="mx-1 button_show_detail" (click)="openModalDelete(data.id)">
                             Xóa
                         </a>
-                        <a *ngIf="isLeave == true && isWaitLeave == false && onLeave == false && data.id" style="border-color: rgba(39, 78, 161, 0.3);" class="mx-1 button_show_detail" (click)="openModalonLeave(data.id)">
+                        <a *ngIf="isLeave == true && isWaitLeave == false && onLeave == false && data.id" style="border-color: rgba(39, 78, 161, 0.3);" class="mx-1 button_show_detail" (click)="openModalResest(data.id)">
                             Đi làm lại
                         </a>
                         <span *ngIf="!data.id">-</span>
@@ -262,7 +265,7 @@
                 </span>
                 <span>
                     <button class="button-infor" nz-button style="color: #ffffff; background-color: #274EA1;" nzType="default"
-                        (click)="handleSubmitResest()">Xác nhận</button>
+                        (click)="handleCancelDelete()">Xác nhận</button>
                 </span>
             </div>
         </div>
@@ -293,5 +296,116 @@
             </div>
         </div>
         
+    </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isLeaveType3" (nzOnCancel)="handleCancelLeaveType3()" (nzOnOk)="handleSubmitLeaveType3()" [nzMaskClosable]="false"
+    [nzContent]="modalContentLeaveType3" [nzFooter]="null" [nzStyle]="{'min-width' : '1200px', 'min-height':'580px','margin-top': '205px'}">
+    <ng-template #modalContentLeaveType3>
+        <div class="headmodal">
+            <span style="font-weight: 500; font-size: 24px; ">Sửa lịch nghỉ phép</span>
+        </div>
+        <div nz-row>
+            <div nz-col nzSpan="24">
+                <div nz-col nzSpan="23" class="mx-4">
+                    <table class="custom-table">
+                        <tbody>
+                            <tr style="background-color: #f4f7fb;">
+                                <th style="text-align: center;" class="list-col-1">ID</th>
+                                <th class="list-col-2">Tên nhân viên</th>
+                                <th style="text-align: center;" class="list-col-3">Năm sinh</th>
+                                <th style="text-align: center;" class="list-col-4">SĐT</th>
+                                <th style="text-align: center;" class="list-col-3">Trực thuộc quản lý</th>
+                                <th style="text-align: center;" class="list-col-4">Chi nhánh</th>
+                                <th style="text-align: center;" class="list-col-3">Bộ phận</th>
+                            </tr>
+                            <tr *ngIf="selectedEmployee">
+                                <td style="text-align: center;" class="list-col-1">{{selectedEmployee.code || '-'}}</td>
+                                <td class="list-col-2">{{ selectedEmployee.name || '-' }}</td>
+                                <td style="text-align: center;" class="list-col-3">{{ selectedEmployee.yearOfBirth || '-' }}</td>
+                                <td style="text-align: center;" class="list-col-4">{{ selectedEmployee.phoneNumber  || '-' }}</td>
+                                <td style="text-align: center;" class="list-col-3">{{ selectedEmployee.officeName  || '-' }}</td>
+                                <td style="text-align: center;" class="list-col-4">{{ selectedEmployee.branchName  || '-' }}</td>
+                                <td style="text-align: center;" class="list-col-3">{{ selectedEmployee.departmentName  || '-' }}</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 22px;">
+        </div>
+        <div style="display: flex; justify-content: center;">
+            <span style="font-weight: 500 ;color: rgba(239, 68, 68, 1); font-size: 14px;" *ngIf="isOnLeave == true">{{'working.relaxing' | translate}} {{leaveFromDate | date: 'dd/MM/yyyy'}} - {{leaveToDate | date: 'dd/MM/yyyy'}}</span>
+        </div>
+        <div style="margin-top: 22px;">
+        </div>
+        <form [formGroup]="formLeaveType3">
+            <div nz-row >
+                <div nz-row class="w-full" style="display: flex; justify-content: center;">
+                    <div nz-col nzSpan="18">
+                        <div nz-row class="w-full" >
+                            <div nz-col style="width: 30%;">
+                                <div class="">
+                                  <label class="form-label"> <span style="color: red;">*</span>{{'employee.fromDate' | translate}}</label>
+                                  <div>
+                                    <nz-date-picker class="w-full" [nzShowTime]="{ nzFormat: 'HH:mm' }"
+                                      nzFormat="HH:mm dd/MM/yyyy" (ngModelChange)="onDateChange('fromDate',$event)" [nzDisabledDate]="disableBeforeDate('toDate')"
+                                      formControlName="fromDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
+                                    <div style="height: 18px;">
+                                      <div *ngIf="formLeaveType3.get('fromDate')?.touched" style="height: 20px;">
+                                        <span class="validate_input"
+                                          *ngIf="formLeaveType3.get('fromDate')?.errors?.['required']">{{'required.date_required' | translate}}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              <div style="margin-left: 10px; width: 30%;">
+                                <div [class.disabled-input]="!formLeaveType3.get('fromDate')?.value">
+                                  <label class="form-label"><span style="color: red;">*</span>{{'employee.toDate' | translate}}</label>
+                                  <div>
+                                    <nz-date-picker class="w-full" [nzDisabledDate]="disableAfterDate('fromDate')" [nzShowTime]="{ nzFormat: 'HH:mm' }"
+                                      nzFormat="HH:mm dd/MM/yyyy" (ngModelChange)="onDateChange('toDate',$event)"
+                                      formControlName="toDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
+                                    <div style="height: 18px;" *ngIf="formLeaveType3.get('fromDate')?.value">
+                                      <div *ngIf="formLeaveType3.get('toDate')?.invalid && formLeaveType3.get('toDate')?.dirty || formLeaveType3.get('toDate')?.touched">
+                                        <span class="validate_input"
+                                          *ngIf="formLeaveType3.get('toDate')?.errors?.['required']">{{'required.date_required' | translate}}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              
+                            <div style="margin-left: 10px; width: 30%;">
+                                <div class="">
+                                    <span style="color: red;" >*</span><label class="label-form" for="" >{{'employee.reason_off' | translate}}</label>
+                                    <input nz-input (keydown.enter)="search()" style="margin-top: 8px;" class="form-input" formControlName="reason" placeholder="ID, Tên nhân sự, SĐT..."  />
+                                    <div class="error-container" >
+                                        <div *ngIf="formLeaveType3.get('reason')?.invalid && (formLeaveType3.get('reason')?.dirty || formLeaveType3.get('reason')?.touched)">
+                                            <span class="validate_input" *ngIf="formLeaveType3.get('reason')?.errors?.['required']">{{'required.reason' | translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div style="margin-top: 42px;">
+        </div>
+        <div nz-row style="display: flex; justify-content: center;">
+            <span>
+                <button (click)="isLeaveType3 = false" class="button-infor" nz-button style="color: #274EA1; border-color: #274EA1;" nzType="default">Hủy</button>
+            </span>
+            <span class="ml-2">
+                <button (click)="updateWorkStatus()" class="button-infor" style="background-color: #274EA1; color: white;" nz-button nzType="default"
+                    >Lưu</button>
+            </span>
+        </div>
     </ng-template>
 </nz-modal>

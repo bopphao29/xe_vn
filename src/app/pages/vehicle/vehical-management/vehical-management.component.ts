@@ -37,7 +37,7 @@ export class VehicalManagementComponent {
 
   navigatePage(){
     switch (this.activeLink){
-      case 'setupVehicel':
+      case 'setupVehicle':
         this.routerSetupVehical();
         break;
       case 'maintenanceRepair':
@@ -69,7 +69,7 @@ export class VehicalManagementComponent {
  }
 
   routerSetupVehical(){
-    this.activeLink = 'setupVehicel'
+    this.activeLink = 'setupVehicle'
     this.romoveSearchVehical()
     localStorage.setItem('activeLink', this.activeLink);
     this.routes.navigate(['vehicle/setup-vehicle'])
