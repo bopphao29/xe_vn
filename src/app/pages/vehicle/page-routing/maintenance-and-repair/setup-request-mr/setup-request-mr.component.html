@@ -8,14 +8,14 @@
   
                         <div class="input-wrapper">
                             <div class="">
-                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.vehicalStatus' | translate}}</label>
-                                <nz-select nzPlaceHolder="Chọn" class="nzSelect"  formControlName="isNew">
-                                <nz-option nzValue="0" nzLabel="Xe cũ"></nz-option>
-                                <nz-option nzValue="1" nzLabel="Xe mới"></nz-option>
+                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehicle.router' | translate}}</label>
+                                <nz-select nzPlaceHolder="Tất cả" formControlName="routeId" style="width: 100%;">
+                                    <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
+                                    <nz-option *ngFor="let data of listRoute" [nzValue]="data.id" [nzLabel]="data.name"></nz-option>
                                 </nz-select>
                                 <div class="error-container">
-                                    <div *ngIf="form.get('isNew')?.invalid && (form.get('isNew')?.dirty) || form.get('isNew')?.touched">
-                                        <span class="validate_input" *ngIf="form.get('isNew')?.hasError('required')">{{'required.isNew' | translate}}</span>
+                                    <div *ngIf="form.get('routeId')?.invalid && (form.get('routeId')?.dirty) || form.get('routeId')?.touched">
+                                        <span class="validate_input" *ngIf="form.get('routeId')?.hasError('required')">{{'required.routeId' | translate}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -23,7 +23,7 @@
 
                         <div class="input-wrapper">
                             <div class="">
-                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'table.vehical.licensePlate' | translate}}</label>
+                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'table.vehicle.licensePlate' | translate}}</label>
                                 <nz-select nzPlaceHolder="Chọn" class="nzSelect"  formControlName="licensePlate">
                                 <nz-option nzValue="0" nzLabel="Xe cũ"></nz-option>
                                 <nz-option nzValue="1" nzLabel="Xe mới"></nz-option>
@@ -38,7 +38,7 @@
 
                         <div class="input-wrapper">
                             <div class="">
-                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'table.vehical.driver' | translate}}</label>
+                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'table.vehicle.driver' | translate}}</label>
                                 <input class="input-form"  placeholder="Nhập" type="text" formControlName="driver" >
                                 <div class="error-container">
                                     <div *ngIf="form.get('driver')?.invalid && (form.get('driver')?.dirty || form.get('driver')?.touched)">
@@ -51,7 +51,7 @@
                         
                         <div class="input-wrapper">
                             <div class="">
-                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.vehicalPhone' | translate}}</label>
+                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehicle.vehiclePhone' | translate}}</label>
                                 <input class="input-form"  placeholder="0896641257" type="text" formControlName="phoneNumber" >
                                 <div class="error-container">
                                     <div *ngIf="form.get('phoneNumber')?.invalid && (form.get('phoneNumber')?.dirty || form.get('phoneNumber')?.touched)">
@@ -64,7 +64,7 @@
 
                         <div class="input-wrapper">
                             <div class="">
-                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.latestOdometer' | translate}}</label>
+                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehicle.latestOdometer' | translate}}</label>
                                 <input class="input-form"  placeholder="30E-8888" type="text" formControlName="latestOdometer" >
                                 <div class="error-container">
                                     <div *ngIf="form.get('latestOdometer')?.invalid && (form.get('latestOdometer')?.dirty || form.get('latestOdometer')?.touched)">
@@ -77,7 +77,7 @@
 
                         <div class="input-wrapper">
                             <div class="">
-                                <label class="label-form" ><span style="color: red">*</span> {{'vehical.latestDate' | translate}} </label>
+                                <label class="label-form" ><span style="color: red">*</span> {{'vehicle.latestDate' | translate}} </label>
                                 <nz-date-picker nzFormat="dd/MM/yyyy" formControlName="latestDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                                     <div class="error-container">
                                         <div *ngIf="form.get('latestDate')?.invalid && (form.get('latestDate')?.dirty) || form.get('latestDate')?.touched">
@@ -89,7 +89,7 @@
 
                         <div class="input-wrapper">
                             <div class="">
-                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.registerNo' | translate}}</label>
+                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehicle.registerNo' | translate}}</label>
                                 <input class="input-form"  placeholder="30E-8888" type="text" formControlName="registerNo" >
                                 <div class="error-container">
                                     <div *ngIf="form.get('registerNo')?.invalid && (form.get('registerNo')?.dirty || form.get('registerNo')?.touched)">
@@ -102,7 +102,7 @@
 
                         <div class="input-wrapper">
                             <div class="">
-                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.vehicalStatus' | translate}}</label>
+                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehicle.vehicleStatus' | translate}}</label>
                                 <nz-select nzPlaceHolder="Chọn" class="nzSelect"  formControlName="isNew">
                                 <nz-option nzValue="0" nzLabel="Xe cũ"></nz-option>
                                 <nz-option nzValue="1" nzLabel="Xe mới"></nz-option>
@@ -117,7 +117,7 @@
 
                         <div class="input-wrapper">
                             <div class="">
-                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.registerNo' | translate}}</label>
+                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehicle.registerNo' | translate}}</label>
                                 <input class="input-form"  placeholder="30E-8888" type="text" formControlName="registerNo" >
                                 <div class="error-container">
                                     <div *ngIf="form.get('registerNo')?.invalid && (form.get('registerNo')?.dirty || form.get('registerNo')?.touched)">
@@ -129,7 +129,7 @@
                         </div>
                         <div class="input-wrapper">
                             <div class="">
-                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.registerNo' | translate}}</label>
+                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehicle.registerNo' | translate}}</label>
                                 <input class="input-form"  placeholder="30E-8888" type="text" formControlName="registerNo" >
                                 <div class="error-container">
                                     <div *ngIf="form.get('registerNo')?.invalid && (form.get('registerNo')?.dirty || form.get('registerNo')?.touched)">
@@ -141,7 +141,7 @@
                         </div>
                         <div class="input-wrapper">
                             <div class="">
-                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.registerNo' | translate}}</label>
+                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehicle.registerNo' | translate}}</label>
                                 <input class="input-form"  placeholder="30E-8888" type="text" formControlName="registerNo" >
                                 <div class="error-container">
                                     <div *ngIf="form.get('registerNo')?.invalid && (form.get('registerNo')?.dirty || form.get('registerNo')?.touched)">
@@ -153,7 +153,7 @@
                         </div>
                         <div class="input-wrapper">
                             <div class="">
-                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.registerNo' | translate}}</label>
+                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehicle.registerNo' | translate}}</label>
                                 <input class="input-form"  placeholder="30E-8888" type="text" formControlName="registerNo" >
                                 <div class="error-container">
                                     <div *ngIf="form.get('registerNo')?.invalid && (form.get('registerNo')?.dirty || form.get('registerNo')?.touched)">
@@ -166,7 +166,7 @@
 
                         <div class="input-wrapper">
                             <div class="">
-                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.vehicalStatus' | translate}}</label>
+                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehicle.vehicleStatus' | translate}}</label>
                                 <nz-select nzPlaceHolder="Chọn" class="nzSelect"  formControlName="isNew">
                                 <nz-option nzValue="0" nzLabel="Xe cũ"></nz-option>
                                 <nz-option nzValue="1" nzLabel="Xe mới"></nz-option>
@@ -181,7 +181,7 @@
 
                         <div class="input-wrapper2">
                             <div class="">
-                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehical.registerNo' | translate}}</label>
+                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehicle.registerNo' | translate}}</label>
                                 <input class="input-form"  placeholder="30E-8888" type="text" formControlName="registerNo" >
                                 <div class="error-container">
                                     <div *ngIf="form.get('registerNo')?.invalid && (form.get('registerNo')?.dirty || form.get('registerNo')?.touched)">
@@ -195,21 +195,21 @@
                     <div nz-row>
                     <div class="flex" style="padding-left: 36px; gap: 8px">
                         <input style="width: 24px; height: 24px;" type="checkbox" name="" id="">
-                        <span style="color: rgba(37, 44, 50, 1); size: 16px; font-weight: 500; font-size: 16px; ">{{'vehical.priority' | translate}}</span>
+                        <span style="color: rgba(37, 44, 50, 1); size: 16px; font-weight: 500; font-size: 16px; ">{{'vehicle.priority' | translate}}</span>
                     </div>
                     </div>
                 </div>
                 <div style="width: 50%;">
                     <div class="p-4 pb-0">
-                        <span>{{'vehical.listVehicalRepair' | translate}} </span>
+                        <span>{{'vehicle.listVehicalRepair' | translate}} </span>
                         <table class="custom-table-list" style="background-color: #FCFCFC;">
                             <tbody>
                                 <tr style="background-color: #fcfcfc;">
                                     <th class="list-col-1">{{'table.stt' | translate}}</th>
-                                    <th class="list-col-2">{{'table.vehical.licensePlate' | translate}}</th>
-                                    <th class="list-col-3">{{'table.vehical.driver' | translate}}</th>
+                                    <th class="list-col-2">{{'table.vehicle.licensePlate' | translate}}</th>
+                                    <th class="list-col-3">{{'table.vehicle.driver' | translate}}</th>
                                     <th class="list-col-2">{{'table.phone' | translate}}</th>
-                                    <th class="list-col-2">{{'table.vehical.maintenanceKm' | translate}}</th>
+                                    <th class="list-col-2">{{'table.vehicle.maintenanceKm' | translate}}</th>
                                     <th class="list-col-2">{{'table.action' | translate}}</th>
                                 </tr>
                                 <tr>
@@ -238,16 +238,16 @@
             <div style="background-color: #ffffff;">
                 <div class="p-4">
                     <nz-tabset>
-                      <nz-tab nzTitle="{{'vehical.vehicalStatus' | translate}}">
+                      <nz-tab nzTitle="{{'vehicle.vehicleStatus' | translate}}">
                         <app-car-status></app-car-status>
                       </nz-tab>
-                      <nz-tab nzTitle="{{'vehical.itemCheck' | translate}}">
+                      <nz-tab nzTitle="{{'vehicle.itemCheck' | translate}}">
                         <app-item-check></app-item-check>
                       </nz-tab>
-                      <nz-tab nzTitle="{{'vehical.workPerformed' | translate}}">
+                      <nz-tab nzTitle="{{'vehicle.workPerformed' | translate}}">
                         <app-work-performed></app-work-performed>
                       </nz-tab>
-                      <nz-tab nzTitle="{{'vehical.replacementSupplies' | translate}}">
+                      <nz-tab nzTitle="{{'vehicle.replacementSupplies' | translate}}">
                         <app-replacement-supplies></app-replacement-supplies>
                       </nz-tab>
                      

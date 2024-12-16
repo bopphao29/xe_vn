@@ -1,16 +1,17 @@
 <div style="background-color: #f3f3f3;">
 
-    <form nz-form nzGutter="16" class="w-full" nzLayout="vertical" [formGroup]="form" style="background-color: #f3f3f3;">
+    <form nz-form nzGutter="16" class="w-full" nzLayout="vertical" (ngSubmit)="search()" [formGroup]="form" style="background-color: #f3f3f3;">
         <div class="mx-4">
 
             <div class="" nz-row style="margin-bottom: 22px;">
 
                 <div nz-col nzSpan="3" class="mx-2">
                     <div class="">
-                        <label class="form-label">Tuyến </label>
+                        <label class="form-label">{{'vehicle.router' | translate}} </label>
                         <div class="w-full">
                             <nz-select nzPlaceHolder="Tất cả" formControlName="routeId" style="width: 100%;">
-                                <nz-option nzValue="1" nzLabel="value"></nz-option>
+                                <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
+                                <nz-option *ngFor="let data of listRoute" [nzValue]="data.id" [nzLabel]="data.name"></nz-option>
                             </nz-select>
                         </div>
                     </div>
@@ -41,7 +42,10 @@
                     <div class="">
                         <label class="form-label">Hãng xe</label>
                         <nz-select nzPlaceHolder="Tất cả" formControlName="vehicleModel" style="width: 100%;" style="width: 100%;">
-                            <nz-option nzValue="1" nzLabel="value"></nz-option>
+                            <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
+
+                            <nz-option *ngFor="let data of listManufacture" [nzValue]="data" [nzLabel]="data"></nz-option>
+
 
                             <!-- <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
                             <nz-option *ngFor="let office of listOffice" [nzValue]="office.id"
@@ -55,10 +59,9 @@
                     <div class="">
                         <label class="form-label">Năm sản xuất</label>
                         <nz-select nzPlaceHolder="Tất cả" formControlName="yearOfManufacture" style="width: 100%;">
-                            <nz-option nzValue="1" nzLabel="value"></nz-option>
-                            <!-- <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
-                            <nz-option *ngFor="let department of listDepartment, let i =index"
-                                [nzValue]="department.id" [nzLabel]="department.name"></nz-option> -->
+                            <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
+
+                            <nz-option *ngFor="let data of listManufactureYears" [nzValue]="data" [nzLabel]="data"></nz-option>
 
                         </nz-select>
                     </div>
@@ -69,7 +72,10 @@
                         <label class="form-label">Mục đích sử dụng</label>
                         <div>
                             <nz-select nzPlaceHolder="Tất cả" formControlName="identedUser" style="width: 100%;">
-                                <nz-option nzValue="1" nzLabel="value"></nz-option>
+                                <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
+
+                                <nz-option nzValue="1" nzLabel="Xe tuyến"></nz-option>
+                                <nz-option nzValue="2" nzLabel="Xe trung chuyển"></nz-option>
                                 <!-- <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
                                 <nz-option *ngFor="let department of listDepartment, let i =index"
                                     [nzValue]="department.id" [nzLabel]="department.name"></nz-option> -->
@@ -84,7 +90,7 @@
 
         <div class="flex justify-center m-2" style="min-width: 335px; ">
             <span>
-                <button class="button" nz-button nzType="default" style="border-color: #274ea1; min-width: 160px;" type="button"
+                <button class="button" type="button" nz-button nzType="default" style="border-color: #274ea1; min-width: 160px;" type="button"
                     (click)="resetForm()">
                     <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -98,7 +104,7 @@
                 </button>
             </span>
             <span class="ml-2">
-                <button class="button" (click)="search()" style="background-color: #274ea1; color:  #f7f7f7;" nz-button
+                <button class="button" type="submit" style="background-color: #274ea1; color:  #f7f7f7;" nz-button
                     nzType="default">Tìm
                     kiếm</button>
             </span>
@@ -109,9 +115,9 @@
 
     <div nz-row class="mx-4" style="margin-top: 15px;"> 
         <div class="prepare-to-expire">
-            <button type="button" class="prepare-to-expire-item" *ngFor="let data of listPrepareToExpire">
+            <button type="button" class="prepare-to-expire-item" *ngFor="let data of listPrepareToExpire" (click)="searchDocumentsNearingExpiration(data.code)">
                 <span class="">
-                    {{data.value}} <span style="color: rgba(227, 60, 60, 1);">(2)</span>
+                    {{data.value}} <span style="color: rgba(227, 60, 60, 1);">({{data.description}})</span>
                 </span>
             </button>
         </div>
@@ -120,49 +126,38 @@
         <div nz-col nzSpan="24">
             <table class="custom-table-list" style="background-color: #FCFCFC;">
                 <tbody>
-                    <tr style="background-color: #fcfcfc;">
-                        <th class="list-col-1">ID</th>
-                        <th class="list-col-3">Tên nhân viên</th>
-                        <th class="list-col-1">Năm sinh</th>
+                    <tr style="background-color: #fcfcfc; text-align: center;" >
+                        <th class="list-col-1">STT</th>
+                        <th class="list-col-2">Tuyến</th>
+                        <th class="list-col-2">Biển kiểm soát</th>
+                        <th class="list-col-2">Loại xe</th>
+                        <th class="list-col-2">Năm sản xuất</th>
+                        <th class="list-col-2">Lái xe</th>
                         <th class="list-col-2">SĐT</th>
-                        <th class="list-col-2">Trục thuộc quản lý</th>
-                        <th class="list-col-2">Chi nhánh</th>
-                        <th class="list-col-2">Bộ phận</th>
-                        <th class="list-col-2">Chức vụ</th>
-                        <th class="list-col-2">Trạng thái</th>
-                        <th class="list-col-2">Tác vụ</th>
+                        <th class="list-col-2">Mục đích sử dụng</th>
+                        <th class="list-col-3">Tác vụ</th>
 
                     </tr>
-                    <!-- <tr *ngFor="let data of  showEmpolyeeNoData()"> -->
-                    <tr>
+                    <tr *ngFor="let data of  showEmpolyeeNoData()" style="text-align: center;"  >
+                    <!-- <tr  style="text-align: center;"> -->
 
-                        <!-- <td class="list-col-1">{{data.code || '-'}}</td>
-                        <td class="list-col-3">{{data.name || '-'}}</td>
-                        <td class="list-col-1">{{data.yearOfBirth || '-'}}</td>
+                        <td class="list-col-1">{{data.id || '-'}}</td>
+                        <td class="list-col-3" style="text-align: left !important; ">{{data.routeName || '-'}}</td>
+                        <td class="list-col-1" style="text-align: left !important; padding-left: 10px;">{{data.registerNo || '-'}}</td>
+                        <td class="list-col-2">{{data.manufacturer || '-'}}</td>
+                        <td class="list-col-2">{{data.manufactureYear || '-'}}</td>
+                        <td class="list-col-2">{{data.driverName || '-'}}</td>
                         <td class="list-col-2">{{data.phoneNumber || '-'}}</td>
-                        <td class="list-col-2">{{data.officeName || '-'}}</td>
-                        <td class="list-col-2">{{data.branchName || '-'}}</td>
-                        <td class="list-col-2">{{data.departmentName || '-'}}</td>
-                        <td class="list-col-2">{{data.positionName || '-'}}</td>
-                        <td class="list-col-2">{{data.workingStatus || '-'}}</td> -->
+                        <td class="list-col-2">{{data.intendedUse || '-'}}</td>
 
-                        <td class="list-col-1">{{'-'}}</td>
-                        <td class="list-col-3">{{ '-'}}</td>
-                        <td class="list-col-1">{{ '-'}}</td>
-                        <td class="list-col-2">{{ '-'}}</td>
-                        <td class="list-col-2">{{'-'}}</td>
-                        <td class="list-col-2">{{'-'}}</td>
-                        <td class="list-col-2">{{'-'}}</td>
-                        <td class="list-col-2">{{'-'}}</td>
-                        <td class="list-col-2">{{'-'}}</td>
-                        <td class="button_action" style="text-align: center;">
+                        <td class="list-col-3 button_action">
                             <div>
-                                <a class="mx-1 button_show_detail">
+                                <a *ngIf="data.id" (click)="detailVehical(data.id)" class="mx-1 button_show_detail">
                                     Xem chi tiết
                                 </a>
-                                <a  class="mx-1 button_show_detail">
+                                <span *ngIf="!data.id" class="mx-1">
                                     -
-                                </a>
+                                </span>
                             </div>
                         </td>
                     </tr>
@@ -173,11 +168,11 @@
     </div>
 
 
-    <!-- <div style="display: flex; justify-content: center; margin-top: 16px;">
+    <div style="display: flex; justify-content: center; margin-top: 16px;">
         <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="total" [nzPageSize]="pageSize"
             (nzPageIndexChange)="onPageChange($event)" class="custom-pagination">
         </nz-pagination>
-    </div> -->
+    </div>
 
 </div>
 

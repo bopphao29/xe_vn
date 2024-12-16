@@ -32,7 +32,7 @@ export class VehicalServiceService {
       return this.httpClient.get(this.url + 'api/vehicle-types')
   }
 
-  getRoue(){
+  getRoute(){
     return this.httpClient.get(this.url + 'api/routes')
   }
 
@@ -56,4 +56,20 @@ export class VehicalServiceService {
     return this.httpClient.post(this.url + 'api/vehicles', formData)
   }
 
+  getManufactureYears(){
+    return this.httpClient.get(this.url + 'api/vehicles/get-manufacture-years')
+  }
+
+  getManufacturers(){
+    return this.httpClient.get(this.url + 'api/vehicles/get-manufacturers')
+
+  }
+
+  saveMaintenanceRepair(data: any){
+    return this.httpClient.get(this.url + 'api/maintenance-repair-schedules', data)
+  }
+
+  searchDocumentsNearingExpiration(){
+    return this.httpClient.get(this.url + 'api/vehicles/documents-nearing-expiration')
+  }
 }

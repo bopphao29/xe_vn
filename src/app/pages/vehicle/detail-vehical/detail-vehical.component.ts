@@ -228,7 +228,7 @@ export class DetailVehicalComponent implements OnInit{
   listRoute: any[] = []
   is_New: any
   getRoute(){
-    this.vehicalService.getRoue().subscribe((response : any)=> {
+    this.vehicalService.getRoute().subscribe((response : any)=> {
       this.listRoute = response.data
     })
   }
@@ -271,8 +271,7 @@ export class DetailVehicalComponent implements OnInit{
 
   listVehicleModel : any[]= []
 
-
-  getVhicalDetail(id = 3){
+getVhicalDetail(id : any){
     this.vehicalService.getVehicleDetail(id).subscribe((response : any) => {
       const data = response.data
       this.form.patchValue(data)

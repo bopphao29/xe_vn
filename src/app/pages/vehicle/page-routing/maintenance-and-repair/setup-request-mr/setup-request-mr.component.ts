@@ -16,6 +16,7 @@ import { CarStatusComponent } from './car-status/car-status.component';
 import { ItemCheckComponent } from './item-check/item-check.component';
 import { WorkPerformedComponent } from './work-performed/work-performed.component';
 import { ReplacementSuppliesComponent } from "./replacement-supplies/replacement-supplies.component";
+import { VehicalServiceService } from '../../../../../shared/services/vehical-service.service';
 
 @Component({
   selector: 'app-setup-request-mr',
@@ -48,13 +49,16 @@ export class SetupRequestMrComponent implements OnInit{
 
   form !: FormGroup
   constructor(
-    private fb : FormBuilder
+    private fb : FormBuilder,
+    private vehicalService: VehicalServiceService
+    
   ){}
 
   ngOnInit(): void {
     this.form = this.fb.group(
       {
         id: null,
+        routeId: [null, Validators.required],
         registerNo: [null, Validators.required],
         driver: [null, Validators.required],
         phoneNumber: [null, Validators.required],
@@ -97,10 +101,22 @@ export class SetupRequestMrComponent implements OnInit{
     )
   }
 
+  listRoute : any[] =[]
+  getRoute(){
+    this.vehicalService.getRoute().subscribe((response : any)=> {
+      this.listRoute = response.data
+      console.log(response)
+
+    })
+  }
+
+  
 
   onCheckboxChange(event: Event) {
     const isChecked = (event.target as HTMLInputElement).checked;
     this.form.get('priorityStatus')?.setValue(isChecked ? 1 : 2); 
   }
+
+
 
 }

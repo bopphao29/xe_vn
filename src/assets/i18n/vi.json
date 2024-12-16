@@ -136,6 +136,7 @@
         "latestDate": "Ngày bảo dưỡng gần nhất",
         "levelMaintenance":"Cấp bảo dưỡng hiện tại",
         "supposedStartTime":"",
+        "prepareToExpire": "Giấy Tờ Hồ Sơ Chuẩn Bị Hết Hạn",
         "supposedStartDate":"",
         "maintenancePlace": "",
         "approvalStatus":"",
@@ -149,7 +150,8 @@
         "workPerformed":"Công việc thực hiện",
         "replacementSupplies":"Vật tư thay thế",
         "priority":"Ưu tiên bảo dưỡng trước",
-        "enterAllInStar":"Nhập đủ tất cả các trường thông tin có dấu *"
+        "enterAllInStar":"Nhập đủ tất cả các trường thông tin có dấu *",
+        "router":"Tuyến"
     },
     "navbar": {
         "ras": "Liên hệ",
@@ -214,7 +216,6 @@
         "name_child": "Tên con",
         "reason_off": "Lý do nghỉ",
         "reason_submitEnd": "Lý do thôi việc",
-        "prepareToExpire": "Giấy Tờ Hồ Sơ Chuẩn Bị Hết Hạn",
         "AchiPunishPra":"Khen thưởng, thành tích, kỷ luật",
         "achivement":"Thành tích",
         "punishment":"Kỷ luật",

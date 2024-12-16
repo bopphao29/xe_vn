@@ -93,18 +93,15 @@
   }
 
   .custom-table-list .list-col-1 {
-    width: 6.25% !important;
-    text-align: center;
+    width: calc((40 / 1880 ) * 100%) !important;
   }
 
   .custom-table-list .list-col-2 {
-    width: 12.5% !important; 
-    text-align: center;
+    width: calc((240 / 1880 ) * 100%) !important; 
   }
 
   .custom-table-list .list-col-3 {
-    width: 12.5% !important; 
-    text-align: left;
+    width: calc((160 / 1880 )* 100%) !important; 
     padding-left: 10px;
   }
 

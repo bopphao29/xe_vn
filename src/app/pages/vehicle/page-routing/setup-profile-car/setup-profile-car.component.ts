@@ -185,22 +185,23 @@ export class SetupProfileCarComponent implements OnInit {
       })
 
       this.form.get('vehicleTypeId')?.valueChanges.subscribe((value : any)=> {
-        console.log(value);
+      if(value){
         const isTruck = this.listVehicle.find((item: any)=> item.id === parseInt(value))
         if(isTruck){
           const codeTruck : any = isTruck.code
 
           if(isTruck && codeTruck == 'XE_TAI'){
             this.labelTruck = true
+          }else{
+            this.labelTruck = false
+
           }
         }
-
-      if(value){
+        this.form.get('vehicleModelId')?.setValue('')
         this.getVehicleModel(value)
       }
-
-
       })
+
       this.form.get('isNew')?.valueChanges.subscribe((value: any)=> {
         this.is_New = value
         if(this.is_New !== "0"){
@@ -249,7 +250,7 @@ export class SetupProfileCarComponent implements OnInit {
   listRoute : any[] = []
 
   getRoute(){
-    this.vehicalService.getRoue().subscribe((response : any)=> {
+    this.vehicalService.getRoute().subscribe((response : any)=> {
       this.listRoute = response.data
     })
   }
@@ -524,6 +525,31 @@ disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
     const AfterDateObject = new Date(afterDate);
 
     return beforeDate <= AfterDateObject;
+  };
+}
+
+
+disableAfterDateDriver(name: string): (currentDate: Date | null) => boolean {
+  return (currentDate: Date | null): boolean => {
+    if (!currentDate || !this.form) return false;
+
+    const beforeDate = this.form.get(`driver.${name}`)?.value; // Lấy giá trị control từ formGroup
+    if (!beforeDate) return false;
+
+    const beforeDateObject = new Date(beforeDate);
+    return currentDate >= beforeDateObject; // Disable ngày sau beforeDate
+  };
+}
+
+disableBeforeDateDriver(name: string): (currentDate: Date | null) => boolean {
+  return (currentDate: Date | null): boolean => {
+    if (!currentDate || !this.form) return false;
+
+    const afterDate = this.form.get(`driver.${name}`)?.value; // Lấy giá trị control từ formGroup
+    if (!afterDate) return false;
+
+    const afterDateObject = new Date(afterDate);
+    return currentDate <= afterDateObject; // Disable ngày trước afterDate
   };
 }
 
