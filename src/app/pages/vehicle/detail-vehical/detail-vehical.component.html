@@ -75,9 +75,9 @@
                 <div class="input-wrapper">
                     <div class="">
                       <span class="required-star" >*</span><label class="label-form" for="" >{{'vehicle.vehicle_status' | translate}}</label>
-                      <nz-select nzPlaceHolder="Chọn" class="nzSelect"  formControlName="isNew">
-                        <nz-option nzValue="0" nzLabel="Xe cũ"></nz-option>
-                        <nz-option nzValue="1" nzLabel="Xe mới"></nz-option>
+                      <nz-select nzPlaceHolder="Chọn" class="nzSelect"  formControlName="status">
+                        <nz-option nzValue="0" nzLabel="Không hoạt động"></nz-option>
+                        <nz-option nzValue="1" nzLabel="Đang hoạt động"></nz-option>
                       </nz-select>
                       <div class="error-container">
                           <div *ngIf="form.get('isNew')?.invalid && (form.get('isNew')?.dirty) || form.get('isNew')?.touched">

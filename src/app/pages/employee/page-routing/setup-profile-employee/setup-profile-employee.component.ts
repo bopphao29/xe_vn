@@ -182,7 +182,8 @@ export class SetupProfileEmployeeComponent implements OnInit {
       gender: [null, Validators.required],
       identifierId: [null, [Validators.required, Validators.pattern(/^[0-9]*$/)]],
       phoneNumber: [null, [Validators.required, Validators.pattern(/^(0[0-9]{9}|8[4][0-9]{9})$/)]],
-      zalo: [null,[ Validators.required,Validators.pattern(/^(0\d{9}|84\d{9}|[a-zA-Z]*)$/)]],
+      // zalo: [null,[ Validators.required,Validators.pattern(/^(0\d{9}|84\d{9}|[a-zA-Z]*)$/)]],
+      zalo: [null],
       email: [null, [Validators.required, Validators.email]],
       ethnicGroup: [null,[Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
       religion: [null,[ Validators.pattern(VIETNAMESE_REGEX)]],
@@ -194,7 +195,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
       // contractDuration: [null, Validators.required],
       staffRelation: [null, [Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
       permanentAddress: [null, [Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
-      temporaryAddress: [null,[ Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
+      temporaryAddress: [null,[ Validators.required]],
       contractType: ['1'],
       fromDateOfOffical: [null, Validators.required],
       fromDateProbation: [null, Validators.required],
@@ -208,7 +209,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
       bcStartDate: [null, Validators.required],
       bcEndDate: [null, Validators.required],
       hcEndDate: [null, Validators.required],
-      driverLicenseNumber: [null, Validators.required],
+      driverLicenseNumber: [null, [Validators.required, Validators.pattern(/^[0-9]*$/)]],
       driverLicenseType: [null, Validators.required],
       dlStartDate: [null, Validators.required],
       dlEndDate: [null, Validators.required],
@@ -659,11 +660,11 @@ onBlurNumber(path: string | (string | number)[]) {
   dlImage: File[] = []
 
 beforeUpload = (file: NzUploadFile): boolean => {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'; // Lọc file JPG/PNG
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type ==='image/jpg' || file.type ==='image/svg' || file.type ==='image/heic' || file.type ==='image/webp'; // Lọc file JPG/PNG
   const isLt1GB = file.size! / 1024 / 1024 / 1024 < 1; // Kiểm tra kích thước file < 1GB
   
   if (!isJpgOrPng) {
-    this.notification.error('Bạn chỉ có thể tải lên file JPG hoặc PNG!');
+    this.notification.error('Bạn chỉ có thể tải lên file jpeg, jpg, png, svg, heic, webp!');
     return false; // Ngăn tải lên nếu không phải JPG/PNG
   }
   

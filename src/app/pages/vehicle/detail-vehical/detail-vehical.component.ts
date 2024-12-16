@@ -87,6 +87,7 @@ export class DetailVehicalComponent implements OnInit{
         vehicleTypeId: [null, [Validators.required]],
         capacity: [null, Validators.required],
         image: [null],
+        status: [null],
         intendedUse: [null],
         routeId: [null, Validators.required],
         odometer: [null,[ Validators.required, Validators.maxLength(16)]],
@@ -420,13 +421,17 @@ getRawValue() {
     this.isFixEmployeeButton = true
   }
 
+  id :any
   saveDataEmployee(){
+    this.route.paramMap.subscribe(params => {
+      this.id = params.get('id');
+    });
 
     const imageFileName = this.fileCompressed?.file?.length > 0 ? this.fileCompressed.file[0].name : null;
     console.log(this.fileCompressed.file)
     const dataForm = {
+      id: this.id,
       ...this.form.value,
-      id: 3,
       image: this.form.get('image')?.value || imageFileName,
       roadMaintenanceFee: this.getRawValue(),
     }

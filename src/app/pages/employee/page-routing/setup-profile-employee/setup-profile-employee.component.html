@@ -90,12 +90,12 @@
                 <div class="">
                     <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.zalo' | translate}}</label>
                     <input class="input-form" (blur)="onBlur('zalo')" (input)="validateEnterTextNumber('zalo', $event)" placeholder="Nguyễn văn A" formControlName="zalo" type="text">
-                    <div class="error-container">
+                    <!-- <div class="error-container">
                         <div *ngIf="form.get('zalo')?.invalid && (form.get('zalo')?.dirty) || form.get('zalo')?.touched">
                             <span class="validate_input" *ngIf="form.get('zalo')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
-                            <span class="instruct" *ngIf="form.get('zalo')?.errors?.['pattern']">{{'required.zalo' | translate}}</span>
+                            <span class="instruct" *ngIf="form.get('zalo')?.errors?.['pattern']">{{'pattern.zalo' | translate}}</span>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
@@ -130,7 +130,12 @@
                 <div class="">
                     <label class="label-form" for="" >{{'employee.religion' | translate}}<span style="font-weight: 400; line-height: 14.06px; color: gray; font-style: italic; font-size: 12px">{{'employee.ifHave'| translate}}</span></label>
                     <input class="input-form" (input)="validateText('religion',$event)" (blur)="onBlur('religion')"  formControlName="religion" placeholder="Nhập" />
-                       
+                    <div class="error-container">
+                        <div *ngIf="form.get('religion')?.invalid && (form.get('religion')?.dirty) || form.get('religion')?.touched">
+                            <span class="instruct" *ngIf="form.get('religion')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
+
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -169,7 +174,8 @@
                         <div class="error-container">
                             <div *ngIf="form.get('contactPerson')?.invalid && (form.get('contactPerson')?.dirty) || form.get('contactPerson')?.touched">
                                 <span class="validate_input" *ngIf="form.get('contactPerson')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
-                                <span class="instruct" *ngIf="form.get('contactPerson')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
+                                <span class="instruct" *ngIf="form.get('contactPerson')?.errors?.['pattern']">{{'required.phone_pattern'  | translate}}</span>
+                                <span class="instruct" *ngIf="form.get('contactPerson')?.errors?.['invalidLength']">{{'required.phone_pattern'  | translate}}</span>
 
                             </div>
                         </div>
@@ -179,12 +185,12 @@
             <div class="input-wrapper">
                 <div class="">
                     <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.contactPersonPhone' | translate}}</label>
-                    <input class="input-form" formControlName="contactPersonPhone" (input)="validateNumber('contactPersonPhone',$event)" placeholder="Nhập" maxlength="10"/>
+                    <input class="input-form" formControlName="contactPersonPhone" (input)="validateNumber('contactPersonPhone',$event)" placeholder="Nhập" [maxlength]="maxLengthMap['contactPersonPhone'] || 10" />
                         <div class="error-container">
                             <div class="error-container">
                                 <div *ngIf="form.get('contactPersonPhone')?.invalid && (form.get('contactPersonPhone')?.dirty) || form.get('contactPersonPhone')?.touched">
                                     <span class="validate_input" *ngIf="form.get('contactPersonPhone')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
-                                    <span class="instruct" *ngIf="form.get('contactPersonPhone')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
+                                    <span class="instruct" *ngIf="form.get('contactPersonPhone')?.errors?.['pattern']">{{'required.number_pattern' | translate}}</span>
                                 </div>
                             </div>
                         </div>

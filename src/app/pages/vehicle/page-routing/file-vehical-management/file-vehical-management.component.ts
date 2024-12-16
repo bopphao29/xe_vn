@@ -164,7 +164,7 @@ export class FileVehicalManagementComponent implements OnInit{
   searchDocumentsNearingExpiration(code : any){
     const dataForm = {
       ...this.form.value,
-      code : code,
+      documentCode : code,
       page: this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 ,
       size: 9,
     }

@@ -134,6 +134,8 @@
               <div class="error-container">
                   <div *ngIf="form.get('capacity')?.invalid && (form.get('capacity')?.dirty || form.get('capacity')?.touched)">
                       <span class="validate_input" *ngIf="form.get('capacity')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                      <span class="instruct" *ngIf="form.get('capacity')?.errors?.['pattern']">{{ ('required.number_pattern' | translate) }}</span>
+            
                   </div>
               </div>
           </div>

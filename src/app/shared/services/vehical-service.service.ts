@@ -53,7 +53,7 @@ export class VehicalServiceService {
   }
 
   updateVehicle(formData: FormData){
-    return this.httpClient.post(this.url + 'api/vehicles', formData)
+    return this.httpClient.put(this.url + 'api/vehicles', formData)
   }
 
   getManufactureYears(){
