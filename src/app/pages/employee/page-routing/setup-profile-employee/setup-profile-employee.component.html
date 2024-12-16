@@ -545,12 +545,12 @@
                     <span class="required-star" >*</span><label class="label-form" >{{'employee.picture_card' | translate}}</label>
                     <div nz-row nzGutter="8" class="custom-upload"
                             style="border: 1px solid #d9d9d9; border-radius: 5px; padding: 5px; height: 48px !important;">
-                            <input nz-input placeholder="Chọn ảnh" readonly class="upload-input"
+                            <input nz-input placeholder="Chọn ảnh" readonly class="upload-input" 
                                 style="border: none; outline: none; flex: 1;" formControlName="bcImage"
                                 [value]="bcImageName" />
                             <button nz-button nzType="default" nzShape="circle" class="upload-button"
                                 (click)="filebc.click()" style="border: none; background: transparent;">
-                                <i nz-icon nzType="paper-clip"></i>
+                                <i nz-icon nzType="paper-clip"  matTooltip="jpeg, jpg, png, svg, heic, webp" matTooltipPosition="above"></i>
                                 <input type="file" #filebc (change)="onChangeImage($event, 'bcImage')"
                                     style="display: none;" />
                             </button>
@@ -670,7 +670,7 @@
                                 [value]="dlImageName" />
                             <button nz-button nzType="default" nzShape="circle" class="upload-button"
                                 (click)="fileImg.click()" style="border: none; background: transparent;">
-                                <i nz-icon nzType="paper-clip"></i>
+                                <i nz-icon nzType="paper-clip"  matTooltip="jpeg, jpg, png, svg, heic, webp" matTooltipPosition="above"></i>
                                 <input type="file" #fileImg (change)="onChangeImage($event, 'dlImage')"
                                     style="display: none;" />
                             </button>

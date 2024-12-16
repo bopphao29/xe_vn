@@ -388,7 +388,7 @@ handleSubmitDelete(){
       officeId: '',
       departmentId: '',
       positionId: '',
-      leaveType: 2, 
+      leaveType: 1, 
     });
     localStorage.removeItem('search')
 

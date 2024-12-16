@@ -2,6 +2,10 @@
     border: none;
     background-color: rgb(243 243 243);
   }
+
+  ::ng-deep nz-date-picker{
+    height: 48px !important;
+  }
   
   ::ng-deep {
     nz-form-label.ant-form-item-label.form-label.ant-col {
@@ -21,7 +25,7 @@
     }
   
     .form-input {
-        // height: 50px;
+        height: 48px;
         border-radius: 5px;
     }
   

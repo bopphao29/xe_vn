@@ -13,6 +13,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { UploadImageService } from '../../../../shared/services/upload-image.service';
+import { VIETNAMESE_REGEX } from '../../../../shared/constants/common.const';
 
 import { IData } from '../../../../models/setup-profile-car/index.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -21,6 +22,9 @@ import { VehicalServiceService } from '../../../../shared/services/vehical-servi
 import { NotificationService } from '../../../../shared/services/notification.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ValidateIntoPageService } from '../../../../shared/services/validate-into-page.service';
 
 interface FileCompressed {
   file: File[]
@@ -47,7 +51,9 @@ interface FileCompressed {
     NzUploadModule,
     NzIconModule,
     NzRadioModule,
-    NzModalModule
+    NzModalModule,
+    NzToolTipModule,
+    MatTooltipModule
   ]
 })
 export class SetupProfileCarComponent implements OnInit {
@@ -74,7 +80,9 @@ export class SetupProfileCarComponent implements OnInit {
     private vehicalService: VehicalServiceService,
     private notifiService: NotificationService,
     private uploadImageService: UploadImageService,
-    private routes: Router
+    private routes: Router,
+    private validateService: ValidateIntoPageService,
+    
   ) {
   }
 
@@ -110,17 +118,17 @@ export class SetupProfileCarComponent implements OnInit {
     this.form = this.fb.group({
         isNew: [null, Validators.required],
         registerNo: [null, [Validators.required]],
-        frameNumber: [null, [Validators.maxLength(17)]],
-        machineNumber: [null, [Validators.maxLength(17)]],
-        manufactureYear: [null, [Validators.required, Validators.min(1940), Validators.max(maxYear), Validators.maxLength(4)]],
-        manufacturer: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+        frameNumber: [null, [Validators.maxLength(17), Validators.pattern(/^[0-9]*$/)]],
+        machineNumber: [null, [Validators.maxLength(17), Validators.pattern(/^[0-9]*$/)]],
+        manufactureYear: [null, [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.max(maxYear),Validators.maxLength(4)]],
+        manufacturer: [null, [Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
         vehicleModelId: [null, Validators.required],
         vehicleTypeId: [null, [Validators.required]],
-        capacity: [null, Validators.required],
+        capacity: [null, [Validators.required, Validators.pattern(/^[0-9]*$/)]],
         image: [null],
         intendedUse: [null],
         routeId: [null, Validators.required],
-        odometer: [null,[ Validators.required, Validators.maxLength(16)]],
+        odometer: [null,[ Validators.required, Validators.maxLength(16), Validators.pattern(/^[0-9]*$/)]],
         // payload: [null, Validators.required],
         firstSubscriptionDate: [null, Validators.required],
         fristRegistrationDate: [null, Validators.required],
@@ -142,7 +150,7 @@ export class SetupProfileCarComponent implements OnInit {
         feePaymentDate: [null, Validators.required],
         feeExpireDate: [null, Validators.required],
         cellphonePlan: [null],
-        networkProvider: [null],
+        networkProvider: [null, [Validators.pattern(VIETNAMESE_REGEX)]],
         networkRegisterDate: [null],
         networkExpireDate: [null],
         gpsDevice: [null],
@@ -295,14 +303,16 @@ export class SetupProfileCarComponent implements OnInit {
   }
 
   handleSubmitDone(){
-    this.routes.navigate(['employee/list-employee-profile'])
-    localStorage.setItem('activeLink','employeeProfile')
+    this.routes.navigate(['vehicle/profile-vehicle-management'])
+    localStorage.setItem('activeLink','vehicleProfileManagement')
   }
 
   ///////reset form/////
   resetForm(){
     this.form.reset({
-      driverStatus: this.form.get('driverStatus')?.value || '0',
+      driver: {
+        driverStatus: 0 || '0',
+      }
     })
     this.isSubmitted = false;
     this.submitDisabled = true; 
@@ -318,18 +328,21 @@ export class SetupProfileCarComponent implements OnInit {
   }
 
   //////////////////////////////////////validate just enter text input/////////////////
-validateText(event : Event){
-  const valueInput = event.target as HTMLInputElement;
-  const pattern = /^[a-zA-ZÀ-ỹà-ỹ\s]*$/;
-  if(!pattern.test(valueInput.value)){
-    valueInput.value = valueInput.value.replace(/[^a-zA-ZÀ-ỹà-ỹ\s]/g, '') ///  nếu kí tự không hợp lệ thì loại bỏ
+  validateText(path: string | (string | number)[], event: Event) {
+    this.validateService.validateText(this.form, path, event)
   }
-}
+  
+  validateEnterTextNumber( path: string | (string | number)[], event: Event) {
+    this.validateService.validateEnterTextNumber(this.form, path, event)
+  }
 
 //////////////////////////////////////validate just enter number input/////////////////
-validateNumber(event : Event){
-  const valueNum = event.target as HTMLInputElement;
-  valueNum.value = valueNum.value.replace(/[^0-9]/g, '')
+validateNumber(name:string , event : Event){
+  this.validateService.validateNumber(this.form, name, event)
+}
+
+validatorsRequired(name: string | (string | number)[]){
+  this.validateService.validatorsRequired(this.form, name)
 }
 
 //////////////////////////////định dạng tiền////////////////////////////////////////

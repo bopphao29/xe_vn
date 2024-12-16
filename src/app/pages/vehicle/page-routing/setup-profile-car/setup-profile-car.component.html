@@ -10,6 +10,7 @@
           <div class="error-container">
             <div *ngIf="form.get('vehicleTypeId')?.invalid && (form.get('vehicleTypeId')?.dirty || form.get('vehicleTypeId')?.touched)">
                 <span class="validate_input" *ngIf="form.get('vehicleTypeId')?.hasError('required')">{{'required.cannotBlank' | translate}}</span>
+                <!-- <span class="instruct" *ngIf="form.get('vehicleTypeId')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span> -->
             </div>
         </div>
         </div>
@@ -44,6 +45,8 @@
               <div class="error-container">
                   <div *ngIf="form.get('registerNo')?.invalid && (form.get('registerNo')?.dirty || form.get('registerNo')?.touched)">
                       <span class="validate_input" *ngIf="form.get('registerNo')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                      <span class="instruct" *ngIf="form.get('registerNo')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
+
                   </div>
               </div>
           </div>
@@ -53,8 +56,12 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" for="" >{{'vehicle.frameNumber' | translate}}</label>
-              <input class="input-form" (input)="validateNumber($event)" placeholder="Nhập" maxlength="17" type="text" formControlName="frameNumber">
-              
+              <input class="input-form" (input)="validateNumber('frameNumber',$event)" placeholder="Nhập" maxlength="17" type="text" formControlName="frameNumber">
+              <div class="error-container">
+                <div *ngIf="form.get('frameNumber')?.invalid && (form.get('frameNumber')?.dirty || form.get('frameNumber')?.touched)">
+                    <span class="instruct" *ngIf="form.get('frameNumber')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
+                </div>
+            </div>
           </div>
   
         </div>
@@ -62,8 +69,10 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" for="" >{{'vehicle.machineNumber' | translate}}</label>
-              <input class="input-form" formControlName="machineNumber" (input)="validateNumber($event)" maxlength="17" placeholder="Nhập" type="text" >
-              
+              <input class="input-form" formControlName="machineNumber" (input)="validateNumber('machineNumber',$event)" maxlength="17" placeholder="Nhập" type="text" >
+              <div *ngIf="form.get('machineNumber')?.invalid && (form.get('machineNumber')?.dirty || form.get('machineNumber')?.touched)">
+                <span class="instruct" *ngIf="form.get('machineNumber')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
+            </div>
           </div>
   
         </div>
@@ -71,12 +80,14 @@
         <div class="input-wrapper">
           <div class="">
               <span class="required-star">*</span><label class="label-form" for="" >{{'vehicle.manufactureYear' | translate}}</label>
-              <input class="input-form" formControlName="manufactureYear" maxlength="4" (input)="validateNumber($event)"  placeholder="2000" type="text" >
+              <input class="input-form" formControlName="manufactureYear" maxlength="4" (input)="validateNumber('manufactureYear',$event)"  placeholder="2000" type="text" >
               <div class="error-container">
                   <div *ngIf="form.get('manufactureYear')?.invalid && (form.get('manufactureYear')?.dirty || form.get('manufactureYear')?.touched)">
                       <span class="validate_input" *ngIf="form.get('manufactureYear')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                         <span class="instruct" *ngIf="form.get('manufactureYear')?.errors?.['max']">{{ ('required.manufactureYearMax' | translate)+maxYear }}</span>
                         <span class="instruct" *ngIf="form.get('manufactureYear')?.errors?.['min']">{{ ('required.manufactureYearMin' | translate) + minYear }}</span>
+                        <span class="instruct" *ngIf="form.get('manufactureYear')?.errors?.['pattern']">{{ ('required.text_pattern' | translate) }}</span>
+
                   </div>
               </div>
           </div>
@@ -86,10 +97,11 @@
         <div class="input-wrapper">
           <div class="">
               <span class="required-star" >*</span><label class="label-form" for="" >{{'vehicle.manufacturer' | translate}}</label>
-              <input class="input-form" formControlName="manufacturer" (blur)="validateText($event)"   placeholder="Nhập" type="text" >
+              <input class="input-form" formControlName="manufacturer" (blur)="validateText('manufacturer',$event)"   placeholder="Nhập" type="text" >
               <div class="error-container">
                   <div *ngIf="form.get('manufacturer')?.invalid && (form.get('manufacturer')?.dirty || form.get('manufacturer')?.touched)">
                       <span class="validate_input" *ngIf="form.get('manufacturer')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                      <span class="instruct" *ngIf="form.get('manufacturer')?.errors?.['pattern']">{{ ('required.text_pattern' | translate) }}</span>
                   </div>
               </div>
           </div>
@@ -118,7 +130,7 @@
                 <span class="required-star" >*</span>{{ labelTruck == true ? ('vehicle.payload' | translate) : ('vehicle.capacity' | translate) }} 
                 <span style="color: rgba(239, 68, 68, 1);font-style: italic; font-weight: 400; font-size: 12px; line-height: 14.06px;"> {{'vehicle.noDriver' | translate}}</span>
               </label>
-              <input class="input-form"  placeholder="Nhập" type="text" (input)="validateNumber($event)" formControlName="capacity" >
+              <input class="input-form"  placeholder="Nhập" type="text" (input)="validateNumber('capacity',$event)" formControlName="capacity" >
               <div class="error-container">
                   <div *ngIf="form.get('capacity')?.invalid && (form.get('capacity')?.dirty || form.get('capacity')?.touched)">
                       <span class="validate_input" *ngIf="form.get('capacity')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
@@ -136,7 +148,7 @@
                   [value]="fileCompressed.file.length > 0 ? fileCompressed.file[0].name : ''"  />
                 <button nz-button nzType="default" nzShape="circle" class="upload-button" type="button"
                   (click)="isShowModalUploadfile = true" style="border: none; background: transparent;">
-                  <i nz-icon nzType="paper-clip"></i>
+                  <i nz-icon nzType="paper-clip" matTooltip="jpeg, jpg, png, svg, heic, webp" matTooltipPosition="above"></i>
                 </button>
               </div>
               
@@ -178,10 +190,12 @@
         <div class="input-wrapper">
           <div class="">
               <span class="required-star" >*</span><label class="label-form" for="" >{{'vehicle.odometer' | translate}}</label>
-              <input class="input-form" formControlName="odometer" (input)="validateNumber($event)" placeholder="KM" type="text" >
+              <input class="input-form" formControlName="odometer" (input)="validateNumber('odometer',$event)" placeholder="KM" type="text" >
               <div class="error-container">
                   <div *ngIf="form.get('odometer')?.invalid && (form.get('odometer')?.dirty || form.get('odometer')?.touched)">
                       <span class="validate_input" *ngIf="form.get('odometer')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                      <span class="instruct" *ngIf="form.get('odometer')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
+
                   </div>
               </div>
           </div>
@@ -419,7 +433,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" for="" >{{'vehicle.cellphonePlan' | translate}}</label>
-              <input class="input-form" (blur)="validateText($event)" formControlName="cellphonePlan"  placeholder="Nguyễn văn A"   type="text" >
+              <input class="input-form" (blur)="validateText('cellphonePlan',$event)" formControlName="cellphonePlan"  placeholder="Nhập"   type="text" >
              
           </div>
   
@@ -427,8 +441,14 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" for="" >{{'vehicle.networkProvider' | translate}}</label>
-              <input class="input-form" (blur)="validateText($event)"  formControlName="networkProvider" placeholder="Nguyễn văn A"   type="text" >
-              
+              <input class="input-form" (input)="validateText('networkProvider',$event)"  formControlName="networkProvider" placeholder="Nhập"  type="text" >
+              <div class="error-container">
+                <div *ngIf="form.get('networkProvider')?.invalid && (form.get('networkProvider')?.dirty) || form.get('networkProvider')?.touched">
+                    <!-- <span class="validate_input" *ngIf="form.get('feePaymentDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span> -->
+                    <span class="instruct" *ngIf="form.get('networkProvider')?.errors?.['pattern']">{{ ('required.text_pattern' | translate) }}</span>
+
+                  </div>
+            </div>
           </div>
   
         </div>
@@ -450,7 +470,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" for="" >{{'vehicle.gpsDevice' | translate}}</label>
-              <input class="input-form" formControlName="gpsDevice"  placeholder="Nguyễn văn A"   type="text" >
+              <input class="input-form" formControlName="gpsDevice"  placeholder="Nhập"   type="text" >
               
           </div>
   
@@ -496,7 +516,7 @@
                 <div class="">
                   <div class="">
                       <label class="label-form" for="" >{{'vehicle.vehiclePhone' | translate}}</label>
-                      <input class="input-form"  placeholder="Nguyễn văn A" formControlName="phoneNumber"  type="text" >
+                      <input class="input-form"  placeholder="Nhập" formControlName="phoneNumber"  type="text" >
                       
                   </div>
           
@@ -641,7 +661,7 @@
 <nz-modal 
   [(nzVisible)]="isFullImageVisible" 
   [nzFooter]="null" 
-  [nzClosable]="false" 
+  [nzClosable]="true" 
   [nzMaskClosable]="true"
   (nzOnCancel)="isFullImageVisible = false" 
   [nzContent]="modalContentFull" 

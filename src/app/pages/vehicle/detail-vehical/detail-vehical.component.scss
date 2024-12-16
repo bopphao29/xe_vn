@@ -575,3 +575,7 @@
 .delete-icon:hover {
   background-color: rgba(255, 0, 0, 0.8); /* Đổi màu khi hover */
 }
+
+::ng-deep .ant-select .ant-select-selector{
+  background-color: #fafafa !important;
+}

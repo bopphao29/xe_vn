@@ -36,3 +36,83 @@
     font-size: 13px;
     line-height: 15.23px;
   }
+
+::ng-deep nz-date-picker{
+  height: 48px !important;
+}
+
+::ng-deep .ant-select .ant-select-selector{
+  background-color: #fafafa !important;
+}
+
+.form-control {
+  border: none;
+}
+
+.label_setup {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 18.75px;
+  text-align: left;
+  color: rgba(37, 44, 50, 1);
+}
+
+::ng-deep .label_form {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 15.23px;
+  text-align: left;
+  color: rgba(107, 114, 128, 1) !important;
+
+}
+
+::ng-deep .ant-row .ant-col nz-form-item nz-form-label label {
+  color: rgba(107, 114, 128, 1) !important;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 15.23px;
+  text-align: left;
+}
+
+::ng-deep .ant-row .ant-col nz-form-label label {
+  color: rgba(107, 114, 128, 1) !important;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 15.23px;
+  text-align: left;
+}
+
+
+::ng-deep .ant-row .ant-col .ant-form-item .ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .ant-radio-group .ant-radio-wrapper span {
+  color: rgb(37, 50, 41);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16.41px;
+  text-align: left;
+
+}
+
+
+
+::ng-deep {
+  nz-form-label.ant-form-item-label.form-label.ant-col {
+    margin-bottom: -5px;
+  }
+
+  .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    height: 48px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 5px;
+  }
+
+  nz-select-item.ant-select-selection-item.ng-star-inserted {
+    font-weight: 600;
+  }
+
+  .form-input {
+    height: 48px;
+    border-radius: 5px;
+  }
+}
