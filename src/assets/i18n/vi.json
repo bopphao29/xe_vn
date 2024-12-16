@@ -64,6 +64,7 @@
     "vehicle":{
         "vehicle_status":"Trạng thái hoạt động",
         "profile_vehicle":"Hồ sơ phương tiện",
+        "account_infor":"Thông tin tài chính",
         "detail_vehicle_infor":"Chi Tiết Thông Tin Phương Tiện",
         "vehicle_management":"Quản lý phương tiện",
         "setup_vehicle":"Thiết lập hồ sơ phương tiện",

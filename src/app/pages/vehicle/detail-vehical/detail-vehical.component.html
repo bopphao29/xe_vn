@@ -617,7 +617,9 @@
             
           </div>
 
-        <span class="label_setup mx-2">{{'vehicle.detail_vehicle_infor' | translate}}</span>
+        <div style="padding-top: 20px; padding-bottom: 20px;">
+            <span class="label_setup mx-2">{{'vehicle.account_infor' | translate}}</span>
+        </div>
         <div style="background-color: #fff; border-radius: 5px">
             <div class="p-4 pb-0 form-container">
                 <div class="input-wrapper">
@@ -658,9 +660,9 @@
     </form>
 
     <div nzGutter="16" class="w-full" style="margin-top: 20px" *ngIf="isFixEmployeeButton == false">
-        <span class="label_setup mx-2">{{'vehicle.maintenanceRepairHistory'}}</span>
+        <span class="label_setup mx-2">{{'vehicle.maintenanceRepairHistory' | translate}}</span>
     </div>
-
+<!-- 
     <div class="p-4 pb-0" style="margin-top: 15px; border-radius: 8px" class="" *ngIf="isFixEmployeeButton == false">
 
         <div nz-row>
@@ -677,10 +679,10 @@
                                         <th style="text-align: center;" class="list-col-1">{{'table.time' | translate}}</th>
                                         <th class="col-2">{{'table.action' | translate}}</th>
                                     </tr>
-                                    <!-- <tr *ngFor="let data of showEmpolyeeNoDataofLstPraises()">
+                                    <tr *ngFor="let data of showEmpolyeeNoDataofLstPraises()">
                                         <td class="col-1"  style="text-align: center;">{{(data.praiseDate | date: 'dd/MM/yyyy') || '-'}}</td>
                                         <td class="col-1">{{data.description || '-'}}</td>
-                                    </tr> -->
+                                    </tr>
                                     <tr>
                                         <td class="">1</td>
                                         <td class="">Thời gian</td>
@@ -689,11 +691,11 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!-- <div style="display: flex; justify-content: center; margin-top: 16px;">
+                        <div style="display: flex; justify-content: center; margin-top: 16px;">
                             <nz-pagination [(nzPageIndex)]="pagePr" [nzTotal]="totalPrai" [nzPageSize]="size"
                                 (nzPageIndexChange)="onPageChangePraises($event)" class="custom-pagination">
                             </nz-pagination>
-                        </div> -->
+                        </div>
                     </div>
                     <div nz-col nzSpan="11" style="margin-left: 24px;">
                         <div  nz-col class="w-full" style="padding:8px 8px 8px 8px ;">
@@ -706,11 +708,11 @@
                                         <th style="text-align: center;" class="list-col-1">{{'table.time' | translate}}</th>
                                         <th class="col-2">{{'table.action' | translate}}</th>
                                     </tr>
-                                    <!-- <tr *ngFor="let data of showEmpolyeeNoDataofLstPunishments()" >
+                                    <tr *ngFor="let data of showEmpolyeeNoDataofLstPunishments()" >
                                         <td class="col-1" style="text-align: center;">{{ (data.violationDate | date: 'dd/MM/yyyy')  || '-'}}</td>
                                         <td class="col-1">{{data.note || '-'}}</td>
         
-                                    </tr> -->
+                                    </tr>
                                     <tr>
                                         <td class="">Thời gian</td>
                                         <td class="col-2">Nội dung khen thưởng</td>
@@ -718,11 +720,11 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!-- <div style="display: flex; justify-content: center; margin-top: 16px;">
+                        <div style="display: flex; justify-content: center; margin-top: 16px;">
                             <nz-pagination [(nzPageIndex)]="pagePu" [nzTotal]="totalPush" [nzPageSize]="size"
                                 (nzPageIndexChange)="onPageChangePunishments($event)" class="custom-pagination">
                             </nz-pagination>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -740,10 +742,10 @@
                                     <th style="text-align: center;" class="list-col-1">{{'table.fromDate' | translate}}</th>
                                     <th style="text-align: center;" class="col-2">{{'table.toDate' | translate}}</th>
                                 </tr>
-                                <!-- <tr *ngFor="let data of showEmpolyeeNoDataofLstPraises()">
+                                <tr *ngFor="let data of showEmpolyeeNoDataofLstPraises()">
                                     <td class="col-1"  style="text-align: center;">{{(data.praiseDate | date: 'dd/MM/yyyy') || '-'}}</td>
                                     <td class="col-1">{{data.description || '-'}}</td>
-                                </tr> -->
+                                </tr>
                                 <tr>
                                     <td style="text-align: center;" class="list-col-1">{{'table.stt' | translate}}</td>
                                     <td class="col-2">{{'table.driverName' | translate}}</td>
@@ -753,11 +755,11 @@
                                 </tr>
                             </tbody>
                         </table>
-                    <!-- <div style="display: flex; justify-content: center; margin-top: 16px;">
+                    <div style="display: flex; justify-content: center; margin-top: 16px;">
                         <nz-pagination [(nzPageIndex)]="pagePr" [nzTotal]="totalPrai" [nzPageSize]="size"
                             (nzPageIndexChange)="onPageChangePraises($event)" class="custom-pagination">
                         </nz-pagination>
-                    </div> -->
+                    </div>
                 </div>
 
                </div>
@@ -765,4 +767,4 @@
         </div>
     </div>
 </div>
-
+ -->

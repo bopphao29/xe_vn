@@ -450,54 +450,56 @@ getRawValue() {
     // this.form.markAllAsTouched(); 
     // console.log(this.form.get('isNew')?.value)
 
-    this.vehicalService.updateVehicle(formData).subscribe((response: any)=> {
-      this.notifiService.success('Sửa thông tin phương tiện thành công')
+    // this.vehicalService.updateVehicle(formData).subscribe((response: any)=> {
+    //   this.notifiService.success('Sửa thông tin phương tiện thành công')
       
-    })
+    // })
 
-    // if (this.form.valid) {
+    if (this.form.valid) {
       
-    //   this.vehicalService.updateVehicle(formData).subscribe( {
-    //     next : (response: any) => {
-    //       this.notifiService.success('Sửa thông tin phương tiện thành công')
-    //     },
-    //     error: (error: any)=>{
-    //       this.notifiService.error('Có lỗi xảy ra')
-    //     }
-    //   })
-    // } else {
-    //   console.log('lỗi')
-    //   Object.keys(this.form.controls).forEach((field: any) => {
-    //     const control = this.form.get(field)
+      this.vehicalService.updateVehicle(formData).subscribe( {
+        next : (response: any) => {
+          this.notifiService.success('Sửa thông tin phương tiện thành công')
+          this.form.disable()
+          this.isFixEmployeeButton =false
+        },
+        error: (error: any)=>{
+          this.notifiService.error('Có lỗi xảy ra')
+        }
+      })
+    } else {
+      console.log('lỗi')
+      Object.keys(this.form.controls).forEach((field: any) => {
+        const control = this.form.get(field)
 
-    //     if (control && control.invalid) {
-    //       console.log("lỗi ở: " + field)
+        if (control && control.invalid) {
+          console.log("lỗi ở: " + field)
 
-    //       const errors = control.errors;
-    //       if (errors) {
-    //         Object.keys(errors).forEach((errkey: any) => {
-    //           switch (errkey) {
-    //             case 'required':
-    //               console.log(field + "phai dien")
-    //               break;
-    //             case 'minlength':
-    //               console.log(field + "bi be hon gi day")
-    //               break;
-    //             case 'pattern':
-    //               console.log(field + 'dinh dang sai')
-    //               break;
-    //             case 'email':
-    //               console.log(field + 'mail sai')
-    //               break;
-    //             default:
-    //               console.log('loi khac o : ' + field, errors[errkey])
-    //               break;
-    //           }
-    //         })
-    //       }
-    //     }
-    //   })
-    // }
+          const errors = control.errors;
+          if (errors) {
+            Object.keys(errors).forEach((errkey: any) => {
+              switch (errkey) {
+                case 'required':
+                  console.log(field + "phai dien")
+                  break;
+                case 'minlength':
+                  console.log(field + "bi be hon gi day")
+                  break;
+                case 'pattern':
+                  console.log(field + 'dinh dang sai')
+                  break;
+                case 'email':
+                  console.log(field + 'mail sai')
+                  break;
+                default:
+                  console.log('loi khac o : ' + field, errors[errkey])
+                  break;
+              }
+            })
+          }
+        }
+      })
+    }
 
 
     

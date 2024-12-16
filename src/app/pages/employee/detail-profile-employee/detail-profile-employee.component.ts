@@ -1553,7 +1553,7 @@ validateNumber(name: string | (string | number)[], event : Event){
           this.isFixEmployeeButton = false  
           this.form.disable()
           
-          window.location.reload()
+          // window.location.reload()
           // this.getUser(this.idEmployee)
         },
         error: (error) => {
