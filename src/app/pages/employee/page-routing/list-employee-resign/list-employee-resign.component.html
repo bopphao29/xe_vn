@@ -124,9 +124,13 @@
                         <a *ngIf="isLeave == false && onLeave == false && isWaitLeave == false && data.id && isChangeEmployee == true" style="border-color: rgba(39, 78, 161, 0.3);" class="mx-1 button_show_detail" (click)="openModalChangeonLeave(data.id)">
                             Sửa
                         </a>
+                        <a *ngIf="isLeave == false && onLeave == false && isWaitLeave == false && data.id && isChangeEmployee == true" style="border-color: rgba(239, 68, 68, 1); color: rgba(239, 68, 68, 1);" class="mx-1 button_show_detail" (click)="deleteVacationSchedule(data.id)">
+                            Xóa
+                        </a>
                         <a *ngIf="isLeave == false && isWaitLeave == false && onLeave == true && data.id" style="border-color: rgba(239, 68, 68, 1); color: rgba(239, 68, 68, 1);" class="mx-1 button_show_detail" (click)="openModalDelete(data.id)">
                             Xóa
                         </a>
+                        
                         <a *ngIf="isLeave == true && isWaitLeave == false && onLeave == false && data.id" style="border-color: rgba(39, 78, 161, 0.3);" class="mx-1 button_show_detail" (click)="openModalResest(data.id)">
                             Đi làm lại
                         </a>
@@ -407,5 +411,31 @@
                     >Lưu</button>
             </span>
         </div>
+    </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isDeleteVacation" (nzOnCancel)="handleCancelDeleteVacation()" (nzOnOk)="handleSubmitDeleteVacation()" nzClassName="reset-employee-modal"
+    [nzContent]="modalContentDeleteVacation" [nzFooter]="null" [nzStyle]="{'width' : '498px','min-width' : '498px', 'height':'348px','min-height':'348px','margin-top': '278px','border-radius': '12px'}">
+    <ng-template #modalContentDeleteVacation>
+        <div class="headmodalRest">
+            <div style="color: red; justify-content: center; align-items: center; font-size: 60px">
+                <span nz-icon nzType="user-delete" nzTheme="outline"></span>                  
+            </div>
+        </div>
+        <div >
+            <div style="text-align: center; margin-bottom: 60px;"><span style="font-size: 24px;font-weight: 500px;  ">Xác nhận xóa lịch nghỉ phép này</span></div>
+            
+            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 20px"> 
+                <span>
+                    <button class="button-infor" nz-button style="color: #274EA1; border: 1px solid rgba(39, 78, 161, 1);" nzType="default"
+                        (click)="handleCancelDeleteVacation()">Hủy</button>
+                </span>
+                <span>
+                    <button class="button-infor" nz-button style="color: #ffffff; background-color: red; border-color: red !important;" nzType="default"
+                        (click)="handleSubmitDeleteVacation()">Xác nhận</button>
+                </span>
+            </div>
+        </div>
+        
     </ng-template>
 </nz-modal>

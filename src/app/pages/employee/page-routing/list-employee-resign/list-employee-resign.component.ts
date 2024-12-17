@@ -109,6 +109,7 @@ export class ListEmployeeResignComponent {
   isResetEmployee: boolean = false
   isChangeEmployee : boolean = false
   isDelete: boolean = false
+  isDeleteVacation: boolean = false
   changeLeave: any
   isWaitLeave :boolean = false
   onLeave : boolean = false
@@ -130,9 +131,21 @@ export class ListEmployeeResignComponent {
   }
 
   getPossition() {
-    this.userSevice.getPossition().subscribe((response: any) => {
-      this.listPosstion = response.data
+    var idDepartment :number =0
+
+    this.form.get('departmentId')?.valueChanges.subscribe((value: any) => {
+      idDepartment = value
+      if(value && value != ''){
+        this.userSevice.getPossition(idDepartment).subscribe((response: any) => {
+          this.listPosstion = response.data
+        })
+       }else{
+        this.userSevice.getPossition(null).subscribe((response: any) => {
+          this.listPosstion = response.data
+        })
+       }
     })
+    
   }
 
   getOffice() {
@@ -214,6 +227,10 @@ export class ListEmployeeResignComponent {
     
   }
 
+  handleCancelDeleteVacation(){
+  this.isDeleteVacation = false
+
+  }
 
   handleCancelLeaveType3() {
     this.isLeaveType3 = false
@@ -295,8 +312,6 @@ handleSubmitDelete(){
     if (this.dataEmployee && this.dataEmployee.length > 0) {  // Kiểm tra nếu dataEmployee có dữ liệu
         this.isModalOnLeaveEmployee = true;
         this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
-        this.isModalOnLeaveEmployee = true;
-        this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
         if (this.selectedEmployee?.leaveFromDate) {
           const date = new Date(this.selectedEmployee.leaveFromDate);
           this.formChangeInforLeave.patchValue({
@@ -332,6 +347,35 @@ handleSubmitDelete(){
   checkLeaveType(){
 
   }
+
+  handleSubmitDeleteVacation(){
+      const absenceScheduleId = this.selectedEmployee['absenceScheduleId']
+
+      
+  this.userSevice.deleteVacationSchedule(absenceScheduleId).subscribe( {
+    next: (response) => {
+      this.notification.success('Xóa nghỉ phép thành công!')
+      this.isDeleteVacation = false  
+      this.search()
+      // this.form.reset()
+      // this.getUser(this.idEmployee)
+    },
+    error: (error) => {
+      // if(error.status === 400){
+      //   this.notification.error(error.message)
+      // }
+
+    }})
+  }
+
+  deleteVacationSchedule(id: number){
+    if (this.dataEmployee && this.dataEmployee.length > 0) {
+      this.isDeleteVacation = true;
+        this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
+        console.log(this.selectedEmployee)
+    }
+  }
+
   showEmpolyeeNoData(){
     const numberData = 12
     const data = {id: null, name: null, yearOfBirth: null, phoneNumber: null, officeName: null, branchName: null, departmentName: null, reason: null,action : null}

@@ -1,6 +1,6 @@
 <div style="background-color: #f3f3f3;">
 
-    <form nz-form nzGutter="16" class="w-full" nzLayout="vertical" [formGroup]="form" style="background-color: #f3f3f3;">
+    <form nz-form nzGutter="16" class="w-full" nzLayout="vertical" [formGroup]="form" (ngSubmit)="search()" style="background-color: #f3f3f3;">
         <div class="mx-4">
 
             <div class="" nz-row style="margin-bottom: 22px;">
@@ -8,7 +8,7 @@
                 <div nz-col nzSpan="3" style="margin-right: 8px;">
                     <div class="">
                         <label class="form-label">Thông tin nhân sự</label>
-                        <input nz-input (keydown.enter)="search()" class="form-input" formControlName="txtSearch" placeholder="ID, Tên nhân sự, SĐT..." />
+                        <input nz-input class="form-input" formControlName="txtSearch" placeholder="ID, Tên nhân sự, SĐT..." />
                     </div>
                 </div>
 
@@ -30,7 +30,7 @@
                     <div class="">
                         <label class="form-label">Chi nhánh </label>
                         <div class="w-full">
-                            <nz-select nzPlaceHolder="Tất cả" formControlName="branchId" (keydown.enter)="search()" style="width: 100%;">
+                            <nz-select nzPlaceHolder="Tất cả" formControlName="branchId" style="width: 100%;">
                                 <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
                                 <nz-option *ngFor="let branch of listBranch, let i =index" [nzValue]="branch.id"
                                     [nzLabel]="branch.name"></nz-option>
@@ -44,7 +44,7 @@
                     <div class="">
                         <label class="form-label">Bộ phận</label>
                         <div>
-                            <nz-select nzPlaceHolder="Tất cả" formControlName="departmentId" (keydown.enter)="search()" style="width: 100%;">
+                            <nz-select nzPlaceHolder="Tất cả" formControlName="departmentId"  style="width: 100%;">
                                 <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
                                 <nz-option *ngFor="let department of listDepartment, let i =index"
                                     [nzValue]="department.id" [nzLabel]="department.name"></nz-option>
@@ -58,7 +58,7 @@
                     <div class="">
                         <label class="form-label">Chức vụ</label>
                         <div>
-                            <nz-select nzPlaceHolder="Tất cả" formControlName="positionId" (keydown.enter)="search()" style="width: 100%;">
+                            <nz-select nzPlaceHolder="Tất cả" formControlName="positionId" style="width: 100%;">
                                 <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
                                 <nz-option *ngFor="let position of listPosstion, let i =index" [nzValue]="position.id"
                                     [nzLabel]="position.name"></nz-option>
@@ -71,7 +71,7 @@
                     <div class="">
                         <label class="form-label">Trạng thái</label>
                         <div>
-                            <nz-select nzPlaceHolder="Tất cả" formControlName="workingStatus" style="width: 100%;" (keydown.enter)="search()">
+                            <nz-select nzPlaceHolder="Tất cả" formControlName="workingStatus" style="width: 100%;" >
                                 <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
                                 <!-- <nz-option nzValue="1" nzLabel="Đang làm việc"></nz-option>
                                 <nz-option nzValue="2" nzLabel="Tất cả"></nz-option> -->
@@ -102,7 +102,7 @@
                 </button>
             </span>
             <span class="ml-2">
-                <button class="button" (click)="search()" style="background-color: #274ea1; color:  #f7f7f7;" nz-button
+                <button class="button" type="submit" style="background-color: #274ea1; color:  #f7f7f7;" nz-button
                     nzType="default">Tìm
                     kiếm</button>
             </span>

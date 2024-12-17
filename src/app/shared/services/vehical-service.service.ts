@@ -36,8 +36,10 @@ export class VehicalServiceService {
     return this.httpClient.get(this.url + 'api/routes')
   }
 
-  searchVehicle(data: any){
-    return this.httpClient.post(this.url + 'api/vehicles/search', data)
+  searchVehicle(page: number,size:number, data: any){
+    const params = 'page='+page.toString()+'&size='+size.toString()
+
+    return this.httpClient.post(this.url + 'api/vehicles/search?'+params, data)
   }
 
   getVehicleModel(id: any){

@@ -23,6 +23,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import {PDF} from '../../../shared/pdf/pdf.util';
 import { ValidateIntoPageService } from '../../../shared/services/validate-into-page.service';
 import { ChangeFunctionService } from '../../../shared/services/change-function.service';
+import { VIETNAMESE_REGEX } from '../../../shared/constants/common.const';
 
 
 
@@ -178,28 +179,28 @@ export class DetailProfileEmployeeComponent implements OnInit {
     this.maxYear = maxYear
     this.minYear = minYear
     this.form = this.fb.group({
-      name: [null, [Validators.required, Validators.pattern('^[a-zA-Zà-ỹÀ-Ỹ\\s]+$')]],
+      name: [null, [Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
       yearOfBirth: [null, [Validators.required, Validators.min(minYear), Validators.max(maxYear), Validators.maxLength(4), Validators.pattern(/^[0-9]*$/)]],
       gender: [null, Validators.required],
-      identifierId: [null, [Validators.required,  Validators.pattern(/^(0[0-9]{11})$/)]],
+      identifierId: [null, [Validators.required,  Validators.pattern(/^(?:\d{9}|0\d{11})$/)]],
       phoneNumber: [null, [Validators.required, Validators.pattern(/^(0[0-9]{9}|8[4][0-9]{9})$/)]],
-      zalo: [null,[ Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+      // zalo: [null,[ Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+      zalo: [null],
       email: [null, [Validators.required, Validators.email]],
       ethnicGroup: [null,[Validators.required]],
-      religion: [null,[Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
-      professionalLevel: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+      religion: [null,[Validators.pattern(VIETNAMESE_REGEX)]],
+      professionalLevel: [null, [Validators.required]],
       maritalStatus: [null, [Validators.required]],
-      contactPerson: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
+      contactPerson: [null, [Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
       contractFile: [null],
-      contactPersonPhone: [null, [Validators.required, Validators.pattern(/^(0\d{9}|84\d{9})$/)]],
+      contactPersonPhone: [null, [Validators.required, Validators.pattern(/^(0[0-9]{9}|8[4][0-9]{9})$/)]],
       // contractDuration: [null, Validators.required],
-      staffRelation: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
-      permanentAddress: [null, [Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
-      temporaryAddress: [null,[ Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
-      contractType: ['1', Validators.required],
+      staffRelation: [null, [Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
+      permanentAddress: [null, [Validators.required]],
+      temporaryAddress: [null,[ Validators.required]],
+      contractType: ['1'],
       fromDateOfOffical: [null, Validators.required],
       fromDateProbation: [null, Validators.required],
-      // fromDate: [null, Validators.required],
       toDate: [null, Validators.required],
       branchId: [null, Validators.required],
       departmentId: [null, Validators.required],
@@ -210,7 +211,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
       bcStartDate: [null, Validators.required],
       bcEndDate: [null, Validators.required],
       hcEndDate: [null, Validators.required],
-      driverLicenseNumber: [null, Validators.required],
+      driverLicenseNumber: [null, [Validators.required, , Validators.pattern(/^[0-9]*$/)]],
       driverLicenseType: [null, Validators.required],
       dlStartDate: [null, Validators.required],
       dlEndDate: [null, Validators.required],
@@ -248,6 +249,9 @@ export class DetailProfileEmployeeComponent implements OnInit {
     this.updateDaysInMonth()
     this.form.disable();
 
+    this.validateService.checkPhoneNumber(this.form, 'phoneNumber', this.maxLengthMap)
+    this.validateService.checkPhoneNumber(this.form, 'contactPersonPhone', this.maxLengthMap)
+
     this.formEndWork = this.fb.group({
       fromDate : [null, Validators.required],
       reason: [null,  Validators.required]
@@ -277,6 +281,8 @@ export class DetailProfileEmployeeComponent implements OnInit {
   contract_type: number = 1
   lstPunishments : any[] = []
   showInforEmployee: { [key: string]: any } =  {}
+  maxLengthMap: { [key: string]: number } = {};
+
 
   listGender = [
     {id: 1, value: "Nam"},
@@ -714,9 +720,21 @@ validateNumber(name: string | (string | number)[], event : Event){
   }
 
   getPossition() {
-    this.userSevice.getPossition().subscribe((response: any) => {
-      this.listPosstion = response.data
+    var idDepartment :number =0
+
+    this.form.get('departmentId')?.valueChanges.subscribe((value: any) => {
+      idDepartment = value
+      if(value && value != ''){
+        this.userSevice.getPossition(idDepartment).subscribe((response: any) => {
+          this.listPosstion = response.data
+        })
+       }else{
+        this.userSevice.getPossition(null).subscribe((response: any) => {
+          this.listPosstion = response.data
+        })
+       }
     })
+    
   }
   
 
@@ -1775,7 +1793,7 @@ pdfExport(){
     a.href = url;
     a.download = `${this.nameOfPDF()}.pdf`
     a.click();
-    this.notification.success('Xuất file thành công!')
+    // this.notification.success('Xuất file thành công!')
     // Dọn dẹp bộ nhớ
     window.URL.revokeObjectURL(url);
   })

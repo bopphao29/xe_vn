@@ -117,7 +117,7 @@
         <div class="prepare-to-expire">
             <button type="button" class="prepare-to-expire-item" *ngFor="let data of listPrepareToExpire" (click)="searchDocumentsNearingExpiration(data.code)">
                 <span class="">
-                    {{data.value}} <span style="color: rgba(227, 60, 60, 1);">({{data.description}})</span>
+                    {{data.value}} <span style="color: rgba(227, 60, 60, 1);">({{data.quantity}})</span>
                 </span>
             </button>
         </div>

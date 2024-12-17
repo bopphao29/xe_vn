@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../enviroments/enviroment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -34,17 +35,18 @@ export class UserServiceService {
     return this.httpClient.get(this.url + 'api/branches')
   }
 
-  getPossition(){
-    return this.httpClient.get(this.url + 'api/positions')
+  getPossition(departmentId : number | null){
+    const params = `?departmentId=${departmentId !== null ? departmentId.toString() : ''}`;
+    return this.httpClient.get(this.url + 'api/positions'+ params)
   }
 
   getOffice(){
     return this.httpClient.get(this.url + 'api/offices')
   }
 
-  getDepartment(officeId :number){
-    const params = '?officeId='+officeId.toString()
-    return this.httpClient.get(this.url + 'api/departments'+params)
+  getDepartment(officeId: number | null) {
+    const params = `?officeId=${officeId !== null ? officeId.toString() : ''}`;
+    return this.httpClient.get(this.url + 'api/departments' + params);
   }
 
   getRoute(){
@@ -122,5 +124,9 @@ export class UserServiceService {
   downloadFile(bucketName: string, fileName: string) {
     const url = `${this.minioUrl}/${bucketName}/${fileName}`;
     return this.httpClient.get(url, { responseType: 'blob' });
+  }
+
+  deleteVacationSchedule(absenceScheduleId : any){
+    return this.httpClient.delete(this.url + 'api/absence-schedules/' + absenceScheduleId)
   }
 }

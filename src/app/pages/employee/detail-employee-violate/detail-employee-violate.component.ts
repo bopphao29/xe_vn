@@ -93,7 +93,7 @@ export class DetailEmployeeViolateComponent implements OnInit{
       a.href = url;
       a.download = `${this.nameOfPDF()}.pdf`
       a.click();
-      this.notification.success('Xuất file thành công!')
+      // this.notification.success('Xuất file thành công!')
       // Dọn dẹp bộ nhớ
       window.URL.revokeObjectURL(url);
     })

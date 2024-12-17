@@ -93,9 +93,21 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
   }
 
   getPossition() {
-    this.userSevice.getPossition().subscribe((response: any) => {
-      this.listPosstion = response.data
+    var idDepartment :number =0
+
+    this.form.get('departmentId')?.valueChanges.subscribe((value: any) => {
+      idDepartment = value
+      if(value && value != ''){
+        this.userSevice.getPossition(idDepartment).subscribe((response: any) => {
+          this.listPosstion = response.data
+        })
+       }else{
+        this.userSevice.getPossition(null).subscribe((response: any) => {
+          this.listPosstion = response.data
+        })
+       }
     })
+    
   }
 
   getOffice() {

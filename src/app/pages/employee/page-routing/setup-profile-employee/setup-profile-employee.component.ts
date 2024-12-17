@@ -8,6 +8,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { DatePipe } from '@angular/common';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
@@ -71,6 +72,7 @@ interface ArchivedRecord {
     MatTooltipModule
 
   ],
+  providers: [DatePipe],
   templateUrl: './setup-profile-employee.component.html',
   styleUrl: './setup-profile-employee.component.scss'
 })
@@ -156,7 +158,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
     private msg: NzMessageService,
     private userSevice: UserServiceService,
     private notification: NotificationService,
-    private pdfService: PdfService,
+    private datePipe: DatePipe,
     private routes: Router,
     private uploadImageService: UploadImageService,
     private validateService: ValidateIntoPageService,
@@ -180,7 +182,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
       name: [null, [Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
       yearOfBirth: [null, [Validators.required, Validators.min(minYear), Validators.max(maxYear), Validators.maxLength(4), Validators.pattern(/^[0-9]*$/)]],
       gender: [null, Validators.required],
-      identifierId: [null, [Validators.required, Validators.pattern(/^[0-9]*$/)]],
+      identifierId: [null, [Validators.required, Validators.pattern(/^(?:\d{9}|0\d{11})$/)]],
       phoneNumber: [null, [Validators.required, Validators.pattern(/^(0[0-9]{9}|8[4][0-9]{9})$/)]],
       // zalo: [null,[ Validators.required,Validators.pattern(/^(0\d{9}|84\d{9}|[a-zA-Z]*)$/)]],
       zalo: [null],
@@ -194,7 +196,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
       contactPersonPhone: [null, [Validators.required, Validators.pattern(/^(0[0-9]{9}|8[4][0-9]{9})$/)]],
       // contractDuration: [null, Validators.required],
       staffRelation: [null, [Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
-      permanentAddress: [null, [Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
+      permanentAddress: [null, [Validators.required]],
       temporaryAddress: [null,[ Validators.required]],
       contractType: ['1'],
       fromDateOfOffical: [null, Validators.required],
@@ -273,8 +275,8 @@ export class SetupProfileEmployeeComponent implements OnInit {
   ]
 
   listMarialStatus = [
-    {id: 1, value: "Chưa kết hôn"},
-    {id: 2, value: "Đã kết hôn"}
+    {id: 0, value: "Chưa kết hôn"},
+    {id: 1, value: "Đã kết hôn"}
   ]
 
   validateText(path: string | (string | number)[], event: Event) {
@@ -363,9 +365,22 @@ onBlurNumber(path: string | (string | number)[]) {
   }
 
   getPossition() {
-    this.userSevice.getPossition().subscribe((response: any) => {
-      this.listPosstion = response.data
+    var idDepartment :number =0
+
+    this.form.get('departmentId')?.valueChanges.subscribe((value: any) => {
+      idDepartment = value
+      if(value && value != ''){
+        this.form.get('positionId')?.setValue('')
+        this.userSevice.getPossition(idDepartment).subscribe((response: any) => {
+          this.listPosstion = response.data
+        })
+       }else{
+        this.userSevice.getPossition(null).subscribe((response: any) => {
+          this.listPosstion = response.data
+        })
+       }
     })
+    
   }
 
   getOffice() {
@@ -379,13 +394,17 @@ onBlurNumber(path: string | (string | number)[]) {
   getDepartment() {
     var idOffice :number =0
     this.form.get('officeId')?.valueChanges.subscribe((value: any)=> {
-     idOffice = value
-     if(idOffice != null){
+     idOffice = value ? value : null
+     if(value && value != ''){
       this.userSevice.getDepartment(idOffice).subscribe((response: any) => {
         this.listDepartment = response.data
+        this.form.get('departmentId')?.setValue('')
+        
       })
      }else{
-      this.listDepartment = []
+      this.userSevice.getDepartment(null).subscribe((response: any) => {
+        this.listDepartment = response.data
+      })
      }
     })
   }
@@ -833,36 +852,6 @@ beforeUpload = (file: NzUploadFile): boolean => {
       return signDate ? endDate <= new Date(signDate) : false;
     };
   }
-  //////////////Disable formdate when choose todate and vice versa
-  disableIntoToDate = (toDate: Date): boolean => {
-    const fromDateProbation = this.form.get('fromDateProbation')?.value
-    return fromDateProbation ? toDate <= fromDateProbation : false
-  }
-
-  disableFromDate = (fromDateProbation: Date): boolean => {
-    const toDate = this.form.get('toDate')?.value
-    return toDate ? fromDateProbation >= toDate :false
-  }
-
-  disableIntobcEndDate = (bcEndDate: Date): boolean => {
-    const bcStartDate = this.form.get('bcStartDate')?.value
-    return bcStartDate ? bcEndDate <= bcStartDate : false
-  }
-
-  disableBcStartDate = (bcStartDate: Date): boolean => {
-    const bcEndDate = this.form.get('bcEndDate')?.value
-    return bcEndDate ? bcStartDate >= bcEndDate : false
-  }
-
-  disabledlEndDate = (dlEndDate : Date) : boolean => {
-    const dlStartDate = this.form.get('dlStartDate')?.value
-    return dlStartDate ? dlEndDate <= dlStartDate : false
-  }
-
-  disabledlStartDate = (dlStartDate : Date) : boolean => {
-    const dlEndDate = this.form.get('dlEndDate')?.value
-    return dlEndDate ? dlStartDate >= dlEndDate : false
-  }
 
   disableAfterDate(name: string): (afterDate: Date | null) => boolean {
     return (afterDate: Date | null): boolean => {
@@ -1182,14 +1171,32 @@ nameOfPDF(): string {
 
   //////////////////////////////////////////////////////Button save data when enough infor save///////////////////////////////////////
   saveDataEmployee(field : string) {
+    const bcEndDate = this.form.get('bcEndDate')?.value;
+    const dlEndDate = this.form.get('dlEndDate')?.value;
+    const toDate = this.form.get('toDate')?.value; 
+    const fromDateProbation =  this.form.get('fromDateProbation')?.value; 
+    const bcStartDate = this.form.get('bcStartDate')?.value; 
+    const dlStartDate = this.form.get('bcStartDate')?.value; 
+
     if(this.contract_type == 1){
       this.fromDateOfOffical = this.form.value.fromDateOfOffical
     }
     if(this.contract_type == 2){
       this.fromDateProbation = this.form.value.fromDateProbation
     }
+
+
+    const formmatDate = 'yyyy-MM-dd'
+
     const dataForm = {
       ...this.form.value,
+      bcEndDate : this.datePipe.transform(bcEndDate, formmatDate),
+      dlEndDate : this.datePipe.transform(dlEndDate, formmatDate),
+      toDate : this.datePipe.transform(toDate, formmatDate),
+      fromDateProbation : this.datePipe.transform(fromDateProbation, formmatDate),
+      bcStartDate : this.datePipe.transform(bcStartDate, formmatDate),
+      dlStartDate : this.datePipe.transform(dlStartDate, formmatDate),
+
       code: this.codeEmployee,
       fromDate : this.contract_type == 1 ? this.fromDateOfOffical : this.fromDateProbation ,
       departmentCode: this.deparmentCode,
@@ -1206,8 +1213,8 @@ nameOfPDF(): string {
       })),
       contract: this.form.value.contract.map((contract : any)=>({
         id: contract.id,
-        signDate: contract.signDate,
-        endDate: contract.endDate,
+        signDate: this.datePipe.transform(contract.signDate, formmatDate),
+        endDate: this.datePipe.transform(contract.endDate, formmatDate),
         file: contract.file.name
       })),
       lstChildren: this.form.value.lstChildren.length === 1
@@ -1284,7 +1291,7 @@ nameOfPDF(): string {
           a.href = url;
           a.download = `${this.nameOfPDF()}.pdf`
           a.click();
-          this.notification.success('Xuất file thành công!')
+          // this.notification.success('Xuất file thành công!')
           // Dọn dẹp bộ nhớ
           window.URL.revokeObjectURL(url);
         }

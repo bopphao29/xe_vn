@@ -132,7 +132,9 @@ export class FileVehicalManagementComponent implements OnInit{
   }
 
   getlist(data: any){
-    this.vehicalService.searchVehicle(data).subscribe((response : any)=> {
+    const page = this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 ;
+    const size = 9;
+    this.vehicalService.searchVehicle( page,size ,data).subscribe((response : any)=> {
       this.dataVehicle = response.data.content
       this.total = response.data.totalElements
       console.log(response)
@@ -165,8 +167,7 @@ export class FileVehicalManagementComponent implements OnInit{
     const dataForm = {
       ...this.form.value,
       documentCode : code,
-      page: this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 ,
-      size: 9,
+      
     }
 
     this.getlist(dataForm)
