@@ -103,6 +103,7 @@
                     <th class="list-col-2">Chi nhánh</th>
                     <th class="list-col-2">Bộ phận</th>
                     <th class="list-col-2">Ngày bắt đầu nghỉ</th>
+                    <th class="list-col-2">Ngày xác nhận đi làm lại</th>
                     <th class="list-col-4">Lý do nghỉ</th>
                     <th class="list-col-2">Tác vụ</th>
 
@@ -116,6 +117,7 @@
                     <td class="list-col-2">{{data.branchName || '-'}}</td>
                     <td class="list-col-2">{{data.departmentName || '-'}}</td>
                     <td class="list-col-2">{{(data.leaveFromDate | date: 'dd/MM/yyyy' )   || '-'}}</td>
+                    <td class="list-col-2">{{(data.leaveToDate | date: 'dd/MM/yyyy' )   || '-'}}</td>
                     <td class="list-col-4">{{data.reason || '-'}} </td>
                     <td class="list-col-2" style="text-align: center;">
                         <a *ngIf="isLeave == false && onLeave == true && data.id" style="border-color: rgba(39, 78, 161, 0.3);" class="mx-1 button_show_detail" (click)="openModalonLeave(data.id)">
@@ -157,8 +159,8 @@
 </div>
 
 
-<nz-modal [(nzVisible)]="isModalOnLeaveEmployee" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()" 
-    [nzContent]="modalContent" [nzFooter]="null" [nzStyle]="{'min-width' : '1200px', 'min-height':'580px','margin-top': '205px'}">
+<nz-modal [(nzVisible)]="isModalOnLeaveEmployee"  [nzCentered]="true" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()" 
+    [nzContent]="modalContent" [nzFooter]="null" [nzStyle]="{'min-width' : '80vw'}">
     <ng-template #modalContent>
         <div class="headmodal">
             <span style="font-weight: 500; font-size: 24px; ">Sửa thông tin thôi việc</span>
@@ -249,8 +251,8 @@
 </nz-modal>
 
 
-<nz-modal [(nzVisible)]="isResetEmployee" (nzOnCancel)="handleCancelReset()" (nzOnOk)="handleSubmitResest()" nzClassName="reset-employee-modal"
-    [nzContent]="modalContentDone" [nzFooter]="null" [nzStyle]="{'width' : '498px','min-width' : '498px', 'height':'348px','min-height':'348px','margin-top': '278px','border-radius': '12px'}">
+<nz-modal [(nzVisible)]="isResetEmployee" [nzCentered]="true"  (nzOnCancel)="handleCancelReset()" (nzOnOk)="handleSubmitResest()" nzClassName="reset-employee-modal"
+    [nzContent]="modalContentDone" [nzFooter]="null" [nzStyle]="{'width' : '498px','min-width' : '498px', 'height':'348px','min-height':'348px','border-radius': '12px'}">
     <ng-template #modalContentDone>
         <div class="headmodalRest">
             <div style="justify-content: center; align-items: center; font-size: 55px">
@@ -277,8 +279,8 @@
     </ng-template>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isDelete" (nzOnCancel)="handleCancelDelete()" (nzOnOk)="handleSubmitDelete()" nzClassName="reset-employee-modal"
-    [nzContent]="modalContentDelete" [nzFooter]="null" [nzStyle]="{'width' : '498px','min-width' : '498px', 'height':'348px','min-height':'348px','margin-top': '278px','border-radius': '12px'}">
+<nz-modal [(nzVisible)]="isDelete" [nzCentered]="true"  (nzOnCancel)="handleCancelDelete()" (nzOnOk)="handleSubmitDelete()" nzClassName="reset-employee-modal"
+    [nzContent]="modalContentDelete" [nzFooter]="null" [nzStyle]="{'width' : '498px','min-width' : '498px', 'height':'348px','min-height':'348px','border-radius': '12px'}">
     <ng-template #modalContentDelete>
         <div class="headmodalRest">
             <div style="color: red; justify-content: center; align-items: center; font-size: 60px">
@@ -303,7 +305,7 @@
     </ng-template>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isLeaveType3" (nzOnCancel)="handleCancelLeaveType3()" (nzOnOk)="handleSubmitLeaveType3()" [nzMaskClosable]="false"
+<nz-modal [(nzVisible)]="isLeaveType3" (nzOnCancel)="handleCancelLeaveType3()" [nzCentered]="true"  (nzOnOk)="handleSubmitLeaveType3()" [nzMaskClosable]="false"
     [nzContent]="modalContentLeaveType3" [nzFooter]="null" [nzStyle]="{'min-width' : '1200px', 'min-height':'580px','margin-top': '205px'}">
     <ng-template #modalContentLeaveType3>
         <div class="headmodal">
@@ -414,8 +416,8 @@
     </ng-template>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isDeleteVacation" (nzOnCancel)="handleCancelDeleteVacation()" (nzOnOk)="handleSubmitDeleteVacation()" nzClassName="reset-employee-modal"
-    [nzContent]="modalContentDeleteVacation" [nzFooter]="null" [nzStyle]="{'width' : '498px','min-width' : '498px', 'height':'348px','min-height':'348px','margin-top': '278px','border-radius': '12px'}">
+<nz-modal [(nzVisible)]="isDeleteVacation" (nzOnCancel)="handleCancelDeleteVacation()" [nzCentered]="true"  (nzOnOk)="handleSubmitDeleteVacation()" nzClassName="reset-employee-modal"
+    [nzContent]="modalContentDeleteVacation" [nzFooter]="null" [nzStyle]="{'width' : '498px','min-width' : '498px', 'height':'348px','min-height':'348px','border-radius': '12px'}">
     <ng-template #modalContentDeleteVacation>
         <div class="headmodalRest">
             <div style="color: red; justify-content: center; align-items: center; font-size: 60px">

@@ -626,6 +626,7 @@ onBlurNumber(path: string | (string | number)[]) {
   ////////////////////////////////////////////////////function routes link///////////////////////////////////////////////////////////
   handleSubmitDone(){
     this.routes.navigate(['employee/list-employee-profile'])
+    localStorage.clear()
     localStorage.setItem('activeLink','employeeProfile')
   }
 
@@ -1001,30 +1002,7 @@ beforeUpload = (file: NzUploadFile): boolean => {
         : afterDateNoTime > today;
     };
   }
-  
-  disableBeforeDateDriver(name: string): (beforeDate: Date | null) => boolean {
-    return (beforeDate: Date | null): boolean => {
-      if (!beforeDate || !this.form) return false;
-  
-      // Lấy ngày sau từ form và chuyển đổi về ngày (bỏ phần giờ)
-      const afterDateValue = this.form.get(name)?.value;
-      const afterDateObject = afterDateValue ? new Date(afterDateValue) : null;
-      if (afterDateObject) afterDateObject.setHours(0, 0, 0, 0);
-  
-      // Lấy ngày hôm nay (bỏ phần giờ)
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-  
-      // Nếu beforeDate nhỏ hơn ngày sau, hoặc nhỏ hơn hôm nay
-      const beforeDateNoTime = new Date(beforeDate);
-      beforeDateNoTime.setHours(0, 0, 0, 0);
-  
-      return afterDateObject
-        ? beforeDateNoTime < afterDateObject || beforeDateNoTime < today
-        : beforeDateNoTime < today;
-    };
-  }
-  
+
   
   ///////////////////////////////////////////////////////////////////////SHOW DATA///////////////////////////////////////////////////////////////////////
   officeEmployee: any

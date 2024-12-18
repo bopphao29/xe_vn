@@ -535,7 +535,7 @@
                 <div class="">
                     <label class="label-form" > <span class="required-star">*</span>{{'employee.day_end' | translate}}</label>
                     <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange('bcEndDate',$event)" style="width: 100%"
-                            [nzDisabledDate]="disableBeforeDateDriver('bcStartDate')"
+                            [nzDisabledDate]="disableBeforeDate('bcStartDate')"
                             formControlName="bcEndDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                         <div class="error-container">
                             <div *ngIf="form.get('bcEndDate')?.touched">
@@ -657,7 +657,7 @@
                 <div class="">
                     <label class="label-form" ><span class="required-star">*</span>{{'employee.day_end' | translate}}  </label>
                     <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange('dlEndDate',$event)"
-                        [nzDisabledDate]="disableBeforeDateDriver('dlStartDate')" style="width: 100%"
+                        [nzDisabledDate]="disableBeforeDate('dlStartDate')" style="width: 100%"
                             formControlName="dlEndDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                         <div class="error-container">
                             <div *ngIf="form.get('dlEndDate')?.invalid && (form.get('dlEndDate')?.dirty) || form.get('dlEndDate')?.touched">
@@ -911,7 +911,7 @@
 </form>
 
 <nz-modal [(nzVisible)]="isModalInforEmployee" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()"
-    [nzContent]="modalContent" [nzFooter]="null" [nzStyle]="{'max-width' : '1200px', 'max-height':'1080px'}">
+    [nzContent]="modalContent" [nzFooter]="null" [nzStyle]="{'max-width' : '80vw', 'max-height':'100vh'}">
     <ng-template #modalContent>
         <div class="headmodal">
             <span style="font-weight: 500; font-size: 24px;">Thông tin nhân sự</span>

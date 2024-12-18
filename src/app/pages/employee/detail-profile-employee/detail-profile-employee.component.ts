@@ -377,14 +377,14 @@ export class DetailProfileEmployeeComponent implements OnInit {
         this.form.get('hasChild')?.setValue(response.data.hasChild.toString())
       }
       if(response.data.fromDate != null){
-        if(response.data.toDate != null){
+        if(response.data.contractType == 2){
           this.form.get('fromDateProbation')?.setValue(response.data.fromDate.toString())
         }
           else{
           this.form.get('fromDateOfOffical')?.setValue(response.data.fromDate.toString())
         }
       }
-      if(response.data.toDate != null){
+      if(response.data.toDate != null && response.data.contractType == 2){
         this.form.get('toDate')?.setValue(response.data.toDate.toString())
       }
 
@@ -1075,31 +1075,21 @@ validateNumber(name: string | (string | number)[], event : Event){
         : afterDateNoTime > today;
     };
   }
-  
-  disableBeforeDateDriver(name: string): (beforeDate: Date | null) => boolean {
+
+  disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
     return (beforeDate: Date | null): boolean => {
       if (!beforeDate || !this.form) return false;
   
-      // Lấy ngày sau từ form và chuyển đổi về ngày (bỏ phần giờ)
-      const afterDateValue = this.form.get(name)?.value;
-      const afterDateObject = afterDateValue ? new Date(afterDateValue) : null;
-      if (afterDateObject) afterDateObject.setHours(0, 0, 0, 0);
+      const afterDate = this.form.get(name)?.value;
+      if (!afterDate) return false;
   
-      // Lấy ngày hôm nay (bỏ phần giờ)
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
+      const AfterDateObject = new Date(afterDate);
   
-      // Nếu beforeDate nhỏ hơn ngày sau, hoặc nhỏ hơn hôm nay
-      const beforeDateNoTime = new Date(beforeDate);
-      beforeDateNoTime.setHours(0, 0, 0, 0);
-  
-      return afterDateObject
-        ? beforeDateNoTime < afterDateObject || beforeDateNoTime < today
-        : beforeDateNoTime < today;
+      return beforeDate <= AfterDateObject;
     };
   }
   
-  
+
   maxYearChild: number = 0
   minYearChild: number = 0
   maxYear: number = 0
@@ -1483,20 +1473,12 @@ validateNumber(name: string | (string | number)[], event : Event){
       this.idEmployee= params['id']
     })
 
-    if(this.contract_type == 1){
-      this.fromDateOffical = this.form.value.fromDateOfOffical
-    }
-    if(this.contract_type == 2){
-      this.fromDateProbation = this.form.value.fromDateProbation
-      
-    }
-    console.log(this.fileCompressed)
-    console.log(this.form.value.lstArchivedRecords)
 
     const dataForm = {
       id: this.idEmployee,
-      fromDate : this.contract_type == 1 ? this.fromDateOffical :this.fromDateProbation,
       ...this.form.value,
+      fromDate : this.contract_type == 1 ? this.form.value.fromDateOfOffical : this.form.value.fromDateProbation,
+      toDate: this.contract_type == 2 ? this.form.get('toDate')?.value : null,
       lstArchivedRecords: this.form.value.lstArchivedRecords.length === 1 
       && this.form.value.lstArchivedRecords[0].name === '' 
       && this.form.value.lstArchivedRecords[0].code === '' 
@@ -1525,6 +1507,14 @@ validateNumber(name: string | (string | number)[], event : Event){
       })),
 
     };
+    
+    if(this.contract_type == 1){
+      this.form.get('fromDateProbation')?.setValue('')
+      this.form.get('toDate')?.setValue('')
+    }else{
+      this.form.get('fromDateOfOffical')?.setValue('')
+
+    }
     console.log(dataForm)
     delete dataForm.contractFile
     delete dataForm.bcImage

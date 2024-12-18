@@ -165,8 +165,8 @@
 </div>
 
 
-<nz-modal [(nzVisible)]="isModalOnLeaveEmployee" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()" [nzMaskClosable]="false"
-    [nzContent]="modalContent" [nzFooter]="null" [nzStyle]="{'min-width' : '1200px', 'min-height':'580px','margin-top': '205px'}">
+<nz-modal [(nzVisible)]="isModalOnLeaveEmployee" [nzCentered]="true" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()" [nzMaskClosable]="false"
+    [nzContent]="modalContent" [nzFooter]="null" [nzStyle]="{'min-width' : '80vw'}">
     <ng-template #modalContent>
         <div class="headmodal">
             <span style="font-weight: 500; font-size: 24px; ">Tạo lịch nghỉ phép</span>
@@ -203,10 +203,13 @@
         <div style="margin-top: 22px;">
         </div>
        <div style="display: flex; justify-content: center;">
-        <div style="justify-content: center;">
-            <span *ngFor="let data of listDayOfVS" style="font-weight: 500 ;color: rgba(239, 68, 68, 1); font-size: 14px; " class="vacation-item">{{'working.schedule' | translate}} {{data.fromDate | date: 'dd/MM/yyyy'}} - {{data.toDate | date: 'dd/MM/yyyy'}}</span><br>
-            <span style="font-weight: 500 ;color: rgb(8, 140, 241); font-size: 14px;" *ngIf=" isOnLeave == true">{{'working.relaxing' | translate}} {{leaveFromDate | date: 'dd/MM/yyyy'}} - {{leaveToDate | date: 'dd/MM/yyyy'}}</span>
-        </div>
+        <div style="justify-content: center;" *ngFor="let data of listDayOfVS">
+            <span
+              style="font-weight: 500; color: rgba(239, 68, 68, 1); font-size: 14px;"
+              class="vacation-item">
+              {{    isOnLeave ? ('working.relaxing' | translate) + ' ' + (data.fromDate | date: 'dd/MM/yyyy') + ' - ' + (data.toDate | date: 'dd/MM/yyyy') : ('working.schedule' | translate) + ' ' +  (data.fromDate | date: 'dd/MM/yyyy') + ' - ' + (data.toDate | date: 'dd/MM/yyyy') }}
+            </span>
+          </div>
        </div>
         <div style="margin-top: 22px;">
         </div>
