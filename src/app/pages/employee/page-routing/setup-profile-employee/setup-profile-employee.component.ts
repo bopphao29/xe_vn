@@ -956,25 +956,13 @@ beforeUpload = (file: NzUploadFile): boolean => {
       if (!afterDate || !this.form) return false;
   
       const beforeDate = this.form.get(name)?.value;
-      const today = new Date(); // Ngày hiện tại
+      if (!beforeDate) return false;
   
-      // Loại bỏ thời gian, chỉ so sánh ngày
-      const todayStartOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const beforeDateObject = new Date(beforeDate);
   
-      const afterDateObject = new Date(afterDate);
-  
-      // Ngày phải lớn hơn hoặc bằng ngày hiện tại
-      if (afterDateObject >= todayStartOfDay) return true;
-  
-      if (beforeDate) {
-        const beforeDateObject = new Date(beforeDate);
-        return afterDate <= beforeDateObject;
-      }
-  
-      return false;
+      return afterDate >= beforeDateObject;
     };
   }
-  
   
   disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
     return (beforeDate: Date | null): boolean => {
@@ -990,6 +978,54 @@ beforeUpload = (file: NzUploadFile): boolean => {
   }
   
 
+  
+  disableAfterDateDriver(name: string): (afterDate: Date | null) => boolean {
+    return (afterDate: Date | null): boolean => {
+      if (!afterDate || !this.form) return false;
+  
+      // Lấy ngày trước từ form và chuyển đổi về ngày (bỏ phần giờ)
+      const beforeDateValue = this.form.get(name)?.value;
+      const beforeDateObject = beforeDateValue ? new Date(beforeDateValue) : null;
+      if (beforeDateObject) beforeDateObject.setHours(0, 0, 0, 0);
+  
+      // Lấy ngày hôm nay (bỏ phần giờ)
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+  
+      // Nếu afterDate lớn hơn ngày trước, hoặc lớn hơn hôm nay
+      const afterDateNoTime = new Date(afterDate);
+      afterDateNoTime.setHours(0, 0, 0, 0);
+  
+      return beforeDateObject
+        ? afterDateNoTime > beforeDateObject || afterDateNoTime > today
+        : afterDateNoTime > today;
+    };
+  }
+  
+  disableBeforeDateDriver(name: string): (beforeDate: Date | null) => boolean {
+    return (beforeDate: Date | null): boolean => {
+      if (!beforeDate || !this.form) return false;
+  
+      // Lấy ngày sau từ form và chuyển đổi về ngày (bỏ phần giờ)
+      const afterDateValue = this.form.get(name)?.value;
+      const afterDateObject = afterDateValue ? new Date(afterDateValue) : null;
+      if (afterDateObject) afterDateObject.setHours(0, 0, 0, 0);
+  
+      // Lấy ngày hôm nay (bỏ phần giờ)
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+  
+      // Nếu beforeDate nhỏ hơn ngày sau, hoặc nhỏ hơn hôm nay
+      const beforeDateNoTime = new Date(beforeDate);
+      beforeDateNoTime.setHours(0, 0, 0, 0);
+  
+      return afterDateObject
+        ? beforeDateNoTime < afterDateObject || beforeDateNoTime < today
+        : beforeDateNoTime < today;
+    };
+  }
+  
+  
   ///////////////////////////////////////////////////////////////////////SHOW DATA///////////////////////////////////////////////////////////////////////
   officeEmployee: any
   officeName: any

@@ -598,7 +598,7 @@
                     <div class="">
                         <span class="required-star" >*</span><label class="label-form" >Ngày cấp </label>
                         <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange('bcStartDate',$event)" style="width: 100%"
-                            [nzDisabledDate]="disableBcStartDate"
+                        [nzDisabledDate]="disableAfterDateDriver('bcEndDate')"
                                 formControlName="bcStartDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                             <div class="error-container">
                                 <div *ngIf="form.get('bcStartDate')?.touched">
@@ -613,7 +613,7 @@
                     <div class="">
                         <span class="required-star" >*</span><label class="label-form" >Ngày hết hạn </label>
                         <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange('bcEndDate',$event)" style="width: 100%"
-                                [nzDisabledDate]="disableIntobcEndDate"
+                        [nzDisabledDate]="disableBeforeDateDriver('bcStartDate')"
                                 formControlName="bcEndDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                             <div class="error-container">
                                 <div *ngIf="form.get('bcEndDate')?.touched">
@@ -731,7 +731,7 @@
                     <div class="">
                         <span class="required-star" >*</span><label class="label-form" >{{'employee.day_start' | translate}}</label>
                         <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange('dlStartDate',$event)"
-                            [nzDisabledDate]="disabledlStartDate" style="width: 100%"
+                        [nzDisabledDate]="disableAfterDateDriver('dlEndDate')"  style="width: 100%"
     
                                 formControlName="dlStartDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                             <div class="error-container">
@@ -747,7 +747,7 @@
                     <div class="">
                         <span class="required-star" >*</span><label class="label-form" >{{'employee.day_end' | translate}}  </label>
                         <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange('dlEndDate',$event)"
-                            [nzDisabledDate]="disabledlEndDate" style="width: 100%"
+                        [nzDisabledDate]="disableBeforeDateDriver('dlStartDate')"  style="width: 100%"
                                 formControlName="dlEndDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                             <div class="error-container">
                                 <div *ngIf="form.get('dlEndDate')?.touched">
