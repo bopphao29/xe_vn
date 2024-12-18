@@ -83,7 +83,7 @@ export class HeaderComponent implements OnInit{
     {id: 3, value: 'accountant'},
     {id: 4, value: 'chartsAndtatistics'},
     {id: 5, value: 'administration'},
-    {id: 6, value: 'cmr'},
+    {id: 6, value: 'crm'},
     {id: 7, value: 'other'}
 
   ]

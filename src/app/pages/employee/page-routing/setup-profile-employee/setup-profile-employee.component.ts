@@ -313,9 +313,9 @@ onBlur(path: string | (string | number)[]) {
     control?.setValue("")
     control?.setValidators(Validators.required);
   } else {
-    const checkValue = value.test(VIETNAMESE_REGEX)
+    const checkValue = VIETNAMESE_REGEX.test(value)
     // Xóa validator nếu hợp lệ
-    if(checkValue == false){
+    if(checkValue == true){
       control?.setValidators(Validators.pattern(VIETNAMESE_REGEX))
     }
     else{
@@ -348,28 +348,27 @@ onBlurNumber(path: string | (string | number)[]) {
   }
 
   if (value) {
-    const cleanStr = value.test(/[^0-9]/g, ""); // Chỉ giữ lại các ký tự số
+    const cleanStr =  /[^0-9]/.test(value); // Chỉ giữ lại các ký tự số
 
-    if (cleanStr === "") {
-      control?.setValue(""); // Đặt giá trị về rỗng nếu không hợp lệ
-      control?.setValidators([Validators.required]);
+    if (cleanStr) {
+      const changeValue = Number(value)
+      if( this.minYearDadorChild < changeValue && changeValue < this.maxYearDadorChild){
+        control?.clearValidators()
+      }else{
+        control?.setValidators([
+          Validators.min(this.minYearDadorChild),
+          Validators.max(this.maxYearDadorChild),
+        ]);
+      }
     } else {
-      const numericValue = parseInt(cleanStr, 10); // Chuyển chuỗi số thành số nguyên
-
-      // Thêm các validator `min`, `max`, và `required`
       control?.setValidators([
-        Validators.required,
-        Validators.min(this.minYearDadorChild),
-        Validators.max(this.maxYearDadorChild),
+        Validators.pattern(NUMBER_REGEX),
       ]);
-      control?.setValue(numericValue); // Đảm bảo giá trị được làm sạch
     }
   } else {
-    // Nếu giá trị rỗng, chỉ thêm `Validators.required`
     control?.setValidators([Validators.required]);
   }
 
-  // Cập nhật trạng thái form control
   control?.updateValueAndValidity();
 }
 
@@ -957,13 +956,25 @@ beforeUpload = (file: NzUploadFile): boolean => {
       if (!afterDate || !this.form) return false;
   
       const beforeDate = this.form.get(name)?.value;
-      if (!beforeDate) return false;
+      const today = new Date(); // Ngày hiện tại
   
-      const beforeDateObject = new Date(beforeDate);
+      // Loại bỏ thời gian, chỉ so sánh ngày
+      const todayStartOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
   
-      return afterDate >= beforeDateObject;
+      const afterDateObject = new Date(afterDate);
+  
+      // Ngày phải lớn hơn hoặc bằng ngày hiện tại
+      if (afterDateObject >= todayStartOfDay) return true;
+  
+      if (beforeDate) {
+        const beforeDateObject = new Date(beforeDate);
+        return afterDate <= beforeDateObject;
+      }
+  
+      return false;
     };
   }
+  
   
   disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
     return (beforeDate: Date | null): boolean => {
@@ -1268,7 +1279,7 @@ beforeUpload = (file: NzUploadFile): boolean => {
 nameOfPDF(): string {
   const now = new Date()
   const date = now.toLocaleDateString('vi-VN', {year: 'numeric', month: '2-digit', day: '2-digit'}).replace(/\//g, '_');
-  return `Thongtinnhanvien-${date}`
+  return `Thongtinnhanvien-${this.codeEmployee}-${date}`
 }
 
   //////////////////////////////////////////////////////Button save data when enough infor save///////////////////////////////////////

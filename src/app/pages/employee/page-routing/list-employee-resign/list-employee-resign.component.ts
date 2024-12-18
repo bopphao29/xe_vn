@@ -537,15 +537,15 @@ handleSubmitDelete(){
   leaveFromDate: any
   workingStatusNumChange  : number = 0
   isOnLeave: boolean = false;
-  openModalChangeonLeave(id: number){
+  openModalChangeonLeave(data: any){
     if (this.dataEmployee && this.dataEmployee.length > 0) {  // Kiểm tra nếu dataEmployee có dữ liệu
       this.isLeaveType3 = true;
-      this.selectedEmployee = this.dataEmployee.find(emp => emp.id === id);
+      this.selectedEmployee = data;
       this.leaveToDate = this.selectedEmployee?.leaveToDate ? new Date(this.selectedEmployee.leaveToDate) : null
       this.leaveFromDate = this.selectedEmployee?.leaveFromDate ? new Date(this.selectedEmployee.leaveFromDate) : null
       this.workingStatusNumChange = this.selectedEmployee?.workingStatusNum
 
-      console.log(this.leaveToDate)
+      console.log(this.selectedEmployee)
       const toDay = new Date()
      
       this.formLeaveType3.patchValue({

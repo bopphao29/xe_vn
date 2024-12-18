@@ -1167,7 +1167,7 @@ validateNumber(name: string | (string | number)[], event : Event){
   beforeUpload = (file: NzUploadFile): boolean => {// sau khi file được tải lên
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'; //lọc file png 
     if (!isJpgOrPng) { // check điều kiện
-      this.msg.error('Bạn chỉ có thể tải lên file JPG hoặc PNG!');
+      this.msg.error('Bạn chỉ có thể tải lên file jpeg, jpg, png, svg, heic, webp!');
     }
     return isJpgOrPng; // Ngăn không cho tải lên file không hợp lệ
   };

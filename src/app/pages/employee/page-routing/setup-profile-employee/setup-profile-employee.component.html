@@ -29,7 +29,7 @@
             <div class="input-wrapper">
                 <div class="">
                     <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.yearOfBirth' | translate}}</label>
-                    <input class="input-form" placeholder="2000" (blur)="onBlurNumber('yearOfBirth')" (input)="validateYearOfBirth('yearOfBirth',$event)" formControlName="yearOfBirth" maxlength="4" type="text">
+                    <input class="input-form" placeholder="2000" (input)="validateYearOfBirth('yearOfBirth',$event)" formControlName="yearOfBirth" maxlength="4" type="text">
                     <div class="error-container">
                         <div *ngIf="form.get('yearOfBirth')?.invalid && (form.get('yearOfBirth')?.dirty) || form.get('yearOfBirth' | translate)?.touched">
                             <span class="validate_input" *ngIf="form.get('yearOfBirth')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
@@ -89,7 +89,7 @@
             <div class="input-wrapper">
                 <div class="">
                     <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.zalo' | translate}}</label>
-                    <input class="input-form" (blur)="onBlur('zalo')" (input)="validateEnterTextNumber('zalo', $event)" placeholder="Nguyễn văn A" formControlName="zalo" type="text">
+                    <input class="input-form" (blur)="onBlur('zalo')" placeholder="Nguyễn văn A" formControlName="zalo" type="text">
                     <div class="error-container">
                         <div *ngIf="form.get('zalo')?.invalid && (form.get('zalo')?.dirty) || form.get('zalo')?.touched">
                             <span class="validate_input" *ngIf="form.get('zalo')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
@@ -555,7 +555,7 @@
                                 [value]="bcImageName" />
                             <button nz-button nzType="default" nzShape="circle" class="upload-button" type="button"
                                 (click)="filebc.click()" style="border: none; background: transparent;">
-                                <i nz-icon nzType="paper-clip"  matTooltip="jpeg, jpg, png, svg, heic, webp" matTooltipPosition="above"></i>
+                                <i nz-icon nzType="paper-clip" matTooltipClass="custom-tooltip" matTooltip="jpeg, jpg, png, svg, heic, webp" matTooltipPosition="above"></i>
                                 <input type="file" #filebc (change)="onChangeImage($event, 'bcImage')"
                                     style="display: none;" accept=".png, .jpeg, .svg, .jpg, .heic, .webp" />
                             </button>
@@ -677,7 +677,7 @@
                                 [value]="dlImageName" />
                             <button nz-button nzType="default" nzShape="circle" class="upload-button" type="button"
                                 (click)="fileImg.click()" style="border: none; background: transparent;">
-                                <i nz-icon nzType="paper-clip"  matTooltip="jpeg, jpg, png, svg, heic, webp" matTooltipPosition="above"></i>
+                                <i nz-icon nzType="paper-clip" matTooltipClass="custom-tooltip"  matTooltip="jpeg, jpg, png, svg, heic, webp" matTooltipPosition="above"></i>
                                 <input type="file" #fileImg (change)="onChangeImage($event, 'dlImage')" accept=".png, .jpeg, .svg, .jpg, .heic, .webp"
                                     style="display: none;" />
                             </button>
@@ -911,7 +911,7 @@
 </form>
 
 <nz-modal [(nzVisible)]="isModalInforEmployee" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()"
-    [nzContent]="modalContent" [nzFooter]="null" [nzStyle]="{'min-width' : '1200px', 'min-height':'1080px'}">
+    [nzContent]="modalContent" [nzFooter]="null" [nzStyle]="{'max-width' : '1200px', 'max-height':'1080px'}">
     <ng-template #modalContent>
         <div class="headmodal">
             <span style="font-weight: 500; font-size: 24px;">Thông tin nhân sự</span>

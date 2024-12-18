@@ -14,7 +14,7 @@ export class UploadImageService {
     const isLt1GB = file.size! / 1024 / 1024 / 1024 < 1; // Kiểm tra kích thước file < 1GB
     
     if (!isJpgOrPng) {
-      this.notification.error('Bạn chỉ có thể tải lên file JPG hoặc PNG!');
+      this.notification.error('Bạn chỉ có thể tải lên file jpeg, jpg, png, svg, heic, webp!');
       return false; // Ngăn tải lên nếu không phải JPG/PNG
     }
     

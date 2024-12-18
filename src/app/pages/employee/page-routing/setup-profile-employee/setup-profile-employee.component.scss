@@ -84,17 +84,6 @@
     font-size: 18px;
   }
 
-  .mat-tooltip {
-    white-space: nowrap; /* Hiển thị một dòng */
-    overflow: hidden;    /* Ẩn nội dung tràn */
-    text-overflow: ellipsis; /* Thêm dấu "..." nếu tràn */
-    background-color: black !important; /* Đặt màu nền đen */
-    color: white !important; /* Đặt màu chữ trắng */
-    padding: 8px; /* Căn chỉnh khoảng cách */
-    border-radius: 4px; /* Làm tròn góc */
-    font-size: 12px; /* Kích thước chữ */
-  }
-  
 
   .button-infor {
     padding: 0;

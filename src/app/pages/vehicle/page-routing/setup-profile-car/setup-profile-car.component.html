@@ -1,5 +1,5 @@
 <div >
-  <form nz-form nzGutter="16" class="w-full" class="p-4 pt-0" (ngSubmit)="createVehicle()" nzLayout="vertical" [formGroup]="form" style="background-color: #f3f3f3;">
+  <form nz-form nzGutter="16" class="w-full" class="p-4 pt-0" (submit)="createVehicle()" nzLayout="vertical" [formGroup]="form" style="background-color: #f3f3f3;">
     <div class="form-container">
       <div class="input-wrapper p-0">
         <div class="">
@@ -150,7 +150,7 @@
                   [value]="fileCompressed.file.length > 0 ? fileCompressed.file[0].name : ''"  />
                 <button nz-button nzType="default" nzShape="circle" class="upload-button" type="button"
                   (click)="isShowModalUploadfile = true" style="border: none; background: transparent;">
-                  <i nz-icon nzType="paper-clip" matTooltip="jpeg, jpg, png, svg, heic, webp" matTooltipPosition="above"></i>
+                  <i nz-icon nzType="paper-clip" matTooltipClass="custom-tooltip"  matTooltip="jpeg, jpg, png, svg, heic, webp" matTooltipPosition="above"></i>
                 </button>
               </div>
               

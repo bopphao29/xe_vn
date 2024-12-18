@@ -634,7 +634,7 @@
                                     [value]="bcImageName  || ''" />
                                 <button nz-button nzType="default" *ngIf="isFixEmployeeButton == true" nzShape="circle" type="button" class="upload-button"
                                     (click)="filebc.click()" style="border: none; background: transparent;">
-                                    <i nz-icon nzType="paper-clip" matTooltip="jpeg, jpg, png, svg, heic, webp" matTooltipPosition="above"></i>
+                                    <i nz-icon nzType="paper-clip" matTooltipClass="custom-tooltip"  matTooltip="jpeg, jpg, png, svg, heic, webp" matTooltipPosition="above"></i>
                                     <input type="file" #filebc (change)="onChangeImage($event, 'bcImage')"
                                         style="display: none;" accept=".png, .jpeg, .svg, .jpg, .heic, .webp"/>
                                 </button>
@@ -768,7 +768,7 @@
                                     [value]="dlImageName" />
                                 <button *ngIf="isFixEmployeeButton == true" nz-button nzType="default" nzShape="circle" class="upload-button" type="button"
                                     (click)="fileImg.click()" style="border: none; background: transparent;">
-                                    <i nz-icon nzType="paper-clip"  matTooltip="jpeg, jpg, png, svg, heic, webp" matTooltipPosition="above"></i>
+                                    <i nz-icon nzType="paper-clip" matTooltipClass="custom-tooltip"  matTooltip="jpeg, jpg, png, svg, heic, webp" matTooltipPosition="above"></i>
                                     <input type="file" #fileImg (change)="onChangeImage($event, 'dlImage')" accept=".png, .jpeg, .svg, .jpg, .heic, .webp"
                                         style="display: none;" />
                                 </button>

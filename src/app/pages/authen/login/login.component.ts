@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.authService.login(data).subscribe((response : any) => {
         console.log(response.data)
-        const token = response.data 
+        const token = response.data.accessToken
         if(token){
           localStorage.setItem(STORAGE_KEYS.TOKEN, token)
           this.route.navigate(['employee/setup-profile-employee'])

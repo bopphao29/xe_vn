@@ -27,6 +27,9 @@ export class ValidateIntoPageService {
       } 
     }else {
       form.get(path)?.setValidators(Validators.required)
+      if(path == 'religion'){
+        form.get(path)?.clearValidators()
+      }
     }
     form.get(path)?.updateValueAndValidity(); 
   }
