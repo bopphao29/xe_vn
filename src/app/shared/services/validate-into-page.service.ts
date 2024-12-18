@@ -38,23 +38,17 @@ export class ValidateIntoPageService {
     const control = form.get(path);
   
     if (control) {
-      const currentValidators = control.validator ? control.validator({} as AbstractControl) : null;
-      
-      // Kiểm tra ký tự đầu tiên và thay đổi validators nếu cần thiết
       if (valueNum.value) {
         const checkNumber = /[^0-9]/.test(valueNum.value);
-        if (checkNumber && (!currentValidators || !currentValidators['pattern'])) {
+        if (checkNumber) {
           // Thiết lập validator nếu chưa có hoặc không phải là pattern
           control.setValidators(Validators.pattern(NUMBER_REGEX));
         }
-      } else {
-        if (!currentValidators || !currentValidators['required']) {
-          // Thiết lập validator required nếu không có
+      } 
+      if(valueNum.value == ''){
           control.setValidators(Validators.required);
-        }
+
       }
-  
-      // Chỉ cập nhật nếu có sự thay đổi trong validators
       control.updateValueAndValidity({ emitEvent: false });
     }
   }
@@ -151,5 +145,71 @@ export class ValidateIntoPageService {
     });
   }
   
+  onBlur(form: FormGroup, path: string | (string | number)[]) {
+    const control = form.get(path);
+    const value = control?.value; // Loại bỏ khoảng trắng đầu/cuối
+  
+    if (value == "" || value == null) {
+      // Thêm validator nếu không hợp lệ
+      control?.setValue("")
+      control?.setValidators(Validators.required);
+    } else {
+      const checkValue = value.test(VIETNAMESE_REGEX)
+      // Xóa validator nếu hợp lệ
+      if(checkValue == false){
+        control?.setValidators(Validators.pattern(VIETNAMESE_REGEX))
+      }
+      else{
+        control?.clearValidators();
+      }
+    }
+  
+    // Cập nhật trạng thái form control
+    control?.updateValueAndValidity();
+  }
+  
+
+  onBlurNumber(form: FormGroup, path: string | (string | number)[]) {
+    const control = form.get(path);
+    const value = control?.value?.trim(); // Loại bỏ khoảng trắng đầu/cuối
+  
+    // Giá trị giới hạn
+    var year = new Date()
+  
+    // if(path == 'yearOfBirth'){
+  
+    //   this.minYearDadorChild = (year.getFullYear() - 18)
+    //   this.maxYearDadorChild = (year.getFullYear() - 60)
+    // }
+    // else{
+    //   this.minYearDadorChild = (year.getFullYear() - 42)
+    //   this.maxYearDadorChild = year.getFullYear()
+    // }
+  
+    if (value) {
+      const cleanStr = value.test(/[^0-9]/g, ""); // Chỉ giữ lại các ký tự số
+  
+      if (cleanStr === "") {
+        control?.setValue(""); // Đặt giá trị về rỗng nếu không hợp lệ
+        control?.setValidators([Validators.required]);
+      } else {
+        const numericValue = parseInt(cleanStr, 10); // Chuyển chuỗi số thành số nguyên
+  
+        // Thêm các validator `min`, `max`, và `required`
+        // control?.setValidators([
+        //   Validators.required,
+        //   Validators.min(this.minYearDadorChild),
+        //   Validators.max(this.maxYearDadorChild),
+        // ]);
+        control?.setValue(numericValue); // Đảm bảo giá trị được làm sạch
+      }
+    } else {
+      // Nếu giá trị rỗng, chỉ thêm `Validators.required`
+      control?.setValidators([Validators.required]);
+    }
+  
+    // Cập nhật trạng thái form control
+    control?.updateValueAndValidity();
+  }
   
 }

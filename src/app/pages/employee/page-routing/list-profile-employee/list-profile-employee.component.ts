@@ -297,7 +297,8 @@ export class ListProfileEmployeeComponent implements OnInit {
       this.leaveFromDate = this.selectedEmployee?.leaveFromDate ? new Date(this.selectedEmployee.leaveFromDate) : null
       this.workingStatusNum = this.selectedEmployee?.workingStatusNum
 
-      console.log(this.leaveToDate)
+      console.log(this.selectedEmployee?.id)
+      this.getVacationSchedules(this.selectedEmployee?.id)
       const toDay = new Date()
      
       if (this.leaveFromDate && this.leaveToDate) {
@@ -312,6 +313,16 @@ export class ListProfileEmployeeComponent implements OnInit {
       // this.notification.error('Đặt lịch nghỉ phép thành công!')
     }
   }
+listDayOfVS: any[] = []
+  getVacationSchedules(id: any){
+    this.userSevice.getVacationSchedules(id).subscribe((response: any)=> {
+      console.log(response)
+      this.listDayOfVS = response.data
+
+    })
+  }
+  
+  
 
   search(){
     const dataForm = {

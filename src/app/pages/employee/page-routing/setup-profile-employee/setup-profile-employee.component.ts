@@ -185,7 +185,7 @@ export class SetupProfileEmployeeComponent implements OnInit {
       identifierId: [null, [Validators.required, Validators.pattern(/^(?:\d{9}|0\d{11})$/)]],
       phoneNumber: [null, [Validators.required, Validators.pattern(/^(0[0-9]{9}|8[4][0-9]{9})$/)]],
       // zalo: [null,[ Validators.required,Validators.pattern(/^(0\d{9}|84\d{9}|[a-zA-Z]*)$/)]],
-      zalo: [null],
+      zalo: [null, [Validators.required]],
       email: [null, [Validators.required, Validators.email]],
       ethnicGroup: [null,[Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
       religion: [null,[ Validators.pattern(VIETNAMESE_REGEX)]],
@@ -306,41 +306,73 @@ validateYearOfBirthChild(name: string | (string | number)[], event: Event){
 
 onBlur(path: string | (string | number)[]) {
   const control = this.form.get(path);
-  const value = control?.value?.trim(); // Loại bỏ khoảng trắng đầu/cuối
+  const value = control?.value; // Loại bỏ khoảng trắng đầu/cuối
 
-  if (value == "") {
+  if (value == "" || value == null) {
     // Thêm validator nếu không hợp lệ
     control?.setValue("")
     control?.setValidators(Validators.required);
   } else {
+    const checkValue = value.test(VIETNAMESE_REGEX)
     // Xóa validator nếu hợp lệ
-    control?.clearValidators();
+    if(checkValue == false){
+      control?.setValidators(Validators.pattern(VIETNAMESE_REGEX))
+    }
+    else{
+      control?.clearValidators();
+    }
   }
 
   // Cập nhật trạng thái form control
   control?.updateValueAndValidity();
 }
 
+minYearDadorChild : any
+maxYearDadorChild : any
+
 onBlurNumber(path: string | (string | number)[]) {
   const control = this.form.get(path);
   const value = control?.value?.trim(); // Loại bỏ khoảng trắng đầu/cuối
-  if(value){
-    const cleanStr = value?.replace(/[^0-9]/g, "");
-  // Kiểm tra nếu giá trị không hợp lệ (NaN, null, undefined, chuỗi rỗng)
-    if (cleanStr == "") {
-      // Thêm validator nếu không hợp lệ
-      control?.setValue("")
-      control?.setValidators(Validators.required);
-    } else {
-      // Xóa validator nếu hợp lệ
-      control?.clearValidators();
-    }
 
-    // Cập nhật trạng thái form control
-    control?.updateValueAndValidity();
+  // Giá trị giới hạn
+  var year = new Date()
+
+  if(path == 'yearOfBirth'){
+
+    this.minYearDadorChild = (year.getFullYear() - 18)
+    this.maxYearDadorChild = (year.getFullYear() - 60)
   }
-  
+  else{
+    this.minYearDadorChild = (year.getFullYear() - 42)
+    this.maxYearDadorChild = year.getFullYear()
+  }
+
+  if (value) {
+    const cleanStr = value.test(/[^0-9]/g, ""); // Chỉ giữ lại các ký tự số
+
+    if (cleanStr === "") {
+      control?.setValue(""); // Đặt giá trị về rỗng nếu không hợp lệ
+      control?.setValidators([Validators.required]);
+    } else {
+      const numericValue = parseInt(cleanStr, 10); // Chuyển chuỗi số thành số nguyên
+
+      // Thêm các validator `min`, `max`, và `required`
+      control?.setValidators([
+        Validators.required,
+        Validators.min(this.minYearDadorChild),
+        Validators.max(this.maxYearDadorChild),
+      ]);
+      control?.setValue(numericValue); // Đảm bảo giá trị được làm sạch
+    }
+  } else {
+    // Nếu giá trị rỗng, chỉ thêm `Validators.required`
+    control?.setValidators([Validators.required]);
+  }
+
+  // Cập nhật trạng thái form control
+  control?.updateValueAndValidity();
 }
+
 
 
   ///////////////////////////////////////////////List data when call api///////////////////////////////////////////////////////////////////
@@ -613,7 +645,7 @@ onBlurNumber(path: string | (string | number)[]) {
         if(isDriver){
           var codeDriver: any = isDriver.code
           this.deparmentCode = codeDriver
-          if (isDriver && codeDriver == 'DRIVER' && codeDriver != null) {
+          if (isDriver && (codeDriver == 'VTKH_BPLX' || codeDriver == 'VTHH_BPLX') && codeDriver != null) {
             this.hasDriver = true
           }
           else{
@@ -809,13 +841,80 @@ beforeUpload = (file: NzUploadFile): boolean => {
     this.lstArchivedRecords.reset()
   }
 
-  endClick(){
-    this.isDone = false
+  endClick() {
+    this.isDone = false;
+    this.hasDriver = false
+    this.isModalInforEmployee = false
+    // Reset form với giá trị mặc định
+    // this.form.get('phoneNumber')?.setErrors({required : null});
+    // this.form.get('phoneNumber')?.updateValueAndValidity();
+    // this.form.get('contactPersonPhone')?.clearValidators();
+    // this.form.get('contactPersonPhone')?.updateValueAndValidity();
     this.form.reset({
-      contractType: this.form.get('contractType')?.value || '1',
-    hasChild: this.form.get('hasChild')?.value || '0'
-    })
+      contractType: '1',
+      hasChild: '0',
+      phoneNumber: null,
+      contactPersonPhone: null
+    });
+  
+    const resetFormArray = (formArrayName: string, defaultGroup: () => FormGroup) => {
+      const formArray = this.form.get(formArrayName) as FormArray;
+      if (formArray) {
+        formArray.clear(); 
+        formArray.push(defaultGroup()); 
+      }
+    };
+  
+    resetFormArray('contract', () =>
+      this.fb.group({
+        signDate: [''], 
+        endDate: [''],
+        file: ['']
+      })
+    );
+  
+    resetFormArray('lstArchivedRecords', () =>
+      this.createArchivedRecords({
+        name: null,
+        code: null,
+        type: null,
+        file: null,
+      })
+    );
+  
+    resetFormArray('lstChildren', () =>
+      this.fb.group({
+        yearOfBirth: null, 
+        name: null,
+        gender: null
+      })
+    );
+  
+    // Object.keys(this.form.controls).forEach((key) => {
+    //   const control = this.form.get(key);
+  
+    //   if (control) { 
+    //     if (control instanceof FormArray) {
+    //       control.controls.forEach((arrayControl) => {
+    //         if (arrayControl instanceof FormGroup) {
+    //           Object.keys(arrayControl.controls).forEach((groupKey) => {
+    //             const groupControl = arrayControl.get(groupKey);
+    //             if (groupControl) {
+    //               groupControl.clearValidators();
+    //               groupControl.updateValueAndValidity();
+    //             }
+    //           });
+    //         }
+    //       });
+    //     } else {
+    //       control.clearValidators();
+    //       control.updateValueAndValidity();
+    //     }
+    //   }
+    // });
   }
+  
+  
 
   showButtonClean: boolean = false;
   trackFormChanges(): void {
@@ -895,6 +994,9 @@ beforeUpload = (file: NzUploadFile): boolean => {
   listCh: any[] = []
 
   showDataEmployee() {
+
+
+    
     this.inforEmployee = this.form.value
     this.form.markAllAsTouched(); 
     if(this.form.get('contractType')?.value == '2'){

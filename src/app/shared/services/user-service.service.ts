@@ -55,6 +55,11 @@ export class UserServiceService {
 
   }
 
+  getVacationSchedules(staffId: any){
+    const params = 'staffId='+staffId
+    return this.httpClient.get(this.url+'api/absence-schedules?'+params)
+  }
+
   getDriverLicense(){
     return this.httpClient.get(this.url + 'api/option-set-values/os-code?code=DRIVER_LICENSE_TYPE')
   }

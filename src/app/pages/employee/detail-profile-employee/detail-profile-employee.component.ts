@@ -185,7 +185,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
       identifierId: [null, [Validators.required,  Validators.pattern(/^(?:\d{9}|0\d{11})$/)]],
       phoneNumber: [null, [Validators.required, Validators.pattern(/^(0[0-9]{9}|8[4][0-9]{9})$/)]],
       // zalo: [null,[ Validators.required, Validators.pattern('^[a-zA-ZÀ-ỹà-ỹ\\s]+$')]],
-      zalo: [null],
+      zalo: [null, [Validators.required]],
       email: [null, [Validators.required, Validators.email]],
       ethnicGroup: [null,[Validators.required]],
       religion: [null,[Validators.pattern(VIETNAMESE_REGEX)]],
@@ -403,7 +403,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
 
       console.log(response.data.departmentName)
 
-      if(response.data?.departmentName == 'Lái xe'){
+      if(response.data?.departmentCode == 'VTHH_BPLX'|| response.data?.departmentCode == 'VTKH_BPLX'){
 
         this.hasDriver = true
       }else{
@@ -543,14 +543,26 @@ export class DetailProfileEmployeeComponent implements OnInit {
   totalPrai = 0
 
   onBlur(path: string | (string | number)[]) {
-    // Đánh dấu form control là "touched" khi người dùng nhấn ra ngoài
-    const control = this.form.get(path)?.value;
-    console.log(control)
-    if(control){
-      this.form.get(path)?.clearValidators()
-    }
-    this.form.get(path)?.updateValueAndValidity()
+    const control = this.form.get(path);
+    const value = control?.value; // Loại bỏ khoảng trắng đầu/cuối
   
+    if (value == "" || value == null) {
+      // Thêm validator nếu không hợp lệ
+      control?.setValue("")
+      control?.setValidators(Validators.required);
+    } else {
+      const checkValue = value.test(VIETNAMESE_REGEX)
+      // Xóa validator nếu hợp lệ
+      if(checkValue == false){
+        control?.setValidators(Validators.pattern(VIETNAMESE_REGEX))
+      }
+      else{
+        control?.clearValidators();
+      }
+    }
+  
+    // Cập nhật trạng thái form control
+    control?.updateValueAndValidity();
   }
 
   getAchievement(){
@@ -591,6 +603,59 @@ export class DetailProfileEmployeeComponent implements OnInit {
 
       })
     })
+  }
+
+  validateYearOfBirthChild(name: string | (string | number)[], event: Event){
+    this.validateService.validateYearOfBirth(this.form, name,event, this.minYearChild, this.maxYearChild)
+  }
+
+  validateYearOfBirth(name: string | (string | number)[], event: Event){
+    this.validateService.validateYearOfBirth(this.form, name,event, this.minYear, this.maxYear)
+  }
+
+  minYearDadorChild : any
+maxYearDadorChild : any
+  onBlurNumber(path: string | (string | number)[]) {
+    const control = this.form.get(path);
+    const value = control?.value?.trim(); // Loại bỏ khoảng trắng đầu/cuối
+  
+    // Giá trị giới hạn
+    var year = new Date()
+  
+    if(path == 'yearOfBirth'){
+  
+      this.minYearDadorChild = (year.getFullYear() - 18)
+      this.maxYearDadorChild = (year.getFullYear() - 60)
+    }
+    else{
+      this.minYearDadorChild = (year.getFullYear() - 42)
+      this.maxYearDadorChild = year.getFullYear()
+    }
+  
+    if (value) {
+      const cleanStr = value.test(/[^0-9]/g, ""); // Chỉ giữ lại các ký tự số
+  
+      if (cleanStr === "") {
+        control?.setValue(""); // Đặt giá trị về rỗng nếu không hợp lệ
+        control?.setValidators([Validators.required]);
+      } else {
+        const numericValue = parseInt(cleanStr, 10); // Chuyển chuỗi số thành số nguyên
+  
+        // Thêm các validator `min`, `max`, và `required`
+        control?.setValidators([
+          Validators.required,
+          Validators.min(this.minYearDadorChild),
+          Validators.max(this.maxYearDadorChild),
+        ]);
+        control?.setValue(numericValue); // Đảm bảo giá trị được làm sạch
+      }
+    } else {
+      // Nếu giá trị rỗng, chỉ thêm `Validators.required`
+      control?.setValidators([Validators.required]);
+    }
+  
+    // Cập nhật trạng thái form control
+    control?.updateValueAndValidity();
   }
 
   onPageChangeAchie(page: number): void {
@@ -725,11 +790,11 @@ validateNumber(name: string | (string | number)[], event : Event){
     this.form.get('departmentId')?.valueChanges.subscribe((value: any) => {
       idDepartment = value
       if(value && value != ''){
-        this.userSevice.getPossition(idDepartment).subscribe((response: any) => {
+        this.userSevice.getPossition (idDepartment).subscribe((response: any) => {
           this.listPosstion = response.data
         })
        }else{
-        this.userSevice.getPossition(null).subscribe((response: any) => {
+        this.userSevice.getPossition (null).subscribe((response: any) => {
           this.listPosstion = response.data
         })
        }
@@ -914,7 +979,7 @@ validateNumber(name: string | (string | number)[], event : Event){
         if(isDriver){
           var codeDriver: any = isDriver.code
         this.deparmentCode = codeDriver
-        if (isDriver && codeDriver == 'DRIVER') {
+        if (isDriver && (codeDriver == 'VTKH_BPLX' || codeDriver == 'VTHH_BPLX')) {
           this.hasDriver = true
         }
         else{
@@ -1455,7 +1520,7 @@ validateNumber(name: string | (string | number)[], event : Event){
 
     console.log(this.form.get('departmentId')?.value)
     const findDepartment = this.listDepartment.find((item: any) => {
-      return item.id === Number(this.form.get('departmentId')?.value) && item.name === 'Lái xe' && item.code === 'DRIVER'
+      return item.id === Number(this.form.get('departmentId')?.value) && ( item.code == 'VTKH_BPLX' || item.code == 'VTHH_BPLX')
     console.log(item)
     }
       

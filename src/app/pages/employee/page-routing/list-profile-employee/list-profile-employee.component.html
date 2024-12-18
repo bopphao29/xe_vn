@@ -202,9 +202,12 @@
         </div>
         <div style="margin-top: 22px;">
         </div>
-        <div style="display: flex; justify-content: center;">
-            <span style="font-weight: 500 ;color: rgba(239, 68, 68, 1); font-size: 14px;" *ngIf=" isOnLeave == true">{{'working.relaxing' | translate}} {{leaveFromDate | date: 'dd/MM/yyyy'}} - {{leaveToDate | date: 'dd/MM/yyyy'}}</span>
+       <div style="display: flex; justify-content: center;">
+        <div style="justify-content: center;">
+            <span *ngFor="let data of listDayOfVS" style="font-weight: 500 ;color: rgba(239, 68, 68, 1); font-size: 14px; " class="vacation-item">{{'working.schedule' | translate}} {{data.fromDate | date: 'dd/MM/yyyy'}} - {{data.toDate | date: 'dd/MM/yyyy'}}</span><br>
+            <span style="font-weight: 500 ;color: rgb(8, 140, 241); font-size: 14px;" *ngIf=" isOnLeave == true">{{'working.relaxing' | translate}} {{leaveFromDate | date: 'dd/MM/yyyy'}} - {{leaveToDate | date: 'dd/MM/yyyy'}}</span>
         </div>
+       </div>
         <div style="margin-top: 22px;">
         </div>
         <form [formGroup]="formOnLeave">
