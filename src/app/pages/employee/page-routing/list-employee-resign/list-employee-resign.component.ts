@@ -257,27 +257,7 @@ export class ListEmployeeResignComponent {
 /////////////////////////////////////////DELETE /////////////////////////////////
 handleCancelDelete(){
   this.isDelete = false
-  const dataDelete ={
-    staffId : this.selectedEmployee['id'],
-    type : 1,
-    fromDate: null,
-    toDate: null,
-  }
 
-  this.userSevice.updateStatusWork(dataDelete).subscribe( {
-    next: (response) => {
-      this.notification.success('Xóa nhân viên đi làm lại thành công!')
-      this.isDelete = false  
-      this.search()
-      // this.form.reset()
-      // this.getUser(this.idEmployee)
-    },
-    error: (error) => {
-      // if(error.status === 400){
-      //   this.notification.error(error.message)
-      // }
-
-    }})
 }
 
 handleSubmitDelete(){
@@ -447,12 +427,13 @@ handleSubmitDelete(){
       type : 0
     }
     if(this.formChangeInforLeave.invalid){
-      this.notification.success('Hãy nhập thông tin thôi việc')
+      this.notification.error('Hãy nhập đầy đủ trường bắt buộc')
     }else{
       this.userSevice.updateStatusWork(dataFormEndWork).subscribe( {
         next: (response) => {
           this.notification.success('Sửa thông tin thôi việc thành công!')
           this.isModalOnLeaveEmployee = false  
+          this.search()
           // this.form.reset()
           // this.getUser(this.idEmployee)
         },

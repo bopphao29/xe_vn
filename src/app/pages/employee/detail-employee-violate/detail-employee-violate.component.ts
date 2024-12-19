@@ -58,6 +58,7 @@ export class DetailEmployeeViolateComponent implements OnInit{
 
     this.route.params.subscribe((params : any)=>{
       const id = params['id']
+      this.id = id
       this.getDetail(id)
     })
   }
@@ -67,6 +68,7 @@ export class DetailEmployeeViolateComponent implements OnInit{
     this.routes.navigate(['/employee/list-employee-violates-discipline'])
   }
 
+  id: any
   inforEmployee: any
   inforCouncils : any
   getDetail(id: any){
@@ -79,7 +81,7 @@ export class DetailEmployeeViolateComponent implements OnInit{
   nameOfPDF(): string {
     const now = new Date()
     const date = now.toLocaleDateString('vi-VN', {year: 'numeric', month: '2-digit', day: '2-digit'}).replace(/\//g, '_');
-    return `Thongtinnhanvienvipham-${date}`
+    return `Thongtinnhanvienvipham-${this.id}-${date}`
   }
 
   pdfExport(){

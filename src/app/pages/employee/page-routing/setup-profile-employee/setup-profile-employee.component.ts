@@ -246,9 +246,6 @@ export class SetupProfileEmployeeComponent implements OnInit {
       }
     })
 
-
-    this.validateService.checkPhoneNumber(this.form, 'phoneNumber', this.maxLengthMap)
-    this.validateService.checkPhoneNumber(this.form, 'contactPersonPhone', this.maxLengthMap)
   }
 
 
@@ -281,6 +278,10 @@ export class SetupProfileEmployeeComponent implements OnInit {
 
   validateText(path: string | (string | number)[], event: Event) {
     this.validateService.validateText(this.form, path, event)
+  }
+
+  validatePhone(path: string , event: Event){
+    this.validateService.checkPhoneNumber(this.form, path, this.maxLengthMap)
   }
   
   validateEnterTextNumber( path: string | (string | number)[], event: Event) {
@@ -649,9 +650,10 @@ onBlurNumber(path: string | (string | number)[]) {
 
   ////////////////////////////////////////////////////function routes link///////////////////////////////////////////////////////////
   handleSubmitDone(){
-    this.routes.navigate(['employee/list-employee-profile'])
     localStorage.removeItem('activeLink')
     localStorage.setItem('activeLink','employeeProfile')
+    this.routes.navigate(['employee/list-employee-profile'])
+    
   }
 
 

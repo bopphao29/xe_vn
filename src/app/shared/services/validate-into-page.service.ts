@@ -121,11 +121,36 @@ export class ValidateIntoPageService {
     return undefined
   }
 
+  validatePhone(form: FormGroup, path: string | (string | number)[], event: Event) {
+    const valueNum = event.target as HTMLInputElement;
+    const control = form.get(path);
+  
+    if (control) {
+      // Kiểm tra nếu có giá trị
+      if (valueNum.value) {
+        // const checkNumber = /[^0-9]/g.test(valueNum.value);
+        // if (checkNumber) {
+          // Xóa các validator cũ và thêm validator pattern mới
+          control.setValidators([Validators.pattern(/^(0[0-9]{9}|84[0-9]{9})$/)]);
+        // } else {
+          // Thêm validator bắt cno phải có dạng số
+        // }
+      } else {
+        // Nếu giá trị trống, chỉ cần kiểm tra required
+        control.setValidators([Validators.required]);
+      }
+  
+      // Cập nhật lại giá trị và áp dụng các validator mới
+      control.updateValueAndValidity({ emitEvent: false });
+    }
+  }
+
+
   //////////check phone //////////////////////////////
   checkPhoneNumber(form: FormGroup, fieldName: string, maxLengthMap: { [key: string]: number }): void {
     form.get(fieldName)?.valueChanges.subscribe((value: string) => {
       const mockEvent = { target: { value } } as unknown as Event;
-      this.validateNumber(form, fieldName, mockEvent);
+      this.validatePhone(form, fieldName, mockEvent);
       
       const sanitizedValue = (mockEvent.target as HTMLInputElement).value;
   

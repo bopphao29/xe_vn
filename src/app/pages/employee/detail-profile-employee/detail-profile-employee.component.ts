@@ -215,7 +215,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
       driverLicenseType: [null, Validators.required],
       dlStartDate: [null, Validators.required],
       dlEndDate: [null, Validators.required],
-      hasChild: ['0', Validators.required],
+      hasChild: [null],
       bcImage: [[], Validators.required],
       healthCertificate: [[], Validators.required],
       dlImage: [[], Validators.required],
@@ -227,6 +227,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
     })
     this.route.params.subscribe((params: any)=> {
       const id = params['id']
+      this.id = id
       this.monthValue = (new Date().getMonth() + 1).toString()
       console.log(id)
       this.getUser(id)
@@ -234,7 +235,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
 
 
     })
-    this.checkChild()
+    
     this.checkWork()
     this.getBranch()
     this.getOffice()
@@ -267,8 +268,17 @@ export class DetailProfileEmployeeComponent implements OnInit {
       }
       
     })
+
+    this.form.get('hasChild')?.valueChanges.subscribe((value: any) => {
+      this.hasChildren = value
+      console.log(this.hasChildren)
+      if(value == 1){
+        this.has_child == 1
+      }
+    })
   }
 
+  id : any
   isFixEmployeeButton : boolean = false
   listBranch: any[] = []
   listPosstion: any[] = []
@@ -375,7 +385,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
       }
       if(response.data.hasChild != null){
         this.form.get('hasChild')?.setValue(response.data.hasChild.toString())
-        this.has_child = response.data.hasChild
+        this.has_child = Number(response.data.hasChild)
       }
       if(response.data.fromDate != null){
         if(response.data.contractType == 2){
@@ -1031,7 +1041,9 @@ validateNumber(name: string | (string | number)[], event : Event){
     this.form.get('hasChild')?.valueChanges.subscribe((value: any) => {
       this.hasChildren = value
       console.log(this.hasChildren)
-
+      if(value == 1){
+        this.has_child == 1
+      }
     })
   }
 
@@ -1533,7 +1545,7 @@ validateNumber(name: string | (string | number)[], event : Event){
       lstChildren: ((this.form.value.lstChildren.length === 1 
       && this.form.value.lstChildren[0].name === '' 
       && this.form.value.lstChildren[0].yearOfBirth === '' 
-      && this.form.value.lstChildren[0].gender === '') || this.form.get('hasChild')?.value == '0')
+      && this.form.value.lstChildren[0].gender === '') || this.form.get('hasChild')?.value == 0)
       ? null : this.form.value.lstChildren.map((child: any) => ({
         name: child.name,
         yearOfBirth: child.yearOfBirth,
@@ -1748,7 +1760,7 @@ validateNumber(name: string | (string | number)[], event : Event){
       })
     }
     else{
-      this.notification.error('Hãy xét thời gian thôi việc')
+      this.notification.error('Còn trường để trống')
 
     }
   }
@@ -1916,7 +1928,7 @@ downloadImage(fileName: string){
 nameOfPDF(): string {
   const now = new Date()
   const date = now.toLocaleDateString('vi-VN', {year: 'numeric', month: '2-digit', day: '2-digit'}).replace(/\//g, '_');
-  return `Thongtinnhanvien-${date}`
+  return `Thongtinnhanvien-${this.id}-${date}`
 }
 
 pdfExport(){

@@ -291,6 +291,7 @@
         "department_required":"Cần chọn bộ phận",
         "position_required": "Cần chọn chức vụ",
         "signDate":"Cần chọn ngày kí",
+        "reason_submitEnd":"Nhập lý do thôi việc",
         "file_required": "Cần chọn file",
         "duration_required": "Cần chọn thuộc quản lý",
         "route_required": "Cần chọn tuyến",

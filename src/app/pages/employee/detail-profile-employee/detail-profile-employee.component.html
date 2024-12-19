@@ -699,11 +699,12 @@
                 <div class="input-wrapper">
                     <div class="">
                         <span class="required-star" >*</span><label class="label-form" >{{'employee.number_healthCertificate' | translate}}</label>
-                        <input nz-input class="form-input" formControlName="driverLicenseNumber" placeholder="Nhập"
+                        <input nz-input class="form-input" formControlName="driverLicenseNumber" (input)="validateNumber('driverLicenseNumber',$event)" placeholder="Nhập"
                                 class="form-input" style="width: 100%;"/>
                            <div class="error-container">
                             <div *ngIf="form.get('driverLicenseNumber')?.invalid && (form.get('driverLicenseNumber')?.dirty) || form.get('driverLicenseNumber')?.touched">
                             <span class="validate_input" *ngIf="form.get('driverLicenseNumber')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                            <span class="instruct" *ngIf="form.get('driverLicenseNumber')?.errors?.['pattern']">{{'required.number_pattern' | translate}}</span>
 
                         </div>
                            </div>
@@ -917,7 +918,7 @@
                                 </nz-radio-group>
                             </div>
                         </div>
-                        <div class="w-full" formArrayName="lstChildren"  [class.disabled-input]="has_child == '0' || form.get('hasChild')?.value == '0' " >
+                        <div class="w-full" formArrayName="lstChildren"  [class.disabled-input]="has_child == 0" >
                             <div nz-row style="display: flex; flex-wrap: nowrap;" *ngFor="let child of lstChildren.controls; let childIndex = index" [formGroupName]="childIndex">
                                 <div nz-col nzSpan="10">
                                     <div class="mx-2">
@@ -984,7 +985,7 @@
     
                             </div>
                         </div>
-                        <div nz-row class="w-full"  [class.disabled-input]="has_child == 0 || form.get('hasChild')?.value == 0 " >
+                        <div nz-row class="w-full"  [class.disabled-input]="has_child == 0 " >
                             <div *ngIf="isFixEmployeeButton == true">
                                 <button type="button" (click)="addlstChildren()" class="button_add mx-2"><svg
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

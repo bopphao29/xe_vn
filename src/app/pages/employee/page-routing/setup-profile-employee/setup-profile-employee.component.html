@@ -74,7 +74,7 @@
             <div class="input-wrapper">
                 <div class="">
                     <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.phoneNumber' | translate}}</label>
-                    <input class="input-form" placeholder="0379458632" (input)="validateNumber('phoneNumber',$event)" [maxlength]="maxLengthMap['phoneNumber'] || 10" 
+                    <input class="input-form" placeholder="0379458632" (input)="validatePhone('phoneNumber',$event)" [maxlength]="maxLengthMap['phoneNumber'] || 10" 
                     formControlName="phoneNumber" type="text">
                     <div class="error-container">
                         <div *ngIf="form.get('phoneNumber')?.invalid && (form.get('phoneNumber')?.dirty) || form.get('phoneNumber')?.touched">
@@ -183,7 +183,7 @@
             <div class="input-wrapper">
                 <div class="">
                     <span class="required-star" >*</span><label class="label-form" for="" >{{'employee.contactPersonPhone' | translate}}</label>
-                    <input class="input-form" formControlName="contactPersonPhone" (input)="validateNumber('contactPersonPhone',$event)" placeholder="Nhập" [maxlength]="maxLengthMap['contactPersonPhone'] || 10" />
+                    <input class="input-form" formControlName="contactPersonPhone" (input)="validatePhone('contactPersonPhone',$event)" placeholder="Nhập" [maxlength]="maxLengthMap['contactPersonPhone'] || 10" />
                         <div class="error-container">
                             <div class="error-container">
                                 <div *ngIf="form.get('contactPersonPhone')?.invalid && form.get('contactPersonPhone')?.dirty || form.get('contactPersonPhone')?.touched">
