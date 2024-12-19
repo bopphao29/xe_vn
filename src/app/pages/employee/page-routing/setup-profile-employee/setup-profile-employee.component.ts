@@ -249,8 +249,8 @@ export class SetupProfileEmployeeComponent implements OnInit {
 
     this.validateService.checkPhoneNumber(this.form, 'phoneNumber', this.maxLengthMap)
     this.validateService.checkPhoneNumber(this.form, 'contactPersonPhone', this.maxLengthMap)
-    
   }
+
 
   deparmentCode = '' 
   listBranch: any[] = []
@@ -471,10 +471,10 @@ onBlurNumber(path: string | (string | number)[]) {
 
   createArchivedRecords(record: { name: string | null; code: string | null; type: string | null; file: string | null }): FormGroup { 
     return this.fb.group({
-      name: ['', Validators.required],
-      code: ['' , Validators.required],
-      type: ['', Validators.required],
-      file: ['', Validators.required]
+      name: [null, Validators.required],
+      code: [null , Validators.required],
+      type: [null, Validators.required],
+      file: [null, Validators.required]
     });
 
 
@@ -517,23 +517,47 @@ onBlurNumber(path: string | (string | number)[]) {
     }));
   
     // Kiểm tra số lượng phần tử trong lstArchivedRecords
-    if (this.lstArchivedRecords.controls.length == 1) {
-      // Nếu chỉ có một phần tử, xóa tất cả các validators
+    if (this.lstArchivedRecords.controls.length >= 1) {
       this.lstArchivedRecords.controls.forEach((control: any) => {
-        control.get('name')?.clearValidators();
-        control.get('code')?.clearValidators();
-        control.get('type')?.clearValidators();
-        control.get('file')?.clearValidators();
+        if(control.get('name')?.value || control.get('code')?.value || control.get('type')?.value || control.get('file')?.value){
+          control.get('name')?.setValidators(Validators.required);
+          control.get('code')?.setValidators(Validators.required);
+          control.get('type')?.setValidators(Validators.required);
+          control.get('file')?.setValidators(Validators.required);
+        }
       });
-    } else if (this.lstArchivedRecords.controls.length > 1) {
-      // Nếu có nhiều hơn một phần tử, thiết lập validators yêu cầu
-      this.lstArchivedRecords.controls.forEach((control: any) => {
+    } 
+    else if (this.lstArchivedRecords.controls.length >= 1) {
+      
+    this.lstArchivedRecords.controls.forEach((control: any) => {
+      // Kiểm tra nếu bất kỳ trường nào trong phần tử có giá trị
+      const hasValue =
+        control.get('name')?.value?.trim() ||
+        control.get('code')?.value?.trim() ||
+        control.get('type')?.value?.trim() ||
+        control.get('file')?.value?.trim();
+    
+      if (hasValue) {
+        // Thêm Validators.required cho tất cả các trường nếu bất kỳ trường nào có giá trị
         control.get('name')?.setValidators(Validators.required);
         control.get('code')?.setValidators(Validators.required);
         control.get('type')?.setValidators(Validators.required);
         control.get('file')?.setValidators(Validators.required);
-      });
-    }
+      } else {
+        // Xóa Validators.required nếu tất cả các trường đều trống
+        control.get('name')?.clearValidators();
+        control.get('code')?.clearValidators();
+        control.get('type')?.clearValidators();
+        control.get('file')?.clearValidators();
+      }
+    
+      // Cập nhật trạng thái của các trường
+      control.get('name')?.updateValueAndValidity();
+      control.get('code')?.updateValueAndValidity();
+      control.get('type')?.updateValueAndValidity();
+      control.get('file')?.updateValueAndValidity();
+    });    
+  }
   
     // Cập nhật lại giá trị và tính hợp lệ cho tất cả các trường trong form
     this.lstArchivedRecords.controls.forEach((control: any) => {
@@ -626,7 +650,7 @@ onBlurNumber(path: string | (string | number)[]) {
   ////////////////////////////////////////////////////function routes link///////////////////////////////////////////////////////////
   handleSubmitDone(){
     this.routes.navigate(['employee/list-employee-profile'])
-    localStorage.clear()
+    localStorage.removeItem('activeLink')
     localStorage.setItem('activeLink','employeeProfile')
   }
 
@@ -1081,6 +1105,7 @@ beforeUpload = (file: NzUploadFile): boolean => {
       this.form.get('dlEndDate')?.clearValidators();
       this.form.get('dlImage')?.clearValidators();
     }
+    
     this.form.get('routeId')?.updateValueAndValidity()
     this.form.get('businessCardNumber')?.updateValueAndValidity()
     this.form.get('bcStartDate')?.updateValueAndValidity()
@@ -1133,33 +1158,6 @@ beforeUpload = (file: NzUploadFile): boolean => {
         value.get('file')?.markAsTouched();
       })
     }
-
-    if(this.lstArchivedRecords.controls.length === 1){
-      this.lstArchivedRecords.controls.forEach((value: any) => {
-        value.get('name')?.clearValidators();
-        value.get('code')?.clearValidators();
-        value.get('type')?.clearValidators();
-        value.get('file')?.clearValidators();
-      })
-    }
-    
-    if(this.lstArchivedRecords.controls.length > 1){
-      this.lstArchivedRecords.controls.forEach((value: any) => {
-        value.get('name')?.setValidators(Validators.required);
-        value.get('code')?.setValidators(Validators.required);
-        value.get('type')?.setValidators(Validators.required);
-        value.get('file')?.setValidators(Validators.required);
-      })
-    }
-
-    this.lstArchivedRecords.controls.forEach((value: any) => {
-      value.get('name')?.updateValueAndValidity();
-      value.get('code')?.updateValueAndValidity();
-      value.get('type')?.updateValueAndValidity();
-      value.get('file')?.updateValueAndValidity();
-    })
-
-
 
     const dataForm = {
       ...this.form.value,

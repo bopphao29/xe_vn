@@ -117,7 +117,7 @@
                     <td class="list-col-2">{{data.branchName || '-'}}</td>
                     <td class="list-col-2">{{data.departmentName || '-'}}</td>
                     <td class="list-col-2">{{(data.leaveFromDate | date: 'dd/MM/yyyy' )   || '-'}}</td>
-                    <td class="list-col-2">{{(data.leaveToDate | date: 'dd/MM/yyyy' )   || '-'}}</td>
+                    <td class="list-col-2">{{(data.leaveToDate   | date: 'dd/MM/yyyy' )   || '-'}}</td>
                     <td class="list-col-4">{{data.reason || '-'}} </td>
                     <td class="list-col-2" style="text-align: center;">
                         <a *ngIf="isLeave == false && onLeave == true && data.id" style="border-color: rgba(39, 78, 161, 0.3);" class="mx-1 button_show_detail" (click)="openModalonLeave(data.id)">

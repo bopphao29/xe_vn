@@ -702,10 +702,10 @@
                         <div nz-col style="width: calc(25%)">
                             <div class="mx-2">
                                 <div class="">
-                                    <label class="label-form">{{'employee.name_file' | translate}}</label>
+                                    <span class="required-star" >*</span><label class="label-form">{{'employee.name_file' | translate}}</label>
                                     <input nz-input class="form-input" formControlName="name" placeholder="Nhập" style="width: 100%; margin-left: 4px"/>
                                     <div class="error-container">
-                                         <div *ngIf="(doc.get('name')?.invalid && doc.get('name')?.dirty || doc.get('name')?.touched) && lstArchivedRecords.length >= 2">
+                                         <div *ngIf="(doc.get('name')?.invalid && doc.get('name')?.dirty || doc.get('name')?.touched) ">
                                              <span class="validate_input" *ngIf="doc.get('name')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                          </div>
                                     </div>
@@ -715,11 +715,11 @@
                         <div nz-col style="width: calc(20%)">
                             <div class="mx-2">
                                 <div class="">
-                                    <label class="label-form">{{'employee.number1' | translate}}</label>
+                                    <span class="required-star" >*</span><label class="label-form">{{'employee.number1' | translate}}</label>
                                     <div>
                                         <input nz-input class="form-input" formControlName="code" placeholder="Nhập" />
                                         <div class="error-container">
-                                            <div *ngIf="(doc.get('code')?.invalid && doc.get('code')?.dirty || doc.get('code')?.touched) && lstArchivedRecords.length >= 2">
+                                            <div *ngIf="(doc.get('code')?.invalid && doc.get('code')?.dirty || doc.get('code')?.touched) ">
                                                 <span class="validate_input" *ngIf="doc.get('code')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                             </div>
                                         </div>
@@ -730,11 +730,11 @@
                         <div nz-col style="width: calc(25%)">
                             <div class="mx-2">
                                 <div class="">
-                                    <label class="label-form">{{'employee.type_file' | translate}}</label>
+                                    <span class="required-star" >*</span><label class="label-form">{{'employee.type_file' | translate}}</label>
                                     <div>
                                         <input nz-input class="form-input"  formControlName="type" placeholder="Nhập" />
                                         <div class="error-container">
-                                            <div *ngIf="(doc.get('type')?.invalid && (doc.get('type')?.dirty) || doc.get('type')?.touched) && lstArchivedRecords.length >= 2">
+                                            <div *ngIf="(doc.get('type')?.invalid && (doc.get('type')?.dirty) || doc.get('type')?.touched) ">
                                                 <span class="validate_input" *ngIf="doc.get('type')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                             </div>
                                         </div>
@@ -745,7 +745,7 @@
                         <div nz-col style="width: calc(20%)">
                             <div class="mx-2">
                                 <div class="">
-                                    <label class="label-form">{{'employee.file_together' | translate}}</label>
+                                    <span class="required-star" >*</span><label class="label-form">{{'employee.file_together' | translate}}</label>
                                     <div>
 
                                         <div nz-row nzGutter="8" class="custom-upload"
@@ -761,7 +761,7 @@
                                             </button>
                                         </div>
                                         <div class="error-container">
-                                            <div *ngIf="(doc.get('file')?.invalid && doc.get('file')?.dirty || doc.get('file')?.touched)  && lstArchivedRecords.length >= 2">
+                                            <div *ngIf="(doc.get('file')?.invalid && doc.get('file')?.dirty || doc.get('file')?.touched)  ">
                                                 <span class="validate_input"
                                                     *ngIf="doc.get('file')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                             </div>

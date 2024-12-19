@@ -190,51 +190,20 @@ export class ListProfileEmployeeComponent implements OnInit {
   }
 
   isoDate: string | null = null;
-  onDateChange( name: string | (string | number)[], date: any): void {
-    console.log("onDateChange called with", { name, date });
+  onDateChange(controlName: string, date: Date | null) {
+    if (date) {
+      // Đặt giờ, phút, giây thành 0
+      const resetDate = new Date(date);
+      resetDate.setHours(0, 0, 0, 0);
   
-    const currentValue = this.form.get(name)?.value;
-  
-    // Chuyển đổi date thành Date hợp lệ
-    const parsedDate = date instanceof Date ? date : new Date(date);
-  
-    // Kiểm tra nếu parsedDate không hợp lệ
-    if (isNaN(parsedDate.getTime())) {
-      this.form.get(name)?.setValue(null, { emitEvent: false });
-      return;
+      // Cập nhật giá trị trong FormControl
+      // this.formOnLeave.get(controlName)?.setValue(resetDate);
+    } else {
+      // Nếu không chọn ngày, đặt giá trị null
+      // this.formOnLeave.get(controlName)?.setValue(null);
     }
-  
-    // Lấy ngày cũ và ngày mới để so sánh
-    const currentDate = currentValue ? new Date(currentValue) : null;
-    const selectedDate = new Date(parsedDate);
-  
-    // Nếu đã có giá trị "fromDate" (ngày trước) và đang thay đổi "toDate" (ngày sau)
-    if (currentDate) {
-      // So sánh ngày
-      if (selectedDate < currentDate) {
-        console.log("Ngày sau phải lớn hơn hoặc bằng ngày trước");
-        this.form.get(name)?.setValue(null, { emitEvent: false });
-        return;
-      }
-  
-      // So sánh giờ nếu ngày giống nhau
-      if (selectedDate.toDateString() === currentDate.toDateString()) {
-        const selectedTime = selectedDate.getTime();
-        const currentTime = currentDate.getTime();
-  
-        // Nếu giờ phút của ngày sau < giờ phút của ngày trước, vô hiệu hóa
-        if (selectedTime < currentTime) {
-          console.log("Giờ phút của ngày sau phải lớn hơn hoặc bằng giờ phút của ngày trước.");
-          this.form.get(name)?.setValue(null, { emitEvent: false });
-          return;
-        }
-      }
-    }
-  
-    // Nếu không có vấn đề gì, cập nhật ngày
-    const formattedDate = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
-    this.form.get(name)?.setValue(formattedDate, { emitEvent: false });
   }
+  
   
   disableIntoToDate = (toDate: Date): boolean => {
     const fromDate = this.form.get('fromDate')?.value;
@@ -289,6 +258,16 @@ export class ListProfileEmployeeComponent implements OnInit {
   workingStatusNum  : number = 0
 
   isOnLeave: boolean = false;
+
+  isDateInRange(fromDate: string, toDate: string): boolean {
+    const today = new Date(); // Ngày hiện tại
+    const from = new Date(fromDate);
+    const to = new Date(toDate);
+  
+    // Kiểm tra nếu ngày hôm nay nằm trong khoảng [fromDate, toDate]
+    return from <= today && today <= to;
+  }
+  
   openModalonLeave(id: number){
     if (this.dataEmployee && this.dataEmployee.length > 0) {  // Kiểm tra nếu dataEmployee có dữ liệu
       this.isModalOnLeaveEmployee = true;
@@ -397,32 +376,34 @@ listDayOfVS: any[] = []
       const beforeDate = this.formOnLeave.get(name)?.value;
       if (!beforeDate) return false;
   
-      const beforeDateObject = new Date(beforeDate);
-                  
+      // Chuẩn hóa ngày trước và ngày sau (bỏ giờ/phút/giây)
+      const normalizedAfterDate = new Date(afterDate);
+      normalizedAfterDate.setHours(0, 0, 0, 0);
   
-      // So sánh ngày trước và ngày sau
-      if (afterDate < beforeDateObject) {
+      const normalizedBeforeDate = new Date(beforeDate);
+      normalizedBeforeDate.setHours(0, 0, 0, 0);
+  
+      // Kiểm tra ngày
+      if (normalizedAfterDate < normalizedBeforeDate) {
         return true; // Vô hiệu hóa nếu ngày sau < ngày trước
       }
-
-      // Nếu ngày trước và ngày sau giống nhau, kiểm tra giờ
-      if (afterDate.toDateString() === beforeDateObject.toDateString()) {
+  
+      // Nếu ngày giống nhau, kiểm tra giờ/phút
+      if (normalizedAfterDate.getTime() === normalizedBeforeDate.getTime()) {
         const afterHours = afterDate.getHours();
         const afterMinutes = afterDate.getMinutes();
-        const beforeHours = beforeDateObject.getHours();
-        const beforeMinutes = beforeDateObject.getMinutes();
+        const beforeHours = new Date(beforeDate).getHours();
+        const beforeMinutes = new Date(beforeDate).getMinutes();
   
-        // Kiểm tra giờ phút của ngày sau <= giờ phút của ngày trước
         if (afterHours < beforeHours || (afterHours === beforeHours && afterMinutes <= beforeMinutes)) {
-          return true; // Vô hiệu hóa nếu giờ của ngày sau <= giờ của ngày trước
+          return true; // Vô hiệu hóa nếu giờ/phút không hợp lệ
         }
       }
   
-      return false; // Không có vấn đề gì, không vô hiệu hóa
+      return false; // Ngày hợp lệ
     };
   }
-  
-  
+
   disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
     return (beforeDate: Date | null): boolean => {
       if (!beforeDate || !this.formOnLeave) return false;
@@ -430,25 +411,31 @@ listDayOfVS: any[] = []
       const afterDate = this.formOnLeave.get(name)?.value;
       if (!afterDate) return false;
   
-      const afterDateObject = new Date(afterDate);
+      // Chuẩn hóa ngày trước và ngày sau (bỏ giờ/phút/giây)
+      const normalizedBeforeDate = new Date(beforeDate);
+      normalizedBeforeDate.setHours(0, 0, 0, 0);
   
-      // So sánh ngày trước với ngày sau
-      if (beforeDate > afterDateObject) {
-        return true; // Vô hiệu hóa nếu ngày trước lớn hơn ngày sau
+      const normalizedAfterDate = new Date(afterDate);
+      normalizedAfterDate.setHours(0, 0, 0, 0);
+  
+      // Kiểm tra ngày
+      if (normalizedBeforeDate > normalizedAfterDate) {
+        return true; // Vô hiệu hóa nếu ngày trước > ngày sau
       }
   
-      // Nếu ngày trước và ngày sau giống nhau, kiểm tra giờ
-      if (beforeDate.toDateString() === afterDateObject.toDateString()) {
-        const beforeTime = beforeDate.getTime();
-        const afterTime = afterDateObject.getTime();
+      // Nếu ngày giống nhau, kiểm tra giờ/phút
+      if (normalizedBeforeDate.getTime() === normalizedAfterDate.getTime()) {
+        const beforeHours = beforeDate.getHours();
+        const beforeMinutes = beforeDate.getMinutes();
+        const afterHours = new Date(afterDate).getHours();
+        const afterMinutes = new Date(afterDate).getMinutes();
   
-        // So sánh giờ, phút. Vô hiệu hóa nếu giờ, phút của ngày trước > giờ, phút của ngày sau
-        if (beforeTime > afterTime) {
-          return true; // Vô hiệu hóa nếu giờ của ngày trước > giờ của ngày sau
+        if (beforeHours > afterHours || (beforeHours === afterHours && beforeMinutes >= afterMinutes)) {
+          return true; // Vô hiệu hóa nếu giờ/phút không hợp lệ
         }
       }
   
-      return false; // Nếu không có vấn đề gì, không vô hiệu hóa
+      return false; // Ngày hợp lệ
     };
   }
   

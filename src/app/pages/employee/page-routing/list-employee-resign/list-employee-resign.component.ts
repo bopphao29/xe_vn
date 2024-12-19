@@ -444,14 +444,14 @@ handleSubmitDelete(){
     const dataFormEndWork ={
       staffId : this.selectedEmployee['id'],
       ...this.formChangeInforLeave.value,
-      type : 4
+      type : 0
     }
     if(this.formChangeInforLeave.invalid){
-      this.notification.success('Hãy lập lịch nghỉ phép')
+      this.notification.success('Hãy nhập thông tin thôi việc')
     }else{
       this.userSevice.updateStatusWork(dataFormEndWork).subscribe( {
         next: (response) => {
-          this.notification.success('Thiết lập lại lịch nghỉ phép thành công!')
+          this.notification.success('Sửa thông tin thôi việc thành công!')
           this.isModalOnLeaveEmployee = false  
           // this.form.reset()
           // this.getUser(this.idEmployee)

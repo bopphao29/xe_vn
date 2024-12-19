@@ -203,11 +203,13 @@
         <div style="margin-top: 22px;">
         </div>
        <div style="display: flex; justify-content: center;">
-        <div style="justify-content: center;" *ngFor="let data of listDayOfVS">
-            <span
-              style="font-weight: 500; color: rgba(239, 68, 68, 1); font-size: 14px;"
+        <div style="display: flex; flex-direction: column" >
+            <span *ngFor="let data of listDayOfVS"
+              style="font-weight: 500; color: rgba(239, 68, 68, 1); font-size: 14px; "
               class="vacation-item">
-              {{    isOnLeave ? ('working.relaxing' | translate) + ' ' + (data.fromDate | date: 'dd/MM/yyyy') + ' - ' + (data.toDate | date: 'dd/MM/yyyy') : ('working.schedule' | translate) + ' ' +  (data.fromDate | date: 'dd/MM/yyyy') + ' - ' + (data.toDate | date: 'dd/MM/yyyy') }}
+              {{ isDateInRange(data.fromDate, data.toDate) 
+                ? ('working.relaxing' | translate) + ' ' + (data.fromDate | date: 'dd/MM/yyyy') + ' - ' + (data.toDate | date: 'dd/MM/yyyy')
+                : ('working.schedule' | translate) + ' ' + (data.fromDate | date: 'dd/MM/yyyy') + ' - ' + (data.toDate | date: 'dd/MM/yyyy') }}
             </span>
           </div>
        </div>
@@ -222,8 +224,8 @@
                                 <div class="">
                                   <label class="form-label"> <span style="color: red;">*</span>{{'employee.fromDate' | translate}}</label>
                                   <div>
-                                    <nz-date-picker class="w-full" [nzShowTime]="{ nzFormat: 'HH:mm' }"
-                                      nzFormat="HH:mm dd/MM/yyyy" (ngModelChange)="onDateChange('fromDate',$event)" [nzDisabledDate]="disableBeforeDate('toDate')"
+                                    <nz-date-picker class="w-full" [nzShowTime]="{ nzFormat: 'HH' }"
+                                      nzFormat="dd/MM/yyyy HH" [nzDisabledDate]="disableBeforeDate('toDate')"
                                       formControlName="fromDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                     <div style="height: 18px;">
                                       <div *ngIf="formOnLeave.get('fromDate')?.touched" style="height: 20px;">
@@ -239,8 +241,8 @@
                                 <div [class.disabled-input]="!formOnLeave.get('fromDate')?.value">
                                   <label class="form-label"><span style="color: red;">*</span>{{'employee.toDate' | translate}}</label>
                                   <div>
-                                    <nz-date-picker class="w-full" [nzDisabledDate]="disableAfterDate('fromDate')" [nzShowTime]="{ nzFormat: 'HH:mm' }"
-                                      nzFormat="HH:mm dd/MM/yyyy" (ngModelChange)="onDateChange('toDate',$event)"
+                                    <nz-date-picker class="w-full" [nzDisabledDate]="disableAfterDate('fromDate')" [nzShowTime]="{ nzFormat: 'HH' }"
+                                      nzFormat="dd/MM/yyyy HH"
                                       formControlName="toDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                     <div style="height: 18px;" *ngIf="formOnLeave.get('fromDate')?.value">
                                       <div *ngIf="formOnLeave.get('toDate')?.invalid && formOnLeave.get('toDate')?.dirty || formOnLeave.get('toDate')?.touched">

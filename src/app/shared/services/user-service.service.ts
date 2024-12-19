@@ -51,7 +51,7 @@ export class UserServiceService {
 
   getRoute(){
     // return this.httpClient.get(this.url + 'vehicle-service/api/routes')
-    return this.httpClient.get(this.baseUrl+'/vehicles/api/routes')
+    return this.httpClient.get(this.baseUrl+'/transport/api/routes')
 
   }
 

@@ -126,3 +126,23 @@
     border-radius: 5px;
   }
 }
+
+ .ant-select-selector .ant-select-selection-item{
+  font-weight: normal !important;
+}
+
+.input-wrapper-disabled,
+.input[disabled],
+.ant-input[disabled] {
+  // background-color: red !important;
+}
+
+.ant-input-affix-wrapper-disabled .ant-input[disabled] {
+  background: transparent !important;
+}
+
+.ant-picker-input > input[disabled] {
+  // color: #6e0c1b !important;
+  font-weight: normal;
+}
+

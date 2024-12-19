@@ -375,6 +375,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
       }
       if(response.data.hasChild != null){
         this.form.get('hasChild')?.setValue(response.data.hasChild.toString())
+        this.has_child = response.data.hasChild
       }
       if(response.data.fromDate != null){
         if(response.data.contractType == 2){
@@ -471,10 +472,10 @@ export class DetailProfileEmployeeComponent implements OnInit {
         })
       }else{
         arr.push(this.fb.group({
-          code: '',
-          name: '',
-          type: '',
-          file: ''
+          code: null,
+          name: null,
+          type: null,
+          file: null
         }));
       }
 
@@ -850,10 +851,10 @@ validateNumber(name: string | (string | number)[], event : Event){
 
   createArchivedRecords(record: { name: string | null; code: string | null; type: string | null; file: string | null }): FormGroup {
     return this.fb.group({
-      name: ['', Validators.required],
-      code: ['' , Validators.required],
-      type: ['' , Validators.required],
-      file: ['' , Validators.required]
+      name: [null, Validators.required],
+      code: [null , Validators.required],
+      type: [null , Validators.required],
+      file: [null , Validators.required]
     });
   }
 
@@ -866,12 +867,19 @@ validateNumber(name: string | (string | number)[], event : Event){
     });
   }
 
+
   createlstChildren(child: { name: string | null; yearOfBirth: number | null; gender: string | null }): FormGroup {
-    return this.fb.group({
-      name: ['', Validators.required],
-      yearOfBirth: ['', Validators.required],
+    let year = new Date()
+    const maxYear = year.getFullYear()
+    const minYear = (year.getFullYear() - 42)
+    this.maxYearChild = maxYear
+    this.minYearChild = minYear
+    const ChildForm = this.fb.group({
+      name:  ['',[ Validators.required, , Validators.pattern(VIETNAMESE_REGEX)] ] ,
+      yearOfBirth: ['', [Validators.required, Validators.min(minYear), Validators.max(this.maxYearChild), Validators.maxLength(4), Validators.pattern(/^[0-9]*$/)]] ,
       gender: ['', Validators.required],
     });
+    return ChildForm
   }
 
   addArchivedRecords() {
@@ -882,23 +890,48 @@ validateNumber(name: string | (string | number)[], event : Event){
       type: null,
       file: null
     }));
-
-    if (this.lstArchivedRecords.controls.length == 1) {
+    // Kiểm tra số lượng phần tử trong lstArchivedRecords
+    if (this.lstArchivedRecords.controls.length >= 1) {
       this.lstArchivedRecords.controls.forEach((control: any) => {
-        control.get('name')?.clearValidators();
-        control.get('code')?.clearValidators();
-        control.get('type')?.clearValidators();
-        control.get('file')?.clearValidators();
+        if(control.get('name')?.value || control.get('code')?.value || control.get('type')?.value || control.get('file')?.value){
+          control.get('name')?.setValidators(Validators.required);
+          control.get('code')?.setValidators(Validators.required);
+          control.get('type')?.setValidators(Validators.required);
+          control.get('file')?.setValidators(Validators.required);
+        }
       });
-    } else if (this.lstArchivedRecords.controls.length > 1) {
-      // Nếu có nhiều hơn một phần tử, thiết lập validators yêu cầu
-      this.lstArchivedRecords.controls.forEach((control: any) => {
+    } 
+    else if (this.lstArchivedRecords.controls.length >= 1) {
+      
+    this.lstArchivedRecords.controls.forEach((control: any) => {
+      // Kiểm tra nếu bất kỳ trường nào trong phần tử có giá trị
+      const hasValue =
+        control.get('name')?.value?.trim() ||
+        control.get('code')?.value?.trim() ||
+        control.get('type')?.value?.trim() ||
+        control.get('file')?.value?.trim();
+    
+      if (hasValue) {
+        // Thêm Validators.required cho tất cả các trường nếu bất kỳ trường nào có giá trị
         control.get('name')?.setValidators(Validators.required);
         control.get('code')?.setValidators(Validators.required);
         control.get('type')?.setValidators(Validators.required);
         control.get('file')?.setValidators(Validators.required);
-      });
-    }
+      } else {
+        // Xóa Validators.required nếu tất cả các trường đều trống
+        control.get('name')?.clearValidators();
+        control.get('code')?.clearValidators();
+        control.get('type')?.clearValidators();
+        control.get('file')?.clearValidators();
+      }
+    
+      // Cập nhật trạng thái của các trường
+      control.get('name')?.updateValueAndValidity();
+      control.get('code')?.updateValueAndValidity();
+      control.get('type')?.updateValueAndValidity();
+      control.get('file')?.updateValueAndValidity();
+    });    
+  }
   
     // Cập nhật lại giá trị và tính hợp lệ cho tất cả các trường trong form
     this.lstArchivedRecords.controls.forEach((control: any) => {
@@ -1346,6 +1379,7 @@ validateNumber(name: string | (string | number)[], event : Event){
 
   ///////////////////////////////////////////////////////save data////////////////////////////////////////////
   saveDataEmployee() {
+    this.form.markAllAsTouched()
     this.inforEmployee = this.form.value
     this.form.get('name')?.markAsTouched()
     this.form.get('yearOfBirth')?.markAsTouched()
@@ -1610,7 +1644,7 @@ validateNumber(name: string | (string | number)[], event : Event){
     this.form.get('toDate')?.updateValueAndValidity()
 
 
-    if(this.lstArchivedRecords.controls.length >= 2){
+    if(this.lstArchivedRecords.controls.length >= 1){
       this.lstArchivedRecords.controls.forEach((value: any) => {
         value.get('name')?.setValidators(Validators.required);
         value.get('code')?.setValidators(Validators.required);

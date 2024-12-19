@@ -60,7 +60,7 @@
         "working": "Đang làm việc",
         "relax": "Nghỉ phép",
         "relaxing": "Hiện đang nghỉ: ",
-        "schedule": "Lịch nghỉ phép"
+        "schedule": "Lịch nghỉ phép: "
      },
     "vehicle":{
         "vehicle_status":"Trạng thái hoạt động",

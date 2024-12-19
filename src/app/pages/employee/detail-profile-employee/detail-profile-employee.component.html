@@ -493,13 +493,13 @@
                                                         [value]="lstcontractDTO.at(i).get('file')?.value?.name || ''" />
                                                     <button *ngIf="isFixEmployeeButton == true" nz-button nzType="default" nzShape="circle" class="upload-button"
                                                         (click)="fileInput.click()" style="border: none; background:s transparent;" type="button">
-                                                        <i nz-icon nzType="paper-clip"></i>
+                                                        <i nz-icon nzType="paper-clip" ></i>
                                                         <input type="file" #fileInput (change)="onFileChangeContract($event, 'file', i)"
                                                             style="display: none;" />
                                                     </button>
-                                                    <button *ngIf="isFixEmployeeButton == false && lstcontractDTO.length > 0" nz-button nzType="default" matTooltip="Tải file" matTooltipPosition="above" nzShape="circle" class="upload-button"
+                                                    <button *ngIf="isFixEmployeeButton == false && lstcontractDTO.length > 0" nz-button nzType="default" class="upload-button"
                                                         type="button" (click)="downloadFileMinio('file', i, 'lstcontractDTO')" style="border: none; background: transparent;">
-                                                        <span nz-icon nzType="arrow-down" nzTheme="outline"></span>
+                                                        <span nz-icon nzType="arrow-down" matTooltip="Tải xuống" matTooltipPosition="above" nzShape="circle"  nzTheme="outline" matTooltipClass="custom-tooltip"></span>
                                                         
                                                     </button>
                                                 </div>
@@ -638,9 +638,9 @@
                                     <input type="file" #filebc (change)="onChangeImage($event, 'bcImage')"
                                         style="display: none;" accept=".png, .jpeg, .svg, .jpg, .heic, .webp"/>
                                 </button>
-                                <button *ngIf="isFixEmployeeButton == false && this.form.get('bcImage')?.value" nz-button nzType="default" matTooltip="Tải xuống" matTooltipPosition="above" nzShape="circle" class="upload-button"
+                                <button *ngIf="isFixEmployeeButton == false && this.form.get('bcImage')?.value" nz-button nzType="default" class="upload-button"
                                     type="button" (click)="downloadImage('bcImage')" style="border: none; background: transparent;">
-                                    <span nz-icon nzType="arrow-down" nzTheme="outline"></span>
+                                    <span nz-icon nzType="arrow-down" nzTheme="outline" matTooltip="Tải xuống" matTooltipPosition="above" nzShape="circle"  nzTheme="outline" matTooltipClass="custom-tooltip"></span>
             
                                 </button>
                             </div>
@@ -667,9 +667,9 @@
                                     <input type="file" #fileInput (change)="onChange($event, 'healthCertificate')"
                                         style="display: none;" />
                                 </button>
-                                <button *ngIf="isFixEmployeeButton == false && this.form.get('healthCertificate')?.value" nz-button nzType="default" matTooltip="Tải xuống" matTooltipPosition="above" nzShape="circle" class="upload-button"
+                                <button *ngIf="isFixEmployeeButton == false && this.form.get('healthCertificate')?.value" nz-button class="upload-button"
                                     type="button" (click)="downloadImage('healthCertificate')" style="border: none; background: transparent;">
-                                    <span nz-icon nzType="arrow-down" nzTheme="outline"></span>
+                                    <span nz-icon nzType="arrow-down" nzTheme="outline" matTooltip="Tải xuống" matTooltipPosition="above" nzShape="circle"  nzTheme="outline" matTooltipClass="custom-tooltip"></span>
                                 </button>
                             </div>
                             <div class="error-container">
@@ -772,9 +772,9 @@
                                     <input type="file" #fileImg (change)="onChangeImage($event, 'dlImage')" accept=".png, .jpeg, .svg, .jpg, .heic, .webp"
                                         style="display: none;" />
                                 </button>
-                                <button *ngIf="isFixEmployeeButton == false && this.form.get('dlImage')?.value" nz-button nzType="default" matTooltip="Tải xuống" matTooltipPosition="above" nzShape="circle" class="upload-button"
+                                <button *ngIf="isFixEmployeeButton == false && this.form.get('dlImage')?.value" class="upload-button"
                                     type="button" (click)="downloadImage('dlImage')" style="border: none; background: transparent;">
-                                    <span nz-icon nzType="arrow-down" nzTheme="outline"></span>
+                                    <span nz-icon nzType="arrow-down" nzTheme="outline" matTooltip="Tải xuống" matTooltipPosition="above" nzShape="circle"  nzTheme="outline" matTooltipClass="custom-tooltip"></span>
                                 </button>
                             </div>
                             <div *ngIf="form.get('dlImage')?.invalid && (form.get('dlImage')?.dirty) || form.get('dlImage')?.touched">
@@ -798,10 +798,10 @@
                             <div nz-col style="width: calc(25%)">
                                 <div class="mx-2">
                                     <div class="">
-                                        <label class="label-form">{{'employee.name_file' | translate}}</label>
+                                        <span class="required-star" >*</span><label class="label-form">{{'employee.name_file' | translate}}</label>
                                         <input nz-input class="form-input" formControlName="name" placeholder="Nhập" style="width: 100%"/>
                                         <div class="error-container">
-                                             <div *ngIf="doc.get('name')?.invalid && (doc.get('name')?.dirty) || doc.get('name')?.touched">
+                                             <div *ngIf="doc.get('name')?.invalid && doc.get('name')?.dirty || doc.get('name')?.touched ">
                                                  <span class="validate_input" *ngIf="doc.get('name')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                              </div>
                                         </div>
@@ -811,11 +811,11 @@
                             <div nz-col style="width: calc(20%)">
                                 <div class="mx-2">
                                     <div class="">
-                                        <label class="label-form">{{'employee.number1' | translate}}</label>
+                                        <span class="required-star" >*</span><label class="label-form">{{'employee.number1' | translate}}</label>
                                         <div>
                                             <input nz-input class="form-input" formControlName="code" placeholder="Nhập" />
                                             <div class="error-container">
-                                                <div *ngIf="doc.get('code')?.invalid && (doc.get('code')?.dirty) || doc.get('code')?.touched">
+                                                <div *ngIf="(doc.get('code')?.invalid && (doc.get('code')?.dirty) || doc.get('code')?.touched) ">
                                                     <span class="validate_input" *ngIf="doc.get('code')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                                 </div>
                                             </div>
@@ -826,11 +826,11 @@
                             <div nz-col style="width: calc(25%)">
                                 <div class="mx-2">
                                     <div class="">
-                                        <label class="label-form">{{'employee.type_file' | translate}}</label>
+                                        <span class="required-star" >*</span><label class="label-form">{{'employee.type_file' | translate}}</label>
                                         <div>
                                             <input nz-input class="form-input" formControlName="type" placeholder="Nhập" />
                                             <div class="error-container">
-                                                <div *ngIf="doc.get('type')?.invalid && (doc.get('type')?.dirty) || doc.get('type')?.touched">
+                                                <div *ngIf="(doc.get('type')?.invalid && (doc.get('type')?.dirty) || doc.get('type')?.touched) ">
                                                     <span class="validate_input" *ngIf="doc.get('type')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                                 </div>
                                             </div>
@@ -841,7 +841,7 @@
                             <div nz-col style="width: calc(20%)">
                                 <div class="mx-2">
                                     <div class="">
-                                        <label class="label-form">{{'employee.file_together' | translate}}</label>
+                                        <span class="required-star" >*</span><label class="label-form">{{'employee.file_together' | translate}}</label>
                                         <div>
     
                                             <div nz-row nzGutter="8" class="custom-upload"
@@ -855,14 +855,14 @@
                                                     <i nz-icon nzType="paper-clip"></i>
                                                     <input type="file" #fileInput (change)="onFileChangeAchi($event,'file', docIndex)" style="display: none;" />
                                                 </button>
-                                                <button *ngIf="isFixEmployeeButton == false && showInforEmployee['lstArchivedRecords'].length > 0" nz-button nzType="default" matTooltip="Tải file" matTooltipPosition="above" nzShape="circle" class="upload-button"
+                                                <button *ngIf="isFixEmployeeButton == false && showInforEmployee['lstArchivedRecords'].length > 0" nz-button nzType="default" class="upload-button"
                                                     type="button" (click)="downloadFileMinio('file', docIndex, 'lstArchivedRecords')" style="border: none; background: transparent;">
-                                                    <span nz-icon nzType="arrow-down" nzTheme="outline"></span>
+                                                    <span nz-icon nzType="arrow-down" nzTheme="outline" matTooltip="Tải xuống" matTooltipPosition="above" nzShape="circle"  nzTheme="outline" matTooltipClass="custom-tooltip"></span>
                                                     
                                                 </button>
                                             </div>
                                             <div class="error-container">
-                                                <div *ngIf="doc.get('file')?.invalid && (doc.get('file')?.dirty) || doc.get('file')?.touched">
+                                                <div *ngIf="(doc.get('file')?.invalid && (doc.get('file')?.dirty) || doc.get('file')?.touched) ">
                                                     <span class="validate_input"
                                                         *ngIf="doc.get('file')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                                 </div>
@@ -879,16 +879,19 @@
                                             d="M3 18.5C2.45 18.5 1.97917 18.3042 1.5875 17.9125C1.19583 17.5208 1 17.05 1 16.5V3.5H0V1.5H5V0.5H11V1.5H16V3.5H15V16.5C15 17.05 14.8042 17.5208 14.4125 17.9125C14.0208 18.3042 13.55 18.5 13 18.5H3ZM5 14.5H7V5.5H5V14.5ZM9 14.5H11V5.5H9V14.5Z"
                                             fill="#EF4444" />
                                     </svg>
-    
+                                    
                                 </button>
                                 <button type="button" (click)="cleanAchive()" *ngIf="lstArchivedRecords.length == 1 && showButtonClean">
-                                    <span style="color: rgb(46, 167, 183); font-size: 18px;" nz-icon nzType="edit" nzTheme="outline"></span>
+                                    <svg width="25px" height="25px" style="fill: #274EA1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5.50506 11.4096L6.03539 11.9399L5.50506 11.4096ZM3 14.9522H2.25H3ZM9.04776 21V21.75V21ZM11.4096 5.50506L10.8792 4.97473L11.4096 5.50506ZM13.241 17.8444C13.5339 18.1373 14.0088 18.1373 14.3017 17.8444C14.5946 17.5515 14.5946 17.0766 14.3017 16.7837L13.241 17.8444ZM7.21629 9.69832C6.9234 9.40543 6.44852 9.40543 6.15563 9.69832C5.86274 9.99122 5.86274 10.4661 6.15563 10.759L7.21629 9.69832ZM17.9646 12.0601L12.0601 17.9646L13.1208 19.0253L19.0253 13.1208L17.9646 12.0601ZM6.03539 11.9399L11.9399 6.03539L10.8792 4.97473L4.97473 10.8792L6.03539 11.9399ZM6.03539 17.9646C5.18538 17.1146 4.60235 16.5293 4.22253 16.0315C3.85592 15.551 3.75 15.2411 3.75 14.9522H2.25C2.25 15.701 2.56159 16.3274 3.03 16.9414C3.48521 17.538 4.1547 18.2052 4.97473 19.0253L6.03539 17.9646ZM4.97473 10.8792C4.1547 11.6993 3.48521 12.3665 3.03 12.9631C2.56159 13.577 2.25 14.2035 2.25 14.9522H3.75C3.75 14.6633 3.85592 14.3535 4.22253 13.873C4.60235 13.3752 5.18538 12.7899 6.03539 11.9399L4.97473 10.8792ZM12.0601 17.9646C11.2101 18.8146 10.6248 19.3977 10.127 19.7775C9.64651 20.1441 9.33665 20.25 9.04776 20.25V21.75C9.79649 21.75 10.423 21.4384 11.0369 20.97C11.6335 20.5148 12.3008 19.8453 13.1208 19.0253L12.0601 17.9646ZM4.97473 19.0253C5.79476 19.8453 6.46201 20.5148 7.05863 20.97C7.67256 21.4384 8.29902 21.75 9.04776 21.75V20.25C8.75886 20.25 8.449 20.1441 7.9685 19.7775C7.47069 19.3977 6.88541 18.8146 6.03539 17.9646L4.97473 19.0253ZM17.9646 6.03539C18.8146 6.88541 19.3977 7.47069 19.7775 7.9685C20.1441 8.449 20.25 8.75886 20.25 9.04776H21.75C21.75 8.29902 21.4384 7.67256 20.97 7.05863C20.5148 6.46201 19.8453 5.79476 19.0253 4.97473L17.9646 6.03539ZM19.0253 13.1208C19.8453 12.3008 20.5148 11.6335 20.97 11.0369C21.4384 10.423 21.75 9.79649 21.75 9.04776H20.25C20.25 9.33665 20.1441 9.64651 19.7775 10.127C19.3977 10.6248 18.8146 11.2101 17.9646 12.0601L19.0253 13.1208ZM19.0253 4.97473C18.2052 4.1547 17.538 3.48521 16.9414 3.03C16.3274 2.56159 15.701 2.25 14.9522 2.25V3.75C15.2411 3.75 15.551 3.85592 16.0315 4.22253C16.5293 4.60235 17.1146 5.18538 17.9646 6.03539L19.0253 4.97473ZM11.9399 6.03539C12.7899 5.18538 13.3752 4.60235 13.873 4.22253C14.3535 3.85592 14.6633 3.75 14.9522 3.75V2.25C14.2035 2.25 13.577 2.56159 12.9631 3.03C12.3665 3.48521 11.6993 4.1547 10.8792 4.97473L11.9399 6.03539ZM14.3017 16.7837L7.21629 9.69832L6.15563 10.759L13.241 17.8444L14.3017 16.7837Z" fill="#1C274C"/>
+                                        <path d="M9 21H21" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
+                                        </svg>
                                 </button>
                             </div>
                         </div>
                         <div nz-row class="w-full" style="margin-bottom: 31px;">
                             <div nz-row *ngIf="isFixEmployeeButton == true">
-                                <button (click)="addArchivedRecords()" type="button" class="button_add mx-2"><svg
+                                    <button (click)="addArchivedRecords()" type="button" class="button_add mx-2"><svg
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -921,11 +924,11 @@
                                         <div class="">
                                             <label class="label-form"><span class="required-star">*</span>{{'employee.name_child' | translate}}</label>
                                             <div>
-                                                <input  nz-input class="form-input" (input)="validateText(['lstChildren', childIndex, 'name'],$event)"  (blur)="onBlur(['lstChildren', childIndex, 'name'])"  formControlName="name" placeholder="Nhập"  style="width: 100%"  />
+                                                <input  nz-input class="form-input" (input)="validateText(['lstChildren', childIndex, 'name'],$event)" formControlName="name" placeholder="Nhập"  style="width: 100%"  />
                                                     <div class="error-container">
-                                                        <div *ngIf="child.get('name')?.touched && has_child == 1">
-                                                            <span class="validate_input" *ngIf="child.get('name')?.errors?.['required']">{{'required.name_child' | translate}}</span>
-                                                            <span class="instruct" *ngIf="child.get('name')?.errors?.['pattern']">{{'required.cannotBlank' | translate}}</span>
+                                                        <div *ngIf="child.get('name')?.invalid && child.get('name')?.dirty || child.get('name')?.touched && has_child == 1">
+                                                            <span class="validate_input" *ngIf="child.get('name')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                                                            <span class="instruct" *ngIf="child.get('name')?.errors?.['pattern']">{{'required.text_pattern' | translate}}</span>
 
                                                         </div>
                                                     </div>
@@ -938,10 +941,10 @@
                                         <div class="">
                                             <label class="label-form"><span class="required-star">*</span>{{'employee.yearOfBirth' | translate}}</label>
                                             <div>
-                                                <input nz-input class="form-input" type="number" (input)="validateYearOfBirthChild(['child','yearOfBirth'],$event)" maxlength="4" formControlName="yearOfBirth" placeholder="Nhập năm" style="width: 100%"/>
+                                                <input nz-input class="form-input" type="text" maxlength="4" (input)="validateYearOfBirthChild(['child','yearOfBirth'],$event)" formControlName="yearOfBirth" placeholder="Nhập năm" style="width: 100%"/>
                                                 <div class="error-container">
                                                     <div *ngIf="(child.get('yearOfBirth')?.invalid && child.get('yearOfBirth')?.dirty || child.get('yearOfBirth')?.touched) && has_child == 1">
-                                                        <span class="validate_input" *ngIf="child.get('yearOfBirth')?.errors?.['required']" >{{'required.cannotBlank' | translate}}</span>
+                                                        <span class="validate_input"  *ngIf="child.get('yearOfBirth')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                                         <span class="instruct" *ngIf="child.get('yearOfBirth')?.errors?.['pattern']" >{{'required.number_pattern' | translate}}</span>
                                                         <span class="instruct" *ngIf="child.get('yearOfBirth')?.errors?.['min'] && !child.get('yearOfBirth')?.errors?.['pattern']"> {{('required.minYearEmployee' | translate) + minYearChild}}</span>
                                                         <span class="instruct" *ngIf="child.get('yearOfBirth')?.errors?.['max'] && !child.get('yearOfBirth')?.errors?.['pattern']"> {{('required.maxYearEmployee' | translate) + maxYearChild}}</span>
@@ -966,7 +969,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div nz-col *ngIf="(lstChildren.length > 1 || ( lstChildren.at(0).valid && has_child == '1'))  && isFixEmployeeButton == true"
+                                <div nz-col *ngIf="(lstChildren.length > 1 || ( lstChildren.at(0).valid && has_child == 1))  && isFixEmployeeButton == true"
                                     style="display: flex; justify-content: center; align-items: center; margin-left: 7px;">
                                     <a (click)="removelstChildren(childIndex)"  style=" border: none;">
                                         <svg width="16" height="19" viewBox="0 0 16 19" fill="none"
@@ -981,7 +984,7 @@
     
                             </div>
                         </div>
-                        <div nz-row class="w-full"  [class.disabled-input]="has_child == '0' || form.get('hasChild')?.value == '0' " >
+                        <div nz-row class="w-full"  [class.disabled-input]="has_child == 0 || form.get('hasChild')?.value == 0 " >
                             <div *ngIf="isFixEmployeeButton == true">
                                 <button type="button" (click)="addlstChildren()" class="button_add mx-2"><svg
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
