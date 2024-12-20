@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, input, OnInit } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
@@ -162,7 +162,9 @@ export class SetupProfileEmployeeComponent implements OnInit {
     private routes: Router,
     private uploadImageService: UploadImageService,
     private validateService: ValidateIntoPageService,
-    private changeFunctionService: ChangeFunctionService
+    private changeFunctionService: ChangeFunctionService,
+    private cdr: ChangeDetectorRef
+
   ) {
     this.form = this.fb.group(this.data)
   }
@@ -653,7 +655,7 @@ onBlurNumber(path: string | (string | number)[]) {
     localStorage.removeItem('activeLink')
     localStorage.setItem('activeLink','employeeProfile')
     this.routes.navigate(['employee/list-employee-profile'])
-    
+    this.cdr.detectChanges()
   }
 
 
@@ -1303,7 +1305,7 @@ nameOfPDF(): string {
     const toDate = this.form.get('toDate')?.value; 
     const fromDateProbation =  this.form.get('fromDateProbation')?.value; 
     const bcStartDate = this.form.get('bcStartDate')?.value; 
-    const dlStartDate = this.form.get('bcStartDate')?.value; 
+    const dlStartDate = this.form.get('dlStartDate')?.value; 
 
     if(this.contract_type == 1){
       this.fromDateOfOffical = this.form.value.fromDateOfOffical

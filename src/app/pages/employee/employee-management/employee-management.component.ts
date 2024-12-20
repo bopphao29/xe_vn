@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
-
+import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -17,7 +17,8 @@ import { CommonModule } from '@angular/common';
     TranslateModule,
     NzTabsModule,
     NzRadioModule,
-    CommonModule
+    CommonModule,
+    RouterModule
     // SetupProfileEmployeeComponent,
     // ListProfileEmployeeComponent,
     // ListEmployeeProbationComponent,
@@ -30,7 +31,8 @@ export class EmployeeManagementComponent implements OnInit{
   activeLink : string ='employeeManagement'
 
   constructor (
-    private routes: Router
+    private routes: Router,
+    
   ){}
   ngOnInit(): void {
     const savedLink = localStorage.getItem('activeLink')

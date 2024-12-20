@@ -1714,7 +1714,7 @@ validateNumber(name: string | (string | number)[], event : Event){
         }
       })
     }else{
-      this.notification.error('Có trường để trống!')
+      this.notification.error('Kiểm tra lại các trường bắt buộc!')
 
     }
   }

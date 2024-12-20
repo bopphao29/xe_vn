@@ -26,7 +26,7 @@
 
     <nav class="routerPage">
       <a (click)="routerEmployeeManagement()" [ngClass]="{'active': activeLink === 'employeeManagement'}" >Thiết lập hồ sơ nhân sự</a>
-      <a (click)="routerListEmployeeProfile()" [ngClass]="{'active': activeLink === 'employeeProfile'}">Danh sách hồ sơ nhân sự</a>
+      <a (click)="routerListEmployeeProfile()" [routerLink]="['employee/list-employee-profile']"  [routerLinkActive]="'active'"  [ngClass]="{'active': activeLink === 'employeeProfile'}">Danh sách hồ sơ nhân sự</a>
       <!-- <a routerLink="/admin" routerLinkActive="active">Admin</a> -->
       <a (click)="routerListEmployeeProbation()" [ngClass]="{'active': activeLink === 'employeeeProbation'}">DS nhân viên thử việc</a>
       <a (click)="routerListEmployeeViolatesDiscipline()" [ngClass]="{'active': activeLink === 'employeeViolatesDiscipline'}">DS nhân viên vi phạm kỷ luật</a>
