@@ -325,7 +325,7 @@ listDayOfVS: any[] = []
     this.form.get('branchId')?.setValue('')
     this.form.get('departmentId')?.setValue('')
     this.form.get('positionId')?.setValue('')
-    this.form.get('status')?.setValue('')
+    this.form.get('workingStatus')?.setValue('')
     localStorage.removeItem('search')
   }
 

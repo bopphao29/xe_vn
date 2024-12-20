@@ -911,7 +911,7 @@
 </form>
 
 <nz-modal [(nzVisible)]="isModalInforEmployee" (nzOnCancel)="handleCancel()" (nzOnOk)="handleSubmit()"
-    [nzContent]="modalContent" [nzFooter]="null" [nzStyle]="{'max-width' : '80vw', 'max-height':'100vh'}">
+    [nzContent]="modalContent" [nzFooter]="null" [nzStyle]="{'min-width' : '80vw', 'max-height':'100vh'}">
     <ng-template #modalContent>
         <div class="headmodal">
             <span style="font-weight: 500; font-size: 24px;">Thông tin nhân sự</span>

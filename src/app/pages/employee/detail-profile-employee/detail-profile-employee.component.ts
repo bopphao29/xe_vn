@@ -270,11 +270,8 @@ export class DetailProfileEmployeeComponent implements OnInit {
     })
 
     this.form.get('hasChild')?.valueChanges.subscribe((value: any) => {
-      this.hasChildren = value
-      console.log(this.hasChildren)
-      if(value == 1){
-        this.has_child == 1
-      }
+      this.has_child = value
+
     })
   }
 
@@ -385,7 +382,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
       }
       if(response.data.hasChild != null){
         this.form.get('hasChild')?.setValue(response.data.hasChild.toString())
-        this.has_child = Number(response.data.hasChild)
+        this.has_child = response.data.hasChild
       }
       if(response.data.fromDate != null){
         if(response.data.contractType == 2){
@@ -1036,16 +1033,6 @@ validateNumber(name: string | (string | number)[], event : Event){
 
 
   hasChildren: number = -10
-
-  checkChild() {
-    this.form.get('hasChild')?.valueChanges.subscribe((value: any) => {
-      this.hasChildren = value
-      console.log(this.hasChildren)
-      if(value == 1){
-        this.has_child == 1
-      }
-    })
-  }
 
   checkContractType: number = 0
   checkWork(){
