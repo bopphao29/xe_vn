@@ -63,6 +63,13 @@
         "schedule": "Lịch nghỉ phép: "
      },
     "vehicle":{
+        "setupVehicle":"Thiết lập hồ sơ phương tiện",
+        "vehicleProfileManagement":"Quản lý hồ sơ phương tiện",
+        "maintenanceRepair":"Bảo dưỡng sửa chữa",
+        "deepInteriorCleaning":"Vệ sinh nội thất chuyên sâu",
+        "operationalManagement":"Quản lý km vận hành",
+        "operaterTimeManagement":"Quản lý thời gian vận hành",
+        "fuelAnagement":"Quản lý nhiên liệu",
         "vehicle_status":"Trạng thái hoạt động",
         "profile_vehicle":"Hồ sơ phương tiện",
         "account_infor":"Thông tin tài chính",
@@ -153,7 +160,9 @@
         "replacementSupplies":"Vật tư thay thế",
         "priority":"Ưu tiên bảo dưỡng trước",
         "enterAllInStar":"Nhập đủ tất cả các trường thông tin có dấu *",
-        "router":"Tuyến"
+        "router":"Tuyến",
+        "routerVehicle":"Xe tuyến",
+        "transitVehicle": "Xe trung chuyển"
     },
     "navbar": {
         "ras": "Liên hệ",
@@ -165,6 +174,12 @@
         "sam_info": "Thông tin"
     },
     "employee": {
+        "employeeManagement": "Thiết lập hồ sơ nhân sự",
+        "employeeProfile": "Danh sách hồ sơ nhân sự",
+        "employeeeProbation": "DS nhân viên thử việc",
+        "employeeViolatesDiscipline":"DS nhân viên vi phạm kỷ luật",
+        "employeeResign":"DS nhân viên nghỉ việc",
+        "employeeSalarySetup": "Thiết lập lương cơ sở và BHXH",
         "employeeName": "Tên nhân viên",
         "yearOfBirth":"Năm sinh",
         "gender": "Giới tính",
@@ -326,8 +341,9 @@
         "vehicleModel":"Cần nhập mẫu xe"
     },
     "pattern":{
-        "registerNo":"BKS dạng A...-01...",
-        "zalo": "Chỉ nhập số hoặc chữ"
+        "registerNo":"Nhập dạng biển số: 29F1-963.32",
+        "zalo": "Chỉ nhập số hoặc chữ",
+        "numberAndEnglishText": "Nhập số và chữ tiếng anh"
         },
     "home-default": "tieng viet"
 }

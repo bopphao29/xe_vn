@@ -478,6 +478,7 @@ export class DetailProfileEmployeeComponent implements OnInit {
 
         })
       }else{
+        
         arr.push(this.fb.group({
           code: null,
           name: null,
@@ -519,14 +520,17 @@ export class DetailProfileEmployeeComponent implements OnInit {
         }) 
       }
       else{
+        let year = new Date()
+        const maxYear = year.getFullYear()
+        const minYear = (year.getFullYear() - 42)
+        this.maxYearChild = maxYear
+        this.minYearChild = minYear
         arrCh.push(this.fb.group({
-          name: '',
-          yearOfBirth: '',
-          gender: ''   
+          name:  ['',[ Validators.required, , Validators.pattern(VIETNAMESE_REGEX)] ] ,
+          yearOfBirth: ['', [Validators.required, Validators.min(minYear), Validators.max(this.maxYearChild), Validators.maxLength(4), Validators.pattern(/^[0-9]*$/)]] ,
+          gender: ['', Validators.required],
         }))
       }
-
-      
       this.form.disable();
 
     })
@@ -1334,11 +1338,11 @@ validateNumber(name: string | (string | number)[], event : Event){
 
     const router = localStorage.getItem('activeLink')
     if(router === 'employeeProfile'){
-      event.preventDefault();
+      // event.preventDefault();
       this.router.navigate(['employee/list-employee-profile']);
     }
     if(router === 'employeeeProbation'){
-      event.preventDefault();
+      // event.preventDefault();
       this.router.navigate(['employee/list-employee-probation']);
 
     }
@@ -1463,21 +1467,25 @@ validateNumber(name: string | (string | number)[], event : Event){
       this.form.get('dlImage')?.clearValidators();
     }
     this.form.get('hasChild')?.markAsTouched()
-    // if(this.lstArchivedRecords.value){
-    //   this.lstArchivedRecords.controls.forEach((value: any) => {
-    //     value.get('name')?.markAsTouched();
-    //     value.get('code')?.markAsTouched();
-    //     value.get('type')?.markAsTouched();
-    //     value.get('file')?.markAsTouched();
-    //   })
-    // }
-    if(this.has_child && this.has_child  == '1' ){
+
+    if(this.has_child  == 1 ){
       this.lstChildren.controls.forEach((value: any) => {
-        value.get('name')?.markAsTouched();
-        value.get('gender')?.markAsTouched();
-        value.get('yearOfBirth')?.markAsTouched();
+        value.get('name')?.setValidators(Validators.required);
+        value.get('gender')?.setValidators(Validators.required);
+        value.get('yearOfBirth')?.setValidators(Validators.required);
+      })
+    }else{
+      this.lstChildren.controls.forEach((value: any) => {
+        value.get('name')?.clearValidators()
+        value.get('gender')?.clearValidators()
+        value.get('yearOfBirth')?.clearValidators()
       })
     }
+    this.lstChildren.controls.forEach((value: any) => {
+      value.get('name')?.updateValueAndValidity()
+      value.get('gender')?.updateValueAndValidity()
+      value.get('yearOfBirth')?.updateValueAndValidity()
+    })
     if(this.lstcontractDTO.value){
       this.lstcontractDTO.controls.forEach((value: any) => {
         value.get('signDate')?.markAsTouched();

@@ -944,7 +944,7 @@
                                             <div>
                                                 <input nz-input class="form-input" type="text" maxlength="4" (input)="validateYearOfBirthChild(['child','yearOfBirth'],$event)" formControlName="yearOfBirth" placeholder="Nhập năm" style="width: 100%"/>
                                                 <div class="error-container">
-                                                    <div *ngIf="(child.get('yearOfBirth')?.invalid && child.get('yearOfBirth')?.dirty || child.get('yearOfBirth')?.touched) && has_child == 1">
+                                                    <div *ngIf="child.get('yearOfBirth')?.invalid && child.get('yearOfBirth')?.dirty || child.get('yearOfBirth')?.touched">
                                                         <span class="validate_input"  *ngIf="child.get('yearOfBirth')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                                         <span class="instruct" *ngIf="child.get('yearOfBirth')?.errors?.['pattern']" >{{'required.number_pattern' | translate}}</span>
                                                         <span class="instruct" *ngIf="child.get('yearOfBirth')?.errors?.['min'] && !child.get('yearOfBirth')?.errors?.['pattern']"> {{('required.minYearEmployee' | translate) + minYearChild}}</span>

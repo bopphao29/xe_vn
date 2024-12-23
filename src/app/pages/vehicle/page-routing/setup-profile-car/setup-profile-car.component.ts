@@ -25,6 +25,7 @@ import { Router } from '@angular/router';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ValidateIntoPageService } from '../../../../shared/services/validate-into-page.service';
+import { routerLink } from '../../../../shared/services/router-link.service';
 
 interface FileCompressed {
   file: File[]
@@ -82,6 +83,7 @@ export class SetupProfileCarComponent implements OnInit {
     private uploadImageService: UploadImageService,
     private routes: Router,
     private validateService: ValidateIntoPageService,
+    private routerVehicle : routerLink
     
   ) {
   }
@@ -112,15 +114,15 @@ export class SetupProfileCarComponent implements OnInit {
   ngOnInit() {
     var year = new Date()
     const maxYear = new Date().getFullYear()
-    const minYear = (year.getFullYear() - 60)
+    const minYear = (year.getFullYear() - 100)
     this.maxYear = maxYear
     this.minYear = minYear
     this.form = this.fb.group({
         isNew: [null, Validators.required],
-        registerNo: [null, [Validators.required]],
-        frameNumber: [null, [Validators.maxLength(17), Validators.pattern(/^[0-9]*$/)]],
-        machineNumber: [null, [Validators.maxLength(17), Validators.pattern(/^[0-9]*$/)]],
-        manufactureYear: [null, [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.max(maxYear),Validators.maxLength(4)]],
+        registerNo: [null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9.-]+$/)]],
+        frameNumber: [null, [Validators.maxLength(17), Validators.pattern(/^[A-HJ-NP-Z0-9]{1,17}$/)]],
+        machineNumber: [null, [Validators.maxLength(17), Validators.pattern(/^[A-HJ-NP-Z0-9]{1,17}$/)]],
+        manufactureYear: [null, [Validators.required, Validators.pattern(/^[0-9]*$/), Validators.min(minYear), Validators.max(maxYear),Validators.maxLength(4)]],
         manufacturer: [null, [Validators.required, Validators.pattern(VIETNAMESE_REGEX)]],
         vehicleModelId: [null, Validators.required],
         vehicleTypeId: [null, [Validators.required]],
@@ -158,7 +160,7 @@ export class SetupProfileCarComponent implements OnInit {
         driver: this.fb.group({
           driverId: null,
           driverName: [null],
-          driverStatus: ['0'],
+          driverType: ['0'],
           phoneNumber: null,
           startDate: [null],
           endDate: [null]
@@ -176,7 +178,7 @@ export class SetupProfileCarComponent implements OnInit {
       // });
       
 
-      this.form.get('driver.driverStatus')?.valueChanges.subscribe((value: any)=> {
+      this.form.get('driver.driverType')?.valueChanges.subscribe((value: any)=> {
         if(value === '0' || value === 0){
           this.status_vehicle = 0
         }else{
@@ -303,16 +305,20 @@ export class SetupProfileCarComponent implements OnInit {
     this.isDone = false
   }
 
-  handleSubmitDone(){
-    this.routes.navigate(['vehicle/profile-vehicle-management'])
-    localStorage.setItem('activeLink','vehicleProfileManagement')
+  dataRouter:string = 'vehicleProfileManagement'
+
+  handleSubmitDone(name : string){
+    localStorage.removeItem('activeLink')
+    localStorage.setItem('activeLink','employeeProfile')
+    this.routes.navigate(['employee/list-employee-profile'])
+    this.routerVehicle.update(this.dataRouter)
   }
 
   ///////reset form/////
   resetForm(){
     this.form.reset({
       driver: {
-        driverStatus: 0 || '0',
+        driverType: 0 || '0',
       }
     })
     this.isSubmitted = false;
@@ -324,7 +330,7 @@ export class SetupProfileCarComponent implements OnInit {
   endClick(){
     this.isDone = false
     this.form.reset({
-      driverStatus: this.form.get('driverStatus')?.value || '0',
+      driverStatus: this.form.get('driverType')?.value || '0',
     })
   }
 
@@ -342,8 +348,16 @@ validateNumber(name:string , event : Event){
   this.validateService.validateNumber(this.form, name, event)
 }
 
+validateYear(name: string | (string | number)[], event: Event){
+  this.validateService.validateYearOfBirth(this.form, name,event, this.minYear, this.maxYear)
+}
+
 validatorsRequired(name: string | (string | number)[]){
   this.validateService.validatorsRequired(this.form, name)
+}
+
+validatorNumberAndEnglishText(name: string | (string | number)[], event : Event){
+  this.validateService.validatorNumberAndEnglishText(this.form, name, event)
 }
 
 //////////////////////////////định dạng tiền////////////////////////////////////////
@@ -581,6 +595,22 @@ disableBeforeDateDriver(name: string): (currentDate: Date | null) => boolean {
     // console.log(formData.append('data', JSON.stringify(dataForm)))
 
     this.form.markAllAsTouched(); 
+    this.form.get('firstSubscriptionDate')?.clearValidators()
+    this.form.get('fristRegistrationDate')?.clearValidators()
+    this.form.get('firstStartDateXE')?.clearValidators()
+    if(this.is_New == 0){
+        this.form.get('firstSubscriptionDate')?.setValidators(Validators.required)
+        this.form.get('fristRegistrationDate')?.setValidators(Validators.required)
+        this.form.get('firstStartDateXE')?.setValidators(Validators.required)
+    }
+    else{
+      this.form.get('firstSubscriptionDate')?.clearValidators()
+        this.form.get('fristRegistrationDate')?.clearValidators()
+        this.form.get('firstStartDateXE')?.clearValidators()
+    }
+    this.form.get('firstSubscriptionDate')?.updateValueAndValidity()
+    this.form.get('fristRegistrationDate')?.updateValueAndValidity()
+    this.form.get('firstStartDateXE')?.updateValueAndValidity()
     // console.log(this.form.get('isNew')?.value)
 
     if (this.form.valid) {

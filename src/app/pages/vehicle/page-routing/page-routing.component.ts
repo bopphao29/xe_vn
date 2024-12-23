@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { VehicalManagementComponent } from '../vehical-management/vehical-management.component';
+import { VehicalManagementComponent } from './vehical-management/vehical-management.component';
 import { RouterModule } from '@angular/router';
 
 @Component({

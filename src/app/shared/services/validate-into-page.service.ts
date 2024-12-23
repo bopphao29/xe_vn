@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NotificationService } from './notification.service';
 import { AbstractControl, FormGroup, Validators } from '@angular/forms';
-import { NUMBER_REGEX, VIETNAMESE_REGEX } from '../constants/common.const';
+import { NUMBER_REGEX, VIETNAMESE_REGEX, ENGLISHTEXT_AND_NUMBER } from '../constants/common.const';
 import { error } from 'pdf-lib';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -56,25 +56,49 @@ export class ValidateIntoPageService {
     }
   }
   
-
-  validateYearOfBirth(form: FormGroup,path: string | (string | number)[] ,event: Event, minYear: number, maxyear: number) {
-    const valueNum = event.target as HTMLInputElement;
+  // nếu có value:
+  // -nếu mà checkNumber là false thì:
+  // check giá trị value, nếu giá trị nhỏ hơn hoặc lớn hơn thì setvalidate.min max
+  // - nếu điều kiện checkNumber là true:
+  // set validators.pattern
+  // nếu không có value: validators.required
+  validateYearOfBirth(form: FormGroup,
+    path: string | (string | number)[],
+    event: Event,
+    minYear: number,
+    maxYear: number
+  ) {
+    const valueInput = (event.target as HTMLInputElement).value; // Lấy giá trị từ input
   
-    // Kiểm tra ký tự đầu tiên
-    if ((valueNum.value)) {
-      const checkNumber = /[^0-9]/.test(valueNum.value)
-      if(checkNumber){
-        form.get(path)?.setValidators(Validators.pattern(NUMBER_REGEX));
-      }else{
-        form.get(path)?.setValidators([Validators.min(minYear), Validators.max(maxyear)])
+    if (valueInput) {
+      const checkNumber = /[^0-9]/.test(valueInput); // Kiểm tra có ký tự không phải số
+  
+      if (!checkNumber) {
+        // Nếu chuỗi chỉ chứa số
+        const numericValue = Number(valueInput);
+  
+        if (numericValue < minYear || numericValue > maxYear) {
+          // Nếu nằm ngoài khoảng [minYear, maxYear]
+          form.get(path)?.setValidators([
+            Validators.min(minYear),
+            Validators.max(maxYear),
+          ]);
+        } else {
+          // Nếu nằm trong khoảng hợp lệ
+          form.get(path)?.clearValidators(); // Xóa tất cả validators
+        }
+      } else {
+        // Nếu chuỗi chứa ký tự không phải số
+        form.get(path)?.setValidators(Validators.pattern(NUMBER_REGEX)); // Validator pattern cho số
       }
-    }else{
-      form.get(path)?.setValidators(Validators.required)
+    } else {
+      // Nếu không có giá trị
+      form.get(path)?.setValidators(Validators.required); // Validator required
     }
-    form.get(path)?.updateValueAndValidity(); 
-
+  
+    form.get(path)?.updateValueAndValidity(); // Cập nhật lại validators
   }
-
+  
   
   validateEnterTextNumber(form: FormGroup, path: string | (string | number)[], event: Event) {
     const valueInput = (event.target as HTMLInputElement).value.trim();
@@ -204,16 +228,6 @@ export class ValidateIntoPageService {
     // Giá trị giới hạn
     var year = new Date()
   
-    // if(path == 'yearOfBirth'){
-  
-    //   this.minYearDadorChild = (year.getFullYear() - 18)
-    //   this.maxYearDadorChild = (year.getFullYear() - 60)
-    // }
-    // else{
-    //   this.minYearDadorChild = (year.getFullYear() - 42)
-    //   this.maxYearDadorChild = year.getFullYear()
-    // }
-  
     if (value) {
       const cleanStr = value.test(/[^0-9]/g, ""); // Chỉ giữ lại các ký tự số
   
@@ -222,13 +236,7 @@ export class ValidateIntoPageService {
         control?.setValidators([Validators.required]);
       } else {
         const numericValue = parseInt(cleanStr, 10); // Chuyển chuỗi số thành số nguyên
-  
-        // Thêm các validator `min`, `max`, và `required`
-        // control?.setValidators([
-        //   Validators.required,
-        //   Validators.min(this.minYearDadorChild),
-        //   Validators.max(this.maxYearDadorChild),
-        // ]);
+
         control?.setValue(numericValue); // Đảm bảo giá trị được làm sạch
       }
     } else {
@@ -238,6 +246,29 @@ export class ValidateIntoPageService {
   
     // Cập nhật trạng thái form control
     control?.updateValueAndValidity();
+  }
+
+
+  validatorNumberAndEnglishText(form: FormGroup, path: string | (string | number)[], event: Event){
+    const valueInput = (event.target as HTMLInputElement).value.trim(); // Lấy giá trị và loại bỏ khoảng trắng đầu/cuối
+  const control = form.get(path);
+
+  if (valueInput) {
+    // Nếu có giá trị
+    const checkValue = ENGLISHTEXT_AND_NUMBER.test(valueInput); // Kiểm tra giá trị có hợp lệ không
+    if (checkValue) {
+      // Nếu là chữ tiếng Anh và số
+      control?.clearValidators(); // Loại bỏ tất cả validators
+    } else {
+      // Nếu không hợp lệ
+      control?.setValidators(Validators.pattern(ENGLISHTEXT_AND_NUMBER)); // Set pattern validator
+    }
+  } else {
+    // Nếu không có giá trị
+    control?.setValidators(Validators.required); // Set required validator
+  }
+
+  control?.updateValueAndValidity();
   }
   
 }

@@ -1,0 +1,816 @@
+<div class="p-4 pb-0" style="background-color: #f7f7f7; padding-bottom: 100px; ">
+    <form nz-form nzGutter="16" class="w-full" nzLayout="vertical" [formGroup]="form" (submit)="saveDataEmployee()">
+        <div nz-row>
+            <div nz-col nzSpan="14">
+                <button type="button" (click)="onBack($event); " class="flex" style="margin-top: 10px;">
+                    <span class="mx-2 " style="margin-top: 3px ; cursor: pointer;">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.825 9L9.425 14.6L8 16L0 8L8 0L9.425 1.4L3.825 7H16V9H3.825Z" fill="#274EA1" />
+                        </svg>
+                    </span>
+                    <span>
+                        Quay lại
+                        
+                    </span>
+                </button>
+                </div>
+            <div nz-col nzSpan="10">
+                <div class="flex justify-end" style="gap: 8px;">
+                    <span class="" *ngIf="isFixEmployeeButton == false">
+                        <button type="button" class="button-infor" nz-button style="color: #274EA1;" nzType="default">
+                            <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8.49595 15L3.83337 10.2599L4.99902 9.07484L8.49595 12.6299L16.0011 5L17.1667 6.18503L8.49595 15Z" fill="#274EA1"/>
+                                </svg>                                
+                            <span>Duyệt</span>
+                        </button>
+                    </span>
+                    
+                    <span class="" *ngIf="isFixEmployeeButton == false">
+                        <button type="button" class="button-infor" (click)="onFix()" nz-button style="color: #274EA1;" nzType="default">
+                            <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M0 15.5V11.9583L11 0.979167C11.1667 0.826389 11.3507 0.708333 11.5521 0.625C11.7535 0.541667 11.9653 0.5 12.1875 0.5C12.4097 0.5 12.625 0.541667 12.8333 0.625C13.0417 0.708333 13.2222 0.833333 13.375 1L14.5208 2.16667C14.6875 2.31944 14.809 2.5 14.8854 2.70833C14.9618 2.91667 15 3.125 15 3.33333C15 3.55556 14.9618 3.76736 14.8854 3.96875C14.809 4.17014 14.6875 4.35417 14.5208 4.52083L3.54167 15.5H0ZM12.1667 4.5L13.3333 3.33333L12.1667 2.16667L11 3.33333L12.1667 4.5Z"
+                                    fill="#274EA1" />
+                            </svg>
+        
+                            <span>Sửa</span>
+                        </button>
+                    </span>
+                    <!-- <span  class="" *ngIf="isFixEmployeeButton == false">
+                        <button type="button" class="button-infor" nz-button style="border-color: #EF4444 !important;" nzType="default">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path style="fill:#EF4444 ;" d="M1.33335 11.8334L0.166687 10.6667L4.83335 6.00008L0.166687 1.33341L1.33335 0.166748L6.00002 4.83341L10.6667 0.166748L11.8334 1.33341L7.16669 6.00008L11.8334 10.6667L10.6667 11.8334L6.00002 7.16675L1.33335 11.8334Z" fill="#EF4444"/>
+                                </svg>
+                                
+                            <span style="color: #EF4444; font-size: 16px;font-weight: 500;">Thôi việc</span>
+                        </button>
+                    </span> -->
+                    <span  class="" *ngIf="isFixEmployeeButton == false">
+                        <button type="button" class="button-infor" nz-button style="color: #274EA1;" nzType="default">
+                            <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M11.6667 3.33333H2.33333C1.22667 3.33333 0.333332 4.22667 0.333332 5.33333V8C0.333332 8.73333 0.933332 9.33333 1.66667 9.33333H3V10.6667C3 11.4 3.6 12 4.33333 12H9.66667C10.4 12 11 11.4 11 10.6667V9.33333H12.3333C13.0667 9.33333 13.6667 8.73333 13.6667 8V5.33333C13.6667 4.22667 12.7733 3.33333 11.6667 3.33333ZM9 10.6667H5C4.63333 10.6667 4.33333 10.3667 4.33333 10V7.33333H9.66667V10C9.66667 10.3667 9.36667 10.6667 9 10.6667ZM11.6667 6C11.3 6 11 5.7 11 5.33333C11 4.96667 11.3 4.66667 11.6667 4.66667C12.0333 4.66667 12.3333 4.96667 12.3333 5.33333C12.3333 5.7 12.0333 6 11.6667 6ZM10.3333 0H3.66667C3.3 0 3 0.3 3 0.666667V2C3 2.36667 3.3 2.66667 3.66667 2.66667H10.3333C10.7 2.66667 11 2.36667 11 2V0.666667C11 0.3 10.7 0 10.3333 0Z"
+                                    fill="#274EA1" />
+                            </svg>
+                            <span>In</span>
+                        </button>
+                    </span>
+                    <div class="flex justify-end" *ngIf="isFixEmployeeButton == true">
+                        <span>
+                            <button class="button" type="button" (click)="cancelFix()" nz-button style="color: #274EA1; border: 1px solid #274EA1;" nzType="default">Hủy</button>
+                        </span>
+                        <span class="ml-2">
+                            <button class="button" type="submit" style="background-color: #274EA1; color: white;" nz-button nzType="default"
+                                >Lưu</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+        <span class="label_setup mx-2">{{'vehicle.detail_vehicle_infor' | translate}}</span>
+
+        <div style="background-color: #fff; border-radius: 5px;">
+            <div class="p-4 pb-0 form-container">
+                <div class="input-wrapper">
+                    <div class="">
+                      <span class="required-star" >*</span><label class="label-form" for="" >{{'vehicle.vehicle_status' | translate}}</label>
+                      <nz-select nzPlaceHolder="Chọn" class="nzSelect"  formControlName="status">
+                        <nz-option nzValue="0" nzLabel="Không hoạt động"></nz-option>
+                        <nz-option nzValue="1" nzLabel="Đang hoạt động"></nz-option>
+                      </nz-select>
+                      <div class="error-container">
+                          <div *ngIf="form.get('status')?.invalid && (form.get('status')?.dirty) || form.get('status')?.touched">
+                              <span class="validate_input" *ngIf="form.get('status')?.hasError('required')">{{'required.cannotBlank' | translate}}</span>
+                          </div>
+                      </div>
+                  </div>
+                  </div>
+            </div>
+        </div>
+
+        <div style="background-color: #fff; border-radius: 5px;">
+            <div class="p-4 pb-0 form-container">
+        
+              <div class="input-wrapper">
+                <div class="">
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'vehicle.registerNo' | translate}}</label>
+                    <input class="input-form" style="text-transform: uppercase;" placeholder="29F1-963.32" type="text" formControlName="registerNo" >
+                    <div class="error-container">
+                        <div *ngIf="form.get('registerNo')?.invalid && (form.get('registerNo')?.dirty || form.get('registerNo')?.touched)">
+                            <span class="validate_input" *ngIf="form.get('registerNo')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                            <span class="instruct" *ngIf="form.get('registerNo')?.errors?.['pattern']">{{'pattern.registerNo' | translate}}</span>
+                        </div>
+                    </div>
+                </div>
+        
+              </div>
+        
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" for="" >{{'vehicle.frameNumber' | translate}}</label>
+                        <input class="input-form" style="text-transform: uppercase;" (input)="validatorNumberAndEnglishText('frameNumber',$event)" placeholder="JD7OR079F78943512" maxlength="17" type="text" formControlName="frameNumber">
+                        <div class="error-container">
+                            <div *ngIf="form.get('frameNumber')?.invalid && (form.get('frameNumber')?.dirty || form.get('frameNumber')?.touched)">
+                                <span class="instruct" *ngIf="form.get('frameNumber')?.errors?.['pattern']">{{'pattern.numberAndEnglishText' | translate}}</span>
+                            </div>
+                        </div>
+                </div>
+              </div>
+        
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" for="" >{{'vehicle.machineNumber' | translate}}</label>
+                    <input class="input-form" style="text-transform: uppercase;" formControlName="machineNumber" (input)="validatorNumberAndEnglishText('machineNumber',$event)" maxlength="17" placeholder="JD7OR079F78943512"  type="text" >
+                    <div *ngIf="form.get('machineNumber')?.invalid && (form.get('machineNumber')?.dirty || form.get('machineNumber')?.touched)">
+                        <span class="instruct" *ngIf="form.get('machineNumber')?.errors?.['pattern']">{{'pattern.numberAndEnglishText' | translate}}</span>
+                    </div>
+                </div>
+        
+              </div>
+        
+              <div class="input-wrapper">
+                <div class="">
+                    <span class="required-star">*</span><label class="label-form" for="" >{{'vehicle.manufactureYear' | translate}}</label>
+                    <input class="input-form" formControlName="manufactureYear" maxlength="4" (input)="validateYear('manufactureYear',$event)"  placeholder="2000" type="text" >
+
+                    <div class="error-container">
+                        <div *ngIf="form.get('manufactureYear')?.invalid && (form.get('manufactureYear')?.dirty || form.get('manufactureYear')?.touched)">
+                            <span class="validate_input" *ngIf="form.get('manufactureYear')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                              <span class="instruct" *ngIf="form.get('manufactureYear')?.errors?.['max']">{{ ('required.manufactureYearMax' | translate)+maxYear }}</span>
+                              <span class="instruct" *ngIf="form.get('manufactureYear')?.errors?.['min']">{{ ('required.manufactureYearMin' | translate) + minYear }}</span>
+                        </div>
+                    </div>
+                </div>
+        
+              </div>
+        
+              <div class="input-wrapper">
+                <div class="">
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'vehicle.manufacturer' | translate}}</label>
+                    <input class="input-form" formControlName="manufacturer" (input)="validateText('manufacturer',$event)"   placeholder="Nhập" type="text" >
+                    <div class="error-container">
+                        <div *ngIf="form.get('manufacturer')?.invalid && (form.get('manufacturer')?.dirty || form.get('manufacturer')?.touched)">
+                            <span class="validate_input" *ngIf="form.get('manufacturer')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                            <span class="instruct" *ngIf="form.get('manufacturer')?.errors?.['pattern']">{{ ('required.text_pattern' | translate) }}</span>
+
+                        </div>
+                    </div>
+                </div>
+        
+              </div>
+      
+        
+              <div class="input-wrapper">
+                <div class="">
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'vehicle.type_vehicle' | translate}}</label>
+                    <nz-select nzPlaceHolder="Chọn" formControlName="vehicleModelId" style="width: 100%">
+                      <nz-option *ngFor="let data of listVehicleModel" [nzValue]="data.id" [nzLabel]="data.name"></nz-option>
+                      <!-- <nz-option nzValue="solati" nzLabel="Solati"></nz-option> -->
+                    </nz-select>
+                    <div class="error-container">
+                        <div *ngIf="form.get('vehicleModelId')?.invalid && (form.get('vehicleModelId')?.dirty || form.get('vehicleModelId')?.touched)">
+                            <span class="validate_input" *ngIf="form.get('vehicleModelId')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                        </div>
+                    </div>
+                </div>
+        
+              </div>
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" for="" >
+                      <span class="required-star" >*</span>{{ labelTruck == true ? ('vehicle.payload' | translate) : ('vehicle.capacity' | translate) }} 
+                      <span style="color: rgba(239, 68, 68, 1);font-style: italic; font-weight: 400; font-size: 12px; line-height: 14.06px;"> {{'vehicle.noDriver' | translate}}</span>
+                    </label>
+                    <input class="input-form"  placeholder="Nhập" type="number" min="0" (input)="validateNumber('capacity',$event)" formControlName="capacity" >
+                    <div class="error-container">
+                        <div *ngIf="form.get('capacity')?.invalid && (form.get('capacity')?.dirty || form.get('capacity')?.touched)">
+                            <span class="validate_input" *ngIf="form.get('capacity')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                        </div>
+                    </div>
+                </div>
+        
+              </div>
+        
+              <div nz-col class="input-wrapper">
+                <div class="">
+                  <label class="label-form">{{'vehicle.image_vehicle' | translate}}</label>
+                  <div class="custom-upload"  style="border: 1px solid #d9d9d9; border-radius: 5px; height: 48px !important">
+                      <input nz-input placeholder="Chọn" formControlName="image" readonly class="upload-input" style="border: none; outline: none; flex: 1; width: 100%; border-radius: 5px;"
+                        [value]="fileCompressed.file.length > 0 ? fileCompressed.file[0].name : ''"  />
+                      <button nz-button nzType="default" nzShape="circle" class="upload-button" type="button"
+                        (click)="isShowModalUploadfile = true" style="border: none; background: transparent;">
+                        <i nz-icon nzType="paper-clip"></i>
+                      </button>
+                    </div>
+                    
+                </div>
+              </div>
+        
+              <div class="input-wrapper">
+                <div class="">
+                  <label class="label-form" for="" >{{'vehicle.intendedUse' | translate}}</label>
+                  <nz-select nzPlaceHolder="Chọn" class="nzSelect" formControlName="intendedUse"  >
+                    <nz-option nzValue="1" nzLabel="Xe tuyến"></nz-option>
+                    <nz-option nzValue="2" nzLabel="Xe trung chuyển"></nz-option>
+      
+                      <!-- <nz-option *ngFor="let gender of listGender" [nzValue]="gender.id" [nzLabel]="gender.value"></nz-option> -->
+                  </nz-select>
+                  <!-- <div class="error-container">
+                      <div *ngIf="form.get('intendedUse')?.invalid && (form.get('intendedUse')?.dirty) || form.get('intendedUse')?.touched">
+                          <span class="validate_input" *ngIf="form.get('intendedUse')?.hasError('required')">{{'required.intendedUse' | translate}}</span>
+                      </div>
+                  </div> -->
+              </div>
+              </div>
+        
+              <div class="input-wrapper">
+                <div class="">
+                  <span class="required-star" >*</span><label class="label-form" for="" >{{'vehicle.route' | translate}}</label>
+                  <nz-select nzPlaceHolder="Chọn" formControlName="routeId"  class="nzSelect" >
+                    <nz-option *ngFor="let data of listRoute" [nzValue]="data.id" [nzLabel]="data.name"></nz-option>
+                      <!-- <nz-option *ngFor="let gender of listGender" [nzValue]="gender.id" [nzLabel]="gender.value"></nz-option> -->
+                  </nz-select>
+                  <div class="error-container">
+                      <div *ngIf="form.get('routeId')?.invalid && (form.get('routeId')?.dirty) || form.get('routeId')?.touched">
+                          <span class="validate_input" *ngIf="form.get('routeId')?.hasError('required')">{{'required.cannotBlank' | translate}}</span>
+                      </div>
+                  </div>
+              </div>
+              </div>
+        
+              <div class="input-wrapper">
+                <div class="">
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'vehicle.odometer' | translate}}</label>
+                    <input class="input-form" formControlName="odometer" min="0" (input)="validateNumber('odometer',$event)" placeholder="KM" type="number" >
+                    <div class="error-container">
+                        <div *ngIf="form.get('odometer')?.invalid && (form.get('odometer')?.dirty || form.get('odometer')?.touched)">
+                            <span class="validate_input" *ngIf="form.get('odometer')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                        </div>
+                    </div>
+                </div>
+        
+              </div>
+        
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" ><span style="color: red">*</span> {{'vehicle.firstStartDate' | translate}} </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy" formControlName="firstStartDate" class="w-full" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                        <div class="error-container">
+                            <div *ngIf="form.get('firstStartDate')?.invalid && (form.get('firstStartDate')?.dirty) || form.get('firstStartDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('firstStartDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                            </div>
+                        </div>
+                </div>
+              </div>
+      
+              <div class="input-wrapper"  *ngIf="is_New == '0' || is_New == 0">
+                <div class="">
+                    <label class="label-form" ><span style="color: red">*</span> {{'vehicle.firstStartDateXE' | translate}} </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" formControlName="firstStartDateXE" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                        <div class="error-container">
+                            <div *ngIf="form.get('firstStartDateXE')?.invalid && (form.get('firstStartDateXE')?.dirty) || form.get('firstStartDateXE')?.touched">
+                                <span class="validate_input" *ngIf="form.get('firstStartDateXE')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                            </div>
+                        </div>
+                </div>
+              </div>
+      
+              <div class="input-wrapper" >
+                <div class="">
+                  <span class="required-star" >*</span><label class="label-form" for="" >{{'vehicle.legalOwnerId' | translate}}</label>
+                  <nz-select nzPlaceHolder="Chọn" class="nzSelect"  formControlName="legalOwnerId">
+                    <nz-option *ngFor="let data of listLegalOwner" [nzValue]="data.id" [nzLabel]="data.name"></nz-option>
+                  </nz-select>
+                  <div class="error-container">
+                      <div *ngIf="form.get('legalOwnerId')?.invalid && (form.get('legalOwnerId')?.dirty) || form.get('legalOwnerId')?.touched">
+                          <span class="validate_input" *ngIf="form.get('legalOwnerId')?.hasError('required')">{{'required.cannotBlank' | translate}}</span>
+                      </div>
+                  </div>
+              </div>
+              </div>
+      
+            </div>
+            <div style="border-bottom: 1px solid #dddddd;margin-left: 30px; margin-bottom: 15px; margin-top: 15px;"></div>
+            <div class="p-4 pt-0 pb-0 form-container" *ngIf="is_New == '0' || is_New == 0">
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" ><span style="color: red">*</span> {{'vehicle.firstSubscriptionDate' | translate}} </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableAfterDate('fristRegistrationDate')" class="w-full" formControlName="firstSubscriptionDate" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                        <div class="error-container">
+                            <div *ngIf="form.get('firstSubscriptionDate')?.invalid && (form.get('firstSubscriptionDate')?.dirty) || form.get('firstSubscriptionDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('firstSubscriptionDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                            </div>
+                        </div>
+                </div>
+              </div>
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" ><span style="color: red">*</span> {{'vehicle.fristRegistrationDate' | translate}} </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableBeforeDate('firstSubcriptionDate')" formControlName="fristRegistrationDate" class="w-full" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                        <div class="error-container">
+                            <div *ngIf="form.get('fristRegistrationDate')?.invalid && (form.get('fristRegistrationDate')?.dirty) || form.get('fristRegistrationDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('fristRegistrationDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                            </div>
+                        </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="p-4 pb-0 pt-0 form-container">
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" ><span style="color: red">*</span> {{'vehicle.subscriptionDate' | translate}} </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" formControlName="subscriptionDate" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                        <div class="error-container">
+                            <div *ngIf="form.get('subscriptionDate')?.invalid && (form.get('subscriptionDate')?.dirty) || form.get('subscriptionDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('subscriptionDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                            </div>
+                        </div>
+                </div>
+              </div>
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" ><span style="color: red">*</span> {{'vehicle.registrationDate' | translate}} </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableAfterDate('registrationExpireDate')"   formControlName="registrationDate" class="w-full" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                        <div class="error-container">
+                            <div *ngIf="form.get('registrationDate')?.invalid && (form.get('registrationDate')?.dirty) || form.get('registrationDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('registrationDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                            </div>
+                        </div>
+                </div>
+              </div>
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" ><span style="color: red">*</span> {{'vehicle.registrationExpireDate' | translate}} </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy"  [nzDisabledDate]="disableBeforeDate('registrationDate')" formControlName="registrationExpireDate" class="w-full" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                        <div class="error-container">
+                            <div *ngIf="form.get('registrationExpireDate')?.invalid && (form.get('registrationExpireDate')?.dirty) || form.get('registrationExpireDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('registrationExpireDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                            </div>
+                        </div>
+                </div>
+              </div>
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" ><span style="color: red">*</span> {{'vehicle.tndsInsuranceStartDate' | translate}} </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableAfterDate('tndsInsuranceEndDate')"   formControlName="tndsInsuranceStartDate" class="w-full" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                        <div class="error-container">
+                            <div *ngIf="form.get('tndsInsuranceStartDate')?.invalid && (form.get('tndsInsuranceStartDate')?.dirty) || form.get('tndsInsuranceStartDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('tndsInsuranceStartDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                            </div>
+                        </div>
+                </div>
+              </div>
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" ><span style="color: red">*</span> {{'vehicle.tndsInsuranceEndDate' | translate}} </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableBeforeDate('tndsInsuranceStartDate')"  formControlName="tndsInsuranceEndDate" class="w-full" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                        <div class="error-container">
+                            <div *ngIf="form.get('tndsInsuranceEndDate')?.invalid && (form.get('tndsInsuranceEndDate')?.dirty) || form.get('tndsInsuranceEndDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('tndsInsuranceEndDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                            </div>
+                        </div>
+                </div>
+              </div>
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" ><span style="color: red">*</span> {{'vehicle.materialInsuranceStartDate' | translate}} </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableAfterDate('materialInsuranceEndDate')"  formControlName="materialInsuranceStartDate" class="w-full" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                        <div class="error-container">
+                            <div *ngIf="form.get('materialInsuranceStartDate')?.invalid && (form.get('materialInsuranceStartDate')?.dirty) || form.get('materialInsuranceStartDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('materialInsuranceStartDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                            </div>
+                        </div>
+                </div>
+              </div>
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" ><span style="color: red">*</span> {{'vehicle.materialInsuranceEndDate' | translate}} </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableBeforeDate('materialInsuranceStartDate')"   formControlName="materialInsuranceEndDate" class="w-full" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                        <div class="error-container">
+                            <div *ngIf="form.get('materialInsuranceEndDate')?.invalid && (form.get('materialInsuranceEndDate')?.dirty) || form.get('materialInsuranceEndDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('materialInsuranceEndDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                            </div>
+                        </div>
+                </div>
+              </div>
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" ><span style="color: red">*</span> {{'vehicle.badgeIssuanceStartDate' | translate}} </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableAfterDate('badgeIssuanceEndDate')"   formControlName="badgeIssuanceStartDate" class="w-full" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                        <div class="error-container">
+                            <div *ngIf="form.get('badgeIssuanceStartDate')?.invalid && (form.get('badgeIssuanceStartDate')?.dirty) || form.get('badgeIssuanceStartDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('badgeIssuanceStartDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                            </div>
+                        </div>
+                </div>
+              </div>
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" ><span style="color: red">*</span> {{'vehicle.badgeIssuanceEndDate' | translate}} </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy"  [nzDisabledDate]="disableBeforeDate('badgeIssuanceStartDate')"  class="w-full" formControlName="badgeIssuanceEndDate" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                        <div class="error-container">
+                            <div *ngIf="form.get('badgeIssuanceEndDate')?.invalid && (form.get('badgeIssuanceEndDate')?.dirty) || form.get('badgeIssuanceEndDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('badgeIssuanceEndDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                            </div>
+                        </div>
+                </div>
+              </div>
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" ><span style="color: red">*</span> {{'vehicle.travelPermitStartDate' | translate}} </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full"  [nzDisabledDate]="disableAfterDate('travelPermitEndDate')" formControlName="travelPermitStartDate" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                        <div class="error-container">
+                            <div *ngIf="form.get('travelPermitStartDate')?.invalid && (form.get('travelPermitStartDate')?.dirty) || form.get('travelPermitStartDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('travelPermitStartDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                            </div>
+                        </div>
+                </div>
+              </div>
+              <!--đây là 12-->
+        
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" ><span style="color: red">*</span> {{'vehicle.travelPermitEndDate' | translate}} </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy"   [nzDisabledDate]="disableBeforeDate('travelPermitStartDate')" formControlName="travelPermitEndDate" class="w-full" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                        <div class="error-container">
+                            <div *ngIf="form.get('travelPermitEndDate')?.invalid && (form.get('travelPermitEndDate')?.dirty) || form.get('travelPermitEndDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('travelPermitEndDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                            </div>
+                        </div>
+                </div>
+              </div>
+        
+              <div class="input-wrapper">
+                <div class="">
+                    <span class="required-star" >*</span><label class="label-form" for="" >{{'vehicle.roadMaintenanceFee' | translate}}</label>
+                    <input class="input-form" formControlName="roadMaintenanceFee" (input)="updateFormattedPrice()" placeholder="VNĐ"   type="text" >
+                    <div class="error-container">
+                        <div *ngIf="form.get('roadMaintenanceFee')?.invalid && (form.get('roadMaintenanceFee')?.dirty || form.get('roadMaintenanceFee')?.touched)">
+                            <span class="validate_input" *ngIf="form.get('roadMaintenanceFee')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                        </div>
+                    </div>
+                </div>
+        
+              </div>
+        
+        
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" ><span style="color: red">*</span> {{'vehicle.feePaymentDate' | translate}} </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableAfterDate('feeExpireDate')" formControlName="feePaymentDate" class="w-full" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                        <div class="error-container">
+                            <div *ngIf="form.get('feePaymentDate')?.invalid && (form.get('feePaymentDate')?.dirty) || form.get('feePaymentDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('feePaymentDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                            </div>
+                        </div>
+                </div>
+              </div>
+        
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" ><span style="color: red">*</span> {{'vehicle.feeExpireDate' | translate}} </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableBeforeDate('feePaymentDate')" formControlName formControlName="feeExpireDate" class="w-full" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                        <div class="error-container">
+                            <div *ngIf="form.get('feeExpireDate')?.invalid && (form.get('feeExpireDate')?.dirty) || form.get('feeExpireDate')?.touched">
+                                <span class="validate_input" *ngIf="form.get('feeExpireDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                            </div>
+                        </div>
+                </div>
+              </div>
+              <!--đây là 15 16-->
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" for="" >{{'vehicle.cellphonePlan' | translate}}</label>
+                    <input class="input-form" (input)="validateText('cellphonePlan',$event)" formControlName="cellphonePlan"  placeholder="Nhập"   type="text" >
+                   
+                </div>
+        
+              </div>
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" for="" >{{'vehicle.networkProvider' | translate}}</label>
+                    <input class="input-form" (input)="validateText('networkProvider',$event)"  formControlName="networkProvider" placeholder="Nhập"  type="text" >
+                    <div class="error-container">
+                        <div *ngIf="form.get('networkProvider')?.invalid && (form.get('networkProvider')?.dirty) || form.get('networkProvider')?.touched">
+                            <span class="instruct" *ngIf="form.get('networkProvider')?.errors?.['pattern']">{{ ('required.text_pattern' | translate) }}</span>
+        
+                          </div>
+                    </div>
+                </div>
+        
+              </div>
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" >{{'vehicle.networkRegisterDate' | translate}} </label>
+                    <nz-date-picker  [nzDisabledDate]="disableAfterDate('networkExpireDate')"  nzFormat="dd/MM/yyyy" class="w-full" formControlName="networkRegisterDate" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                        
+                </div>
+              </div>
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" >{{'vehicle.networkExpireDate' | translate}} </label>
+                    <nz-date-picker  [nzDisabledDate]="disableBeforeDate('networkRegisterDate')"  nzFormat="dd/MM/yyyy" class="w-full" formControlName="networkExpireDate" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                       
+                </div>
+              </div>
+              <!--đây là 19-->
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" for="" >{{'vehicle.gpsDevice' | translate}}</label>
+                    <input class="input-form" formControlName="gpsDevice"  placeholder="Nguyễn văn A"   type="text" >
+                    
+                </div>
+        
+              </div>
+        
+              <div class="input-wrapper">
+                <div class="">
+                    <label class="label-form" >{{'vehicle.gpsDeviceSetupDate' | translate}} </label>
+                    <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" formControlName="gpsDevice" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                        
+                </div>
+              </div>
+        
+        
+            </div>
+        
+            <div style="border-bottom: 1px solid #dddddd;margin-left: 30px; margin-bottom: 15px; margin-top: 30px"></div>
+        
+            <div class="mx-4 form-container ">
+              <div class=" input-wrapper" >
+                <div nz-row>
+                  <div formGroupName="driver" nz-col nzSpan="24">
+                    <div class="">
+                      <div class="">
+                        <div class="">
+                            <label class="label-form" for="" >{{'vehicle.vehicleDriverMonitor' | translate}}</label>
+                            <nz-select nzShowSearch nzAllowClear style="width: 100%;" nzPlaceHolder="Chọn lái xe" formControlName="driverName" >
+                              <nz-option *ngFor="let data of listDriver"  [nzLabel]="data.name" [nzValue]="data.id"></nz-option>
+                      
+                            </nz-select>
+                        </div>
+                        <div style="margin-top: 20px;"></div>
+                
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              
+                <div nz-row>
+                  <div nz-col nzSpan="24" formGroupName="driver">
+                    <div class="">
+                      <div class="">
+                        <div class="">
+                            <label class="label-form" for="" >{{'vehicle.vehiclePhone' | translate}}</label>
+                            <input class="input-form"  placeholder="Nguyễn văn A" formControlName="phoneNumber"  type="text" >
+                            
+                        </div>
+                
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mx-2 date-choose " formGroupName="driver">
+                  <label class="label-form label_form">{{'vehicle.driverStatus' | translate}}</label>
+                  <div nz-row nzSpan="5" style="border: 1px solid #d9d9d9; border-radius: 5px ;padding: 5px" >
+                      <div nz-col nzSpan="6">
+                          <div class="form-control">
+                              <div>
+                                  <nz-radio-group formControlName="driverType">
+                                      <label nz-radio nzValue="0" style="margin-bottom: 5px !important;">{{'vehicle.permanent' | translate}}</label>
+                                      <br>
+                                      <label nz-radio nzValue="1" style="margin-top: 5px !important;">{{'vehicle.temporary' | translate}}</label>
+                                  </nz-radio-group>
+                              </div>
+                          </div>
+                      </div>
+                      
+                      <div nz-col nzSpan="18" style="margin-top: 36px; margin-bottom: 18px;" [class.disabled-input]="status_vehicle == 0">
+                          <div nz-row style="width: calc(100% - 8px);" >
+                              <div style="width: calc(50% - 8px); margin-right: 8px;" >
+                                  <div class="form-control" style="padding: 0px 0px 0px 0px !important">
+                                      <label class="label-form">{{'vehicle.fromDate' | translate}}</label>
+                                      <div class="w-full">
+                                          <nz-date-picker class="w-full" style="height: 48px !important;" nzFormat="dd/MM/yyyy" formControlName="startDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
+                                          <!-- <div class="error-container">
+                                              <div *ngIf="(form.get('fromDateProbation')?.invalid && (form.get('fromDateProbation')?.dirty ||form.get('fromDateProbation')?.touched)) ">
+                                                  <span class="validate_input"  *ngIf="form.get('fromDateProbation')?.errors?.['required']">{{'required.date_required' | translate}}</span>
+                                              </div>
+                                          </div> -->
+                                      </div>
+                                  </div>
+                              </div>
+        
+                              <div style="width: calc(50% - 8px);" >
+                                  <div class="form-control"  style="padding: 0px 0px 0px 0px !important">
+                                      <label class="label-form">{{'vehicle.toDate' | translate}}</label>
+                                      <div class="w-full">
+                                          <nz-date-picker class="w-full" nzFormat="dd/MM/yyyy" style="height: 48px !important;" formControlName="endDate" nzPlaceHolder="Chọn ngày" ></nz-date-picker>
+                                              <!-- <div class="error-container">
+                                                  <div *ngIf="(form.get('toDate')?.invalid && (form.get('toDate')?.dirty ||form.get('toDate')?.touched))">
+                                                      <span class="validate_input">{{'required.date_required' | translate}}</span>
+                                                  </div>
+                                              </div> -->
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+        
+        
+                      </div>
+                  </div>
+              </div>
+              
+          
+          </div>
+            
+          </div>
+
+        <div style="padding-top: 20px; padding-bottom: 20px;">
+            <span class="label_setup mx-2">{{'vehicle.account_infor' | translate}}</span>
+        </div>
+        <div style="background-color: #fff; border-radius: 5px">
+            <div class="p-4 pb-0 form-container">
+                <div class="input-wrapper">
+                    <div class="">
+                        <label class="label-form" for="" >{{'vehicle.loanOrganization' | translate}}</label>
+                        <input class="input-form"  placeholder="30E-8888" type="text" formControlName="loanOrganization" >
+                        <div class="error-container">
+                            <div *ngIf="form.get('loanOrganization')?.invalid && (form.get('loanOrganization')?.dirty || form.get('loanOrganization')?.touched)">
+                                <span class="validate_input" *ngIf="form.get('loanOrganization')?.errors?.['required']">{{'required.loanOrganization' | translate}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-wrapper">
+                    <div class="">
+                        <label class="label-form" >{{'vehicle.loanDate' | translate}} </label>
+                        <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" formControlName="loanDate" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+                            <div class="error-container">
+                                <div *ngIf="form.get('loanDate')?.invalid && (form.get('loanDate')?.dirty) || form.get('loanDate')?.touched">
+                                    <span class="validate_input" *ngIf="form.get('loanDate')?.errors?.['required']">{{'required.date_required' | translate}}</span>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <div class="input-wrapper">
+                    <div class="">
+                        <label class="label-form" for="" >{{'vehicle.loanMoney' | translate}}</label>
+                        <input class="input-form"  placeholder="30E-8888" type="text" formControlName="loanMoney" >
+                        <div class="error-container">
+                            <div *ngIf="form.get('loanMoney')?.invalid && (form.get('loanMoney')?.dirty || form.get('loanMoney')?.touched)">
+                                <span class="validate_input" *ngIf="form.get('loanMoney')?.errors?.['required']">{{'required.loanMoney' | translate}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div nzGutter="16" class="w-full" style="margin-top: 20px" *ngIf="isFixEmployeeButton == false">
+        <span class="label_setup mx-2">{{'vehicle.maintenanceRepairHistory' | translate}}</span>
+    </div>
+
+    <nz-modal [(nzVisible)]="isApprove" (nzOnCancel)="handleCancelApprove()" [nzCentered]="true"  (nzOnOk)="handleSubmitApprove()" nzClassName="reset-employee-modal"
+    [nzContent]="modalContentApprove" [nzFooter]="null" [nzStyle]="{'width' : '498px','min-width' : '498px', 'height':'348px','min-height':'348px','border-radius': '12px'}">
+    <ng-template #modalContentApprove>
+        <div class="headmodalRest">
+            <div style="color: red; justify-content: center; align-items: center; font-size: 60px">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 3.5rem; height: 3.5rem;">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m6.75 12H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                  </svg>
+                                   
+            </div>
+        </div>
+        <div >
+            <div style="text-align: center; margin-bottom: 60px;"><span style="font-size: 24px;font-weight: 500px;  ">Xác nhận phê duyệt phương tiện này</span></div>
+            
+            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 20px"> 
+                <span>
+                    <button class="button-infor" nz-button style="color: #274EA1; border: 1px solid rgba(39, 78, 161, 1);" nzType="default"
+                        (click)="handleCancelApprove()">Hủy</button>
+                </span>
+                <span>
+                    <button class="button-infor" nz-button style="color: #ffffff; background-color: rgba(39, 78, 161, 1); border-color: rgba(39, 78, 161, 1) !important;" nzType="default"
+                        (click)="handleSubmitApprove()">Xác nhận</button>
+                </span>
+            </div>
+        </div>
+        
+    </ng-template>
+</nz-modal>
+
+
+
+<!-- 
+    <div class="p-4 pb-0" style="margin-top: 15px; border-radius: 8px" class="" *ngIf="isFixEmployeeButton == false">
+
+        <div nz-row>
+            <div nz-col class="p-2" style="background-color: #fff; border-radius: 5px; width: calc(50% - 16px)">
+                <div nz-row>
+                    <div>
+                        <div nz-col class="w-full" style="padding: 8px 8px 8px 8px ;">
+                        <span style="font-size: 16px;color: #252C32; font-weight: 500; line-height: 18.75px;">{{'vehicle.maintenance_repair' | translate}}</span>
+        
+                            <table class="custom-table">
+                                <tbody class="css-table">
+                                    <tr>
+                                        <th class="col-2">{{'table.stt' | translate}}</th>
+                                        <th style="text-align: center;" class="list-col-1">{{'table.time' | translate}}</th>
+                                        <th class="col-2">{{'table.action' | translate}}</th>
+                                    </tr>
+                                    <tr *ngFor="let data of showEmpolyeeNoDataofLstPraises()">
+                                        <td class="col-1"  style="text-align: center;">{{(data.praiseDate | date: 'dd/MM/yyyy') || '-'}}</td>
+                                        <td class="col-1">{{data.description || '-'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="">1</td>
+                                        <td class="">Thời gian</td>
+                                        <td class="col-2">Nội dung khen thưởng</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="display: flex; justify-content: center; margin-top: 16px;">
+                            <nz-pagination [(nzPageIndex)]="pagePr" [nzTotal]="totalPrai" [nzPageSize]="size"
+                                (nzPageIndexChange)="onPageChangePraises($event)" class="custom-pagination">
+                            </nz-pagination>
+                        </div>
+                    </div>
+                    <div nz-col nzSpan="11" style="margin-left: 24px;">
+                        <div  nz-col class="w-full" style="padding:8px 8px 8px 8px ;">
+                        <span style="font-size: 16px;color: #252C32; font-weight: 500; line-height: 18.75px;">{{'vehicle.deep_interior_cleaning' | translate}}</span>
+        
+                            <table class="custom-table">
+                                <tbody class="css-table">
+                                    <tr>
+                                        <th class="col-2">{{'table.stt' | translate}}</th>
+                                        <th style="text-align: center;" class="list-col-1">{{'table.time' | translate}}</th>
+                                        <th class="col-2">{{'table.action' | translate}}</th>
+                                    </tr>
+                                    <tr *ngFor="let data of showEmpolyeeNoDataofLstPunishments()" >
+                                        <td class="col-1" style="text-align: center;">{{ (data.violationDate | date: 'dd/MM/yyyy')  || '-'}}</td>
+                                        <td class="col-1">{{data.note || '-'}}</td>
+        
+                                    </tr>
+                                    <tr>
+                                        <td class="">Thời gian</td>
+                                        <td class="col-2">Nội dung khen thưởng</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="display: flex; justify-content: center; margin-top: 16px;">
+                            <nz-pagination [(nzPageIndex)]="pagePu" [nzTotal]="totalPush" [nzPageSize]="size"
+                                (nzPageIndexChange)="onPageChangePunishments($event)" class="custom-pagination">
+                            </nz-pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div nz-col class="p-4" style="width: calc(50% - 16px);background-color: #fff; border-radius: 5px; margin-left: 32px;">
+               <div nz-row> 
+                <div nz-col nzSpan="24">
+                    <span style="font-size: 16px;color: #252C32; font-weight: 500; line-height: 18.75px;">{{'vehicle.driverList' | translate}}</span>
+    
+                        <table class="custom-table">
+                            <tbody class="css-table">
+                                <tr>
+                                    <th style="text-align: center;" class="list-col-1">{{'table.stt' | translate}}</th>
+                                    <th class="col-2">{{'table.driverName' | translate}}</th>
+                                    <th class="list-col-1">{{'table.phone' | translate}}</th>
+                                    <th style="text-align: center;" class="list-col-1">{{'table.fromDate' | translate}}</th>
+                                    <th style="text-align: center;" class="col-2">{{'table.toDate' | translate}}</th>
+                                </tr>
+                                <tr *ngFor="let data of showEmpolyeeNoDataofLstPraises()">
+                                    <td class="col-1"  style="text-align: center;">{{(data.praiseDate | date: 'dd/MM/yyyy') || '-'}}</td>
+                                    <td class="col-1">{{data.description || '-'}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;" class="list-col-1">{{'table.stt' | translate}}</td>
+                                    <td class="col-2">{{'table.driverName' | translate}}</td>
+                                    <td class="list-col-1">{{'table.phone' | translate}}</td>
+                                    <td style="text-align: center;" class="list-col-1">{{'table.fromDate' | translate}}</td>
+                                    <td style="text-align: center;" class="col-2">{{'table.toDate' | translate}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    <div style="display: flex; justify-content: center; margin-top: 16px;">
+                        <nz-pagination [(nzPageIndex)]="pagePr" [nzTotal]="totalPrai" [nzPageSize]="size"
+                            (nzPageIndexChange)="onPageChangePraises($event)" class="custom-pagination">
+                        </nz-pagination>
+                    </div>
+                </div>
+
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+ -->

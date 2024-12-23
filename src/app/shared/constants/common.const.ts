@@ -53,7 +53,8 @@ export const LOCALE = 'en-US'
 
 export const VIETNAMESE_REGEX = /^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễếệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹý\s]+$/;
 
-
 export const NUMBER_REGEX = /^[0-9]+$/
 
 export const DONTANYTHING = ''
+
+export const ENGLISHTEXT_AND_NUMBER = /^[a-zA-Z0-9]*$/  

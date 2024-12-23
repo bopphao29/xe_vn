@@ -146,3 +146,13 @@
   font-weight: normal;
 }
 
+.disabled-input {
+  pointer-events: none; /* Ngăn không cho tương tác */
+  opacity: 0.5; /* Giảm độ trong suốt */
+}
+
+/* Nếu bạn muốn thêm hiệu ứng khi mờ */
+.disabled-input:hover {
+  cursor: not-allowed; /* Hiệu ứng con trỏ khi hover */
+}
+

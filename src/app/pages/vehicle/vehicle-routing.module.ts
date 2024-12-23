@@ -20,7 +20,7 @@ export const VEHICLE_ROUTES: Routes = [
         {
           path: 'profile-vehicle-management',
           loadComponent: () => 
-            import('./page-routing/file-vehical-management/file-vehical-management.component').then(
+            import('./page-routing/profile-vehicle-management/file-vehical-management.component').then(
               (c) => c.FileVehicalManagementComponent
             )
         },
@@ -67,7 +67,7 @@ export const VEHICLE_ROUTES: Routes = [
     // path: 'detail-vehical/:id',
     path: 'detail-vehicle/:id',
     loadComponent: () =>
-      import('./detail-vehical/detail-vehical.component').then(
+      import('./detail-vehicle/detail-vehical.component').then(
         (c) => c.DetailVehicalComponent
       ),
   },

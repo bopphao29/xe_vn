@@ -17,7 +17,6 @@ import { DetailProfileEmployeeComponent } from '../../detail-profile-employee/de
 import { Route, Router, Routes } from '@angular/router';
 import { UserServiceService } from '../../../../shared/services/user-service.service';
 import { NotificationService } from '../../../../shared/services/notification.service';
-import { SearchEmployeeProfileService } from '../../../../shared/services/search-employee-profile.service';
 import Swal from 'sweetalert2';
 import { DisableService } from '../../../../shared/services/disable.service';
 import { ChangeFunctionService } from '../../../../shared/services/change-function.service';
@@ -57,7 +56,6 @@ export class ListProfileEmployeeComponent implements OnInit {
     private fb :FormBuilder,
     private userSevice: UserServiceService,
     private notification: NotificationService,
-    private searchEmployeeProfile : SearchEmployeeProfileService,
     private disableService: DisableService,
     private changeFunctionService: ChangeFunctionService
   ){

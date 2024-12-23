@@ -51,7 +51,7 @@ export class VehicalServiceService {
   }
 
   searchDriver(data: any){
-    return this.httpClient.post(this.urlUser + 'api/staff/get-drivers', {data})
+    return this.httpClient.post(this.urlUser + 'api/staff/get-drivers', data)
   }
 
   updateVehicle(formData: FormData){
@@ -73,5 +73,9 @@ export class VehicalServiceService {
 
   searchDocumentsNearingExpiration(){
     return this.httpClient.get(this.url + 'api/vehicles/documents-nearing-expiration')
+  }
+
+  approveVehical(data : any){
+    return this.httpClient.post(this.url + 'api/vehicles/update-approval-status', {data})
   }
 }

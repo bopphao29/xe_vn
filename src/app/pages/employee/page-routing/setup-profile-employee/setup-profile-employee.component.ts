@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, input, OnInit, Output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
@@ -32,6 +32,7 @@ import { ValidateIntoPageService } from '../../../../shared/services/validate-in
 import { VIETNAMESE_REGEX } from '../../../../shared/constants/common.const';
 import { NUMBER_REGEX } from '../../../../shared/constants/common.const';
 import { ChangeFunctionService } from '../../../../shared/services/change-function.service';
+import { routerLink } from '../../../../shared/services/router-link.service';
 
 
 interface FileCompressed {
@@ -77,6 +78,7 @@ interface ArchivedRecord {
   styleUrl: './setup-profile-employee.component.scss'
 })
 export class SetupProfileEmployeeComponent implements OnInit {
+
 
   date = null;
   isEnglish = false;
@@ -163,7 +165,8 @@ export class SetupProfileEmployeeComponent implements OnInit {
     private uploadImageService: UploadImageService,
     private validateService: ValidateIntoPageService,
     private changeFunctionService: ChangeFunctionService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private routerEmployee : routerLink
 
   ) {
     this.form = this.fb.group(this.data)
@@ -650,12 +653,13 @@ onBlurNumber(path: string | (string | number)[]) {
     this.isModalInforEmployee = false;
   }
 
-  ////////////////////////////////////////////////////function routes link///////////////////////////////////////////////////////////
-  handleSubmitDone(){
+  dataRouter:string = 'employeeProfile'
+  ////////////////////////////////////////////////////function routes link/////////////////////////////////ks//////////////////////////
+  handleSubmitDone(name : string){
     localStorage.removeItem('activeLink')
     localStorage.setItem('activeLink','employeeProfile')
     this.routes.navigate(['employee/list-employee-profile'])
-    this.cdr.detectChanges()
+    this.routerEmployee.update(this.dataRouter)
   }
 
 

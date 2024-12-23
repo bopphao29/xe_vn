@@ -1233,7 +1233,7 @@
 </nz-modal>
 
 
-<nz-modal [(nzVisible)]="isDone" (nzOnCancel)="handleCancelDone1()" (nzOnOk)="handleSubmitDone()"
+<nz-modal [(nzVisible)]="isDone" (nzOnCancel)="handleCancelDone1()" (nzOnOk)="handleSubmitDone('employeeProfile')"
     [nzContent]="modalContentDone" [nzFooter]="null" [nzStyle]="{'min-width' : '560px', 'min-height':'760px'}">
     <ng-template #modalContentDone>
         <div class="headmodal">
@@ -1249,7 +1249,7 @@
                 </span>
                 <span>
                     <button class="button-infor" nz-button style="color: #ffffff; background-color: #274EA1;" nzType="default" type="button"
-                        (click)="handleSubmitDone()">Đến danh sách</button>
+                        (click)="handleSubmitDone('employeeProfile')">Đến danh sách</button>
                 </span>
             </div>
         </div>
