@@ -4,9 +4,10 @@ import { ROUTERS } from './shared/constants/router.const';
 import { authGuard } from './core/auth.guard';
 import { HOME_ROUTES } from './pages/home/home.routes';
 import { EMPPLOYEE_ROUTES } from './pages/employee/employee-routing.module';
-import { AUTHEN_ROUTES } from './pages/authen/authen.module'
+import { AUTHEN_ROUTES } from './pages/authen/authen.module';
 import { VEHICLE_ROUTES } from './pages/vehicle/vehicle-routing.module';
 import { LoginComponent } from './pages/authen/login/login.component';
+import { OPERATION_ROUTES } from './pages/operation/operation.routing';
 
 export const routes: Routes = [
   {
@@ -16,20 +17,20 @@ export const routes: Routes = [
     children: [
       ...EMPPLOYEE_ROUTES,
       ...VEHICLE_ROUTES,
-
+      ...OPERATION_ROUTES,
       {
         path: ROUTERS.HOME_DEFAULT,
-        loadComponent: () => 
-        import('./pages/home-default/home-default.component').then(
+        loadComponent: () =>
+          import('./pages/home-default/home-default.component').then(
             (c) => c.HomeDefaultComponent
-        )
+          ),
       },
-      ...HOME_ROUTES
+      ...HOME_ROUTES,
     ],
   },
   ...AUTHEN_ROUTES,
   {
     path: '**',
-    redirectTo: ROUTERS.HOME_DEFAULT
+    redirectTo: ROUTERS.HOME_DEFAULT,
   },
 ];

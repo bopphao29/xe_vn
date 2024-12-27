@@ -1,0 +1,52 @@
+<div class="px-3 pt-[24px]" style="background: #f3f3f3">
+  <form action="" nz-form (ngSubmit)="onSubmit()">
+    <div style="width: calc(100% / 7); min-width: calc(100% / 7)">
+      <div class="">
+        <span class="required-star">*</span
+        ><label class="label-form" for="">{{
+          "operation.setup-operation.route" | translate
+        }}</label>
+        <nz-select [nzPlaceHolder]="'Tuyến'" class="nzSelect">
+          <nz-option
+            *ngFor="let gender of listGender"
+            [nzValue]="gender.id"
+            [nzLabel]="gender.value"
+          ></nz-option>
+        </nz-select>
+        <!-- <div class="error-container">
+          <div>
+            <span class="validate_input">{{
+              "required.cannotBlank" | translate
+            }}</span>
+          </div>
+        </div> -->
+      </div>
+    </div>
+
+    <!-- <div class="input-wrapper">
+      <div class="">
+        <span class="required-star">*</span
+        ><label class="label-form" for=""
+          >{{ "employee.employeeName" | translate }}
+        </label>
+        <input
+          class="input-form"
+          (input)="validateText('name', $event)"
+          placeholder="Nguyễn văn A"
+          formControlName="name"
+          type="text"
+        />
+        <div class="error-container">
+          <div>
+            <span class="validate_input">{{
+              "required.cannotBlank" | translate
+            }}</span>
+            <span class="instruct">{{
+              "required.text_pattern" | translate
+            }}</span>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </form>
+</div>
