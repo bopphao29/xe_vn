@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NotificationService } from './notification.service';
-import { AbstractControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormGroup, Validators,FormArray } from '@angular/forms';
 import { NUMBER_REGEX, VIETNAMESE_REGEX, ENGLISHTEXT_AND_NUMBER } from '../constants/common.const';
 import { error } from 'pdf-lib';
 import { TranslateService } from '@ngx-translate/core';
@@ -27,7 +27,7 @@ export class ValidateIntoPageService {
       } 
     }else {
       form.get(path)?.setValidators(Validators.required)
-      if(path == 'religion'){
+      if(path == 'religion' || path == 'cellphonePlan'){
         form.get(path)?.clearValidators()
       }
     }
@@ -75,9 +75,10 @@ export class ValidateIntoPageService {
   
       if (!checkNumber) {
         // Nếu chuỗi chỉ chứa số
-        const numericValue = Number(valueInput);
+        const numericValue = parseInt(valueInput, 10);
+        console.log(numericValue)
   
-        if (numericValue < minYear || numericValue > maxYear) {
+        if (+numericValue < +minYear || +numericValue > +maxYear) {
           // Nếu nằm ngoài khoảng [minYear, maxYear]
           form.get(path)?.setValidators([
             Validators.min(minYear),
@@ -99,6 +100,52 @@ export class ValidateIntoPageService {
     form.get(path)?.updateValueAndValidity(); // Cập nhật lại validators
   }
   
+  
+  validateYearOfBirthChild(
+    form: FormGroup,
+    formArrayName: string,
+    index: number,
+    controlName: string,
+    event: Event,
+    minYear: number,
+    maxYear: number
+  ) {
+    const valueInput = (event.target as HTMLInputElement).value; // Lấy giá trị từ input
+    const formArray = form.get(formArrayName) as FormArray; // Lấy FormArray
+    const formGroup = formArray?.at(index) as FormGroup; // Lấy FormGroup tại chỉ mục
+    const control = formGroup?.get(controlName); // Lấy FormControl
+  
+    if (control) {
+      if (valueInput) {
+        const checkNumber = /[^0-9]/.test(valueInput); // Kiểm tra có ký tự không phải số
+  
+        if (!checkNumber) {
+          // Nếu chuỗi chỉ chứa số
+          const numericValue = parseInt(valueInput, 10);
+  
+          if (numericValue < minYear || numericValue > maxYear) {
+            // Nếu nằm ngoài khoảng [minYear, maxYear]
+            control.setValidators([
+              Validators.min(minYear),
+              Validators.max(maxYear),
+            ]);
+          } else {
+            // Nếu nằm trong khoảng hợp lệ
+            control.clearValidators(); // Xóa tất cả validators
+          }
+        } else {
+          // Nếu chuỗi chứa ký tự không phải số
+          control.setValidators(Validators.pattern(/^[0-9]+$/)); // Validator pattern cho số
+        }
+      } else {
+        // Nếu không có giá trị
+        control.setValidators(Validators.required); // Validator required
+      }
+  
+      control.updateValueAndValidity(); // Cập nhật lại validators
+    }
+  }
+
   
   validateEnterTextNumber(form: FormGroup, path: string | (string | number)[], event: Event) {
     const valueInput = (event.target as HTMLInputElement).value.trim();

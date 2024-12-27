@@ -80,6 +80,10 @@ export class UserServiceService {
     
   }
 
+  updateAbsenceSchedules(data: any){
+    return this.httpClient.post(this.url + 'api/absence-schedules', data)
+  }
+
   getAchievementsStaffDetails(id: any, month: any, year: number){
     return this.httpClient.get(this.url + 'api/achievements/staff-details?staffId=' + id+'&month='+month+'&year='+year)
   }

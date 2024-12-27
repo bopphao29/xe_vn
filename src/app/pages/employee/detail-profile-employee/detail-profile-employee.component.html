@@ -598,7 +598,7 @@
                     <div class="">
                         <span class="required-star" >*</span><label class="label-form" >Ngày cấp </label>
                         <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange('bcStartDate',$event)" style="width: 100%"
-                        [nzDisabledDate]="disableAfterDateDriver('bcEndDate')"
+                        [nzDisabledDate]="disableAfterDate('bcEndDate')"
                                 formControlName="bcStartDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                             <div class="error-container">
                                 <div *ngIf="form.get('bcStartDate')?.touched">
@@ -732,7 +732,7 @@
                     <div class="">
                         <span class="required-star" >*</span><label class="label-form" >{{'employee.day_start' | translate}}</label>
                         <nz-date-picker nzFormat="dd/MM/yyyy" class="w-full" (ngModelChange)="onDateChange('dlStartDate',$event)"
-                        [nzDisabledDate]="disableAfterDateDriver('dlEndDate')"  style="width: 100%"
+                        [nzDisabledDate]="disableAfterDate('dlEndDate')"  style="width: 100%"
     
                                 formControlName="dlStartDate" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                             <div class="error-container">

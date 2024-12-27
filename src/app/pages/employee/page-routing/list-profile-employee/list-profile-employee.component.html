@@ -225,7 +225,7 @@
                                   <label class="form-label"> <span style="color: red;">*</span>{{'employee.fromDate' | translate}}</label>
                                   <div>
                                     <nz-date-picker class="w-full" [nzShowTime]="{ nzFormat: 'HH' }"
-                                      nzFormat="dd/MM/yyyy HH" [nzDisabledDate]="disableBeforeDate('toDate')"
+                                      nzFormat="dd/MM/yyyy HH:00" [nzDisabledDate]="disableBeforeDate('toDate')"
                                       formControlName="fromDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                     <div style="height: 18px;">
                                       <div *ngIf="formOnLeave.get('fromDate')?.touched" style="height: 20px;">
@@ -242,7 +242,7 @@
                                   <label class="form-label"><span style="color: red;">*</span>{{'employee.toDate' | translate}}</label>
                                   <div>
                                     <nz-date-picker class="w-full" [nzDisabledDate]="disableAfterDate('fromDate')" [nzShowTime]="{ nzFormat: 'HH' }"
-                                      nzFormat="dd/MM/yyyy HH"
+                                      nzFormat="dd/MM/yyyy HH:00"
                                       formControlName="toDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                     <div style="height: 18px;" *ngIf="formOnLeave.get('fromDate')?.value">
                                       <div *ngIf="formOnLeave.get('toDate')?.invalid && formOnLeave.get('toDate')?.dirty || formOnLeave.get('toDate')?.touched">

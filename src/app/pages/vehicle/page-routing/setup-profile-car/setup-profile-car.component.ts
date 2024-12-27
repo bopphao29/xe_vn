@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CommonModule, formatNumber } from '@angular/common';
+import { CommonModule, DatePipe, formatNumber } from '@angular/common';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -26,6 +26,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ValidateIntoPageService } from '../../../../shared/services/validate-into-page.service';
 import { routerLink } from '../../../../shared/services/router-link.service';
+import { FormatDateService } from '../../../../shared/services/format-date.service';
 
 interface FileCompressed {
   file: File[]
@@ -83,7 +84,9 @@ export class SetupProfileCarComponent implements OnInit {
     private uploadImageService: UploadImageService,
     private routes: Router,
     private validateService: ValidateIntoPageService,
-    private routerVehicle : routerLink
+    private routerVehicle : routerLink,
+    // private formatDateToApiPipe: FormatDateService,
+    // private datePipe: DatePipe
     
   ) {
   }
@@ -133,7 +136,7 @@ export class SetupProfileCarComponent implements OnInit {
         odometer: [null,[ Validators.required, Validators.maxLength(16), Validators.pattern(/^[0-9]*$/)]],
         // payload: [null, Validators.required],
         firstSubscriptionDate: [null, Validators.required],
-        fristRegistrationDate: [null, Validators.required],
+        firstRegistrationDate: [null, Validators.required],
         firstStartDateXE: [null, Validators.required],
         legalOwnerId: [null, Validators.required],
         firstStartDate: [null, Validators.required],
@@ -159,9 +162,9 @@ export class SetupProfileCarComponent implements OnInit {
         gpsDeviceSetupDate: [null],
         driver: this.fb.group({
           driverId: null,
-          driverName: [null],
-          driverType: ['0'],
-          phoneNumber: null,
+          driverName: [null, Validators.required],
+          driverStatus: ['1'],
+          phoneNumber: [{ value: null, disabled: true }],
           startDate: [null],
           endDate: [null]
         })
@@ -178,9 +181,9 @@ export class SetupProfileCarComponent implements OnInit {
       // });
       
 
-      this.form.get('driver.driverType')?.valueChanges.subscribe((value: any)=> {
-        if(value === '0' || value === 0){
-          this.status_vehicle = 0
+      this.form.get('driver.driverStatus')?.valueChanges.subscribe((value: any)=> {
+        if(value == 1){
+          this.status_vehicle = 1
         }else{
           this.status_vehicle = 1
         }
@@ -209,39 +212,40 @@ export class SetupProfileCarComponent implements OnInit {
         if(this.is_New !== "0"){
           this.form.get('firstStartDateXE')?.reset()
           this.form.get('firstSubscriptionDate')?.reset()
-          this.form.get('fristRegistrationDate')?.reset()
+          this.form.get('firstRegistrationDate')?.reset()
           this.form.get('firstStartDateXE')?.clearValidators()
           this.form.get('firstSubscriptionDate')?.clearValidators()
-          this.form.get('fristRegistrationDate')?.clearValidators()
+          this.form.get('firstRegistrationDate')?.clearValidators()
         }
           else{
           this.form.get('firstStartDateXE')?.setValidators(Validators.required)
           this.form.get('firstSubscriptionDate')?.setValidators(Validators.required)
-          this.form.get('fristRegistrationDate')?.setValidators(Validators.required)
+          this.form.get('firstRegistrationDate')?.setValidators(Validators.required)
         }
     
         this.form.get('firstStartDateXE')?.updateValueAndValidity()
         this.form.get('firstSubscriptionDate')?.updateValueAndValidity()
-        this.form.get('fristRegistrationDate')?.updateValueAndValidity()
+        this.form.get('firstRegistrationDate')?.updateValueAndValidity()
     
       })
 
       this.form.get('driver.driverName')?.valueChanges.subscribe((value: any) => {
-        const selectedDriver = this.listDriver.find((driver: any) => driver.id === value); // Sửa thành so sánh đúng
+        // Tìm lái xe theo id
+        const selectedDriver = this.listDriver.find((driver: any) => driver.id === value); // So sánh theo id
         if (selectedDriver) {
-          // Nếu tìm thấy lái xe, cập nhật số điện thoại
-          this.form.get('driver')?.patchValue({
-            phoneNumber: selectedDriver.phoneNumber, // Sử dụng đúng trường dữ liệu
-            driverId: selectedDriver.id
-          });
+            // Nếu tìm thấy, cập nhật các trường
+            this.form.get('driver')?.patchValue({
+                phoneNumber: selectedDriver.phoneNumber, // Cập nhật số điện thoại
+                driverId: selectedDriver.id // Cập nhật driverId
+            });
         } else {
-          // Nếu không tìm thấy hoặc giá trị trống, đặt lại phoneNumber
-          this.form.get('driver')?.patchValue({
-            phoneNumber: '',
-          });
+            // Nếu không tìm thấy, đặt lại các giá trị
+            this.form.get('driver')?.patchValue({
+                phoneNumber: '',
+                driverId: null
+            });
         }
-      });
-      
+    });      
 
       this.getRoute()
       this.getVehicleType()
@@ -309,8 +313,8 @@ export class SetupProfileCarComponent implements OnInit {
 
   handleSubmitDone(name : string){
     localStorage.removeItem('activeLink')
-    localStorage.setItem('activeLink','employeeProfile')
-    this.routes.navigate(['employee/list-employee-profile'])
+    localStorage.setItem('activeLink','vehicleProfileManagement')
+    this.routes.navigate(['vehicle/profile-vehicle-management'])
     this.routerVehicle.update(this.dataRouter)
   }
 
@@ -318,7 +322,7 @@ export class SetupProfileCarComponent implements OnInit {
   resetForm(){
     this.form.reset({
       driver: {
-        driverType: 0 || '0',
+        driverStatus: 1 || '1',
       }
     })
     this.isSubmitted = false;
@@ -330,7 +334,7 @@ export class SetupProfileCarComponent implements OnInit {
   endClick(){
     this.isDone = false
     this.form.reset({
-      driverStatus: this.form.get('driverType')?.value || '0',
+      driverStatus: this.form.get('driverStatus')?.value || '1',
     })
   }
 
@@ -572,10 +576,34 @@ disableBeforeDateDriver(name: string): (currentDate: Date | null) => boolean {
 ///////////////////////////////////////////createVehical///////////////////////////////////////
   createVehicle() {
     console.log(this.fileCompressed.file[0])
+
+    // const firstStartDate = this.form.get('firstStartDate')?.value;
+    // const firstStartDateXE = this.form.get('firstStartDateXE')?.value;
+
+    // const firstRegistrationDate = this.form.get('firstRegistrationDate')?.value;
+
+    // const registrationExpireDate = this.form.get('registrationExpireDate')?.value;
+    // const registrationExpireDate = this.form.get('registrationExpireDate')?.value;
+
+    // const registrationExpireDate = this.form.get('registrationExpireDate')?.value;
+    // const registrationExpireDate = this.form.get('registrationExpireDate')?.value;
+
+
+    const formmatDate = 'yyyy-MM-dd'
+
     const dataForm = {
       ...this.form.value,
+      // firstStartDate : this.datePipe.transform(firstStartDate, formmatDate),
       image: (this.fileCompressed.file && this.form.get('image')?.value) ? this.fileCompressed.file[0].name : null,
       roadMaintenanceFee: this.getRawValue(),
+    }
+
+    // Thay đổi `driverName` thành `name` tương ứng với `id`
+    if (dataForm.driver?.driverName) {
+      const selectedDriver = this.listDriver.find(driver => driver.id === dataForm.driver.driverName);
+      if (selectedDriver) {
+        dataForm.driver.driverName = selectedDriver.name; // Thay id bằng name
+      }
     }
 
     const formData = new FormData();
@@ -596,20 +624,20 @@ disableBeforeDateDriver(name: string): (currentDate: Date | null) => boolean {
 
     this.form.markAllAsTouched(); 
     this.form.get('firstSubscriptionDate')?.clearValidators()
-    this.form.get('fristRegistrationDate')?.clearValidators()
+    this.form.get('firstRegistrationDate')?.clearValidators()
     this.form.get('firstStartDateXE')?.clearValidators()
     if(this.is_New == 0){
         this.form.get('firstSubscriptionDate')?.setValidators(Validators.required)
-        this.form.get('fristRegistrationDate')?.setValidators(Validators.required)
+        this.form.get('firstRegistrationDate')?.setValidators(Validators.required)
         this.form.get('firstStartDateXE')?.setValidators(Validators.required)
     }
     else{
       this.form.get('firstSubscriptionDate')?.clearValidators()
-        this.form.get('fristRegistrationDate')?.clearValidators()
+        this.form.get('firstRegistrationDate')?.clearValidators()
         this.form.get('firstStartDateXE')?.clearValidators()
     }
     this.form.get('firstSubscriptionDate')?.updateValueAndValidity()
-    this.form.get('fristRegistrationDate')?.updateValueAndValidity()
+    this.form.get('firstRegistrationDate')?.updateValueAndValidity()
     this.form.get('firstStartDateXE')?.updateValueAndValidity()
     // console.log(this.form.get('isNew')?.value)
 
@@ -628,37 +656,39 @@ disableBeforeDateDriver(name: string): (currentDate: Date | null) => boolean {
         }
       })
     } else {
-      // console.log('lỗi')
-      // Object.keys(this.form.controls).forEach((field: any) => {
-      //   const control = this.form.get(field)
+      this.notifiService.error('Kiểm tra lại các trường bắt buộc')
 
-      //   if (control && control.invalid) {
-      //     console.log("lỗi ở: " + field)
+      console.log('lỗi')
+      Object.keys(this.form.controls).forEach((field: any) => {
+        const control = this.form.get(field)
 
-      //     const errors = control.errors;
-      //     if (errors) {
-      //       Object.keys(errors).forEach((errkey: any) => {
-      //         switch (errkey) {
-      //           case 'required':
-      //             console.log(field + "phai dien")
-      //             break;
-      //           case 'minlength':
-      //             console.log(field + "bi be hon gi day")
-      //             break;
-      //           case 'pattern':
-      //             console.log(field + 'dinh dang sai')
-      //             break;
-      //           case 'email':
-      //             console.log(field + 'mail sai')
-      //             break;
-      //           default:
-      //             console.log('loi khac o : ' + field, errors[errkey])
-      //             break;
-      //         }
-      //       })
-      //     }
-      //   }
-      // })
+        if (control && control.invalid) {
+          console.log("lỗi ở: " + field)
+
+          const errors = control.errors;
+          if (errors) {
+            Object.keys(errors).forEach((errkey: any) => {
+              switch (errkey) {
+                case 'required':
+                  console.log(field + "phai dien")
+                  break;
+                case 'minlength':
+                  console.log(field + "bi be hon gi day")
+                  break;
+                case 'pattern':
+                  console.log(field + 'dinh dang sai')
+                  break;
+                case 'email':
+                  console.log(field + 'mail sai')
+                  break;
+                default:
+                  console.log('loi khac o : ' + field, errors[errkey])
+                  break;
+              }
+            })
+          }
+        }
+      })
     }
 
 

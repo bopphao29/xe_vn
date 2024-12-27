@@ -488,7 +488,7 @@
 }
 
 ::ng-deep .ant-modal .ant-modal-content .ant-modal-close {
-  margin: 30px 30px 0px 0px;
+  // margin: 30px 30px 0px 0px;
 }
 
 ::ng-deep .ant-modal .ant-modal-content .ant-modal-body {
@@ -577,4 +577,87 @@
 
 ::ng-deep .ant-select .ant-select-selector{
   background-color: #fafafa !important;
+}
+
+
+::ng-deep .custom-modal-full {
+  margin-top: 0 !important;
+  top: 0 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw; /* Modal vẫn chiếm toàn bộ màn hình để căn giữa nội dung */
+  height: 100vh;
+  padding-bottom: 0px !important;
+}
+
+::ng-deep .custom-modal-full .ant-modal-content {
+  background: transparent !important;
+  box-shadow: none !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto; /* Chiều rộng tự động dựa trên nội dung */
+  height: auto; /* Chiều cao tự động dựa trên nội dung */
+  .ant-modal-body {
+    padding: 0 !important;
+  }
+}
+
+
+.div-img-full {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.full-image {
+  display: block;
+  max-width: 100%;
+  max-height: 100vh; /* Chiều cao tối đa bằng màn hình để không tràn */
+  width: auto; /* Chiều rộng tự động theo kích thước thật */
+  height: auto; /* Chiều cao tự động theo kích thước thật */
+}
+
+
+.upload-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.upload-container {
+  border: 2px dashed rgba(107, 114, 128, 1); /* Đường viền dạng dashed */
+  background-color: rgba(244, 247, 251, 1); /* Màu nền */
+  border-radius: 8px;
+  height: 320px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease; /* Thêm hiệu ứng mượt khi thay đổi */
+}
+
+.upload-container.has-image {
+  width: 400px; 
+  height: 400px; 
+}
+
+.image-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.image-container{
+  width: 100%;
+  height: 100%;
+}
+
+.image-preview.has-image{
+  width: 400px !important; 
+  height: 400px !important; 
 }

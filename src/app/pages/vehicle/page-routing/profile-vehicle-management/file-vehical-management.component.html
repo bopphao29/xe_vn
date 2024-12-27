@@ -20,28 +20,28 @@
                 <div nz-col nzSpan="3" class="mx-2">
                     <div class="">
                         <label class="form-label">BKS</label>
-                        <input nz-input class="form-input" formControlName="registerNo" placeholder="ID, Tên nhân sự, SĐT..." style="width: 100%;" />
+                        <input nz-input class="form-input"  style="text-transform: uppercase; width: 100%" formControlName="registerNo" placeholder="Nhập..."/>
                     </div>
                 </div>
 
                 <div nz-col nzSpan="3" class="mx-2">
                     <div class="">
                         <label class="form-label">Lái xe</label>
-                        <input nz-input class="form-input" formControlName="driverName" placeholder="ID, Tên nhân sự, SĐT..." style="width: 100%;" />
+                        <input nz-input class="form-input" formControlName="driverName" placeholder="Nhập..." style="text-transform: uppercase; width: 100%" />
                     </div>
                 </div>
 
                 <div nz-col nzSpan="3" class="mx-2">
                     <div class="">
                         <label class="form-label">SĐT</label>
-                        <input nz-input class="form-input" formControlName="phoneNumber" placeholder="ID, Tên nhân sự, SĐT..." style="width: 100%;" />
+                        <input nz-input class="form-input" formControlName="phoneNumber" placeholder="Nhập..." style="text-transform: uppercase; width: 100%" />
                     </div>
                 </div>
 
                 <div nz-col nzSpan="3" class="mx-2">
                     <div class="">
                         <label class="form-label">Hãng xe</label>
-                        <nz-select nzPlaceHolder="Tất cả" formControlName="vehicleModel" style="width: 100%;" style="width: 100%;">
+                        <nz-select nzPlaceHolder="Tất cả" formControlName="manufacturer" style="width: 100%;" style="width: 100%;">
                             <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
 
                             <nz-option *ngFor="let data of listManufacture" [nzValue]="data" [nzLabel]="data"></nz-option>
@@ -58,7 +58,7 @@
                 <div nz-col nzSpan="3" class="mx-2">
                     <div class="">
                         <label class="form-label">Năm sản xuất</label>
-                        <nz-select nzPlaceHolder="Tất cả" formControlName="yearOfManufacture" style="width: 100%;">
+                        <nz-select nzPlaceHolder="Tất cả" formControlName="manufactureYear" style="width: 100%;">
                             <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
 
                             <nz-option *ngFor="let data of listManufactureYears" [nzValue]="data" [nzLabel]="data"></nz-option>
@@ -71,7 +71,7 @@
                     <div class="">
                         <label class="form-label">Mục đích sử dụng</label>
                         <div>
-                            <nz-select nzPlaceHolder="Tất cả" formControlName="identedUser" style="width: 100%;">
+                            <nz-select nzPlaceHolder="Tất cả" formControlName="indentedUse" style="width: 100%;">
                                 <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
 
                                 <nz-option nzValue="1" nzLabel="Xe tuyến"></nz-option>
@@ -109,19 +109,34 @@
                     kiếm</button>
             </span>
         </div>
-    </form>
 
+        
     <span class="mx-4" style="margin-top: 50px; font-size: 14px; color: rgba(37, 44, 50, 1); font-weight: 500;">{{'vehicle.prepareToExpire' | translate}}</span>
 
     <div nz-row class="mx-4" style="margin-top: 15px;"> 
         <div class="prepare-to-expire">
-            <button type="button" class="prepare-to-expire-item" *ngFor="let data of listPrepareToExpire" (click)="searchDocumentsNearingExpiration(data.code)">
-                <span class="">
-                    {{data.value}} <span style="color: rgba(227, 60, 60, 1);">({{data.quantity}})</span>
-                </span>
-            </button>
+            <div class="prepare-to-expire">
+                <button 
+                  type="button" 
+                  class="prepare-to-expire-item" 
+                  *ngFor="let data of listPrepareToExpire; let i = index" 
+                  (click)="setActiveButton(i); searchDocumentsNearingExpiration(data.code)"
+                  [ngClass]="{'active-button': activeButtonIndex === i}">
+                  <span class="prepare-to-expire-button">
+                    <span [style.color]="activeButtonIndex === i ? 'rgb(255, 255, 255)' : 'inherit'">
+                      {{data.value}}
+                    </span> 
+                    <span [style.color]="activeButtonIndex === i ? 'red' : 'rgba(227, 60, 60, 1)'">
+                      ({{data.quantity}})
+                    </span>
+                  </span>
+                </button>
+              </div>
+              
         </div>
     </div>
+    </form>
+
     <div nz-row style="margin-top: 32px;" class="mx-4">
         <div nz-col nzSpan="24">
             <table class="custom-table-list" style="background-color: #FCFCFC;">
@@ -138,10 +153,10 @@
                         <th class="list-col-3">Tác vụ</th>
 
                     </tr>
-                    <tr *ngFor="let data of  showEmpolyeeNoData()" style="text-align: center;"  >
+                    <tr *ngFor="let data of  showEmpolyeeNoData(), let i = index" style="text-align: center;"  >
                     <!-- <tr  style="text-align: center;"> -->
 
-                        <td class="list-col-1">{{data.id || '-'}}</td>
+                        <td class="list-col-1">{{i + 1 || '-'}}</td>
                         <td class="list-col-3" style="text-align: left !important; ">{{data.routeName || '-'}}</td>
                         <td class="list-col-1" style="text-align: left !important; padding-left: 10px;">{{data.registerNo || '-'}}</td>
                         <td class="list-col-2">{{data.manufacturer || '-'}}</td>

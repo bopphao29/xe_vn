@@ -156,3 +156,143 @@
   cursor: not-allowed; /* Hiệu ứng con trỏ khi hover */
 }
 
+.button-infor {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;      
+  border-radius: 10px;
+  border-color: #274EA1;
+  font-size: 18px;
+  width: 160px;
+  height: 48px !important;
+  font-weight: 500;
+}
+
+.button-infor svg {
+  margin-right: 8px; /* Thêm khoảng cách giữa icon và chữ */
+}
+
+.headmodalRest{
+  font-size: 24px; 
+height: 28px; 
+line-height: 28px; 
+margin: 60px 0 25px 0;
+display: flex; 
+justify-content: center;
+ align-items: center;
+}
+
+.button_show_detail{
+  border: 1px solid #274ea1; 
+  padding: 4px 10px 4px 10px; 
+  border-radius: 21px; 
+  color: #274EA1;
+  white-space: nowrap;
+}
+
+.form-input::placeholder {
+  text-transform: none;
+}
+
+
+.div-img-full {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.full-image {
+  display: block;
+  max-width: 100%;
+  max-height: 100vh; /* Chiều cao tối đa bằng màn hình để không tràn */
+  width: auto; /* Chiều rộng tự động theo kích thước thật */
+  height: auto; /* Chiều cao tự động theo kích thước thật */
+}
+
+
+.upload-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.upload-container {
+  border: 2px dashed rgba(107, 114, 128, 1); /* Đường viền dạng dashed */
+  background-color: rgba(244, 247, 251, 1); /* Màu nền */
+  border-radius: 8px;
+  height: 320px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease; /* Thêm hiệu ứng mượt khi thay đổi */
+}
+
+.upload-container.has-image {
+  width: 400px; 
+  height: 400px; 
+}
+
+.image-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.image-container{
+  width: 100%;
+  height: 100%;
+}
+
+.image-preview.has-image{
+  width: 400px !important; 
+  height: 400px !important; 
+}
+
+.label-form, .form-lable{
+  color: rgba(107, 114, 128, 1);
+  font-weight: 500;
+  font-size: 13px;
+}
+
+ .custom-pagination .ant-pagination-item {
+  border: none;
+  background-color: transparent;
+}
+
+ .custom-pagination .ant-pagination-item a{
+  color: #274EA1 !important;
+  font-weight: 500;
+   
+}
+ 
+ .custom-pagination  .ant-pagination-prev .ant-pagination-item-link,  .custom-pagination  .ant-pagination-next .ant-pagination-item-link {
+ background-color: transparent;
+ border: none;
+}
+
+ .custom-pagination  .ant-pagination-prev .ant-pagination-item-link .anticon svg{
+ // color: #274EA1;
+}
+
+ .custom-pagination .ant-pagination-prev .ant-pagination-item-link.ant-pagination-item-link-disabled .anticon svg {
+ color: #274EA1;
+}
+
+ .custom-pagination .ant-pagination-item.ant-pagination-item-active a{
+   background-color: #274EA1;
+   border-radius: 28px;
+   -webkit-border-radius: 28px;
+   -moz-border-radius: 28px;
+   -ms-border-radius: 28px;
+   -o-border-radius: 28px;
+   color: white !important;
+ }
+ 
+  .custom-pagination .ant-pagination-disabled {
+   color: #bfbfbf; 
+ }

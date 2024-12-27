@@ -103,7 +103,7 @@
                     <th class="list-col-2">Chi nhánh</th>
                     <th class="list-col-2">Bộ phận</th>
                     <th class="list-col-2">Ngày bắt đầu nghỉ</th>
-                    <th class="list-col-2">Ngày xác nhận đi làm lại</th>
+                    <th class="list-col-2" *ngIf="form.get('leaveType')?.value == 3">Ngày đi làm lại</th>
                     <th class="list-col-4">Lý do nghỉ</th>
                     <th class="list-col-2">Tác vụ</th>
 
@@ -117,7 +117,7 @@
                     <td class="list-col-2">{{data.branchName || '-'}}</td>
                     <td class="list-col-2">{{data.departmentName || '-'}}</td>
                     <td class="list-col-2">{{(data.leaveFromDate | date: 'dd/MM/yyyy' )   || '-'}}</td>
-                    <td class="list-col-2">{{(data.leaveToDate   | date: 'dd/MM/yyyy' )   || '-'}}</td>
+                    <td class="list-col-2" *ngIf="form.get('leaveType')?.value == 3">{{(data.leaveToDate   | date: 'dd/MM/yyyy' )   || '-'}}</td>
                     <td class="list-col-4">{{data.reason || '-'}} </td>
                     <td class="list-col-2" style="text-align: center;">
                         <a *ngIf="isLeave == false && onLeave == true && data.id" style="border-color: rgba(39, 78, 161, 0.3);" class="mx-1 button_show_detail" (click)="openModalonLeave(data.id)">
@@ -271,7 +271,7 @@
                 </span>
                 <span>
                     <button class="button-infor" nz-button style="color: #ffffff; background-color: #274EA1;" nzType="default"
-                        (click)="handleCancelDelete()">Xác nhận</button>
+                        (click)="handleSubmitResest()">Xác nhận</button>
                 </span>
             </div>
         </div>
@@ -357,7 +357,7 @@
                                   <label class="form-label"> <span style="color: red;">*</span>{{'employee.fromDate' | translate}}</label>
                                   <div>
                                     <nz-date-picker class="w-full" [nzShowTime]="{ nzFormat: 'HH' }"
-                                      nzFormat="dd/MM/yyyy HH" (ngModelChange)="onDateChange('fromDate',$event)" [nzDisabledDate]="disableBeforeDate('toDate')"
+                                      nzFormat="dd/MM/yyyy HH:00" (ngModelChange)="onDateChange('fromDate',$event)" [nzDisabledDate]="disableBeforeDate('toDate')"
                                       formControlName="fromDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                     <div style="height: 18px;">
                                       <div *ngIf="formLeaveType3.get('fromDate')?.touched" style="height: 20px;">
@@ -374,7 +374,7 @@
                                   <label class="form-label"><span style="color: red;">*</span>{{'employee.toDate' | translate}}</label>
                                   <div>
                                     <nz-date-picker class="w-full" [nzDisabledDate]="disableAfterDate('fromDate')" [nzShowTime]="{ nzFormat: 'HH' }"
-                                      nzFormat="dd/MM/yyyy HH" (ngModelChange)="onDateChange('toDate',$event)"
+                                      nzFormat="dd/MM/yyyy HH:00" (ngModelChange)="onDateChange('toDate',$event)"
                                       formControlName="toDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                     <div style="height: 18px;" *ngIf="formLeaveType3.get('fromDate')?.value">
                                       <div *ngIf="formLeaveType3.get('toDate')?.invalid && formLeaveType3.get('toDate')?.dirty || formLeaveType3.get('toDate')?.touched">
@@ -409,7 +409,7 @@
                 <button (click)="isLeaveType3 = false" class="button-infor" nz-button style="color: #274EA1; border-color: #274EA1;" nzType="default">Hủy</button>
             </span>
             <span class="ml-2">
-                <button (click)="updateWorkStatus()" class="button-infor" style="background-color: #274EA1; color: white;" nz-button nzType="default"
+                <button (click)="updateWorkStatusOnLeave()" class="button-infor" style="background-color: #274EA1; color: white;" nz-button nzType="default"
                     >Lưu</button>
             </span>
         </div>

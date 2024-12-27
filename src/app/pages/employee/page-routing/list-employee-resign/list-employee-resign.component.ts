@@ -252,7 +252,27 @@ export class ListEmployeeResignComponent {
   }
 
   handleSubmitResest(){
-    
+    const dataResest={
+      staffId : this.selectedEmployee['id'],
+      type : 1,
+      fromDate: null,
+      toDate: null,
+    }
+  
+    this.userSevice.updateStatusWork(dataResest).subscribe( {
+      next: (response) => {
+        this.notification.success('Xác nhận đi làm lại thành công!')
+        this.isDelete = false  
+        this.search()
+        // this.form.reset()
+        // this.getUser(this.idEmployee)
+      },
+      error: (error) => {
+        // if(error.status === 400){
+        //   this.notification.error(error.message)
+        // }
+  
+      }})
   }
 /////////////////////////////////////////DELETE /////////////////////////////////
 handleCancelDelete(){
@@ -272,7 +292,7 @@ handleSubmitDelete(){
   this.userSevice.updateStatusWork(dataDelete).subscribe( {
     next: (response) => {
       this.notification.success('Xóa nhân viên chờ nghỉ việc thành công!')
-      this.isDelete = false  
+      this.isResetEmployee = false  
       this.search()
       // this.form.reset()
       // this.getUser(this.idEmployee)
@@ -385,7 +405,7 @@ handleSubmitDelete(){
       localStorage.setItem('search', JSON.stringify(formValue));
     }
     
-    this.setupValueIntoForm()
+    // this.setupValueIntoForm()
       if(this.changeLeave == 2 || this.changeLeave == '2'){
         this.isLeave = true;
         this.isWaitLeave = false
@@ -450,17 +470,20 @@ handleSubmitDelete(){
 
   updateWorkStatusOnLeave(){
     const dataFormEndWork ={
-      leave_from_date: null,
-      type : 1
+      absenceScheduleId : this.selectedEmployee['absenceScheduleId'],
+      staffId : this.selectedEmployee['id'],
+      ...this.formLeaveType3.value,
     }
-    this.userSevice.updateStatusWork(dataFormEndWork).subscribe( {
+    this.userSevice.updateAbsenceSchedules(dataFormEndWork).subscribe( {
       next: (response) => {
-        this.notification.success('Đặt lịch nghỉ phép thành công!')
-        this.isModalOnLeaveEmployee = false  
+        this.notification.success('Sửa lịch phép thành công!')
+        this.isLeaveType3 = false  
         // this.form.reset()
         // this.getUser(this.idEmployee)
       },
       error: (error) => {
+        this.notification.error('Có lỗi xảy ra!')
+
         // if(error.status === 400){
         //   this.notification.error(error.message)
         // }

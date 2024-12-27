@@ -1,31 +1,30 @@
+
 <div class="" style="background-color: #FCFCFC;">
     <table class="custom-table-list" style="background-color: #FCFCFC;">
         <tbody>
             <tr style="background-color: #fcfcfc;">
                 <th class="list-col-1">{{'table.stt' | translate}}</th>
-                <th class="list-col-3">{{'vehical.vehicalStatus' | translate}}</th>
+                <th class="list-col-3">{{'vehicle.testItem' | translate}}</th>
                 <th class="list-col-2">{{'table.action' | translate}}</th>
             </tr>
-            <tr>
-                <td class="list-col-1">{{'-'}}</td>
-                <td class="list-col-3">{{'-'}}</td>
- 
-
-                <td class="button_action list-col-2  " style="text-align: center;">
-                    <div>
-                        <a class="mx-1 button_show_detail" >
-                            Chọn
-                        </a>
-                        <!-- <span *ngIf="!data.id">-</span> -->
-                    </div>
+            <tr *ngFor="let item of displayedData; let i = index">
+                <td class="list-col-1">{{ i + 1 }}</td>
+                <td class="list-col-3">{{ item.testItem }}</td>
+                <td class="button_action list-col-2" style="text-align: center;">
+                  <div>
+                    <a (click)="editVehicleStatus(item)" class="mx-1 button_show_detail">Sửa</a>
+                    <a class="mx-1 button_show_detail">Xóa</a>
+                  </div>
                 </td>
-            </tr>
+              </tr>
 
         </tbody>
     </table>
+
+
     <div nz-row class="w-full" >
         <div style="margin-top: 18px;">
-            <button type="button" class="button_add"><svg
+            <button type="button" class="button_add" (click)="onAdd()"><svg
                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -33,4 +32,47 @@
             </button>
         </div>
     </div>
+
+    <div style="margin-top: 20px; display: flex; justify-content: center;">
+        <nz-pagination
+            [(nzPageIndex)]="pageIndex"
+            [nzTotal]="testItemList.length"
+            [nzPageSize]="pageSize"
+            (nzPageIndexChange)="onPageChange($event)"
+            class="custom-pagination">
+        </nz-pagination>
+    </div>
 </div>
+
+<nz-modal [(nzVisible)]="isItemCheck" (nzOnCancel)="handleCancelisItemCheck()" (nzOnOk)="handleSubmitisItemCheck()" [nzCentered]="true" [nzClosable]="false" 
+    [nzContent]="modalContentisItemCheck" [nzFooter]="null" [nzStyle]="{'min-width' : '464px', 'min-height':'335px', 'width':'464px'}"  nzClassName="status_vehicle_modal">
+    <ng-template #modalContentisItemCheck>
+        <div class="headmodal">
+            <span style="justify-content: center; align-items: center; font-size: 24px; color: rgba(37, 44, 50, 1);" nz-icon nzType="check-circle" nzTheme="outline">
+                {{ isEditMode ? ('common.editStatusVehicle' | translate) : ('common.testItem' | translate) }}
+            </span>
+        </div>
+        <div >
+              
+        <div class="input-wrapper">
+            <div class="">
+                <label class="label-form" for="" >{{'vehicle.testItem' | translate}}</label>
+                <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="testItemInput" >
+            </div>
+    
+          </div>            
+            <div style="display: flex; gap: 8px; justify-content: space-between; margin-top: 20px"> 
+                <span>
+                    <button class="button-status" nz-button style="color: #274EA1;" nzType="default"
+                        (click)="handleCancelisItemCheck()">{{'common.cancelButton' | translate}}</button>
+                </span>
+                <span>
+                    <button [disabled]="!testItemInput" class="button-status" nz-button style="color: #ffffff; background-color: #274EA1;" nzType="default"
+                        (click)="handleSubmitisItemCheck()">{{'common.saveButton' | translate}}</button>
+                </span>
+            </div>
+        </div>
+        
+    </ng-template>
+</nz-modal>
+

@@ -17,7 +17,6 @@ export class VehicalServiceService {
   urlUser = environment.server + '/users/'
 
 
-
   createVehicle(formData : FormData){
  
     return this.httpClient.post(this.url + 'api/vehicles', formData)
@@ -76,6 +75,23 @@ export class VehicalServiceService {
   }
 
   approveVehical(data : any){
-    return this.httpClient.post(this.url + 'api/vehicles/update-approval-status', {data})
+    return this.httpClient.post(this.url + 'api/vehicles/update-approval-status', data)
+  }
+
+  getForMaintenance(page: number,size:number){
+    const params = 'page='+page.toString()+'&size='+size.toString()
+    return this.httpClient.get(this.url + 'api/vehicles/get-for-maintenance?' + params)
+  }
+
+  printVehicleDetail(data : any){
+    return this.httpClient.get(this.url + 'api/vehicles/print-vehicle-infos', data)
+  }
+
+  maintenanceRepairSchedules(data: any){
+    return this.httpClient.post(this.url + 'api/maintenance-repair-schedules', data)
+  }
+
+  getMaintenanceFacilities(){
+    return this.httpClient.get(this.url + 'api/maintenance-facilities')
   }
 }

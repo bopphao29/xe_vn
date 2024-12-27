@@ -18,8 +18,8 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ValidateIntoPageService } from '../../../shared/services/validate-into-page.service';
-
-
+import Swal from 'sweetalert2';
+import {PDF} from '../../../shared/pdf/pdf.util';
 
 interface FileCompressed {
   file: File[]
@@ -56,7 +56,7 @@ export class DetailVehicalComponent implements OnInit{
   };
   form!: FormGroup
   constructor(
-    private vehicalService : VehicalServiceService,
+    private vehicle : VehicalServiceService,
     private fb: FormBuilder,
     private msg: NzMessageService,
     private notifiService: NotificationService,
@@ -97,7 +97,7 @@ export class DetailVehicalComponent implements OnInit{
         odometer: [null,[ Validators.required, Validators.maxLength(16)]],
         // payload: [null, Validators.required],
         firstSubscriptionDate: [null, Validators.required],
-        fristRegistrationDate: [null, Validators.required],
+        firstRegistrationDate: [null, Validators.required],
         firstStartDateXE: [null, Validators.required],
         legalOwnerId: [null, Validators.required],
         firstStartDate: [null, Validators.required],
@@ -126,9 +126,9 @@ export class DetailVehicalComponent implements OnInit{
         gpsDeviceSetupDate: [null],
         driver: this.fb.group({
           driverId: null,
-          driverName: [null],
-          driverType: [null],
-          phoneNumber: null,
+          driverName: [null, Validators.required],
+          driverStatus: [null],
+          phoneNumber: [{ value: null, disabled: true }],
           startDate: [null],
           endDate: [null]
         })
@@ -147,10 +147,10 @@ export class DetailVehicalComponent implements OnInit{
 
       this.form.disable()
       this.form.get('driver.driverStatus')?.valueChanges.subscribe((value: any)=> {
-        if(value === '0' || value === 0){
-          this.status_vehicle = 0
-        }else{
+        if(value == 1){
           this.status_vehicle = 1
+        }else{
+          this.status_vehicle = 2
         }
       })
 
@@ -176,38 +176,40 @@ export class DetailVehicalComponent implements OnInit{
         if(this.is_New !== "0"){
           this.form.get('firstStartDateXE')?.reset()
           this.form.get('firstSubscriptionDate')?.reset()
-          this.form.get('fristRegistrationDate')?.reset()
+          this.form.get('firstRegistrationDate')?.reset()
           this.form.get('firstStartDateXE')?.clearValidators()
           this.form.get('firstSubscriptionDate')?.clearValidators()
-          this.form.get('fristRegistrationDate')?.clearValidators()
+          this.form.get('firstRegistrationDate')?.clearValidators()
         }
           else{
           this.form.get('firstStartDateXE')?.setValidators(Validators.required)
           this.form.get('firstSubscriptionDate')?.setValidators(Validators.required)
-          this.form.get('fristRegistrationDate')?.setValidators(Validators.required)
+          this.form.get('firstRegistrationDate')?.setValidators(Validators.required)
         }
     
         this.form.get('firstStartDateXE')?.updateValueAndValidity()
         this.form.get('firstSubscriptionDate')?.updateValueAndValidity()
-        this.form.get('fristRegistrationDate')?.updateValueAndValidity()
+        this.form.get('firstRegistrationDate')?.updateValueAndValidity()
     
       })
 
       this.form.get('driver.driverName')?.valueChanges.subscribe((value: any) => {
-        const selectedDriver = this.listDriver.find((driver: any) => driver.id === value); // Sửa thành so sánh đúng
+        // Tìm lái xe theo id
+        const selectedDriver = this.listDriver.find((driver: any) => driver.id === value); // So sánh theo id
         if (selectedDriver) {
-          // Nếu tìm thấy lái xe, cập nhật số điện thoại
-          this.form.get('driver')?.patchValue({
-            phoneNumber: selectedDriver.phoneNumber, // Sử dụng đúng trường dữ liệu
-            driverId: selectedDriver.id
-          });
+            // Nếu tìm thấy, cập nhật các trường
+            this.form.get('driver')?.patchValue({
+                phoneNumber: selectedDriver.phoneNumber, // Cập nhật số điện thoại
+                driverId: selectedDriver.id // Cập nhật driverId
+            });
         } else {
-          // Nếu không tìm thấy hoặc giá trị trống, đặt lại phoneNumber
-          this.form.get('driver')?.patchValue({
-            phoneNumber: '',
-          });
+            // Nếu không tìm thấy, đặt lại các giá trị
+            this.form.get('driver')?.patchValue({
+                phoneNumber: '',
+                driverId: null
+            });
         }
-      });
+    }); 
       
 
       this.getRoute()
@@ -235,16 +237,15 @@ export class DetailVehicalComponent implements OnInit{
   listRoute: any[] = []
   is_New: any
   getRoute(){
-    this.vehicalService.getRoute().subscribe((response : any)=> {
+    this.vehicle.getRoute().subscribe((response : any)=> {
       this.listRoute = response.data
     })
   }
 
   listVehicle : any[] = []
   getVehicleType(){
-    this.vehicalService.getVehicleType().subscribe((response : any)=> {
+    this.vehicle.getVehicleType().subscribe((response : any)=> {
       this.listVehicle = response.data
-      console.log(response)
     })
   }
   onFileSelected(event: Event): void {
@@ -261,6 +262,62 @@ export class DetailVehicalComponent implements OnInit{
     }
   }
 
+  handleCancel(): void {
+    this.isShowModalUploadfile = false;
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver = false;
+
+    if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
+      const file = event.dataTransfer.files[0];
+      this.fileCompressed.file[0] = file
+      this.handleFile(file);
+    }
+  }
+
+    handleFile(file: File): void {
+      // Kiểm tra loại file
+      if (file.type.startsWith('image/')) {
+        this.readFileImage(file);
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title:'Vui lòng tải lên một file hình ảnh hợp lệ!'
+        })
+      }
+    }
+
+  isDragOver: boolean = false;
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver = true; // Thay đổi trạng thái để highlight
+  }
+
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver = false; // Bỏ highlight khi rời khỏi vùng thả
+  }
+
+  isFullImageVisible: boolean = false;
+  fullImageSrc: string = '';
+  openFullImage(imageSrc: any): void {
+    this.fullImageSrc = imageSrc;
+    this.isFullImageVisible = true;
+    console.log(this.fullImageSrc)
+  
+  }
+
+  removeImage(){
+    this.previewImage = null
+    this.fileCompressed.file = []
+  
+  }
+
   readFileImage(file: File) {
     const reader = new FileReader();
 
@@ -275,14 +332,17 @@ export class DetailVehicalComponent implements OnInit{
     reader.readAsDataURL(file);
   }
 
-
   listVehicleModel : any[]= []
 
+  approvalStatus: any
+  
+  inforVehicle : any
 getVhicalDetail(id : any){
-    this.vehicalService.getVehicleDetail(id).subscribe((response : any) => {
+    this.vehicle.getVehicleDetail(id).subscribe((response : any) => {
+      this.inforVehicle = response.data
       const data = response.data
+      this.approvalStatus = response.data.approvalStatus
       this.form.patchValue(data)
-
       if(data.vehicleModelId != null){
         this.form.get('vehicleModelId')?.setValue(data.vehicleModelId)
       }
@@ -297,36 +357,46 @@ getVhicalDetail(id : any){
       if(data.status != null){
         this.form.get('status')?.setValue(data.status.toString())
       }
-
+      if(data.isNew != null){
+        this.form.get('isNew')?.setValue(data.isNew.toString())
+      }
 
       const driverGroup = this.form.get('driver');
-      if (driverGroup && driverGroup.value) {
-      const driverStatus = data.driver.driverType?.toString();
-        this.form.get('driver')?.get('driverType')?.setValue(driverStatus)
-        if(driverStatus){
-          this.form.get('driver')?.get('startDate')?.setValue(data.driver.startDate)
-          this.form.get('driver')?.get('endDate')?.setValue(data.driver.endDate)
+      if (driverGroup) {
+        if (data.driver) {
+          const driverId = this.listDriver.find(driver => driver.name === data.driver.driverName)?.id;
+  
+          this.form.get('driver')?.patchValue({
+            driverName: driverId || data.driver.driverName, // Patch ID, để `nz-select` hiển thị tên
+            phoneNumber: data.driver.phoneNumber || '',
+            driverStatus: data.driver.driverStatus?.toString() || '1',
+            startDate: data.driver.startDate || null,
+            endDate: data.driver.endDate || null,
+          });
+        } else {
+          this.form.get('driver')?.patchValue({
+            driverName: null, // Không có driver, để trống
+            phoneNumber: '',
+            driverStatus: '1',
+            startDate: null,
+            endDate: null,
+          });
         }
       }
-      
-    })
-
-    
+    });
   }
 
 
   getVehicleModel(id : any){
-    this.vehicalService.getVehicleModel(id).subscribe((response: any)=> {
+    this.vehicle.getVehicleModel(id).subscribe((response: any)=> {
       this.listVehicleModel = response.data
-      console.log(response)
     })
   }
 
   listLegalOwner : any[]= []
   getLegalOwners(){
-    this.vehicalService.getLegalOwners().subscribe((response: any)=> {
+    this.vehicle.getLegalOwners().subscribe((response: any)=> {
       this.listLegalOwner = response.data
-      console.log(response.data)
     })
   }
 
@@ -338,7 +408,7 @@ getVhicalDetail(id : any){
       phoneNumber: ""
     }
 
-    this.vehicalService.searchDriver(dataSearch).subscribe((response: any)=> {
+    this.vehicle.searchDriver(dataSearch).subscribe((response: any)=> {
       this.listDriver = response.data
     })
   }
@@ -451,11 +521,11 @@ getRawValue() {
 
   handleSubmitApprove(){
     const data = {
-      vehicleId : this.idDetail,
+      vehicleId : Number(this.idDetail),
       approvalStatus: 2,
       reason: ''
     }
-    this.vehicalService.approveVehical(data).subscribe({
+    this.vehicle.approveVehical(data).subscribe({
       next: (response) => {
         this.notification.success('Duyệt thành công!')
         this.isApprove = false  
@@ -465,16 +535,33 @@ getRawValue() {
   }
 
   id :any
+  selectedDriverName: string | null = null;
   saveDataEmployee(){
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
     });
 
+    const driverId = Number(this.form.get('driver')?.get('driverName')?.value);
+
+    if (driverId) {
+      const driver = this.listDriver.find(item => item.id == driverId); // Tìm driver theo id
+      this.selectedDriverName = driver ? driver.name : null; // Gán tên driver nếu tìm thấy
+    } else {
+      this.selectedDriverName = null;
+    }
+
+    console.log(this.selectedDriverName)
     const imageFileName = this.fileCompressed?.file?.length > 0 ? this.fileCompressed.file[0].name : null;
+    console.log(this.form.get('driver')?.get('driverName')?.value)
     console.log(this.fileCompressed.file)
     const dataForm = {
       id: this.id,
       ...this.form.value,
+      driver:{
+        ...this.form.get('driver')?.value,
+        driverId: driverId,
+        driverName: this.selectedDriverName
+      },
       image: this.form.get('image')?.value || imageFileName,
       roadMaintenanceFee: this.getRawValue(),
     }
@@ -493,19 +580,10 @@ getRawValue() {
     })
     // return;
     console.log(dataForm)
-    // console.log(formData.append('data', JSON.stringify(dataForm)))
-
-    // this.form.markAllAsTouched(); 
-    // console.log(this.form.get('isNew')?.value)
-
-    // this.vehicalService.updateVehicle(formData).subscribe((response: any)=> {
-    //   this.notifiService.success('Sửa thông tin phương tiện thành công')
-      
-    // })
 
     if (this.form.valid) {
       
-      this.vehicalService.updateVehicle(formData).subscribe( {
+      this.vehicle.updateVehicle(formData).subscribe( {
         next : (response: any) => {
           this.notifiService.success('Sửa thông tin phương tiện thành công')
           this.form.disable()
@@ -553,7 +631,28 @@ getRawValue() {
     
   }
 
+  nameOfPDF(): string {
+    const now = new Date()
+    const date = now.toLocaleDateString('vi-VN', {year: 'numeric', month: '2-digit', day: '2-digit'}).replace(/\//g, '_');
+    return `Thongtinphuongtien-${this.idDetail}-${date}`
+  }
 
+    pdfExport(){
+      this.vehicle.printVehicleDetail(this.inforVehicle).subscribe((response : any) => {
+        const base64 = response.data
+        console.log(base64)
+        const blob = PDF.base64ToBlob(base64, 'application/pdf')
+        // const blob = this.base64ToBlob(base64, 'application/pdf')
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${this.nameOfPDF()}.pdf`
+        a.click();
+        // this.notification.success('Xuất file thành công!')
+        // Dọn dẹp bộ nhớ
+        window.URL.revokeObjectURL(url);
+      })
+    }
 
 
 

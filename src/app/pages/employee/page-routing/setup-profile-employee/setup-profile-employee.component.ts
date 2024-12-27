@@ -13,7 +13,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzUploadChangeParam, NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, FormArray, Validators , AbstractControl} from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, FormArray,ValidationErrors, Validators ,ValidatorFn, AbstractControl} from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { from, Observable, Observer, of } from 'rxjs';
 import { IData } from '../../../../models/setup-profile-car/models-employee/setup-profile-employee/index.model';
@@ -281,6 +281,10 @@ export class SetupProfileEmployeeComponent implements OnInit {
     {id: 1, value: "Đã kết hôn"}
   ]
 
+
+  
+
+
   validateText(path: string | (string | number)[], event: Event) {
     this.validateService.validateText(this.form, path, event)
   }
@@ -306,8 +310,15 @@ validateYearOfBirth(name: string | (string | number)[], event: Event){
   this.validateService.validateYearOfBirth(this.form, name,event, this.minYear, this.maxYear)
 }
 
-validateYearOfBirthChild(name: string | (string | number)[], event: Event){
-  this.validateService.validateYearOfBirth(this.form, name,event, this.minYearChild, this.maxYearChild)
+validateYearOfBirthChild(
+  path: string | (string | number)[], // Đường dẫn tới control cần validate
+  event: Event
+) {
+  // Gọi hàm validate từ service
+  this.validateService.validateYearOfBirthChild(this.form,'lstChildren', path[1] as number,'yearOfBirth', event,
+    this.minYearChild,  // Giá trị min
+    this.maxYearChild   // Giá trị max
+  );
 }
 
 onBlur(path: string | (string | number)[]) {
@@ -506,12 +517,35 @@ onBlurNumber(path: string | (string | number)[]) {
     this.minYearChild = minYear
     const ChildForm = this.fb.group({
       name:  ['',[ Validators.required, , Validators.pattern(VIETNAMESE_REGEX)] ] ,
-      yearOfBirth: ['', [Validators.required, Validators.min(minYear), Validators.max(this.maxYearChild), Validators.maxLength(4), Validators.pattern(/^[0-9]*$/)]] ,
+      yearOfBirth: ['', [Validators.required, this.minMaxValidator(this.minYearChild, this.maxYearChild), Validators.maxLength(4), Validators.pattern(/^[0-9]*$/)]] ,
       gender: ['', Validators.required],
     });
     return ChildForm
   }
 
+  minMaxValidator(minYear: number, maxYear: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+
+      if (value === null || value === undefined || value === '') {
+        return null; // Không kiểm tra nếu giá trị trống.
+      }
+
+      if (isNaN(value) || !Number.isInteger(+value)) {
+        return { pattern: true }; // Giá trị không phải là số nguyên.
+      }
+
+      if (value < minYear) {
+        return { min: { requiredMin: minYear, actual: value } }; // Giá trị nhỏ hơn minYear.
+      }
+
+      if (value > maxYear) {
+        return { max: { requiredMax: maxYear, actual: value } }; // Giá trị lớn hơn maxYear.
+      }
+
+      return null; // Không có lỗi.
+    };
+  }
   /////////////////////////////////////////////////Add form array////////////////////////////////////////////////////////////
   addArchivedRecords() {
     // Thêm một phần tử mới vào lstArchivedRecords
@@ -1051,9 +1085,6 @@ beforeUpload = (file: NzUploadFile): boolean => {
   listCh: any[] = []
 
   showDataEmployee() {
-
-
-    
     this.inforEmployee = this.form.value
     this.form.markAllAsTouched(); 
     if(this.form.get('contractType')?.value == '2'){
@@ -1139,11 +1170,11 @@ beforeUpload = (file: NzUploadFile): boolean => {
     //     value.get('file')?.markAsTouched();
     //   })
     // }
-    if(this.form.get('hasChild')?.value  === '1'){
+    if(this.form.get('hasChild')?.value  == 1){
       this.lstChildren.controls.forEach((value: any) => {
         value.get('name')?.setValidators(Validators.required, Validators.pattern);
-        value.get('gender')?.setValidators(Validators.required);
-        value.get('yearOfBirth')?.setValidators(Validators.required, Validators.pattern);
+        value.get('gender')?.setValidators(Validators.required );
+        value.get('yearOfBirth')?.setValidators(Validators.required, Validators.pattern(/^[0-9]*$/), Validators.min(new Date().getFullYear() - 42), Validators.max(new Date().getFullYear()));
       })
     }else{
       this.lstChildren.controls.forEach((value: any) => {

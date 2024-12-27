@@ -230,3 +230,36 @@
     font-weight: 500;
   }
 }
+
+.prepare-to-expire-item:hover {
+  background-color: darkgray;
+  span{
+    color: lightgoldenrodyellow;
+    span{
+      color: red;
+    }
+  }
+}
+
+.active-button:active{
+  background-color: darkgray;
+  color: lightgoldenrodyellow;
+}
+
+.prepare-to-expire-item {
+  background-color: transparent;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.prepare-to-expire-item.active-button {
+  background-color: darkgray;
+}
+
+.prepare-to-expire-item.active-button .prepare-to-expire-button span:first-child {
+  color: rgb(255, 255, 255); 
+}
+
+.prepare-to-expire-item.active-button .prepare-to-expire-button span:last-child {
+  color: crimson;
+}
+

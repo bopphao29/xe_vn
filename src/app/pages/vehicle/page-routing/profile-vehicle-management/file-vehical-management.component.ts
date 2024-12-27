@@ -58,9 +58,10 @@ export class FileVehicalManagementComponent implements OnInit{
     registerNo: [savedFormValue ? JSON.parse(savedFormValue).registerNo : ''],
     driverName: [savedFormValue ? JSON.parse(savedFormValue).driverName : ''],
     phoneNumber: [savedFormValue ? JSON.parse(savedFormValue).phoneNumber : ''],
-    identedUser: [savedFormValue ? JSON.parse(savedFormValue).identedUser : ''],
-    vehicleModel: [savedFormValue ? JSON.parse(savedFormValue).vehicleModel : ''],
-    yearOfManufacture: [savedFormValue ? JSON.parse(savedFormValue).yearOfManufacture : ''],
+    indentedUse: [savedFormValue ? JSON.parse(savedFormValue).indentedUse : ''],
+    manufacturer: [savedFormValue ? JSON.parse(savedFormValue).manufacturer : ''],
+    manufactureYear: [savedFormValue ? JSON.parse(savedFormValue).manufactureYear : ''],
+    documentCode : [savedFormValue ? JSON.parse(savedFormValue).documentCode : '']
 
   })
 
@@ -108,14 +109,20 @@ export class FileVehicalManagementComponent implements OnInit{
     this.form.get('registerNo')?.setValue('')
     this.form.get('driverName')?.setValue('')
     this.form.get('phoneNumber')?.setValue('')
-    this.form.get('identedUser')?.setValue('')
-    this.form.get('vehicleModel')?.setValue('')
-    this.form.get('yearOfManufacture')?.setValue('')
+    this.form.get('indentedUse')?.setValue('')
+    this.form.get('manufacturer')?.setValue('')
+    this.form.get('manufactureYear')?.setValue('')
+    this.form.get('documentCode')?.setValue('')
     localStorage.removeItem('search')
+
+    this.activeButtonIndex = null;
+  this.documentCode = '';
+
   }
 
   pageIndex = 1
   pageSize = 9
+  isActive = false
 
   pagedData : any[] = []
 
@@ -130,6 +137,13 @@ export class FileVehicalManagementComponent implements OnInit{
   detailVehical(id: any){
     this.routes.navigate(['/detail-vehicle/', id])
   }
+  activeButtonIndex: number | null = null;
+
+
+setActiveButton(index: number): void {
+  this.activeButtonIndex = index;
+}
+
 
   getlist(data: any){
     const page = this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 ;
@@ -170,13 +184,14 @@ export class FileVehicalManagementComponent implements OnInit{
     }
   }
 
+  documentCode : any
   searchDocumentsNearingExpiration(code : any){
     const dataForm = {
       ...this.form.value,
       documentCode : code,
       
     }
-
+    this.documentCode = code
     this.getlist(dataForm)
     const formValue = this.form.value;
     if(formValue){
@@ -192,6 +207,7 @@ export class FileVehicalManagementComponent implements OnInit{
       ...this.form.value,
       page:this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 ,
       size: 9,
+      documentCode: this.documentCode ? this.documentCode : ''
     }
     this.getlist(dataForm)
     const formValue = this.form.value;

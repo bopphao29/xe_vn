@@ -44,7 +44,12 @@
         "employeeManagement":"Quản lý nhân sự",
         "custommerManagement":"Quản lý khách hàng",
         "vehicleManagement": "Quản lý phương tiện",
-        "operatorManagement": "Quản lý vận hành"
+        "operatorManagement": "Quản lý vận hành",
+        "saveButton":"Lưu",
+        "cancelButton": "Hủy",
+        "changeTitle":"Sửa",
+        "statusVehicle": "Trạng thái xe",
+        "deleteButton":"Xóa"
         
     },
     "menuHeader": {
@@ -128,10 +133,10 @@
         "legalOwnerId":"Pháp nhân sở hữu",
         "firstStartDateXE": "Ngày hoạt động lần đầu tại X.E",
         "firstSubscriptionDate" : "Ngày đăng ký lần đầu",
-        "fristRegistrationDate": "Ngày đăng kiểm lần đầu",
+        "firstRegistrationDate": "Ngày đăng kiểm lần đầu",
         "loanOrganization":"Tổ chức vay",
         "loanDate": "Ngày vay",
-        "loanMoney": "Số tiền vay",
+        "loanMoney": "Số tiền vay", 
         "maintenanceRepairHistory":"Lịch sử bảo dưỡng sửa chữa",
         "maintenanceAndRepair": "Bảo dưỡng và sửa chữa",
         "deepCleaning": "Vệ sinh chuyên sâu",
@@ -144,10 +149,13 @@
         "latestOdometer":"Km bảo dưỡng gần nhất",
         "latestDate": "Ngày bảo dưỡng gần nhất",
         "levelMaintenance":"Cấp bảo dưỡng hiện tại",
-        "supposedStartTime":"",
+        "supposedStartTime":"Thời gian bắt đầu dự kiến",
         "prepareToExpire": "Giấy Tờ Hồ Sơ Chuẩn Bị Hết Hạn",
-        "supposedStartDate":"",
-        "maintenancePlace": "",
+        "supposedStartDate":"Ngày bắt đầu dự kiến",
+        "supposedEndTime":"Thời gian kết thúc dự kiến",
+        "supposedEndDate":"Ngày kết thúc dự kiến",
+        "maintenancePlace": "Cơ sở bảo dưỡng",
+        "another": "Lưu ý khác",
         "approvalStatus":"",
         "priorityStatus":"",
         "status":"",
@@ -162,7 +170,9 @@
         "enterAllInStar":"Nhập đủ tất cả các trường thông tin có dấu *",
         "router":"Tuyến",
         "routerVehicle":"Xe tuyến",
-        "transitVehicle": "Xe trung chuyển"
+        "transitVehicle": "Xe trung chuyển",
+        "currentOdometer":"Số km hiện tại",
+        "testItem":"Hạng mục kiểm tra"
     },
     "navbar": {
         "ras": "Liên hệ",
@@ -241,7 +251,7 @@
     "table": {
         "stt":"STT",
         "time":"Thời gian",
-        "phone":"SĐT",
+        "phoneNumber":"SĐT",
         "action": "Tác vụ",
         "detailShow": "Xem chi tiết",
         "vehicle": {

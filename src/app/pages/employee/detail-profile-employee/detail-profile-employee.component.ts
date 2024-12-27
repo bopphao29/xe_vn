@@ -297,8 +297,8 @@ export class DetailProfileEmployeeComponent implements OnInit {
   ]
 
   listMarialStatus = [
-    {id: 1, value: "Chưa kết hôn"},
-    {id: 2, value: "Đã kết hôn"}
+    {id: 0, value: "Chưa kết hôn"},
+    {id: 1, value: "Đã kết hôn"}
   ]
 
   getUser(id: any) {
@@ -1093,16 +1093,13 @@ validateNumber(name: string | (string | number)[], event : Event){
     return (afterDate: Date | null): boolean => {
       if (!afterDate || !this.form) return false;
   
-      // Lấy ngày trước từ form và chuyển đổi về ngày (bỏ phần giờ)
       const beforeDateValue = this.form.get(name)?.value;
       const beforeDateObject = beforeDateValue ? new Date(beforeDateValue) : null;
       if (beforeDateObject) beforeDateObject.setHours(0, 0, 0, 0);
   
-      // Lấy ngày hôm nay (bỏ phần giờ)
       const today = new Date();
       today.setHours(0, 0, 0, 0);
   
-      // Nếu afterDate lớn hơn ngày trước, hoặc lớn hơn hôm nay
       const afterDateNoTime = new Date(afterDate);
       afterDateNoTime.setHours(0, 0, 0, 0);
   
@@ -1111,6 +1108,26 @@ validateNumber(name: string | (string | number)[], event : Event){
         : afterDateNoTime > today;
     };
   }
+
+  
+  disableAfterDate(name: string): (afterDate: Date | null) => boolean {
+    return (afterDate: Date | null): boolean => {
+      if (!afterDate || !this.form) return false;
+  
+      const beforeDate = this.form.get(name)?.value;
+      const today = new Date();
+      // Đặt giờ, phút, giây, và mili giây của ngày hôm nay về 0 để chỉ so sánh ngày
+      today.setHours(0, 0, 0, 0);
+      // Nếu không có beforeDate, chỉ kiểm tra ngày hôm nay
+      if (!beforeDate) {
+        return afterDate <= today;
+      }
+      const beforeDateObject = new Date(beforeDate);
+      // Ngày được chọn phải lớn hơn hôm nay và nhỏ hơn beforeDate
+      return afterDate <= today || afterDate >= beforeDateObject;
+    };
+  }
+  
 
   disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
     return (beforeDate: Date | null): boolean => {
