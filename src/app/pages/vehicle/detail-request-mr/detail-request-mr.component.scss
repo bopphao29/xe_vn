@@ -1,0 +1,495 @@
+// @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+.form-control {
+    border: none;
+  }
+  
+  .label_setup {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 18.75px;
+    text-align: left;
+    color: rgba(37, 44, 50, 1);
+  }
+  
+  ::ng-deep .label_form {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 15.23px;
+    text-align: left;
+    color: rgba(107, 114, 128, 1) !important;
+  
+  }
+  
+  ::ng-deep .ant-row .ant-col nz-form-item nz-form-label label {
+    color: rgba(107, 114, 128, 1) !important;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 15.23px;
+    text-align: left;
+  }
+  
+  ::ng-deep .ant-row .ant-col nz-form-label label {
+    color: rgba(107, 114, 128, 1) !important;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 15.23px;
+    text-align: left;
+  }
+  
+  
+  ::ng-deep .ant-row .ant-col .ant-form-item .ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .ant-radio-group .ant-radio-wrapper span {
+    color: rgb(37, 50, 41);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16.41px;
+    text-align: left;
+  
+  }
+  
+  
+  
+  ::ng-deep {
+    nz-form-label.ant-form-item-label.form-label.ant-col {
+      margin-bottom: -5px;
+    }
+  
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+      height: 48px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      border-radius: 5px;
+    }
+  
+    nz-select-item.ant-select-selection-item.ng-star-inserted {
+      font-weight: 600;
+    }
+  
+    .form-input {
+      height: 48px;
+      border-radius: 5px;
+    }
+  
+    .ant-picker {
+      height: 48px;
+      border-radius: 5px;
+    }
+  
+    .button {
+      padding: 25px 61px;
+      display: flex;
+      border-radius: 10px;
+      align-items: center;
+      font-size: 18px;
+    }
+  
+  
+    .button-infor {
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      border-color: #274EA1;
+      font-size: 18px;
+      width: 160px;
+      height: 48px !important;
+      font-weight: 500;
+    }
+  
+    .button-infor svg {
+      margin-right: 8px;
+      /* Thêm khoảng cách giữa icon và chữ */
+    }
+  
+    .custom-upload {
+      display: flex;
+      align-items: center;
+      margin-left: 0px !important;
+      margin-left: 0px !important;
+      width: 100% !important;
+    }
+  
+    .upload-input {
+      flex: 1;
+      padding: 8px;
+      /* Adjust padding as needed */
+    }
+  
+    .ng-tns-c2245839801-68.ant-upload-list-text-container.ng-star-inserted {
+      display: none;
+    }
+  
+    .ant-upload-picture-card-wrapper {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+    }
+  
+    .ant-upload.ant-upload-select-picture-card {
+      width: 350px;
+      height: 250px;
+    }
+  
+  }
+  
+  :host ::ng-deep .avatar-uploader>.ant-upload {
+    width: 128px;
+    height: 128px;
+  }
+  
+  .button_add {
+    height: 40px;
+    width: 40px;
+    padding: 8px;
+    gap: 10px;
+    display: block;
+    color: white;
+    background-color: #274EA1;
+    border-radius: 31px;
+    -webkit-border-radius: 31px;
+    -moz-border-radius: 31px;
+    -ms-border-radius: 31px;
+    -o-border-radius: 31px;
+  }
+  
+  .custom-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .custom-table td {
+    border: 1px solid #d9d9d9;
+    padding-left: 10px;
+    text-align: left;
+  
+  }
+  
+  .custom-table .col-1 {
+    font-weight: bold;
+    width: 33.33%;
+    height: 32px;
+  
+  }
+  
+  .custom-table .col-2 {
+    width: 66.67%;
+    height: 32px;
+  
+  }
+  
+  .header-table .col-table-3 {
+    font-weight: bold;
+    width: 5% !important;
+    height: 32px;
+    // vertical-align: top;
+    
+  }
+  
+  .header-table .col-table-4 {
+    // font-weight: bold;
+    width: 95%;
+    height: 32px;
+    // vertical-align: top;
+  }
+  
+
+  .header-table-vt .col-table-1{
+    width: calc(40 / 1080)*100%;
+  }
+  .header-table-vt .col-table-2{
+    width: calc(720 / 1080)*100%
+  }
+  .header-table-vt .col-table-3{
+    width: calc(120 / 1080)*100%
+  }
+
+  .custom-table-list {
+  
+    width: calc(98% + 6px);
+    border-collapse: collapse;
+  }
+  
+  .custom-table-list th,
+  .custom-table-list td {
+    border: 1px solid #d9d9d9;
+    // padding: 8px;
+    padding-left: 10px;
+    height: 36px !important;
+  }
+  
+  .custom-table-list .list-col-1 {
+    width: 4%;
+  }
+  
+  .custom-table-list .list-col-2 {
+    width: 65%;
+  }
+  
+  .custom-table-list .list-col-3 {
+    width: 15.5%;
+  }
+  
+  .custom-table-list .list-col-4 {
+    width: 15.5%;
+  }
+  
+  
+  .headmodal {
+    font-size: 24px;
+    height: 28px;
+    line-height: 28px;
+    margin: 35px 0 35px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .form-col {
+    width: calc(100%/3);
+  
+    div {
+      width: calc(100% - 16px);
+  
+      .ant-form-item .ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .div {
+        width: 100%;
+      }
+    }
+  
+  
+  }
+  
+  
+  @media (max-width: 1155px) {
+    .form-col {
+      width: calc(50%);
+      /* Mỗi item chiếm 1/2 dòng, trừ đi khoảng cách */
+    }
+  
+    /* Input thứ 3 bị đẩy xuống dòng dưới */
+    .form-col:nth-child(3) {
+      width: 100%;
+      /* Chiếm hết chiều rộng khi bị đẩy xuống */
+    }
+  }
+  
+  .upload-container {
+    text-align: center;
+  }
+  
+  .image-preview {
+    margin-top: 15px;
+  }
+  
+  .preview-img {
+    max-width: 450px !important;
+    max-height: 450px !important;
+  }
+  
+  .validate_input {
+    color: red;
+    font-size: 13px;
+  }
+  
+  .instruct{
+    color: #fe8605;
+    font-size: 13px;
+  }
+  
+  /* styles.css hoặc file CSS tương ứng */
+  
+  .disabled-input {
+    // background-color: #f5f5f5; /* Màu nền xám để thể hiện trạng thái disabled */
+    pointer-events: none; /* Ngăn không cho tương tác */
+    opacity: 0.5; /* Giảm độ trong suốt */
+  }
+  
+  /* Nếu bạn muốn thêm hiệu ứng khi mờ */
+  .disabled-input:hover {
+    cursor: not-allowed; /* Hiệu ứng con trỏ khi hover */
+  }
+  
+  .nzSelect{
+    width: 100%;
+  
+  }
+  
+  
+  
+  ///////////////////////////////////////////////
+  /// 
+  .form-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .input-wrapper {
+    padding: 0 8px; /* Tạo khoảng cách giữa các ô */
+  }
+  
+  .input-form {
+    width: 100%; 
+    padding: 12px;
+    border: 1px solid rgba(209, 213, 219, 1);
+    height: 48px;
+    border-radius: 6px;
+  }
+  
+  .input-form:focus {
+    outline:1px solid #3ea9f5;
+    box-shadow: 5px;
+  }
+  
+//   @media (max-width: 1024px) {
+//     .input-wrapper {
+//       width: calc(100%/7); 
+//       flex: 1 1 calc(100% / 2); 
+//     }
+//     .recordStorage{
+//       width: calc(100% - 24px)
+//     }
+//     .children{
+//       width: calc(100% - 30px);
+//     }
+//     .adrress-input{
+//       width: calc(100%/7);
+//       flex: 1 1;
+//     }
+//   }
+  
+//   @media (max-width: 1280px) and (min-width: 1024px) {
+//     .input-wrapper {
+//       width: calc(100%/7); 
+//       flex: 1 1 calc(100% / 3); 
+//     }
+//     // .recordStorage{
+//     //   width: calc(100%/7*2 - 16px);
+//     // }
+//     .children{
+//       width: calc(50% - 16px);
+//     }
+//     .adrress-input {
+//       width :calc(100%/7*3 );
+//       flex: 1 1;
+//     }
+//     .date-choose{
+//       width: calc(50% - 16px);
+//     }
+//     .labor-contract{
+//       width: calc(50% - 16px);
+//     }
+//     .recordStorage{
+//       margin-left: 4px;
+//       width: calc(100%/7*5 + 14px);
+//       .lstArchivedRecords{
+//         width: 100% !important
+//       }
+//     }
+//     .children{
+//       width: calc(100%/7*5 + 36px);
+//     }
+  
+//   }
+  
+//   @media (max-width: 1460px) and (min-width: 1280px){
+//     .input-wrapper {
+//       width: calc(100%/5); 
+//       // flex: 1 1 calc(100% / 6); 
+//     }
+//     .date-choose{
+//       width: calc(50% - 16px);
+//     }
+//     .adrress-input{
+//       width: calc(100%/5*2 - 16px);
+//     }
+//     .labor-contract{
+//       width: calc(50% - 16px);
+//     }
+//     .recordStorage{
+//       width: calc(100%/7*6 - 130px)
+//     }
+//     .children{
+//       width: calc(100%/7*5 + 36px);
+//     }
+//   }
+  
+//   @media (min-width: 1461px) {
+//     .date-choose{
+//       width: calc(28% - 8px);
+//     }
+//     .adrress-input{
+//       width: calc(100%/7*2 - 16px);
+//     }
+//     .labor-contract{
+//       width: calc(100%/7*3 - 18px);
+//     }
+//     .recordStorage{
+//       width: calc(100%/7*4 - 2px);
+//     }
+//     .children{
+//       width: calc(100%/7*3 - 20px) ;
+//     }
+//   }
+
+//   @media (min-width: 1660px){
+//     .labor-contract{
+//       width: calc(100%/7*3 - 16px);
+//     }
+//   }
+
+  
+  .error-container{
+    height: 18px
+  }
+  
+  .label-form{
+    color: rgba(107, 114, 128, 1);
+    font-weight: 500;
+    font-size: 13px;
+  }
+
+  textarea{
+    width: 100%;
+    padding: 8px;
+    border: 1px solid rgba(209, 213, 219, 1);
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -ms-border-radius: 6px;
+    -o-border-radius: 6px;
+}
+
+  .input-wrapper{
+    div{
+        label{
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 16.41px;
+            color: rgba(107, 114, 128, 1);
+        }
+    }
+  }
+
+  .opinion{
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.41px;
+    color: rgba(39, 78, 161, 1);
+    height: 64px !important;
+  }
+
+  .isApprove{
+    padding: 48px 32px 32px 32px;
+    border-radius: 12px !important;
+    -webkit-border-radius: 12px !important;
+    -moz-border-radius: 12px !important;
+    -ms-border-radius: 12px !important;
+    -o-border-radius: 12px !important;
+}

@@ -13,7 +13,7 @@
                 <td class="button_action list-col-2" style="text-align: center;">
                   <div>
                     <a (click)="editVehicleStatus(item)" class="mx-1 button_show_detail">Sửa</a>
-                    <a class="mx-1 button_show_detail">Xóa</a>
+                    <a (click)="openDeleteModal(item)" class="mx-1 button_show_detail">Xóa</a>
                   </div>
                 </td>
               </tr>
@@ -76,3 +76,32 @@
     </ng-template>
 </nz-modal>
 
+<nz-modal [(nzVisible)]="isDeleteItemCheck" (nzOnCancel)="handleCancelDeleteItemCheck()" (nzOnOk)="handleSubmitDeleteItemCheck()" [nzCentered]="true" [nzClosable]="false" 
+    [nzContent]="modalContentDeleteStatusVehicle" [nzFooter]="null" [nzStyle]="{'min-width' : '464px', 'min-height':'335px', 'width':'464px'}"  nzClassName="status_vehicle_modal">
+    <ng-template #modalContentDeleteStatusVehicle>
+        <div class="headmodal">
+            <span style="justify-content: center; align-items: center; font-size: 24px; color: rgba(37, 44, 50, 1);" nz-icon nzType="check-circle" nzTheme="outline">{{'common.statusVehicle' | translate}}</span>
+        </div>
+        <div >
+              
+        <div class="input-wrapper">
+            <div class="">
+                <label class="label-form" for="" >{{'vehicle.vehicleStatus' | translate}}</label>
+                <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="testItemInput" >
+            </div>
+    
+          </div>            
+            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 20px"> 
+                <span>
+                    <button class="button-status" nz-button style="color: #274EA1;" nzType="default"
+                        (click)="handleCancelDeleteItemCheck()">{{'common.cancelButton' | translate}}</button>
+                </span>
+                <span>
+                    <button class="button-status" nz-button style="color: #ffffff; background-color: #274EA1;" nzType="default"
+                        (click)="handleSubmitDeleteItemCheck()">{{'common.deleteButton' | translate}}</button>
+                </span>
+            </div>
+        </div>
+        
+    </ng-template>
+</nz-modal>

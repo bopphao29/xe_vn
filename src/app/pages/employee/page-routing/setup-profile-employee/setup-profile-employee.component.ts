@@ -673,28 +673,70 @@ onBlurNumber(path: string | (string | number)[]) {
     this.listCh = [];
   }
 
-    
   handleCancelDone1(){
     this.isDone = false
-  }
+    this.form.reset({
+      contractType: '1',
+      hasChild: '0',
+      yearOfBirth: null
+    })
 
-  handleCancelDone2(){
-    this.isDone = false
-    this.form.reset()
+    const resetFormArray = (formArrayName: string, defaultGroup: () => FormGroup) => {
+      const formArray = this.form.get(formArrayName) as FormArray;
+      if (formArray) {
+        formArray.clear(); 
+        formArray.push(defaultGroup()); 
+      }
+    };
+  
+    resetFormArray('contract', () =>
+      this.fb.group({
+        signDate: [null], 
+        endDate: [null],
+        file: [null]
+      })
+    );
+  
+    resetFormArray('lstArchivedRecords', () =>
+      this.createArchivedRecords({
+        name: null,
+        code: null,
+        type: null,
+        file: null,
+      })
+    );
+  
+    resetFormArray('lstChildren', () =>
+      this.fb.group({
+        yearOfBirth: null, 
+        name: null,
+        gender: null
+      })
+    );
   }
 
   handleSubmit(): void {
     this.isModalInforEmployee = false;
   }
 
-  dataRouter:string = 'employeeProfile'
+  dataRouterEmployeeProfile:string = 'employeeProfile'
+  dataRouterEmployeeProbation:string = 'employeeeProbation'
+
   ////////////////////////////////////////////////////function routes link/////////////////////////////////ks//////////////////////////
-  handleSubmitDone(name : string){
-    localStorage.removeItem('activeLink')
-    localStorage.setItem('activeLink','employeeProfile')
-    this.routes.navigate(['employee/list-employee-profile'])
-    this.routerEmployee.update(this.dataRouter)
+  handleSubmitDone(){
+    if(this.form.get('contractType')?.value == 1){
+      localStorage.removeItem('activeLink')
+      localStorage.setItem('activeLink','employeeProfile')
+      this.routes.navigate(['employee/list-employee-profile'])
+      this.routerEmployee.update(this.dataRouterEmployeeProfile)
+    }else{
+      localStorage.removeItem('activeLink')
+      localStorage.setItem('activeLink','employeeeProbation')
+      this.routes.navigate(['employee/list-employee-probation'])
+      this.routerEmployee.update(this.dataRouterEmployeeProbation)
+    }
   }
+
 
 
   ///////////////////////////////////////////////////funcion check ////////////////////////////////////////////////////////////////////////////
@@ -911,11 +953,7 @@ beforeUpload = (file: NzUploadFile): boolean => {
     this.isDone = false;
     this.hasDriver = false
     this.isModalInforEmployee = false
-    // Reset form với giá trị mặc định
-    // this.form.get('phoneNumber')?.setErrors({required : null});
-    // this.form.get('phoneNumber')?.updateValueAndValidity();
-    // this.form.get('contactPersonPhone')?.clearValidators();
-    // this.form.get('contactPersonPhone')?.updateValueAndValidity();
+
     this.form.reset({
       contractType: '1',
       hasChild: '0',
@@ -933,9 +971,9 @@ beforeUpload = (file: NzUploadFile): boolean => {
   
     resetFormArray('contract', () =>
       this.fb.group({
-        signDate: [''], 
-        endDate: [''],
-        file: ['']
+        signDate: [null,[ Validators.required]], 
+        endDate: [null],
+        file: [null,[ Validators.required]]
       })
     );
   

@@ -88,7 +88,7 @@
                         <div class="input-wrapper">
                             <div class="">
                                 <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehicle.currentOdometer' | translate}}</label>
-                                <input class="input-form"  placeholder="30E-8888" type="text" formControlName="currentOdometer" >
+                                <input class="input-form"  placeholder="30E-8888" type="number" formControlName="currentOdometer" >
                                 <div class="error-container">
                                     <div *ngIf="form.get('currentOdometer')?.invalid && (form.get('currentOdometer')?.dirty || form.get('currentOdometer')?.touched)">
                                         <span class="validate_input" *ngIf="form.get('currentOdometer')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
@@ -128,7 +128,7 @@
                         <div class="input-wrapper">
                             <div class="">
                                 <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehicle.supposedStartDate' | translate}}</label>
-                                <nz-date-picker class="w-full" style="height: 48px !important;" nzFormat="dd/MM/yyyy" formControlName="supposedStartDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
+                                <nz-date-picker class="w-full" style="height: 48px !important;" [nzDisabledDate]="disableAfterDate('supposedEndDate')" nzFormat="dd/MM/yyyy" formControlName="supposedStartDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                 <div class="error-container">
                                     <div *ngIf="form.get('supposedStartDate')?.invalid && (form.get('supposedStartDate')?.dirty || form.get('supposedStartDate')?.touched)">
                                         <span class="validate_input" *ngIf="form.get('supposedStartDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
@@ -153,7 +153,7 @@
                         <div class="input-wrapper">
                             <div class="">
                                 <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehicle.supposedEndDate' | translate}}</label>
-                                <nz-date-picker class="w-full" style="height: 48px !important;" nzFormat="dd/MM/yyyy" formControlName="supposedEndDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
+                                <nz-date-picker class="w-full" [nzDisabledDate]="disableBeforeDate('supposedStartDate')"  style="height: 48px !important;" nzFormat="dd/MM/yyyy" formControlName="supposedEndDate" nzPlaceHolder="Chọn ngày"></nz-date-picker>
                                 <div class="error-container">
                                     <div *ngIf="form.get('supposedEndDate')?.invalid && (form.get('supposedEndDate')?.dirty || form.get('supposedEndDate')?.touched)">
                                         <span class="validate_input" *ngIf="form.get('supposedEndDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
@@ -166,12 +166,12 @@
                         <div class="input-wrapper">
                             <div class="">
                                 <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehicle.maintenancePlace' | translate}}</label>
-                                <nz-select nzPlaceHolder="Chọn" class="nzSelect"  formControlName="maintenancePlace" style="height: 48px !important;"> 
+                                <nz-select nzPlaceHolder="Chọn" class="nzSelect"  formControlName="maintenanceFacilityId" style="height: 48px !important;"> 
                                     <nz-option *ngFor="let data of listMaintenanceFacilities" [nzValue]="data.id" [nzLabel]="data.name"></nz-option>
                                 </nz-select>
                                 <div class="error-container">
-                                    <div *ngIf="form.get('maintenancePlace')?.invalid && (form.get('maintenancePlace')?.dirty) || form.get('maintenancePlace')?.touched">
-                                        <span class="validate_input" *ngIf="form.get('maintenancePlace')?.hasError('required')">{{'required.cannotBlank' | translate}}</span>
+                                    <div *ngIf="form.get('maintenanceFacilityId')?.invalid && (form.get('maintenanceFacilityId')?.dirty) || form.get('maintenanceFacilityId')?.touched">
+                                        <span class="validate_input" *ngIf="form.get('maintenanceFacilityId')?.hasError('required')">{{'required.cannotBlank' | translate}}</span>
                                     </div>
                                 </div>
                             </div>

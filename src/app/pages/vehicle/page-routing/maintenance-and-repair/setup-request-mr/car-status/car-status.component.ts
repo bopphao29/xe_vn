@@ -108,17 +108,37 @@ handleCancelisStatusVehicle(): void {
   }
   
 
-  handleCancelDeleteStatusVehicle(){
-    
+  statusVehicleToDelete: any = null; // Lưu đối tượng cần xóa
+  
+  openDeleteModal(item: any): void {
+    // Mở modal xóa và điền thông tin vào
+    this.isDeleteStatusVehicle = true;
+    this.statusVehicleToDelete = item; // Lưu thông tin đối tượng cần xóa
+    this.statusVehicle = item.vehicleStatus; // Điền trạng thái xe vào modal
   }
   
-  handleSubmitDeleteStatusVehicle(){
-
+  handleCancelDeleteStatusVehicle(): void {
+    // Đóng modal xóa
+    this.isDeleteStatusVehicle = false;
+    this.statusVehicleToDelete = null; // Xóa thông tin đối tượng cần xóa
   }
-
- 
-  onSubmit(){
-
+  
+  handleSubmitDeleteStatusVehicle(): void {
+    if (this.statusVehicleToDelete) {
+      // Xóa trạng thái xe khỏi danh sách
+      this.statusVehicleList = this.statusVehicleList.filter(
+        item => item.id !== this.statusVehicleToDelete.id
+      );
+  
+      // Cập nhật danh sách hiển thị
+      this.updateDisplayedData();
+      this.total = this.statusVehicleList.length; // Cập nhật tổng số mục
+    }
+  
+    // Đóng modal xóa
+    this.isDeleteStatusVehicle = false;
+    this.statusVehicleToDelete = null;
+    this.sendDataToParent()
   }
 
 

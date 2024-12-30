@@ -198,7 +198,6 @@ export class ListEmployeeViolatesDisciplineComponent implements OnInit{
 
 
   search(){
-
     const rangeDate = this.form.get('rangeDate')?.value
     this.fromDate = rangeDate ? rangeDate[0] : null
     this.toDate = rangeDate ? rangeDate[1] : null

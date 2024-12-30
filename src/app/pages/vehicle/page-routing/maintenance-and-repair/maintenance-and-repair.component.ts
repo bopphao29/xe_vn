@@ -24,6 +24,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 export class MaintenanceAndRepairComponent {
   data = 'aaaa'
 
+  receiveRouterLink(name: string){
+
+  }
   currentTab: string = 'setup-request'; // Tab mặc định
 
   switchTab(tab: string) {

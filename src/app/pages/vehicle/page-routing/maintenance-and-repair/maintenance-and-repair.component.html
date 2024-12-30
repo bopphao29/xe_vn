@@ -25,8 +25,8 @@
   
   <!-- Hiển thị component con dựa trên giá trị của `currentTab` -->
   <div class="tab-content" style="margin-top: 0px !important; background-color: #f3f3f3;">
-    <app-setup-request-mr *ngIf="currentTab === 'setup-request'"></app-setup-request-mr>
-    <app-list-request-mr *ngIf="currentTab === 'list-request'"></app-list-request-mr>
+    <app-setup-request-mr  *ngIf="currentTab === 'setup-request'"></app-setup-request-mr>
+    <app-list-request-mr (dataEmmitter)="receiveRouterLink('list-request')" *ngIf="currentTab === 'list-request'"></app-list-request-mr>
     <app-report-request-mr *ngIf="currentTab === 'report-request'" [data]="data"></app-report-request-mr>
   </div>
   

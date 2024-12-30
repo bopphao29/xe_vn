@@ -29,7 +29,7 @@ export class ItemCheckComponent {
   
     }
   isItemCheck : boolean = false
-  isDeleteStatusVehicle: boolean =false
+  isDeleteItemCheck: boolean =false
   testItemInput: string = ''
   testItemList: Array<{ id: number; testItem: string }> = [];
 
@@ -95,19 +95,38 @@ handleSubmitisItemCheck(): void {
     this.isEditMode = false; // Đặt lại chế độ
     this.sendDataToParent()
   }  
-
   
-  handleCancelDeleteStatusVehicle(){
-    
+  itemCheckToDelete: any = null; // Lưu đối tượng cần xóa
+
+  openDeleteModal(item: any): void {
+    // Mở modal xóa và điền thông tin vào
+    this.isDeleteItemCheck = true;
+    this.itemCheckToDelete = item; // Lưu thông tin đối tượng cần xóa
+    this.testItemInput = item.testItem; // Điền trạng thái xe vào modal
   }
   
-  handleSubmitDeleteStatusVehicle(){
-
+  handleCancelDeleteItemCheck(): void {
+    // Đóng modal xóa
+    this.isDeleteItemCheck = false;
+    this.itemCheckToDelete = null; // Xóa thông tin đối tượng cần xóa
   }
-
- 
-  onSubmit(){
-
+  
+  handleSubmitDeleteItemCheck(): void {
+    if (this.itemCheckToDelete) {
+      // Xóa trạng thái xe khỏi danh sách
+      this.testItemList = this.testItemList.filter(
+        item => item.id !== this.itemCheckToDelete.id
+      );
+  
+      // Cập nhật danh sách hiển thị
+      this.updateDisplayedData();
+      this.total = this.testItemList.length; // Cập nhật tổng số mục
+    }
+  
+    // Đóng modal xóa
+    this.isDeleteItemCheck = false;
+    this.itemCheckToDelete = '';
+    this.sendDataToParent()
   }
 
   

@@ -1,0 +1,508 @@
+<div style="background-color: #f7f7f7;">
+    <div nz-row>
+        <div nz-col nzSpan="14">
+            <button (click)="onBack($event)" class="flex" style="margin-top: 10px;">
+                <span class="mx-2 " style="margin-top: 3px ; cursor: pointer;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.825 9L9.425 14.6L8 16L0 8L8 0L9.425 1.4L3.825 7H16V9H3.825Z" fill="#274EA1" />
+                    </svg>
+                </span>
+                <span>
+                    Quay lại
+                    
+                </span>
+            </button>
+            </div>
+        <div nz-col nzSpan="10">
+            <div class="flex justify-end" style="margin-top: 10px;">
+                <span  class="mx-2"  *ngIf="inforMR?.approvalStatus == 1">
+                    <button class="button-infor" nz-button style="color: #274EA1;" nzType="default" (click)="OnApprove()">
+                        <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.2454 15.8332L3 10.303L4.31135 8.92049L8.2454 13.0681L16.6887 4.1665L18 5.54904L8.2454 15.8332Z" fill="#22C55E"/>
+                            </svg>                            
+                        <span>Duyệt</span>
+                    </button>
+                </span>
+
+                <span  class="mx-2" *ngIf="inforMR?.approvalStatus == 1">
+                    <button class="button-infor" nz-button style="color: #274EA1;" nzType="default" (click)="onUnApprove()">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.33329 15.8332L4.16663 14.6665L8.83329 9.99984L4.16663 5.33317L5.33329 4.1665L9.99996 8.83317L14.6666 4.1665L15.8333 5.33317L11.1666 9.99984L15.8333 14.6665L14.6666 15.8332L9.99996 11.1665L5.33329 15.8332Z" fill="#EF4444"/>
+                            </svg>                            
+                        <span>Không duyệt</span>
+                    </button>
+                </span>
+                <span  class="mx-2">
+                    <button class="button-infor" nz-button style="color: #274EA1;" nzType="default" (click)="onOpinion()">
+                        <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 17.5V13.9583L14 2.97917C14.1667 2.82639 14.3507 2.70833 14.5521 2.625C14.7535 2.54167 14.9653 2.5 15.1875 2.5C15.4097 2.5 15.625 2.54167 15.8333 2.625C16.0417 2.70833 16.2222 2.83333 16.375 3L17.5208 4.16667C17.6875 4.31944 17.809 4.5 17.8854 4.70833C17.9618 4.91667 18 5.125 18 5.33333C18 5.55556 17.9618 5.76736 17.8854 5.96875C17.809 6.17014 17.6875 6.35417 17.5208 6.52083L6.54167 17.5H3ZM15.1667 6.5L16.3333 5.33333L15.1667 4.16667L14 5.33333L15.1667 6.5Z" fill="#274EA1"/>
+                            </svg>                                                       
+                        <span>Ý kiến</span>
+                    </button>
+                </span>
+                <span  class="mx-2">
+                    <button class="button-infor" nz-button style="color: #274EA1;" nzType="default" (click)="onShare()">
+                        <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15.5 18.3337C14.8056 18.3337 14.2153 18.0906 13.7292 17.6045C13.2431 17.1184 13 16.5281 13 15.8337C13 15.7364 13.0069 15.6357 13.0208 15.5316C13.0347 15.4274 13.0556 15.3337 13.0833 15.2503L7.20833 11.8337C6.97222 12.042 6.70833 12.2052 6.41667 12.3232C6.125 12.4413 5.81944 12.5003 5.5 12.5003C4.80556 12.5003 4.21528 12.2573 3.72917 11.7712C3.24306 11.285 3 10.6948 3 10.0003C3 9.30588 3.24306 8.7156 3.72917 8.22949C4.21528 7.74338 4.80556 7.50033 5.5 7.50033C5.81944 7.50033 6.125 7.55935 6.41667 7.67741C6.70833 7.79546 6.97222 7.95866 7.20833 8.16699L13.0833 4.75033C13.0556 4.66699 13.0347 4.57324 13.0208 4.46908C13.0069 4.36491 13 4.26421 13 4.16699C13 3.47255 13.2431 2.88227 13.7292 2.39616C14.2153 1.91005 14.8056 1.66699 15.5 1.66699C16.1944 1.66699 16.7847 1.91005 17.2708 2.39616C17.7569 2.88227 18 3.47255 18 4.16699C18 4.86144 17.7569 5.45171 17.2708 5.93783C16.7847 6.42394 16.1944 6.66699 15.5 6.66699C15.1806 6.66699 14.875 6.60796 14.5833 6.48991C14.2917 6.37185 14.0278 6.20866 13.7917 6.00033L7.91667 9.41699C7.94444 9.50033 7.96528 9.59408 7.97917 9.69824C7.99306 9.80241 8 9.9031 8 10.0003C8 10.0975 7.99306 10.1982 7.97917 10.3024C7.96528 10.4066 7.94444 10.5003 7.91667 10.5837L13.7917 14.0003C14.0278 13.792 14.2917 13.6288 14.5833 13.5107C14.875 13.3927 15.1806 13.3337 15.5 13.3337C16.1944 13.3337 16.7847 13.5767 17.2708 14.0628C17.7569 14.5489 18 15.1392 18 15.8337C18 16.5281 17.7569 17.1184 17.2708 17.6045C16.7847 18.0906 16.1944 18.3337 15.5 18.3337ZM15.5 5.00033C15.7361 5.00033 15.934 4.92046 16.0938 4.76074C16.2535 4.60102 16.3333 4.4031 16.3333 4.16699C16.3333 3.93088 16.2535 3.73296 16.0938 3.57324C15.934 3.41352 15.7361 3.33366 15.5 3.33366C15.2639 3.33366 15.066 3.41352 14.9062 3.57324C14.7465 3.73296 14.6667 3.93088 14.6667 4.16699C14.6667 4.4031 14.7465 4.60102 14.9062 4.76074C15.066 4.92046 15.2639 5.00033 15.5 5.00033ZM5.5 10.8337C5.73611 10.8337 5.93403 10.7538 6.09375 10.5941C6.25347 10.4344 6.33333 10.2364 6.33333 10.0003C6.33333 9.76422 6.25347 9.5663 6.09375 9.40658C5.93403 9.24685 5.73611 9.16699 5.5 9.16699C5.26389 9.16699 5.06597 9.24685 4.90625 9.40658C4.74653 9.5663 4.66667 9.76422 4.66667 10.0003C4.66667 10.2364 4.74653 10.4344 4.90625 10.5941C5.06597 10.7538 5.26389 10.8337 5.5 10.8337ZM15.5 16.667C15.7361 16.667 15.934 16.5871 16.0938 16.4274C16.2535 16.2677 16.3333 16.0698 16.3333 15.8337C16.3333 15.5975 16.2535 15.3996 16.0938 15.2399C15.934 15.0802 15.7361 15.0003 15.5 15.0003C15.2639 15.0003 15.066 15.0802 14.9062 15.2399C14.7465 15.3996 14.6667 15.5975 14.6667 15.8337C14.6667 16.0698 14.7465 16.2677 14.9062 16.4274C15.066 16.5871 15.2639 16.667 15.5 16.667Z" fill="#274EA1"/>
+                            </svg>                            
+                        <span>Chia sẻ</span>
+                    </button>
+                </span>
+                <span  class="mx-2">
+                    <button class="button-infor" nz-button style="color: rgba(239, 68, 68, 1); border-color: rgba(239, 68, 68, 1);" nzType="default" (click)="onDelete()">
+                        <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.33337 17.5C5.87504 17.5 5.48268 17.3368 5.15629 17.0104C4.8299 16.684 4.66671 16.2917 4.66671 15.8333V5H3.83337V3.33333H8.00004V2.5H13V3.33333H17.1667V5H16.3334V15.8333C16.3334 16.2917 16.1702 16.684 15.8438 17.0104C15.5174 17.3368 15.125 17.5 14.6667 17.5H6.33337ZM8.00004 14.1667H9.66671V6.66667H8.00004V14.1667ZM11.3334 14.1667H13V6.66667H11.3334V14.1667Z" fill="#EF4444"/>
+                            </svg>                            
+                        <span style="color: rgba(239, 68, 68, 1);">Xóa</span>
+                    </button>
+                </span>
+                <span  class="mx-2">
+                    <button class="button-infor" nz-button style="color: #274EA1;" nzType="default" (click)="pdfExport()">
+                        <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 17.5V13.9583L14 2.97917C14.1667 2.82639 14.3507 2.70833 14.5521 2.625C14.7535 2.54167 14.9653 2.5 15.1875 2.5C15.4097 2.5 15.625 2.54167 15.8333 2.625C16.0417 2.70833 16.2222 2.83333 16.375 3L17.5208 4.16667C17.6875 4.31944 17.809 4.5 17.8854 4.70833C17.9618 4.91667 18 5.125 18 5.33333C18 5.55556 17.9618 5.76736 17.8854 5.96875C17.809 6.17014 17.6875 6.35417 17.5208 6.52083L6.54167 17.5H3ZM15.1667 6.5L16.3333 5.33333L15.1667 4.16667L14 5.33333L15.1667 6.5Z" fill="#274EA1"/>
+                            </svg>
+                            
+                        <span>Sửa</span>
+                    </button>
+                </span>
+                <span  class="mx-2">
+                    <button class="button-infor" nz-button style="color: #274EA1;" nzType="default" (click)="pdfExport()">
+                        <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M11.6667 3.33333H2.33333C1.22667 3.33333 0.333332 4.22667 0.333332 5.33333V8C0.333332 8.73333 0.933332 9.33333 1.66667 9.33333H3V10.6667C3 11.4 3.6 12 4.33333 12H9.66667C10.4 12 11 11.4 11 10.6667V9.33333H12.3333C13.0667 9.33333 13.6667 8.73333 13.6667 8V5.33333C13.6667 4.22667 12.7733 3.33333 11.6667 3.33333ZM9 10.6667H5C4.63333 10.6667 4.33333 10.3667 4.33333 10V7.33333H9.66667V10C9.66667 10.3667 9.36667 10.6667 9 10.6667ZM11.6667 6C11.3 6 11 5.7 11 5.33333C11 4.96667 11.3 4.66667 11.6667 4.66667C12.0333 4.66667 12.3333 4.96667 12.3333 5.33333C12.3333 5.7 12.0333 6 11.6667 6ZM10.3333 0H3.66667C3.3 0 3 0.3 3 0.666667V2C3 2.36667 3.3 2.66667 3.66667 2.66667H10.3333C10.7 2.66667 11 2.36667 11 2V0.666667C11 0.3 10.7 0 10.3333 0Z"
+                                fill="#274EA1" />
+                        </svg>
+                        <span>In</span>
+                    </button>
+                </span>
+            </div>
+        </div>
+
+    </div>
+    <span class="label_setup mx-2">Chi tiết yêu cầu bảo dưỡng sửa chữa</span>
+    <div nz-row class="p-2">
+        <div nz-col nzSpan="14" class="p-2" style="background-color: rgba(252, 252, 252, 1); border-radius: 12px;">
+            <div nz-row class="" style="display: flex; justify-content:space-around ; margin-top: 8px;">
+                <div nz-col style="width: calc(50% - 16px); padding-right: 8px;">
+                    <table class="custom-table">
+                        <tbody>
+                            <tr>
+                                <td class="col-1">Người lập</td>
+                                <td class="col-2">{{ inforMR?.createdBy || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">Chức vụ</td>
+                                <td class="col-2">{{ inforMR?.staffYOB || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">Số điện thoại</td>
+                                <td class="col-2">{{ inforMR?.phoneNumber || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">tình trạng ưu tiên</td>
+                                <td class="col-2">
+                                    <span style="color: rgba(239, 68, 68, 1);" *ngIf="inforMR?.priorityStatus == 1">
+                                        Ưu tiên bảo dưỡng gấp
+                                    </span>
+                                    <span *ngIf="inforMR?.priorityStatus == 2">
+                                        Đang chờ duyệt
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div nz-col style="width: calc(50% - 16px); padding-left: 8px;">
+                    <table class="custom-table">
+                        <tbody>
+                            <tr>
+                                <td class="col-1">Biển kiểm soát</td>
+                                <td class="col-2">{{ inforMR?.registerNo }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">Lái xe</td>
+                                <td class="col-2">{{ inforMR?.branchName }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">số điện thoại</td>
+                                <td class="col-2">{{  inforMR?.phoneNumber }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">cơ sở bảo dưỡng</td>
+                                <td class="col-2">{{inforMR?.maintenancePlace}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top: 16px;"></div>
+            <div nz-row class="" style="display: flex; justify-content:space-around ; margin-top: 8px;">
+                <div nz-col style="width: calc(50% - 16px); padding-right: 8px;">
+                    <table class="custom-table">
+                        <tbody>
+                            <tr>
+                                <td class="col-1">Km BD gần nhất</td>
+                                <td class="col-2">{{ inforMR?.latestOdometer || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">ngày BD gần nhất</td>
+                                <td class="col-2">{{ (inforMR?.latestDate | date : 'dd/MM/yyyy') || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">Km hiện tại</td>
+                                <td class="col-2">{{ inforMR?.phoneNumber || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">cấp bD hiện tại</td>
+                                <td class="col-2">
+                                    <span *ngIf="inforMR?.levelMaintenance == 1">
+                                        Bảo dưỡng định kỳ
+                                    </span>
+                                    <span *ngIf="inforMR?.levelMaintenance == 2">
+                                        Bảo dưỡng không định kỳ
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div nz-col style="width: calc(50% - 16px); padding-left: 8px;">
+                    <table class="custom-table">
+                        <tbody>
+                            <tr>
+                                <td class="col-1">giờ vào dự kiến</td>
+                                <td class="col-2">{{ inforMR?.supposedStartTime }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">ngày vào</td>
+                                <td class="col-2">{{ inforMR?.supposedStartDate | date : 'dd/MM/yyyy' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">giờ ra dự kiến</td>
+                                <td class="col-2">{{  inforMR?.supposedEndTime }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">ngày ra</td>
+                                <td class="col-2">{{  inforMR?.supposedEndDate | date : 'dd/MM/yyyy'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div style="margin-top: 16px;"></div>
+            <div nz-row class="" style=" margin-left: 8px;">
+                <div nz-col style="width: calc(50% - 16px); padding-right: 4px;">
+                    <table class="custom-table">
+                        <tbody>
+                            <tr>
+                                <td class="col-1">lưu ý khác</td>
+                                <td class="col-2">{{ inforMR?.note || '' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+              
+            </div>
+
+            <div style="margin-top: 16px;"></div>
+            <div nz-row class="" style=" margin-left: 8px;">
+                <div nz-col style="width: calc(100% - 8px);">
+                    <table class="custom-table-list">
+                        <tbody>
+                            <tr class="header-table">
+                                <th class="col-table-3">STT</th>
+                                <th class="col-table-4">tình trạng xe</th>
+
+                            </tr>
+                            <tr *ngFor="let data of inforMR?.lstVehicleStatus; let i =index ">
+                                <td class="col-table-3">{{i + 1}}</td>
+                                <td class="col-table-4">{{ data?.name || '' }}</td>
+                            </tr>
+                            <tr *ngIf="inforMR?.vehicleStatusNote != '' || inforMR?.vehicleStatusNote != null">
+                                <td class="opinion" colspan="2">Ý kiến của người duyệt: {{inforMR?.vehicleStatusNote}} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+              
+            </div>
+            <div style="margin-top: 16px;"></div>
+            <div nz-row class="" style=" margin-left: 8px;">
+                <div nz-col style="width: calc(100% - 8px);">
+                    <table class="custom-table-list">
+                        <tbody>
+                            <tr class="header-table">
+                                <th class="col-table-3">STT</th>
+                                <th class="col-table-4">hạng mục kiểm tra</th>
+
+                            </tr>
+                            <tr *ngFor="let data of inforMR?.lstTestCategories; let i =index ">
+                                <td class="col-table-3">{{i + 1}}</td>
+                                <td class="col-table-4">{{ data?.name || '' }}</td>
+                            </tr>
+                            <tr *ngIf="inforMR?.testItemNote != '' || inforMR?.testItemNote != null">
+                                <td class="opinion" colspan="2">Ý kiến của người duyệt: {{inforMR?.testItemNote}} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+              
+            </div>
+            <div style="margin-top: 16px;"></div>
+            <div nz-row class="" style=" margin-left: 8px;">
+                <div nz-col style="width: calc(100% - 8px);">
+                    <table class="custom-table-list">
+                        <tbody>
+                            <tr class="header-table">
+                                <th class="col-table-3">STT</th>
+                                <th class="col-table-4">công việc thực hiện</th>
+
+                            </tr>
+                            <tr *ngFor="let data of inforMR?.lstWorkPerformed; let i =index ">
+                                <td class="col-table-3">{{i + 1}}</td>
+                                <td class="col-table-4">{{ inforMR?.name || '' }}</td>
+                            </tr>
+                            <tr *ngIf="inforMR?.workPerformedNote != '' || inforMR?.workPerformedNote != null">
+                                <td class="opinion" colspan="2" >
+                                    <span >
+                                        Ý kiến của người duyệt:{{inforMR?.workPerformedNote}} 
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div>
+
+                    </div>
+                </div>
+              
+            </div>
+            <div style="margin-top: 16px;"></div>
+            <div nz-row class="" style=" margin-left: 8px;">
+                <div nz-col style="width: calc(100% - 8px);">
+                    <table class="custom-table-list">
+                        <tbody>
+                            <tr class="header-table-vt">
+                                <th class="col-table-1">STT</th>
+                                <th class="col-table-2">vật tư, phụ tùng thay thế</th>
+                                <th class="col-table-3">Đơn vị Tính</th>
+                                <th class="col-table-3">số lượng</th>
+
+                            </tr>
+                            <tr *ngFor="let data of inforMR?.lstWorkPerformed; let i =index ">
+                                <td class="col-table-1">{{i + 1}}</td>
+                                <td class="col-table-2">{{data?.supplyId}}</td>
+                                <td class="col-table-3">{{data?.quantity}}</td>
+                                <td class="col-table-3">{{ data?.unit || '' }}</td>
+                            </tr>
+                            <tr >
+                                <td *ngIf="inforMR?.replacementSupplyNote != '' || inforMR?.replacementSupplyNote != null" class="opinion" colspan="4">Ý kiến của người duyệt: {{inforMR?.replacementSupplyNote}}</td>
+                            </tr> 
+                        </tbody>
+                    </table>
+                </div>
+              
+            </div>
+        </div>
+        <div nz-col nzSpan="10" class="p-4 pt-0" *ngIf="hasOpinion == true">
+            <div style="display: flex; gap: 8px; padding-bottom: 10px;">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 17.5V13.9583L13.5 2.97917C13.6667 2.82639 13.8507 2.70833 14.0521 2.625C14.2535 2.54167 14.4653 2.5 14.6875 2.5C14.9097 2.5 15.125 2.54167 15.3333 2.625C15.5417 2.70833 15.7222 2.83333 15.875 3L17.0208 4.16667C17.1875 4.31944 17.309 4.5 17.3854 4.70833C17.4618 4.91667 17.5 5.125 17.5 5.33333C17.5 5.55556 17.4618 5.76736 17.3854 5.96875C17.309 6.17014 17.1875 6.35417 17.0208 6.52083L6.04167 17.5H2.5ZM14.6667 6.5L15.8333 5.33333L14.6667 4.16667L13.5 5.33333L14.6667 6.5Z" fill="#274EA1"/>
+                    </svg>
+                <span style="font-weight: 500;line-height: 20px; color: rgba(39, 78, 161, 1); font-size: 16px;">Ý kiến</span>                 
+            </div>
+            <form [formGroup]="form">
+                <div style="background-color: rgba(252, 252, 252, 1); border-radius: 12px; border: 1px solid rgba(209, 213, 219, 1);">
+                    <div class="input-wrapper">
+                        <div class="p-2">
+                            <label for="">Tình trạng xe</label>
+                            <textarea rows="4" formControlName="vehicleStatusNote" placeholder="Ý kiến về tình trạng xe"></textarea>
+                        </div>
+                    </div>
+                    <div class="input-wrapper">
+                        <div class="p-2">
+                            <label for="">Hạng mục kiểm tra</label>
+                            <textarea rows="4"formControlName="testItemNote"  placeholder="Ý kiến về hạng mục kiểm tra"></textarea>
+                        </div>
+                    </div>
+                    <div class="input-wrapper">
+                        <div class="p-2">
+                            <label for="">Công việc thực hiện</label>
+                            <textarea rows="4" formControlName="workPerformedNote"  placeholder="Ý kiến về công việc thực hiện"></textarea>
+                        </div>
+                    </div>
+                    <div class="input-wrapper">
+                        <div class="p-2">
+                            <label for="">Vật tư, phụ tùng thay thế</label>
+                            <textarea rows="4" formControlName="replacementSupplyNote" placeholder="Ý kiến về vật tư, phụ tùng thay thế"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: end; gap: 8px; margin-top: 8px;">
+                    <span>
+                        <button type="button" (click)="cancelOpinion()" class="button-infor" nz-button style="color: #274EA1; border-color: #274EA1;" nzType="default">Hủy</button>
+                    </span>
+                    <span class="ml-2">
+                        <button type="button" (click)="hasSubmitOpinion()" class="button-infor" style="background-color: #274EA1; color: white;" nz-button nzType="default"
+                            >Lưu</button>
+                    </span>
+                </div>
+            </form>
+        </div>
+        <div nz-col nzSpan="10" class="p-4 pt-0" *ngIf="unApprove == true">
+            <div style="display: flex; gap: 8px; padding-bottom: 10px;">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5.33366 15.8332L4.16699 14.6665L8.83366 9.99984L4.16699 5.33317L5.33366 4.1665L10.0003 8.83317L14.667 4.1665L15.8337 5.33317L11.167 9.99984L15.8337 14.6665L14.667 15.8332L10.0003 11.1665L5.33366 15.8332Z" fill="#EF4444"/>
+                    </svg>                    
+                <span style="font-weight: 500;line-height: 20px; color: rgba(39, 78, 161, 1); font-size: 16px;">Không duyệt</span>                 
+            </div>
+            <div style="background-color: rgba(252, 252, 252, 1); border-radius: 12px; border: 1px solid rgba(209, 213, 219, 1);">
+                <div class="input-wrapper">
+                    <div class="p-2">
+                        <label for="">Lý do</label>
+                        <textarea rows="4" [(ngModel)]="reason" placeholder="Lý do không duyệt"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: end; gap: 8px; margin-top: 8px;">
+                <span>
+                    <button type="button" (click)="cancelUnApprove()" class="button-infor" nz-button style="color: #274EA1; border-color: #274EA1;" nzType="default">Hủy</button>
+                </span>
+                <span class="ml-2">
+                    <button type="button" (click)="hasSubmitUnApprove()" class="button-infor" style="background-color: #274EA1; color: white;" nz-button nzType="default"
+                        >Lưu</button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<nz-modal [(nzVisible)]="isApprove" (nzOnCancel)="handleCancelApprove()" (nzOnOk)="handleSubmitApprove()" [nzCentered]="true"
+    [nzContent]="modalContentApprove" [nzFooter]="null" [nzStyle]="{'width':'396px'}" nzClassName="isApprove">
+    <ng-template #modalContentApprove>
+        <div class="headmodal">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24.7853 50.6668L8 32.9704L12.1963 28.5462L24.7853 41.8186L51.8037 13.3335L56 17.7576L24.7853 50.6668Z" fill="#22C55E"/>
+                </svg>                
+        </div>
+        <div >
+            <div style="text-align: center;"><span style="color: rgba(37, 44, 50, 1); font-size: 24px; line-height: 28.13px;">Đồng ý duyệt</span></div>
+            
+            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 20px"> 
+                <span>
+                    <button class="button-infor" nz-button style="color: #274EA1;" nzType="default" type="button"
+                        (click)="handleCancelApprove()">Hủy</button>
+                </span>
+                <span>
+                    <button class="button-infor" nz-button style="color: #ffffff; background-color: #274EA1;" nzType="default" type="button"
+                        (click)="handleSubmitApprove()">Xác nhận</button>
+                </span>
+            </div>
+        </div>
+        
+    </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isApproveDone" (nzOnCancel)="handleCancelApproveDone()" (nzOnOk)="handleCancelApproveDone()" [nzCentered]="true"
+    [nzContent]="modalContentApproveDone" [nzFooter]="null" [nzStyle]="{'width':'396px'}" nzClassName="isApproveDone">
+    <ng-template #modalContentApproveDone>
+        <div class="headmodal">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24.7853 50.6668L8 32.9704L12.1963 28.5462L24.7853 41.8186L51.8037 13.3335L56 17.7576L24.7853 50.6668Z" fill="#22C55E"/>
+                </svg>                
+        </div>
+        <div >
+            <div style="text-align: center;"><span style="color: rgba(37, 44, 50, 1); font-size: 24px; line-height: 28.13px;">Đồng ý duyệt</span></div>
+            
+            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 20px"> 
+                <span>
+                    <button class="button-infor" nz-button style="color: #ffffff; background-color: #274EA1;" nzType="default" type="button"
+                        (click)="handleCancelApproveDone()">OK</button>
+                </span>
+            </div>
+        </div>
+        
+    </ng-template>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="isApproveCancel" (nzOnCancel)="cancelApprove()" (nzOnOk)="cancelApprove()" [nzCentered]="true"
+    [nzContent]="modalContentApproveCencel" [nzFooter]="null" [nzStyle]="{'width':'396px'}" nzClassName="isApproveCancel">
+    <ng-template #modalContentApproveCencel>
+        <div class="headmodal">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24.7853 50.6668L8 32.9704L12.1963 28.5462L24.7853 41.8186L51.8037 13.3335L56 17.7576L24.7853 50.6668Z" fill="#22C55E"/>
+                </svg>                
+        </div>
+        <div >
+            <div style="text-align: center;"><span style="color: rgba(37, 44, 50, 1); font-size: 24px; line-height: 28.13px;">Đã huỷ yêu cầu BDSC</span></div>
+            
+            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 20px"> 
+                <span>
+                    <button class="button-infor" nz-button style="color: #ffffff; background-color: #274EA1;" nzType="default" type="button"
+                        (click)="cancelApprove()">OK</button>
+                </span>
+            </div>
+        </div>
+        
+    </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isShareModal" (nzOnCancel)="cancelShareModal()" (nzOnOk)="cancelShareModal()" [nzCentered]="true"
+    [nzContent]="modalContentShareModal" [nzFooter]="null" [nzStyle]="{'width':'480px','height':'336px'}" nzClassName="isApproveCancel">
+    <ng-template #modalContentShareModal>
+        <div class="headmodal">
+            <svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24.5 29.3337C23.3889 29.3337 22.4444 28.9448 21.6667 28.167C20.8889 27.3892 20.5 26.4448 20.5 25.3337C20.5 25.1781 20.5111 25.017 20.5333 24.8503C20.5556 24.6837 20.5889 24.5337 20.6333 24.4003L11.2333 18.9337C10.8556 19.267 10.4333 19.5281 9.96667 19.717C9.5 19.9059 9.01111 20.0003 8.5 20.0003C7.38889 20.0003 6.44444 19.6114 5.66667 18.8337C4.88889 18.0559 4.5 17.1114 4.5 16.0003C4.5 14.8892 4.88889 13.9448 5.66667 13.167C6.44444 12.3892 7.38889 12.0003 8.5 12.0003C9.01111 12.0003 9.5 12.0948 9.96667 12.2837C10.4333 12.4725 10.8556 12.7337 11.2333 13.067L20.6333 7.60033C20.5889 7.46699 20.5556 7.31699 20.5333 7.15033C20.5111 6.98366 20.5 6.82255 20.5 6.66699C20.5 5.55588 20.8889 4.61144 21.6667 3.83366C22.4444 3.05588 23.3889 2.66699 24.5 2.66699C25.6111 2.66699 26.5556 3.05588 27.3333 3.83366C28.1111 4.61144 28.5 5.55588 28.5 6.66699C28.5 7.7781 28.1111 8.72255 27.3333 9.50033C26.5556 10.2781 25.6111 10.667 24.5 10.667C23.9889 10.667 23.5 10.5725 23.0333 10.3837C22.5667 10.1948 22.1444 9.93366 21.7667 9.60033L12.3667 15.067C12.4111 15.2003 12.4444 15.3503 12.4667 15.517C12.4889 15.6837 12.5 15.8448 12.5 16.0003C12.5 16.1559 12.4889 16.317 12.4667 16.4837C12.4444 16.6503 12.4111 16.8003 12.3667 16.9337L21.7667 22.4003C22.1444 22.067 22.5667 21.8059 23.0333 21.617C23.5 21.4281 23.9889 21.3337 24.5 21.3337C25.6111 21.3337 26.5556 21.7225 27.3333 22.5003C28.1111 23.2781 28.5 24.2225 28.5 25.3337C28.5 26.4448 28.1111 27.3892 27.3333 28.167C26.5556 28.9448 25.6111 29.3337 24.5 29.3337ZM24.5 8.00033C24.8778 8.00033 25.1944 7.87255 25.45 7.61699C25.7056 7.36144 25.8333 7.04477 25.8333 6.66699C25.8333 6.28921 25.7056 5.97255 25.45 5.71699C25.1944 5.46144 24.8778 5.33366 24.5 5.33366C24.1222 5.33366 23.8056 5.46144 23.55 5.71699C23.2944 5.97255 23.1667 6.28921 23.1667 6.66699C23.1667 7.04477 23.2944 7.36144 23.55 7.61699C23.8056 7.87255 24.1222 8.00033 24.5 8.00033ZM8.5 17.3337C8.87778 17.3337 9.19444 17.2059 9.45 16.9503C9.70556 16.6948 9.83333 16.3781 9.83333 16.0003C9.83333 15.6225 9.70556 15.3059 9.45 15.0503C9.19444 14.7948 8.87778 14.667 8.5 14.667C8.12222 14.667 7.80556 14.7948 7.55 15.0503C7.29444 15.3059 7.16667 15.6225 7.16667 16.0003C7.16667 16.3781 7.29444 16.6948 7.55 16.9503C7.80556 17.2059 8.12222 17.3337 8.5 17.3337ZM24.5 26.667C24.8778 26.667 25.1944 26.5392 25.45 26.2837C25.7056 26.0281 25.8333 25.7114 25.8333 25.3337C25.8333 24.9559 25.7056 24.6392 25.45 24.3837C25.1944 24.1281 24.8778 24.0003 24.5 24.0003C24.1222 24.0003 23.8056 24.1281 23.55 24.3837C23.2944 24.6392 23.1667 24.9559 23.1667 25.3337C23.1667 25.7114 23.2944 26.0281 23.55 26.2837C23.8056 26.5392 24.1222 26.667 24.5 26.667Z" fill="#6B7280"/>
+                </svg>
+            <span style="color: rgba(37, 44, 50, 1);font-weight: 500 ;font-size: 24px; line-height: 28.13px">Chia sẻ</span>
+        </div>
+        <div >
+            <div style="display: flex; gap: 25px;justify-content: center">
+                <img src="../../../../assets/images/Frame 955.png" />
+                <img src="../../../../assets/images/Frame 956.png" />
+                <img src="../../../../assets/images/Frame 957.png" />
+                
+            </div>
+            
+            <div style="display: flex; gap: 8px; justify-content: center; padding: 30px 15px 50px 15px"> 
+                <!-- <span>
+                    <button class="button-infor" nz-button style="color: #ffffff; background-color: #274EA1;" nzType="default" type="button"
+                        (click)="cancelApprove()">OK</button>
+                </span> -->
+                <input nz-input class="form-input" placeholder="BKS, Tên lái xe..." class="form-input" style="width: 100%; height: 48px;" />
+            </div>
+        </div>
+        
+    </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isDeleteMR" (nzOnCancel)="cancelDeleteMR()" (nzOnOk)="handleSubmitDeleteMR()" [nzCentered]="true"
+    [nzContent]="modalContentDeleteMR" [nzFooter]="null" [nzStyle]="{'width':'396px'}" nzClassName="isApproveCancel">
+    <ng-template #modalContentDeleteMR>
+        <div class="headmodal">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.6665 56C17.1998 56 15.9443 55.4778 14.8998 54.4333C13.8554 53.3889 13.3332 52.1333 13.3332 50.6667V16H10.6665V10.6667H23.9998V8H39.9998V10.6667H53.3332V16H50.6665V50.6667C50.6665 52.1333 50.1443 53.3889 49.0998 54.4333C48.0554 55.4778 46.7998 56 45.3332 56H18.6665ZM23.9998 45.3333H29.3332V21.3333H23.9998V45.3333ZM34.6665 45.3333H39.9998V21.3333H34.6665V45.3333Z" fill="#EF4444"/>
+                </svg>                              
+        </div>
+        <div >
+            <div style="text-align: center;"><span style="color: rgba(37, 44, 50, 1);font-weight: 500 ;font-size: 24px; line-height: 28.13px;">Xoá yêu cầu BDSC</span></div>
+            
+            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 60px; margin-bottom: 10px;"> 
+                <span>
+                    <button class="button-infor" nz-button style="color: #274EA1;" nzType="default" type="button"
+                        (click)="cancelDeleteMR()">Hủy</button>
+                </span>
+                <span>
+                    <button class="button-infor" nz-button style="color: #ffffff; background-color: #274EA1;" nzType="default" type="button"
+                        (click)="handleSubmitDeleteMR()">Xác nhận</button>
+                </span>
+            </div>
+        </div>
+        
+    </ng-template>
+</nz-modal>

@@ -68,8 +68,11 @@ export class LoginComponent implements OnInit {
       this.authService.login(data).subscribe((response : any) => {
         console.log(response.data)
         const token = response.data.accessToken
+        const refreshToken = response.data.refreshToken
+
         if(token){
           localStorage.setItem(STORAGE_KEYS.TOKEN, token)
+          localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, refreshToken)
           this.route.navigate(['employee/setup-profile-employee'])
           const Toast = Swal.mixin({
             toast: true,

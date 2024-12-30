@@ -12,7 +12,7 @@
                 <td class="button_action list-col-2" style="text-align: center;">
                   <div>
                     <a (click)="editVehicleStatus(item)" class="mx-1 button_show_detail">Sửa</a>
-                    <a class="mx-1 button_show_detail">Xóa</a>
+                    <a (click)="openDeleteModal(item)" class="mx-1 button_show_detail">Xóa</a>
                   </div>
                 </td>
               </tr>
@@ -93,7 +93,7 @@
             <div style="display: flex; gap: 8px; justify-content: center; margin-top: 20px"> 
                 <span>
                     <button class="button-status" nz-button style="color: #274EA1;" nzType="default"
-                        (click)="onSubmit()">{{'common.cancelButton' | translate}}</button>
+                        (click)="handleCancelDeleteStatusVehicle()">{{'common.cancelButton' | translate}}</button>
                 </span>
                 <span>
                     <button class="button-status" nz-button style="color: #ffffff; background-color: #274EA1;" nzType="default"

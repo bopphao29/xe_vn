@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -22,6 +22,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { DONTANYTHING } from '../../../../../shared/constants/common.const';
 import Swal from 'sweetalert2';
 import { NotificationService } from '../../../../../shared/services/notification.service';
+import { ValidateIntoPageService } from '../../../../../shared/services/validate-into-page.service';
 
 
 @Component({
@@ -54,12 +55,18 @@ import { NotificationService } from '../../../../../shared/services/notification
   styleUrl: './setup-request-mr.component.scss'
 })
 export class SetupRequestMrComponent implements OnInit{
+  @Output() dataEmmitter = new EventEmitter<string>()
+
+  routerLink(){
+    this.dataEmmitter.emit('setup-request')
+  }
 
   form !: FormGroup
   constructor(
     private fb : FormBuilder,
     private vehicleService: VehicalServiceService,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private validateService : ValidateIntoPageService
     
   ){}
 
@@ -80,9 +87,9 @@ export class SetupRequestMrComponent implements OnInit{
         supposedStartDate: [null, Validators.required],
         supposedEndTime: [null, Validators.required],
         supposedEndDate: [null, Validators.required],
-        maintenancePlace: [null, Validators.required],
+        maintenanceFacilityId: [null, Validators.required],
         approvalStatus: 1,
-        priorityStatus: 2,
+        priorityStatus: 0,
         status: 1,
         note: null,
         lstTestCategories: [
@@ -157,6 +164,13 @@ receiveData(data: any[], name: string): void {
   // Kiểm tra kết quả
 }
 
+validateNumber(name:string , event : Event){
+  this.validateService.validateNumber(this.form, name, event)
+}
+validateText(path: string | (string | number)[], event: Event) {
+  this.validateService.validateText(this.form, path, event)
+}
+
   listRoute : any[] =[]
   getRoute(){
     this.vehicleService.getRoute().subscribe((response : any)=> {
@@ -214,7 +228,7 @@ receiveData(data: any[], name: string): void {
 
   onCheckboxChange(event: Event) {
     const isChecked = (event.target as HTMLInputElement).checked;
-    this.form.get('priorityStatus')?.setValue(isChecked ? 1 : 2); 
+    this.form.get('priorityStatus')?.setValue(isChecked ? 0 : 1); 
   }
 
   showNoDataForMaintenance(){
@@ -231,6 +245,34 @@ receiveData(data: any[], name: string): void {
     }
     return dataRrows;
   }
+
+
+  disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
+    return (beforeDate: Date | null): boolean => {
+      if (!beforeDate || !this.form) return false;
+  
+      const afterDate = this.form.get(name)?.value;
+      if (!afterDate) return false;
+  
+      const AfterDateObject = new Date(afterDate);
+  
+      return beforeDate <= AfterDateObject;
+    };
+  }
+  
+  disableAfterDate(name: string): (afterDate: Date | null) => boolean {
+    return (afterDate: Date | null): boolean => {
+      if (!afterDate || !this.form) return false;
+  
+      const beforeDate = this.form.get(name)?.value;
+      if (!beforeDate) return false;
+  
+      const beforeDateObject = new Date(beforeDate);
+  
+      return afterDate >= beforeDateObject;
+    };
+  }
+  
 
   onSelectRow(data: any): void {
     const selectedItem = this.listForMaintenance.find(item => item.registerNo === data.registerNo);

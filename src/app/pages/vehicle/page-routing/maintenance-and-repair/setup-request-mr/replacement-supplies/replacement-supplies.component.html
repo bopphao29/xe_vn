@@ -16,7 +16,7 @@
                 <td class="button_action list-col-2  " style="text-align: center;">
                     <div>
                         <a (click)="editreplacementSupplies(item)" class="mx-1 button_show_detail">Sửa</a>
-                        <a class="mx-1 button_show_detail">Xóa</a>
+                        <a (click)="openDeleteModal(item)" class="mx-1 button_show_detail">Xóa</a>
                       </div>
                 </td>
             </tr>
@@ -97,3 +97,54 @@
     </ng-template>
 </nz-modal>
 
+<nz-modal [(nzVisible)]="isDeleteReplacementSupplies" (nzOnCancel)="handleCancelisDeleteReplacementSupplies()" (nzOnOk)="handleSubmitisDeleteReplacementSupplies()" [nzCentered]="true" [nzClosable]="false" 
+    [nzContent]="modalContentDeleteReplacementSupplies" [nzFooter]="null" [nzStyle]="{'min-width' : '808px', 'min-height':'335px', 'width':'464px'}"  nzClassName="status_vehicle_modal">
+    <ng-template #modalContentDeleteReplacementSupplies>
+        <div class="headmodal">
+            <span style="justify-content: center; align-items: center; font-size: 24px; color: rgba(37, 44, 50, 1);" nz-icon nzType="check-circle" nzTheme="outline">
+                {{ isEditMode ? ('common.editStatusVehicle' | translate) : ('common.replacementSupplies' | translate) }}
+            </span>
+        </div>
+        <div >
+              
+        <div class="box-input" >
+            <div class="input-wrapper" style="width: 60%;">
+                <div class="">
+                    <label class="label-form" for="" >{{'vehicle.replacementSupplies' | translate}}</label>
+                    <nz-select nzPlaceHolder="Nam" [(ngModel)]="supplyId" class="nzSelect" style="width: 100%;">
+                        <nz-option nzValue="1" nzLabel="Má Phanh"></nz-option>
+                        <nz-option nzValue="2" nzLabel="Lốp"></nz-option>
+                        <nz-option nzValue="3" nzLabel="Đèn Hậu"></nz-option>
+
+                        <!-- <nz-option *ngFor="let gender of listGender" [nzValue]="gender.id" [nzLabel]="gender.value"></nz-option> -->
+
+                    </nz-select>
+                </div>
+            </div>
+            <div class="input-wrapper" style="width: 20%;">
+                <div class="">
+                    <label class="label-form" for="" >{{'vehicle.replacementSupplies' | translate}}</label>
+                    <input class="input-form" placeholder="Nhập" type="number" min="0" [(ngModel)]="quantity" >
+                </div>
+            </div>
+            <div class="input-wrapper" style="width: 20%;">
+                <div class="">
+                    <label class="label-form" for="" >{{'vehicle.replacementSupplies' | translate}}</label>
+                    <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="unit" >
+                </div>
+            </div>
+        </div>            
+            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 20px"> 
+                <span>
+                    <button class="button-status" nz-button style="color: #274EA1;" nzType="default"
+                        (click)="handleCancelisDeleteReplacementSupplies()">{{'common.cancelButton' | translate}}</button>
+                </span>
+                <span>
+                    <button [disabled]="!supplyId" class="button-status" nz-button style="color: #ffffff; background-color: #274EA1;" nzType="default"
+                        (click)="handleSubmitisDeleteReplacementSupplies()">{{'common.deleteButton' | translate}}</button>
+                </span>
+            </div>
+        </div>
+        
+    </ng-template>
+</nz-modal>

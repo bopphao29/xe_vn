@@ -94,4 +94,25 @@ export class VehicalServiceService {
   getMaintenanceFacilities(){
     return this.httpClient.get(this.url + 'api/maintenance-facilities')
   }
+
+  mRChedulessearch(data: any){
+    return this.httpClient.post(this.url + 'api/maintenance-repair-schedules/search', data)
+  }
+
+  getDetailMR(id: any){
+    return this.httpClient.get(this.url + 'api/maintenance-repair-schedules/'+ id)
+  }
+
+  maintenanceNote(data: any){
+    return this.httpClient.post(this.url + 'api/maintenance-repair-schedules/maintenance-note', data)
+  }
+
+  approvalMR(data: any){
+    return this.httpClient.post(this.url + 'api/maintenance-repair-schedules/approval', data)
+  }
+
+  deleteMR(id: number){
+    return this.httpClient.delete(this.url + 'api/maintenance-repair-schedules/'+id)
+
+  }
 }

@@ -22,4 +22,8 @@ export class AuthServiceService {
     // return this.httpClient.post(this.url + 'auth/login', data)
 
   }
+
+  retokenLogin(data: any){
+    return this.httpClient.post(this.url + 'auth/re-token', data )
+  }
 }

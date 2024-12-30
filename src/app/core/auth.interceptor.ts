@@ -8,13 +8,15 @@ import {
   HttpInterceptorFn,
   HttpHandlerFn,
 } from '@angular/common/http';
-import { catchError, finalize, Observable, throwError } from 'rxjs';
+import { catchError, finalize, Observable, throwError,switchMap } from 'rxjs';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { STORAGE_KEYS } from '../shared/constants/system.const';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { clearStore } from '../shared/utilities/system.utils';
 import { NotificationService } from '../shared/services/notification.service';
+import { AuthServiceService } from '../shared/services/auth-service.service';
+import { EMPTY } from 'rxjs';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -23,7 +25,8 @@ export class AuthInterceptor implements HttpInterceptor {
     private spinner: NgxSpinnerService,
     private router: Router,
     private notification: NotificationService,
-    private injector: Injector
+    private injector: Injector,
+    private authServices: AuthServiceService
   ) {}
 
   intercept(
@@ -51,7 +54,7 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
           clearStore();
-          this.router.navigate(['/login']);
+          // this.router.navigate(['/login']);
           // this.router.navigate(['vehical/setup-vehical']);
         } else {
           this.handleError(error);
@@ -102,6 +105,9 @@ export const authInterceptor: HttpInterceptorFn = (
   const injector = inject(Injector);
   const spinner = inject(NgxSpinnerService);
   const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
+  const refreshToken = localStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN)
+
+  const authServices = inject(AuthServiceService)
   const language = 'vi-VN';
   let request = req;
   let count = 0;
@@ -125,12 +131,32 @@ export const authInterceptor: HttpInterceptorFn = (
     catchError((err) => {
       const translate = injector.get(TranslateService);
 
-      if (err.status === 401) {
-        clearStore();
-        localStorage.clear()
-        router.navigate(['/login']);
-        // router.navigateByUrl('vehical/setup-vehical')
-      } else if (err.status >= 400 && err.status < 500 && err.status !== 401) {
+      if (err.status === 401 && refreshToken) {
+        // Gọi API refresh token
+        const dataToken = {
+          refreshToken : refreshToken
+        }
+        return authServices.retokenLogin(dataToken).pipe(
+          switchMap((response: any) => {
+            const newToken = response.token;
+            const newRefreshToken = response.refreshToken;
+      
+            // Lưu token và refresh token mới vào localStorage
+            localStorage.setItem(STORAGE_KEYS.TOKEN, newToken);
+            localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, newRefreshToken);
+      
+            // Nếu không cần gọi lại request ban đầu, kết thúc luồng xử lý
+            return EMPTY; // Hoặc `of(null)` nếu bạn muốn trả giá trị mặc định
+          }),
+          catchError((refreshError) => {
+            // Nếu refresh token không hợp lệ, chuyển người dùng về trang đăng nhập
+            toastr.error(translate.instant('common.err_system'));
+            localStorage.clear();
+            router.navigate(['/login']);
+            return throwError(() => refreshError);
+          })
+        );
+      }  else if (err.status >= 400 && err.status < 500 && err.status !== 401) {
         toastr.error(err.error.message);
       } else {
         toastr.error(translate.instant('common.err_system'));

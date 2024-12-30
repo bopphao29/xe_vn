@@ -250,16 +250,10 @@ export class SetupProfileCarComponent implements OnInit {
       this.getRoute()
       this.getVehicleType()
       this.getLegalOwners()
-      this.searchDriver()
+      // this.searchDriver()
   }
 
   listRoute : any[] = []
-
-  getRoute(){
-    this.vehicalService.getRoute().subscribe((response : any)=> {
-      this.listRoute = response.data
-    })
-  }
 
   listVehicle : any[] = []
   getVehicleType(){
@@ -277,6 +271,20 @@ export class SetupProfileCarComponent implements OnInit {
     })
   }
 
+  getRoute(){
+    this.vehicalService.getRoute().subscribe((response : any)=> {
+      this.listRoute = response.data
+    })
+    this.form.get('routeId')?.valueChanges.subscribe((value : any) => {
+      this.Idroute = value ? value : null
+      if(value){
+        this.searchDriver(value)
+      }else{
+        console.log('')
+      }
+    })
+  }
+
   listLegalOwner : any[]= []
   getLegalOwners(){
     this.vehicalService.getLegalOwners().subscribe((response: any)=> {
@@ -285,13 +293,17 @@ export class SetupProfileCarComponent implements OnInit {
     })
   }
 
+  Idroute : number =0
+
   listDriver: any[] = []
-  searchDriver(){
+  searchDriver(value : number){
     const dataSearch = {
+      routeId : value,
       ids: [],
       name: "",
       phoneNumber: ""
     }
+    console.log(dataSearch)
 
     this.vehicalService.searchDriver(dataSearch).subscribe((response: any)=> {
       this.listDriver = response.data

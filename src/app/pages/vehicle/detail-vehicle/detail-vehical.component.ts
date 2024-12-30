@@ -215,7 +215,7 @@ export class DetailVehicalComponent implements OnInit{
       this.getRoute()
       this.getVehicleType()
       this.getLegalOwners()
-      this.searchDriver()
+      // this.searchDriver()
 
       this.route.params.subscribe((params: any)=> {
         this.idDetail = params['id']
@@ -236,9 +236,17 @@ export class DetailVehicalComponent implements OnInit{
   listVehical : any[] = []
   listRoute: any[] = []
   is_New: any
+
   getRoute(){
     this.vehicle.getRoute().subscribe((response : any)=> {
       this.listRoute = response.data
+    })
+    this.form.get('routeId')?.valueChanges.subscribe((value : any) => {
+      if(value){
+        this.searchDriver(value)
+      }else{
+        console.log('')
+      }
     })
   }
 
@@ -364,7 +372,7 @@ getVhicalDetail(id : any){
       const driverGroup = this.form.get('driver');
       if (driverGroup) {
         if (data.driver) {
-          const driverId = this.listDriver.find(driver => driver.name === data.driver.driverName)?.id;
+          const driverId = this.listDriver.find(driver => driver.driverId === data.driver.driverId)
   
           this.form.get('driver')?.patchValue({
             driverName: driverId || data.driver.driverName, // Patch ID, để `nz-select` hiển thị tên
@@ -401,12 +409,15 @@ getVhicalDetail(id : any){
   }
 
   listDriver: any[] = []
-  searchDriver(){
+
+  searchDriver(value : number){
     const dataSearch = {
+      routeId : value,
       ids: [],
       name: "",
       phoneNumber: ""
     }
+    console.log(dataSearch)
 
     this.vehicle.searchDriver(dataSearch).subscribe((response: any)=> {
       this.listDriver = response.data

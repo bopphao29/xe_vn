@@ -29,7 +29,28 @@ export const VEHICLE_ROUTES: Routes = [
           loadComponent: () => 
             import('./page-routing/maintenance-and-repair/maintenance-and-repair.component').then(
               (c) => c.MaintenanceAndRepairComponent
-            )
+            ),
+            children: [
+              {
+                path: 'setup-request-mr',
+                loadComponent : () => 
+                  import('./page-routing/maintenance-and-repair/setup-request-mr/setup-request-mr.component').then(
+                    (c) => c.SetupRequestMrComponent
+                  )
+              },{
+                path: 'list-request-mr',
+                loadComponent : () => 
+                  import('./page-routing/maintenance-and-repair/list-request-mr/list-request-mr.component').then(
+                    (c) => c.ListRequestMrComponent
+                  )
+              },{
+                path: 'report-request-mr',
+                loadComponent : () => 
+                  import('./page-routing/maintenance-and-repair/report-request-mr/report-request-mr.component').then(
+                    (c) => c.ReportRequestMrComponent
+                  )
+              },
+            ]
         },
         {
           path: 'deep-interior-cleaning',
@@ -64,11 +85,18 @@ export const VEHICLE_ROUTES: Routes = [
     
   },
   {
-    // path: 'detail-vehical/:id',
     path: 'detail-vehicle/:id',
     loadComponent: () =>
       import('./detail-vehicle/detail-vehical.component').then(
         (c) => c.DetailVehicalComponent
+      ),
+  },
+  {
+    // path: 'detail-vehical/:id',
+    path: 'vehicle/detail-mr/:id',
+    loadComponent: () =>
+      import('./detail-request-mr/detail-request-mr.component').then(
+        (c) => c.DetailRequestMrComponent
       ),
   },
 ]

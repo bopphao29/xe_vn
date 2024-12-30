@@ -113,17 +113,40 @@ handleSubmitisreplacementSupplies(): void {
   }
 
   
-  handleCancelDeleteStatusVehicle(){
-    
+  replacementSuppliesToDelete: any = null; // Lưu đối tượng cần xóa
+  isDeleteReplacementSupplies: boolean = false
+  openDeleteModal(item: any): void {
+    // Mở modal xóa và điền thông tin vào
+    this.isDeleteReplacementSupplies = true;
+    this.replacementSuppliesToDelete = item; // Lưu thông tin đối tượng cần xóa
+    this.supplyId = item.supplyId; // Điền trạng thái xe vào modal
+    this.quantity = item.quantity; 
+    this.unit = item.unit; 
   }
   
-  handleSubmitDeleteStatusVehicle(){
-
+  handleCancelisDeleteReplacementSupplies(): void {
+    // Đóng modal xóa
+    this.isDeleteReplacementSupplies = false;
+    this.replacementSuppliesToDelete = null; // Xóa thông tin đối tượng cần xóa
+  }
+  
+  handleSubmitisDeleteReplacementSupplies(): void {
+    if (this.replacementSuppliesToDelete) {
+      // Xóa trạng thái xe khỏi danh sách
+      this.replacementSuppliesList = this.replacementSuppliesList.filter(
+        item => item.id !== this.replacementSuppliesToDelete.id
+      );
+  
+      // Cập nhật danh sách hiển thị
+      this.updateDisplayedData();
+      this.total = this.replacementSuppliesList.length; // Cập nhật tổng số mục
+    }
+  
+    // Đóng modal xóa
+    this.isDeleteReplacementSupplies = false;
+    this.replacementSuppliesToDelete = '';
+    this.sendDataToParent()
   }
 
- 
-  onSubmit(){
-
-  }
 }
 

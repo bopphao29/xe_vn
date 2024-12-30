@@ -28,7 +28,7 @@ export class WorkPerformedComponent {
 
   }
   isWorkPerformed : boolean = false
-  isDeleteStatusVehicle: boolean = false
+  isDeleteworkPerformed: boolean = false
   workPerformedInput: string = ''
   workPerformedList: Array<{ id: number; workPerformed: string }> = [];
 
@@ -96,18 +96,37 @@ handleSubmitisWorkPerformed(): void {
 
   }  
 
+  workPerformedDelete: any = null; // Lưu đối tượng cần xóa
   
-  handleCancelDeleteStatusVehicle(){
-    
+  openDeleteModal(item: any): void {
+    // Mở modal xóa và điền thông tin vào
+    this.isDeleteworkPerformed = true;
+    this.workPerformedDelete = item; // Lưu thông tin đối tượng cần xóa
+    this.workPerformedInput = item.workPerformed; // Điền trạng thái xe vào modal
   }
   
-  handleSubmitDeleteStatusVehicle(){
-
+  handleCancelDeleteworkPerformed(): void {
+    // Đóng modal xóa
+    this.isDeleteworkPerformed = false;
+    this.workPerformedDelete = null; // Xóa thông tin đối tượng cần xóa
   }
-
- 
-  onSubmit(){
-
+  
+  handleSubmitDeleteworkPerformed(): void {
+    if (this.workPerformedDelete) {
+      // Xóa trạng thái xe khỏi danh sách
+      this.workPerformedList = this.workPerformedList.filter(
+        item => item.id !== this.workPerformedDelete.id
+      );
+  
+      // Cập nhật danh sách hiển thị
+      this.updateDisplayedData();
+      this.total = this.workPerformedList.length; // Cập nhật tổng số mục
+    }
+  
+    // Đóng modal xóa
+    this.isDeleteworkPerformed = false;
+    this.workPerformedDelete = null;
+    this.sendDataToParent()
   }
 
 }
