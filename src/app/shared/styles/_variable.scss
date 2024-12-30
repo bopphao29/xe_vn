@@ -11,39 +11,84 @@ $inactive-bg: #ffe2e3;
 $inactive-bd: #fd7d7f;
 $inactive-cl: #ff3739;
 
-$shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
+$shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 
 $border-field: 1px solid #d5d5d5;
 $border-color: #d5d5d5;
 $border-focus: #777;
-$error-cl: #F44336;
+$error-cl: #f44336;
 
 .c-primary {
-    color: $primary_color;
+  color: $primary_color;
 }
 
 .hover-c-primary {
-    &:hover {
-        color: $primary_color;
-    }
+  &:hover {
+    color: $primary_color;
+  }
 }
 
 .hover-border-primary {
-    &:hover {
-        border-color: $primary_color;
-    }
+  &:hover {
+    border-color: $primary_color;
+  }
 }
 
 .hover-bg-primary {
-    &:hover {
-        background-color: $primary_color;
-    } 
+  &:hover {
+    background-color: $primary_color;
+  }
 }
 
 .bg-primary {
-    background-color: $primary_color;
+  background-color: $primary_color;
 }
 
 .box-shadow {
-    box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+
+.btn-cancel {
+  width: 160px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid #274ea1;
+  color: #274ea1;
+  font-size: 16px;
+  font-family: "Roboto", serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.btn-save {
+  width: 160px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  background: #274ea1;
+  color: #f7f7f7;
+  font-size: 16px;
+  font-family: "Roboto", serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.btn-del {
+  width: 160px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  font-size: 16px;
+  font-family: "Roboto", serif;
+  font-weight: 500;
+  font-style: normal;
 }

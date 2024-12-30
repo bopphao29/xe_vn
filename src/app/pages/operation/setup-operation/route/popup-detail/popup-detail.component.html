@@ -1,0 +1,395 @@
+<form action="" nz-form [formGroup]="form">
+  <div class="flex flex-col gap-[40px]">
+    <div class="flex flex-col gap-[20px]">
+      <!-- row 1 -->
+      <div class="flex gap-[12px] justify-content-start">
+        <!-- Tên lộ trình  -->
+        <div>
+          <div class="">
+            <label class="label-form" for=""
+              >{{ "operation.setup-operation.name-journey" | translate }}
+            </label>
+            <input
+              class="input-form"
+              (input)="validateText('name', $event)"
+              placeholder="Tên lộ trình"
+              formControlName="routeName"
+              type="text"
+            />
+            <!-- <div class="error-container">
+                  <div>
+                    <span class="validate_input">{{
+                      "required.cannotBlank" | translate
+                    }}</span>
+                    <span class="instruct">{{
+                      "required.text_pattern" | translate
+                    }}</span>
+                  </div>
+                </div> -->
+          </div>
+        </div>
+
+        <!-- Điểm xuất phát  -->
+        <div>
+          <div class="">
+            <label class="label-form" for=""
+              >{{ "operation.setup-operation.start-place" | translate }}
+            </label>
+            <input
+              class="input-form"
+              (input)="validateText('name', $event)"
+              placeholder="Điểm xuất phát"
+              formControlName="startPoint"
+              type="text"
+            />
+          </div>
+        </div>
+
+        <!-- Tổng quãng đường (km)  -->
+        <div>
+          <div class="">
+            <label class="label-form" for=""
+              >{{ "operation.setup-operation.total-distance" | translate }}
+            </label>
+            <input
+              class="input-form"
+              (input)="validateText('name', $event)"
+              placeholder="Tổng quãng đường (km)"
+              formControlName="totalDistance"
+              type="text"
+            />
+          </div>
+        </div>
+
+        <!-- Thời gian hoàn thành (phút)  -->
+        <div>
+          <div class="">
+            <label class="label-form" for=""
+              >{{ "operation.setup-operation.time-finish" | translate }}
+            </label>
+            <input
+              class="input-form"
+              (input)="validateText('name', $event)"
+              placeholder="Thời gian hoàn thành (phút)"
+              formControlName="completionTime"
+              type="text"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- form array -->
+      <div class="flex flex-col">
+        <div
+          formArrayName="stopPoints"
+          class="flex flex-col gap-[12px] items-center"
+          style="
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            padding: 12px;
+            align-items: flex-start;
+          "
+        >
+          <div
+            *ngFor="let stopPoint of stopPoints.controls; let i = index"
+            [formGroupName]="i"
+            class="flex gap-[12px]"
+            style="width: 100%"
+          >
+            <!-- Tên điểm dừng 1  -->
+            <div>
+              <div class="">
+                <label class="label-form" for=""
+                  >{{
+                    "operation.setup-operation.name-stop-place-1" | translate
+                  }}
+                </label>
+                <input
+                  class="input-form"
+                  (input)="validateText('name', $event)"
+                  placeholder="Tên điểm dừng 1"
+                  formControlName="stopName"
+                  type="text"
+                />
+              </div>
+            </div>
+
+            <!-- Thời gian chạy (phút)  -->
+            <div>
+              <div class="">
+                <label class="label-form" for=""
+                  >{{ "operation.setup-operation.time-run" | translate }}
+                </label>
+                <input
+                  class="input-form"
+                  (input)="validateText('name', $event)"
+                  placeholder="Thời gian chạy (phút)"
+                  formControlName="runningTime"
+                  type="text"
+                />
+              </div>
+            </div>
+
+            <!-- Thời gian chờ (phút)  -->
+            <div>
+              <div class="">
+                <label class="label-form" for=""
+                  >{{ "operation.setup-operation.time-wait" | translate }}
+                </label>
+                <input
+                  class="input-form"
+                  (input)="validateText('name', $event)"
+                  placeholder="Thời gian chờ (phút)"
+                  formControlName="waitingTime"
+                  type="text"
+                />
+              </div>
+            </div>
+
+            <!-- Số km  -->
+            <div>
+              <div class="">
+                <label class="label-form" for=""
+                  >{{ "operation.setup-operation.number-km" | translate }}
+                </label>
+                <input
+                  class="input-form"
+                  (input)="validateText('name', $event)"
+                  placeholder="Số km"
+                  formControlName="distance"
+                  type="text"
+                />
+              </div>
+            </div>
+
+            <!-- Lộ trình ngắn nhất  -->
+            <div>
+              <div class="">
+                <label class="label-form" for=""
+                  >{{
+                    "operation.setup-operation.shortest-journey" | translate
+                  }}
+                </label>
+                <input
+                  class="input-form"
+                  (input)="validateText('name', $event)"
+                  placeholder="Lộ trình ngắn nhất"
+                  formControlName="shortestRoute"
+                  type="text"
+                />
+              </div>
+            </div>
+
+            <svg
+              *ngIf="isEdit && stopPoints.length > 1"
+              (click)="removeFormArray(i)"
+              style="margin-top: 35px"
+              width="16"
+              height="19"
+              viewBox="0 0 16 19"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3 18.5C2.45 18.5 1.97917 18.3042 1.5875 17.9125C1.19583 17.5208 1 17.05 1 16.5V3.5H0V1.5H5V0.5H11V1.5H16V3.5H15V16.5C15 17.05 14.8042 17.5208 14.4125 17.9125C14.0208 18.3042 13.55 18.5 13 18.5H3ZM5 14.5H7V5.5H5V14.5ZM9 14.5H11V5.5H9V14.5Z"
+                fill="#EF4444"
+              />
+            </svg>
+          </div>
+
+          <svg
+            *ngIf="isEdit"
+            (click)="addFormArray()"
+            width="66"
+            height="66"
+            viewBox="0 0 66 66"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g filter="url(#filter0_d_1786_14024)">
+              <rect
+                x="13"
+                y="9"
+                width="40"
+                height="40"
+                rx="20"
+                fill="#274EA1"
+                shape-rendering="crispEdges"
+              />
+              <path
+                d="M32 30H27C26.7167 30 26.4792 29.9042 26.2875 29.7125C26.0958 29.5208 26 29.2833 26 29C26 28.7167 26.0958 28.4792 26.2875 28.2875C26.4792 28.0958 26.7167 28 27 28H32V23C32 22.7167 32.0958 22.4792 32.2875 22.2875C32.4792 22.0958 32.7167 22 33 22C33.2833 22 33.5208 22.0958 33.7125 22.2875C33.9042 22.4792 34 22.7167 34 23V28H39C39.2833 28 39.5208 28.0958 39.7125 28.2875C39.9042 28.4792 40 28.7167 40 29C40 29.2833 39.9042 29.5208 39.7125 29.7125C39.5208 29.9042 39.2833 30 39 30H34V35C34 35.2833 33.9042 35.5208 33.7125 35.7125C33.5208 35.9042 33.2833 36 33 36C32.7167 36 32.4792 35.9042 32.2875 35.7125C32.0958 35.5208 32 35.2833 32 35V30Z"
+                fill="#FCFCFC"
+              />
+            </g>
+            <defs>
+              <filter
+                id="filter0_d_1786_14024"
+                x="0"
+                y="0"
+                width="66"
+                height="66"
+                filterUnits="userSpaceOnUse"
+                color-interpolation-filters="sRGB"
+              >
+                <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                <feColorMatrix
+                  in="SourceAlpha"
+                  type="matrix"
+                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                  result="hardAlpha"
+                />
+                <feMorphology
+                  radius="3"
+                  operator="dilate"
+                  in="SourceAlpha"
+                  result="effect1_dropShadow_1786_14024"
+                />
+                <feOffset dy="4" />
+                <feGaussianBlur stdDeviation="5" />
+                <feComposite in2="hardAlpha" operator="out" />
+                <feColorMatrix
+                  type="matrix"
+                  values="0 0 0 0 0.100104 0 0 0 0 0.201267 0 0 0 0 0.416562 0 0 0 0.08 0"
+                />
+                <feBlend
+                  mode="normal"
+                  in2="BackgroundImageFix"
+                  result="effect1_dropShadow_1786_14024"
+                />
+                <feBlend
+                  mode="normal"
+                  in="SourceGraphic"
+                  in2="effect1_dropShadow_1786_14024"
+                  result="shape"
+                />
+              </filter>
+            </defs>
+          </svg>
+        </div>
+      </div>
+
+      <!-- row 3 -->
+      <div class="flex gap-[12px] justify-content-start">
+        <!-- Tên điểm cuối  -->
+        <div>
+          <div class="">
+            <label class="label-form" for=""
+              >{{ "operation.setup-operation.name-last-place" | translate }}
+            </label>
+            <input
+              class="input-form"
+              (input)="validateText('name', $event)"
+              placeholder="Tên điểm cuối"
+              formControlName="endPoint"
+              type="text"
+            />
+          </div>
+        </div>
+
+        <!-- Thời gian chạy (phút)  -->
+        <div>
+          <div class="">
+            <label class="label-form" for=""
+              >{{ "operation.setup-operation.time-run" | translate }}
+            </label>
+            <input
+              class="input-form"
+              (input)="validateText('name', $event)"
+              placeholder="Thời gian chạy (phút)"
+              formControlName="runningTime"
+              type="text"
+            />
+          </div>
+        </div>
+
+        <!-- Số km  -->
+        <div>
+          <div class="">
+            <label class="label-form" for=""
+              >{{ "operation.setup-operation.number-km" | translate }}
+            </label>
+            <input
+              class="input-form"
+              (input)="validateText('name', $event)"
+              placeholder="Số km"
+              formControlName="distance"
+              type="text"
+            />
+          </div>
+        </div>
+
+        <!-- Lộ trình ngắn nhất  -->
+        <div>
+          <div class="">
+            <label class="label-form" for=""
+              >{{ "operation.setup-operation.shortest-journey" | translate }}
+            </label>
+            <input
+              class="input-form"
+              (input)="validateText('name', $event)"
+              placeholder="Lộ trình ngắn nhất"
+              formControlName="shortestRoute"
+              type="text"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- row 4 -->
+      <div class="flex gap-[12px] justify-content-start">
+        <!-- Giá vé  -->
+        <div>
+          <div class="">
+            <label class="label-form" for=""
+              >{{ "operation.setup-operation.ticket-price" | translate }}
+            </label>
+            <input
+              class="input-form"
+              (input)="validateText('name', $event)"
+              placeholder="Giá vé"
+              formControlName="ticketPrice"
+              type="text"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- button  -->
+    <div class="flex justify-center gap-[12px]">
+      <button
+        *ngIf="!isEdit"
+        type="button"
+        class="btn-cancel"
+        (click)="closeModal()"
+      >
+        Quay lại
+      </button>
+      <button
+        *ngIf="!isEdit"
+        type="button"
+        class="btn-cancel"
+        (click)="isEdit = !isEdit"
+      >
+        Sửa
+      </button>
+      <button *ngIf="!isEdit" type="button" class="btn-del">Xóa</button>
+      <button
+        *ngIf="isEdit"
+        type="button"
+        class="btn-cancel"
+        (click)="isEdit = !isEdit"
+      >
+        Hủy
+      </button>
+      <button
+        *ngIf="isEdit"
+        type="button"
+        class="btn-save"
+        (click)="saveEdit()"
+      >
+        Lưu
+      </button>
+    </div>
+  </div>
+</form>

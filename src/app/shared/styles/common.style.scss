@@ -17,3 +17,11 @@
   font-weight: 500;
   font-style: normal;
 }
+
+::ng-deep .ant-modal-content {
+  border-radius: 12px !important;
+}
+
+::ng-deep .ant-modal-header {
+  border-radius: 12px !important;
+}
