@@ -11,9 +11,13 @@ import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { DialogService } from '../../../../shared/services/dialog.service';
 import { SetupOperationPopupDetailComponent } from './popup-detail/popup-detail.component';
+import { RouteService } from './route.service';
+import { API_CODE } from '../../../../shared/constants/common.const';
+import { NotificationService } from '../../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-setup-operation-route',
@@ -31,12 +35,9 @@ import { SetupOperationPopupDetailComponent } from './popup-detail/popup-detail.
   ],
 })
 export class SetupOperationRouteComponent implements OnInit {
-  listGender = [
-    { id: 1, value: 'Nam' },
-    { id: 2, value: 'Nữ' },
-  ];
+  listRoute: Array<{ id: any; value: any }> = [];
 
-  showEmpolyeeNoData: any = [];
+  listData: any = [];
 
   pageIndex = 1;
   pageSize = 12;
@@ -49,28 +50,30 @@ export class SetupOperationRouteComponent implements OnInit {
   form!: FormGroup;
 
   constructor(
-    private validateService: ValidateIntoPageService,
     private fb: FormBuilder,
-    private dialogSrv: DialogService
+    private dialogSrv: DialogService,
+    private routeSrv: RouteService,
+    private notification: NotificationService
   ) {}
 
   ngOnInit(): void {
     this.loadForm();
+    this.getListRoute();
     this.search();
   }
 
   loadForm() {
     this.form = this.fb.group({
-      routeType: [null],
-      routeName: [''],
-      startPoint: [''],
-      totalDistance: [''],
-      completionTime: [''],
-      endPoint: [''],
-      runningTime: [''],
-      distance: [''],
-      shortestRoute: [''],
-      ticketPrice: [''],
+      routeType: [null, Validators.required],
+      name: ['', Validators.required],
+      startPoint: ['', Validators.required],
+      totalDistance: ['', Validators.required],
+      completionTime: ['', Validators.required],
+      endPoint: ['', Validators.required],
+      runningTime: ['', Validators.required],
+      distance: ['', Validators.required],
+      shortestItinerary: ['', Validators.required],
+      ticketPrice: ['', Validators.required],
       stopPoints: this.fb.array(
         this.listFake.map(() => this.createStopPoint())
       ),
@@ -79,11 +82,11 @@ export class SetupOperationRouteComponent implements OnInit {
 
   createStopPoint(): FormGroup {
     return this.fb.group({
-      stopName: [''],
-      runningTime: [''],
-      waitingTime: [''],
-      distance: [''],
-      shortestRoute: [''],
+      stopName: ['', Validators.required],
+      runningTime: ['', Validators.required],
+      waitingTime: ['', Validators.required],
+      distance: ['', Validators.required],
+      shortestItinerary: ['', Validators.required],
     });
   }
 
@@ -91,8 +94,46 @@ export class SetupOperationRouteComponent implements OnInit {
     return this.form.get('stopPoints') as FormArray;
   }
 
+  getListRoute() {
+    this.routeSrv.getListRoute().subscribe((res) => {
+      if (res && res.code === API_CODE.SUCCESS) {
+        this.listRoute = res.data.map((ele: any) => {
+          return {
+            id: ele.id,
+            value: ele.name,
+          };
+        });
+      }
+    });
+  }
+
   onSubmit() {
-    console.log(this.form.value);
+    this.form.markAllAsTouched();
+    if (this.form.invalid) {
+      // this.notification.error('Vui lòng điền đầy đủ thông tin');
+      return;
+    } else {
+      this.createItinerary();
+    }
+  }
+
+  createItinerary() {
+    const body = {
+      ...this.form.value,
+      stopPoints: this.form.value.stopPoints.map((ele: any, index: number) => {
+        return {
+          ...ele,
+          itineraryId: index + 1,
+        };
+      }),
+    };
+    this.routeSrv.createItinerary(body).subscribe((res) => {
+      if (res && res.code === API_CODE.SUCCESS) {
+        this.notification.success(res.message);
+        this.form.reset();
+        this.search();
+      }
+    });
   }
 
   validateText(path: string | (string | number)[], event: Event) {
@@ -100,8 +141,9 @@ export class SetupOperationRouteComponent implements OnInit {
   }
 
   viewDetail(data: any) {
+    console.log(data);
     const dialogData = {
-      title: 'Chi tiết lộ trình',
+      data: data,
     };
 
     const dialogRef = this.dialogSrv.openDialog(
@@ -116,10 +158,8 @@ export class SetupOperationRouteComponent implements OnInit {
       }
     );
 
-    dialogRef.afterClose.subscribe((result: any) => {
-      if (result) {
-        console.log(result);
-      }
+    dialogRef.afterClose.subscribe(() => {
+      this.search();
     });
   }
 
@@ -129,63 +169,12 @@ export class SetupOperationRouteComponent implements OnInit {
   }
 
   search() {
-    this.showEmpolyeeNoData = [
-      {
-        code: 'EMP001',
-        name: 'Nguyễn Văn A',
-        yearOfBirth: '1990',
-        phoneNumber: '0123456789',
-        officeName: 'Văn phòng Hà Nội',
-        branchName: 'Chi nhánh miền Bắc',
-        departmentName: 'Phòng kinh doanh',
-        positionName: 'Trưởng phòng',
-        id: 1,
-      },
-      {
-        code: 'EMP002',
-        name: 'Trần Thị B',
-        yearOfBirth: '1992',
-        phoneNumber: '0987654321',
-        officeName: 'Văn phòng Đà Nẵng',
-        branchName: 'Chi nhánh miền Trung',
-        departmentName: 'Phòng hành chính',
-        positionName: 'Nhân viên',
-        id: 2,
-      },
-      {
-        code: 'EMP003',
-        name: 'Lê Văn C',
-        yearOfBirth: '1988',
-        phoneNumber: '0912345678',
-        officeName: 'Văn phòng Hồ Chí Minh',
-        branchName: 'Chi nhánh miền Nam',
-        departmentName: 'Phòng kỹ thuật',
-        positionName: 'Nhân viên',
-        id: 3,
-      },
-      {
-        code: 'EMP004',
-        name: 'Phạm Thị D',
-        yearOfBirth: '1995',
-        phoneNumber: '0945678910',
-        officeName: 'Văn phòng Hà Nội',
-        branchName: 'Chi nhánh miền Bắc',
-        departmentName: 'Phòng tài chính',
-        positionName: 'Kế toán trưởng',
-        id: 4,
-      },
-      {
-        code: 'EMP005',
-        name: 'Vũ Văn E',
-        yearOfBirth: '1993',
-        phoneNumber: '0934567890',
-        officeName: 'Văn phòng Hồ Chí Minh',
-        branchName: 'Chi nhánh miền Nam',
-        departmentName: 'Phòng nhân sự',
-        positionName: 'Trưởng nhóm',
-        id: 5,
-      },
-    ];
+    this.routeSrv.getAllItinerary().subscribe((res) => {
+      if (res && res.code === API_CODE.SUCCESS) {
+        this.listData = res.data.content;
+        this.total = res.totalElements;
+      }
+    });
   }
 
   addFormArray() {

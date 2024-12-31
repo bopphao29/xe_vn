@@ -35,6 +35,8 @@
 
   <nav class="routerPage">
     <a
+      class="roboto-500"
+      style="font-size: 14px"
       *ngFor="let data of listActiveLink"
       (click)="routerLink(data.actLink, data.router)"
       [ngClass]="{ active: activeLink === data.actLink }"
@@ -42,13 +44,13 @@
     >
   </nav>
 
-  <div
+  <!-- <div
     style="
       border-bottom: 1px solid #dddddd;
       margin-left: 16px;
       margin-bottom: 15px;
       margin-top: 15px;
     "
-  ></div>
+  ></div> -->
 </div>
 <router-outlet></router-outlet>

@@ -25,3 +25,39 @@
 ::ng-deep .ant-modal-header {
   border-radius: 12px !important;
 }
+
+::ng-deep .ant-modal-title {
+  display: flex;
+  justify-content: center;
+  font-size: 24px !important;
+  font-family: "Roboto", serif !important;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.btn {
+  transition: transform 0.1s ease-in-out;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.input-item {
+  width: 200px;
+}
+
+.ant-select {
+  border-radius: 8px !important;
+}
+
+input.ng-invalid.ng-touched {
+  border-color: #ff4d4f !important;
+}
+
+::ng-deep .ant-select.ng-invalid.ng-touched,
+.ant-select.ng-invalid.ng-dirty {
+  .ant-select-selector {
+    border: 1px solid #ff4d4f !important;
+  }
+}

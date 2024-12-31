@@ -2,39 +2,50 @@
   <div class="flex flex-col gap-[40px]">
     <div class="flex flex-col gap-[20px]">
       <!-- row 1 -->
-      <div class="flex gap-[12px] justify-content-start">
+      <div class="flex flex-wrap gap-[12px] justify-content-start">
         <!-- Tên lộ trình  -->
         <div>
-          <div class="">
-            <label class="label-form" for=""
-              >{{ "operation.setup-operation.name-journey" | translate }}
-            </label>
+          <div class="input-item">
+            <span class="required-star"
+              >*<label class="label-form" for=""
+                >{{ "operation.setup-operation.name-journey" | translate }}
+              </label></span
+            >
             <input
               class="input-form"
               (input)="validateText('name', $event)"
               placeholder="Tên lộ trình"
-              formControlName="routeName"
+              formControlName="name"
               type="text"
             />
-            <!-- <div class="error-container">
-                  <div>
-                    <span class="validate_input">{{
-                      "required.cannotBlank" | translate
-                    }}</span>
-                    <span class="instruct">{{
-                      "required.text_pattern" | translate
-                    }}</span>
-                  </div>
-                </div> -->
+            <div
+              *ngIf="
+                (form.get('name')?.invalid && form.get('name')?.dirty) ||
+                form.get('name')?.touched
+              "
+            >
+              <span
+                class="validate_input"
+                *ngIf="form.get('name')?.errors?.['required']"
+                >{{ "required.cannotBlank" | translate }}</span
+              >
+              <span
+                class="instruct"
+                *ngIf="form.get('name')?.errors?.['pattern']"
+                >{{ "required.text_pattern" | translate }}</span
+              >
+            </div>
           </div>
         </div>
 
         <!-- Điểm xuất phát  -->
         <div>
-          <div class="">
-            <label class="label-form" for=""
-              >{{ "operation.setup-operation.start-place" | translate }}
-            </label>
+          <div class="input-item">
+            <span class="required-star"
+              >*<label class="label-form" for=""
+                >{{ "operation.setup-operation.start-place" | translate }}
+              </label></span
+            >
             <input
               class="input-form"
               (input)="validateText('name', $event)"
@@ -42,15 +53,35 @@
               formControlName="startPoint"
               type="text"
             />
+            <div
+              *ngIf="
+                (form.get('startPoint')?.invalid &&
+                  form.get('startPoint')?.dirty) ||
+                form.get('startPoint')?.touched
+              "
+            >
+              <span
+                class="validate_input"
+                *ngIf="form.get('startPoint')?.errors?.['required']"
+                >{{ "required.cannotBlank" | translate }}</span
+              >
+              <span
+                class="instruct"
+                *ngIf="form.get('startPoint')?.errors?.['pattern']"
+                >{{ "required.text_pattern" | translate }}</span
+              >
+            </div>
           </div>
         </div>
 
         <!-- Tổng quãng đường (km)  -->
         <div>
-          <div class="">
-            <label class="label-form" for=""
-              >{{ "operation.setup-operation.total-distance" | translate }}
-            </label>
+          <div class="input-item">
+            <span class="required-star"
+              >*<label class="label-form" for=""
+                >{{ "operation.setup-operation.total-distance" | translate }}
+              </label></span
+            >
             <input
               class="input-form"
               (input)="validateText('name', $event)"
@@ -58,15 +89,35 @@
               formControlName="totalDistance"
               type="text"
             />
+            <div
+              *ngIf="
+                (form.get('totalDistance')?.invalid &&
+                  form.get('totalDistance')?.dirty) ||
+                form.get('totalDistance')?.touched
+              "
+            >
+              <span
+                class="validate_input"
+                *ngIf="form.get('totalDistance')?.errors?.['required']"
+                >{{ "required.cannotBlank" | translate }}</span
+              >
+              <span
+                class="instruct"
+                *ngIf="form.get('totalDistance')?.errors?.['pattern']"
+                >{{ "required.text_pattern" | translate }}</span
+              >
+            </div>
           </div>
         </div>
 
         <!-- Thời gian hoàn thành (phút)  -->
         <div>
-          <div class="">
-            <label class="label-form" for=""
-              >{{ "operation.setup-operation.time-finish" | translate }}
-            </label>
+          <div class="input-item">
+            <span class="required-star"
+              >*<label class="label-form" for=""
+                >{{ "operation.setup-operation.time-finish" | translate }}
+              </label></span
+            >
             <input
               class="input-form"
               (input)="validateText('name', $event)"
@@ -74,6 +125,24 @@
               formControlName="completionTime"
               type="text"
             />
+            <div
+              *ngIf="
+                (form.get('completionTime')?.invalid &&
+                  form.get('completionTime')?.dirty) ||
+                form.get('completionTime')?.touched
+              "
+            >
+              <span
+                class="validate_input"
+                *ngIf="form.get('completionTime')?.errors?.['required']"
+                >{{ "required.cannotBlank" | translate }}</span
+              >
+              <span
+                class="instruct"
+                *ngIf="form.get('completionTime')?.errors?.['pattern']"
+                >{{ "required.text_pattern" | translate }}</span
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -93,17 +162,19 @@
           <div
             *ngFor="let stopPoint of stopPoints.controls; let i = index"
             [formGroupName]="i"
-            class="flex gap-[12px]"
+            class="flex flex-wrap gap-[12px]"
             style="width: 100%"
           >
             <!-- Tên điểm dừng 1  -->
             <div>
-              <div class="">
-                <label class="label-form" for=""
-                  >{{
-                    "operation.setup-operation.name-stop-place-1" | translate
-                  }}
-                </label>
+              <div class="input-item">
+                <span class="required-star"
+                  >*<label class="label-form" for=""
+                    >{{
+                      "operation.setup-operation.name-stop-place-1" | translate
+                    }}
+                  </label></span
+                >
                 <input
                   class="input-form"
                   (input)="validateText('name', $event)"
@@ -111,15 +182,35 @@
                   formControlName="stopName"
                   type="text"
                 />
+                <div
+                  *ngIf="
+                    (stopPoint.get('stopName')?.invalid &&
+                      stopPoint.get('stopName')?.dirty) ||
+                    stopPoint.get('stopName')?.touched
+                  "
+                >
+                  <span
+                    class="validate_input"
+                    *ngIf="stopPoint.get('stopName')?.errors?.['required']"
+                    >{{ "required.cannotBlank" | translate }}</span
+                  >
+                  <span
+                    class="instruct"
+                    *ngIf="stopPoint.get('stopName')?.errors?.['pattern']"
+                    >{{ "required.text_pattern" | translate }}</span
+                  >
+                </div>
               </div>
             </div>
 
             <!-- Thời gian chạy (phút)  -->
             <div>
-              <div class="">
-                <label class="label-form" for=""
-                  >{{ "operation.setup-operation.time-run" | translate }}
-                </label>
+              <div class="input-item">
+                <span class="required-star"
+                  >*<label class="label-form" for=""
+                    >{{ "operation.setup-operation.time-run" | translate }}
+                  </label></span
+                >
                 <input
                   class="input-form"
                   (input)="validateText('name', $event)"
@@ -127,15 +218,35 @@
                   formControlName="runningTime"
                   type="text"
                 />
+                <div
+                  *ngIf="
+                    (stopPoint.get('runningTime')?.invalid &&
+                      stopPoint.get('runningTime')?.dirty) ||
+                    stopPoint.get('runningTime')?.touched
+                  "
+                >
+                  <span
+                    class="validate_input"
+                    *ngIf="stopPoint.get('runningTime')?.errors?.['required']"
+                    >{{ "required.cannotBlank" | translate }}</span
+                  >
+                  <span
+                    class="instruct"
+                    *ngIf="stopPoint.get('runningTime')?.errors?.['pattern']"
+                    >{{ "required.text_pattern" | translate }}</span
+                  >
+                </div>
               </div>
             </div>
 
             <!-- Thời gian chờ (phút)  -->
             <div>
-              <div class="">
-                <label class="label-form" for=""
-                  >{{ "operation.setup-operation.time-wait" | translate }}
-                </label>
+              <div class="input-item">
+                <span class="required-star"
+                  >*<label class="label-form" for=""
+                    >{{ "operation.setup-operation.time-wait" | translate }}
+                  </label></span
+                >
                 <input
                   class="input-form"
                   (input)="validateText('name', $event)"
@@ -143,15 +254,35 @@
                   formControlName="waitingTime"
                   type="text"
                 />
+                <div
+                  *ngIf="
+                    (stopPoint.get('waitingTime')?.invalid &&
+                      stopPoint.get('waitingTime')?.dirty) ||
+                    stopPoint.get('waitingTime')?.touched
+                  "
+                >
+                  <span
+                    class="validate_input"
+                    *ngIf="stopPoint.get('waitingTime')?.errors?.['required']"
+                    >{{ "required.cannotBlank" | translate }}</span
+                  >
+                  <span
+                    class="instruct"
+                    *ngIf="stopPoint.get('waitingTime')?.errors?.['pattern']"
+                    >{{ "required.text_pattern" | translate }}</span
+                  >
+                </div>
               </div>
             </div>
 
             <!-- Số km  -->
             <div>
-              <div class="">
-                <label class="label-form" for=""
-                  >{{ "operation.setup-operation.number-km" | translate }}
-                </label>
+              <div class="input-item">
+                <span class="required-star"
+                  >*<label class="label-form" for=""
+                    >{{ "operation.setup-operation.number-km" | translate }}
+                  </label></span
+                >
                 <input
                   class="input-form"
                   (input)="validateText('name', $event)"
@@ -159,24 +290,62 @@
                   formControlName="distance"
                   type="text"
                 />
+                <div
+                  *ngIf="
+                    (stopPoint.get('distance')?.invalid &&
+                      stopPoint.get('distance')?.dirty) ||
+                    stopPoint.get('distance')?.touched
+                  "
+                >
+                  <span
+                    class="validate_input"
+                    *ngIf="stopPoint.get('distance')?.errors?.['required']"
+                    >{{ "required.cannotBlank" | translate }}</span
+                  >
+                  <span
+                    class="instruct"
+                    *ngIf="stopPoint.get('distance')?.errors?.['pattern']"
+                    >{{ "required.text_pattern" | translate }}</span
+                  >
+                </div>
               </div>
             </div>
 
             <!-- Lộ trình ngắn nhất  -->
             <div>
-              <div class="">
-                <label class="label-form" for=""
-                  >{{
-                    "operation.setup-operation.shortest-journey" | translate
-                  }}
-                </label>
+              <div class="input-item">
+                <span class="required-star"
+                  >*<label class="label-form" for=""
+                    >{{
+                      "operation.setup-operation.shortest-journey" | translate
+                    }}
+                  </label></span
+                >
                 <input
                   class="input-form"
                   (input)="validateText('name', $event)"
                   placeholder="Lộ trình ngắn nhất"
-                  formControlName="shortestRoute"
+                  formControlName="shortestItinerary"
                   type="text"
                 />
+                <div
+                  *ngIf="
+                    (stopPoint.get('shortestItinerary')?.invalid &&
+                      stopPoint.get('shortestItinerary')?.dirty) ||
+                    stopPoint.get('shortestItinerary')?.touched
+                  "
+                >
+                  <span
+                    class="validate_input"
+                    *ngIf="stopPoint.get('shortestItinerary')?.errors?.['required']"
+                    >{{ "required.cannotBlank" | translate }}</span
+                  >
+                  <span
+                    class="instruct"
+                    *ngIf="stopPoint.get('shortestItinerary')?.errors?.['pattern']"
+                    >{{ "required.text_pattern" | translate }}</span
+                  >
+                </div>
               </div>
             </div>
 
@@ -269,13 +438,15 @@
       </div>
 
       <!-- row 3 -->
-      <div class="flex gap-[12px] justify-content-start">
+      <div class="flex flex-wrap gap-[12px] justify-content-start">
         <!-- Tên điểm cuối  -->
         <div>
-          <div class="">
-            <label class="label-form" for=""
-              >{{ "operation.setup-operation.name-last-place" | translate }}
-            </label>
+          <div class="input-item">
+            <span class="required-star"
+              >*<label class="label-form" for=""
+                >{{ "operation.setup-operation.name-last-place" | translate }}
+              </label></span
+            >
             <input
               class="input-form"
               (input)="validateText('name', $event)"
@@ -283,15 +454,35 @@
               formControlName="endPoint"
               type="text"
             />
+            <div
+              *ngIf="
+                (form.get('endPoint')?.invalid &&
+                  form.get('endPoint')?.dirty) ||
+                form.get('endPoint')?.touched
+              "
+            >
+              <span
+                class="validate_input"
+                *ngIf="form.get('endPoint')?.errors?.['required']"
+                >{{ "required.cannotBlank" | translate }}</span
+              >
+              <span
+                class="instruct"
+                *ngIf="form.get('endPoint')?.errors?.['pattern']"
+                >{{ "required.text_pattern" | translate }}</span
+              >
+            </div>
           </div>
         </div>
 
         <!-- Thời gian chạy (phút)  -->
         <div>
-          <div class="">
-            <label class="label-form" for=""
-              >{{ "operation.setup-operation.time-run" | translate }}
-            </label>
+          <div class="input-item">
+            <span class="required-star"
+              >*<label class="label-form" for=""
+                >{{ "operation.setup-operation.time-run" | translate }}
+              </label></span
+            >
             <input
               class="input-form"
               (input)="validateText('name', $event)"
@@ -299,15 +490,35 @@
               formControlName="runningTime"
               type="text"
             />
+            <div
+              *ngIf="
+                (form.get('runningTime')?.invalid &&
+                  form.get('runningTime')?.dirty) ||
+                form.get('runningTime')?.touched
+              "
+            >
+              <span
+                class="validate_input"
+                *ngIf="form.get('runningTime')?.errors?.['required']"
+                >{{ "required.cannotBlank" | translate }}</span
+              >
+              <span
+                class="instruct"
+                *ngIf="form.get('runningTime')?.errors?.['pattern']"
+                >{{ "required.text_pattern" | translate }}</span
+              >
+            </div>
           </div>
         </div>
 
         <!-- Số km  -->
         <div>
-          <div class="">
-            <label class="label-form" for=""
-              >{{ "operation.setup-operation.number-km" | translate }}
-            </label>
+          <div class="input-item">
+            <span class="required-star"
+              >*<label class="label-form" for=""
+                >{{ "operation.setup-operation.number-km" | translate }}
+              </label></span
+            >
             <input
               class="input-form"
               (input)="validateText('name', $event)"
@@ -315,34 +526,74 @@
               formControlName="distance"
               type="text"
             />
+            <div
+              *ngIf="
+                (form.get('distance')?.invalid &&
+                  form.get('distance')?.dirty) ||
+                form.get('distance')?.touched
+              "
+            >
+              <span
+                class="validate_input"
+                *ngIf="form.get('distance')?.errors?.['required']"
+                >{{ "required.cannotBlank" | translate }}</span
+              >
+              <span
+                class="instruct"
+                *ngIf="form.get('distance')?.errors?.['pattern']"
+                >{{ "required.text_pattern" | translate }}</span
+              >
+            </div>
           </div>
         </div>
 
         <!-- Lộ trình ngắn nhất  -->
         <div>
-          <div class="">
-            <label class="label-form" for=""
-              >{{ "operation.setup-operation.shortest-journey" | translate }}
-            </label>
+          <div class="input-item">
+            <span class="required-star"
+              >*<label class="label-form" for=""
+                >{{ "operation.setup-operation.shortest-journey" | translate }}
+              </label></span
+            >
             <input
               class="input-form"
               (input)="validateText('name', $event)"
               placeholder="Lộ trình ngắn nhất"
-              formControlName="shortestRoute"
+              formControlName="shortestItinerary"
               type="text"
             />
+            <div
+              *ngIf="
+                (form.get('shortestItinerary')?.invalid &&
+                  form.get('shortestItinerary')?.dirty) ||
+                form.get('shortestItinerary')?.touched
+              "
+            >
+              <span
+                class="validate_input"
+                *ngIf="form.get('shortestItinerary')?.errors?.['required']"
+                >{{ "required.cannotBlank" | translate }}</span
+              >
+              <span
+                class="instruct"
+                *ngIf="form.get('shortestItinerary')?.errors?.['pattern']"
+                >{{ "required.text_pattern" | translate }}</span
+              >
+            </div>
           </div>
         </div>
       </div>
 
       <!-- row 4 -->
-      <div class="flex gap-[12px] justify-content-start">
+      <div class="flex flex-wrap gap-[12px] justify-content-start">
         <!-- Giá vé  -->
         <div>
-          <div class="">
-            <label class="label-form" for=""
-              >{{ "operation.setup-operation.ticket-price" | translate }}
-            </label>
+          <div class="input-item">
+            <span class="required-star"
+              >*<label class="label-form" for=""
+                >{{ "operation.setup-operation.ticket-price" | translate }}
+              </label></span
+            >
             <input
               class="input-form"
               (input)="validateText('name', $event)"
@@ -350,6 +601,24 @@
               formControlName="ticketPrice"
               type="text"
             />
+            <div
+              *ngIf="
+                (form.get('ticketPrice')?.invalid &&
+                  form.get('ticketPrice')?.dirty) ||
+                form.get('ticketPrice')?.touched
+              "
+            >
+              <span
+                class="validate_input"
+                *ngIf="form.get('ticketPrice')?.errors?.['required']"
+                >{{ "required.cannotBlank" | translate }}</span
+              >
+              <span
+                class="instruct"
+                *ngIf="form.get('ticketPrice')?.errors?.['pattern']"
+                >{{ "required.text_pattern" | translate }}</span
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -360,7 +629,7 @@
       <button
         *ngIf="!isEdit"
         type="button"
-        class="btn-cancel"
+        class="btn btn-cancel"
         (click)="closeModal()"
       >
         Quay lại
@@ -368,16 +637,23 @@
       <button
         *ngIf="!isEdit"
         type="button"
-        class="btn-cancel"
-        (click)="isEdit = !isEdit"
+        class="btn btn-cancel"
+        (click)="isEdit = !isEdit; form.enable()"
       >
         Sửa
       </button>
-      <button *ngIf="!isEdit" type="button" class="btn-del">Xóa</button>
+      <button
+        *ngIf="!isEdit"
+        type="button"
+        class="btn btn-del"
+        (click)="deleteItinerarie()"
+      >
+        Xóa
+      </button>
       <button
         *ngIf="isEdit"
         type="button"
-        class="btn-cancel"
+        class="btn btn-cancel"
         (click)="isEdit = !isEdit"
       >
         Hủy
@@ -385,7 +661,7 @@
       <button
         *ngIf="isEdit"
         type="button"
-        class="btn-save"
+        class="btn btn-save"
         (click)="saveEdit()"
       >
         Lưu
