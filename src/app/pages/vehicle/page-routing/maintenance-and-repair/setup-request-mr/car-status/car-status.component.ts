@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -26,9 +26,25 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
   styleUrl: './car-status.component.scss'
 })
 export class CarStatusComponent {
-
+  @Input() parentData: any[] = [];
   @Output() dataEmitter = new EventEmitter<any[]>()
 
+  data : any[] = []
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['parentData']) {
+      this.statusVehicleList = this.parentData.map(item => ({
+        id: item.id,
+        vehicleStatus: item.name,
+        ...item,
+      }));
+      this.displayedData = this.parentData.map(item => ({
+        id: item.id,
+        vehicleStatus: item.name,
+        ...item,
+      }));
+      console.log('Giá trị mới nhận từ cha:', this.statusVehicleList);
+    }
+  }
   constructor(
     private dialogService: DialogService
   ){

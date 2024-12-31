@@ -37,10 +37,10 @@
                         <div class="input-wrapper">
                             <div class="">
                                 <span style="color: red;" >*</span><label class="label-form" for="" >{{'table.vehicle.driver' | translate}}</label>
-                                <input class="input-form"  placeholder="Nhập" type="text" formControlName="driverName" >
+                                <input class="input-form"  placeholder="Nhập" type="text" formControlName="driver" >
                                 <div class="error-container">
-                                    <div *ngIf="form.get('driverName')?.invalid && (form.get('driverName')?.dirty || form.get('driverName')?.touched)">
-                                        <span class="validate_input" *ngIf="form.get('driverName')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
+                                    <div *ngIf="form.get('driver')?.invalid && (form.get('driver')?.dirty || form.get('driver')?.touched)">
+                                        <span class="validate_input" *ngIf="form.get('driver')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -213,7 +213,7 @@
                                 <tr *ngFor="let data of showNoDataForMaintenance(), let i = index">
                                     <td class="list-col-1">{{i + 1||'-' }}</td>
                                     <td class="list-col-2">{{data.registerNo || '-'}}</td>
-                                    <td class="list-col-3">{{data.driverName || '-'}}</td>
+                                    <td class="list-col-3">{{data.driver || '-'}}</td>
                                     <td class="list-col-2">{{data.phoneNumber || '-'}}</td>
                                     <td class="list-col-2">{{data.maintenanceOdometer || '-'}}</td>
             
@@ -246,7 +246,7 @@
                 <div class="p-4">
                     <nz-tabset>
                       <nz-tab nzTitle="{{'vehicle.vehicleStatus' | translate}}">
-                        <app-car-status (dataEmitter)="receiveData($event, 'vehicleStatus')"></app-car-status>
+                        <app-car-status [parentData]="listVS"  (dataEmitter)="receiveData($event, 'vehicleStatus')"></app-car-status>
                       </nz-tab>
                       <nz-tab nzTitle="{{'vehicle.itemCheck' | translate}}">
                         <app-item-check (dataEmitter)="receiveData($event, 'itemCheck')"></app-item-check>

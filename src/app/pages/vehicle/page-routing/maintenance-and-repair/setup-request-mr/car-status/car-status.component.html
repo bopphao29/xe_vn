@@ -8,7 +8,7 @@
             </tr>
             <tr *ngFor="let item of displayedData; let i = index">
                 <td class="list-col-1">{{ i + 1 }}</td>
-                <td class="list-col-3">{{ item.vehicleStatus }}</td>
+                <td class="list-col-3">{{ item.vehicleStatus}}</td>
                 <td class="button_action list-col-2" style="text-align: center;">
                   <div>
                     <a (click)="editVehicleStatus(item)" class="mx-1 button_show_detail">Sửa</a>
@@ -84,7 +84,7 @@
         <div >
               
         <div class="input-wrapper">
-            <div class="">
+            <div class="" >
                 <label class="label-form" for="" >{{'vehicle.vehicleStatus' | translate}}</label>
                 <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="statusVehicle" >
             </div>

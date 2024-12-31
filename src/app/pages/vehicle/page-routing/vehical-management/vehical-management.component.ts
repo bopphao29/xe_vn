@@ -82,7 +82,7 @@ export class VehicalManagementComponent {
   listActiveLink= [
     {id : 1, actLink: 'setupVehicle', router: 'vehicle/setup-vehicle'},
     {id : 2, actLink: 'vehicleProfileManagement', router: 'vehicle/profile-vehicle-management'},
-    {id : 3, actLink: 'maintenanceRepair', router: 'vehicle/maintenance-repair'},
+    {id : 3, actLink: 'maintenanceRepair', router: 'vehicle/maintenance-repair', tab: 'setup-request' },
         // {id : 3, actLink: 'setupRequestMR', router: 'vehicle/maintenance-repair/setup-request-mr'},
     // {id : 4, actLink: 'listRequestMR', router: 'vehicle/maintenance-repair/list-request-mr'},
     // {id : 5, actLink: 'reportRequestMR', router: 'vehicle/maintenance-repair/report-request-mr'},
@@ -93,10 +93,22 @@ export class VehicalManagementComponent {
 
   ]
 
-  routerLink(actLink: string, router: string){
-    this.activeLink = actLink
-    this.removeSearchVehical();
+  routerLink(actLink: string, router: string) {
+    this.activeLink = actLink;
+    this.removeSearchVehical(); // Hàm xử lý khác (nếu cần giữ nguyên)
     localStorage.setItem('activeLink', this.activeLink);
-    this.routes.navigate([router])
+  
+    // Lấy thông tin `tab` từ danh sách `listActiveLink`
+    const selectedLink = this.listActiveLink.find(link => link.actLink === actLink);
+  
+    if (selectedLink && selectedLink.tab) {
+      // Điều hướng với `tab`
+      this.routes.navigate([router], { queryParams: { tab: selectedLink.tab } });
+    } else {
+      // Điều hướng không có `tab`
+      this.routes.navigate([router]);
+    }
   }
+  
+  
 }

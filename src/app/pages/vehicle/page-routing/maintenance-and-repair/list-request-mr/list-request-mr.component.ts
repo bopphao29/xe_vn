@@ -59,12 +59,13 @@ export class ListRequestMrComponent implements OnInit{
   
   form !: FormGroup
   ngOnInit(): void {
-    this.form  = this.fb.group({
-      status : null,
-      txtSearch: null,
-      rangeDate: null
-    })
 
+  const savedFormValue = localStorage.getItem('search');
+  this.form = this.fb.group({
+    status: [savedFormValue ? JSON.parse(savedFormValue).status : ''],
+    txtSearch: [savedFormValue ? JSON.parse(savedFormValue).txtSearch : ''],
+    rangeDate: [savedFormValue ? JSON.parse(savedFormValue).rangeDate : ''],
+  });
     this.search()
   }
 
@@ -134,7 +135,8 @@ export class ListRequestMrComponent implements OnInit{
   }
 
   resetForm(){
-
+    this.form.reset()
+    this.form.get('status')?.setValue('')
   }
 
   list: any[] = []

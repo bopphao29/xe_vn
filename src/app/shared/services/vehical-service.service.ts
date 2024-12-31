@@ -15,6 +15,7 @@ export class VehicalServiceService {
 
   url = environment.server + '/vehicles/'
   urlUser = environment.server + '/users/'
+  urlTransport = environment.server + '/transport/'
 
 
   createVehicle(formData : FormData){
@@ -32,7 +33,7 @@ export class VehicalServiceService {
   }
 
   getRoute(){
-    return this.httpClient.get(this.url + 'api/routes')
+    return this.httpClient.get(this.urlTransport + 'api/routes')
   }
 
   searchVehicle(page: number,size:number, data: any){

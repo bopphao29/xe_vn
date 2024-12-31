@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -23,6 +23,7 @@ import { DONTANYTHING } from '../../../../../shared/constants/common.const';
 import Swal from 'sweetalert2';
 import { NotificationService } from '../../../../../shared/services/notification.service';
 import { ValidateIntoPageService } from '../../../../../shared/services/validate-into-page.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -66,75 +67,88 @@ export class SetupRequestMrComponent implements OnInit{
     private fb : FormBuilder,
     private vehicleService: VehicalServiceService,
     private notification: NotificationService,
-    private validateService : ValidateIntoPageService
+    private validateService : ValidateIntoPageService,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
     
   ){}
 
+  id: any
   
   ngOnInit(): void {
-    this.form = this.fb.group(
-      {
-        routeId: [null, Validators.required],
-        id: null,
-        registerNo: [null, Validators.required],
-        driverName: [null, Validators.required],
-        phoneNumber: [null, Validators.required],
-        latestOdometer: [null, Validators.required],
-        latestDate: [null, Validators.required],
-        currentOdometer: [null, Validators.required],
-        levelMaintenance: [null, Validators.required],
-        supposedStartTime: [null, Validators.required],
-        supposedStartDate: [null, Validators.required],
-        supposedEndTime: [null, Validators.required],
-        supposedEndDate: [null, Validators.required],
-        maintenanceFacilityId: [null, Validators.required],
-        approvalStatus: 1,
-        priorityStatus: 0,
-        status: 1,
-        note: null,
-        lstTestCategories: [
-          {
-            name: null
-          },
-        ],
-        lstVehicleStatus: [
-          {
-            name: null
-          }
-        ],
-        lstWorkPerformed: [
-          {
-            name: null
-          }
-        ],
-        lstReplacementSupplies: [
-          {
-            supplyId: null,
-            quantity: null,
-            unit: null
-          },
-        ]
-      }
+    this.route.paramMap.subscribe(params => {
+      this.id = params.get('id');
+      console.log(this.id)
+      // this.getDetailMR(this.id)
+    });
 
-      
-    )
+      this.form = this.fb.group(
+        {
+          routeId: [null, Validators.required],
+          id: null,
+          registerNo: [null, Validators.required],
+          driver: [null, Validators.required],
+          phoneNumber: [null, Validators.required],
+          latestOdometer: [null, Validators.required],
+          latestDate: [null, Validators.required],
+          currentOdometer: [null, Validators.required],
+          levelMaintenance: [null, Validators.required],
+          supposedStartTime: [null, Validators.required],
+          supposedStartDate: [null, Validators.required],
+          supposedEndTime: [null, Validators.required],
+          supposedEndDate: [null, Validators.required],
+          maintenanceFacilityId: [null, Validators.required],
+          approvalStatus: 1,
+          priorityStatus: 0,
+          status: 1,
+          note: null,
+          lstTestCategories: [
+            {
+              name: null
+            },
+          ],
+          lstVehicleStatus: [
+            {
+              name: null
+            }
+          ],
+          lstWorkPerformed: [
+            {
+              name: null
+            }
+          ],
+          lstReplacementSupplies: [
+            {
+              supplyId: null,
+              quantity: null,
+              unit: null
+            },
+          ]
+        }
+      )
+
+   
 
     this.getRoute()
     this.showListForMaintenance()
     this.getAllForMaintenance()
     this.getMaintenanceFacilities()
 
+    if(this.id){
+      this.getDetailMR(this.id)
+    }
+
     this.form.get('registerNo')?.valueChanges.subscribe((registerNoId) => {
       const selectedData = this.listForMaintenance.find(data => data.id === registerNoId);
       
       if (selectedData) {
         this.form.patchValue({
-          driverName: selectedData.driverName,
+          driver: selectedData.driver,
           phoneNumber: selectedData.phoneNumber,
         });
       } else {
         this.form.patchValue({
-          driverName: '',
+          driver: '',
           phoneNumber: '',
         });
       }
@@ -175,6 +189,7 @@ validateText(path: string | (string | number)[], event: Event) {
   getRoute(){
     this.vehicleService.getRoute().subscribe((response : any)=> {
       this.listRoute = response.data
+      console.log(response.data)
 
     })
   }
@@ -186,11 +201,67 @@ validateText(path: string | (string | number)[], event: Event) {
   listForMaintenance : any[] =[]  
   listForMaintenanceCopy : any[] =[]  
   listMaintenanceFacilities: any[] = []
+
   getMaintenanceFacilities(){
     this.vehicleService.getMaintenanceFacilities().subscribe((response: any)=>{
         this.listMaintenanceFacilities = response.data
       })
     }
+
+  inforMR: any
+  listVS : any [] = []
+  getDetailMR(id: number) {
+    this.vehicleService.getDetailMR(id).subscribe((response: any)=>{
+      this.inforMR = response.data
+      this.listVS = response.data.lstVehicleStatus
+      this.cdr.detectChanges(); 
+      console.log(this.listVS)
+      // this.form.patchValue(response.data)
+      const supposedStartTime = this.convertStringToDate(response.data.supposedStartTime);
+      const supposedEndTime = this.convertStringToDate(response.data.supposedEndTime);
+
+
+      const matchedFacility = this.listForMaintenanceCopy.find(
+        (facility) => facility.registerNo === response.data.registerNo
+      );
+  
+      // Nếu tìm thấy, patch giá trị registerId vào form
+      if (matchedFacility) {
+        console.log(matchedFacility)
+        this.form.get('registerNo')?.setValue(matchedFacility.id)
+      }
+
+      this.form.patchValue({
+        routeId: response.data.routeId,
+          driver: response.data.driver,
+          phoneNumber: response.data.phoneNumber,
+          latestOdometer: response.data.latestOdometer,
+          latestDate: response.data.latestDate,
+          currentOdometer: response.data.currentOdometer,
+          levelMaintenance: response.data.levelMaintenance,
+          supposedStartTime: supposedStartTime,
+          supposedStartDate: response.data.supposedStartDate,
+          supposedEndTime: supposedEndTime,
+          supposedEndDate: response.data.supposedEndDate,
+          maintenanceFacilityId: response.data.maintenanceFacilityId,
+          approvalStatus: response.data.approvalStatus,
+          priorityStatus: response.data.priorityStatus,
+          status: response.data.status,
+          note: response.data.note,
+      })
+      
+      
+      console.log(response.data.supposedStartTime)
+      // this.form.get('supposedStartTime')?.setValue(response.data.supposedStartTime)
+    })
+  }
+
+  convertStringToDate(timeString: string): Date {
+    const [hours, minutes] = timeString.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, 0);
+    return date;
+  }
 
   getAllForMaintenance(){
     this.vehicleService.getForMaintenance(0, 1000).subscribe((response : any) => {
@@ -280,7 +351,7 @@ validateText(path: string | (string | number)[], event: Event) {
     if (selectedItem) {
       this.form.patchValue({
         registerNo: selectedItem.id, // Patch ID để khớp với nzValue
-        driverName: data.driverName,
+        driver: data.driver,
         phoneNumber: data.phoneNumber,
       });
     }

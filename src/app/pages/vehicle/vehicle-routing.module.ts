@@ -99,4 +99,11 @@ export const VEHICLE_ROUTES: Routes = [
         (c) => c.DetailRequestMrComponent
       ),
   },
+  {
+    path: 'vehicle/detail-mr-change/:id',
+    loadComponent : () => 
+      import('./page-routing/maintenance-and-repair/setup-request-mr/setup-request-mr.component').then(
+        (c) => c.SetupRequestMrComponent
+      )
+  }
 ]

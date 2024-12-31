@@ -44,8 +44,7 @@ import { NotificationService } from '../../../shared/services/notification.servi
 export class DetailRequestMrComponent implements OnInit {
 
   constructor(
-    private routes: Router,
-
+    private router: Router,
     private vehicleServices: VehicalServiceService,
     private route: ActivatedRoute,
         private fb: FormBuilder,
@@ -211,9 +210,15 @@ export class DetailRequestMrComponent implements OnInit {
 
   inforMR: any
 
-  onBack(event: Event) {
-    event.preventDefault();
-    this.routes.navigate(['/vehicle/maintenance-repair'])
+  onBack(event: any) {
+    const router = localStorage.getItem('activeLink');
+    if (router === 'maintenanceRepair') {
+      // event.preventDefault();
+      localStorage.setItem('activeLink', 'maintenanceRepair'); // Cập nhật đúng giá trị
+      this.router.navigate(['vehicle', 'maintenance-repair'], {
+        queryParams: { tab: 'list-request' }, // Điều hướng tới `list-request`
+      });
+    }
   }
 
   getDetailMR(id: number) {
@@ -222,6 +227,9 @@ export class DetailRequestMrComponent implements OnInit {
     })
   }
 
+  onFix(){
+    this.router.navigate(['/vehicle/detail-mr-change/' + this.id]);
+  }
   
 
 }
