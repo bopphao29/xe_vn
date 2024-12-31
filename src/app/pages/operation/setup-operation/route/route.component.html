@@ -1,0 +1,955 @@
+<div class="px-3 pt-[24px]" style="background: #f3f3f3">
+  <form action="" nz-form [formGroup]="form">
+    <div style="width: calc(100% / 7); min-width: calc(100% / 7)">
+      <div class="">
+        <span class="required-star"
+          >*<label class="label-form" for="">{{
+            "operation.setup-operation.route" | translate
+          }}</label></span
+        >
+        <nz-select
+          [nzPlaceHolder]="'operation.setup-operation.route' | translate"
+          class="nzSelect"
+          formControlName="routeType"
+        >
+          <nz-option
+            *ngFor="let route of listRoute"
+            [nzValue]="route.id"
+            [nzLabel]="route.value"
+          ></nz-option>
+        </nz-select>
+        <div class="error-container">
+          <div
+            *ngIf="
+              (form.get('routeType')?.invalid &&
+                form.get('routeType')?.dirty) ||
+              form.get('routeType')?.touched
+            "
+          >
+            <span
+              class="validate_input"
+              *ngIf="form.get('routeType')?.errors?.['required']"
+              >{{ "required.cannotBlank" | translate }}</span
+            >
+            <span
+              class="instruct"
+              *ngIf="form.get('routeType')?.errors?.['pattern']"
+              >{{ "required.text_pattern" | translate }}</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full mt-[24px] flex flex-col gap-[12px]">
+      <span class="roboto-500" style="font-size: 16px">{{
+        "operation.setup-operation.setup-journey" | translate
+      }}</span>
+      <div
+        class="flex flex-col gap-[20px]"
+        style="background: #fcfcfc; padding: 12px 16px; border-radius: 12px"
+      >
+        <!-- row 1 -->
+        <div class="flex flex-wrap gap-[12px] justify-content-start">
+          <!-- Tên lộ trình  -->
+          <div>
+            <div class="input-item">
+              <span class="required-star"
+                >*<label class="label-form" for=""
+                  >{{ "operation.setup-operation.name-journey" | translate }}
+                </label></span
+              >
+              <input
+                class="input-form"
+                (input)="validateText('name', $event)"
+                placeholder="Tên lộ trình"
+                formControlName="name"
+                type="text"
+              />
+              <div class="error-container">
+                <div
+                  *ngIf="
+                    (form.get('name')?.invalid && form.get('name')?.dirty) ||
+                    form.get('name')?.touched
+                  "
+                >
+                  <span
+                    class="validate_input"
+                    *ngIf="form.get('name')?.errors?.['required']"
+                    >{{ "required.cannotBlank" | translate }}</span
+                  >
+                  <span
+                    class="instruct"
+                    *ngIf="form.get('name')?.errors?.['pattern']"
+                    >{{ "required.text_pattern" | translate }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Điểm xuất phát  -->
+          <div>
+            <div class="input-item">
+              <span class="required-star"
+                >*<label class="label-form" for=""
+                  >{{ "operation.setup-operation.start-place" | translate }}
+                </label></span
+              >
+              <input
+                class="input-form"
+                (input)="validateText('name', $event)"
+                placeholder="Điểm xuất phát"
+                formControlName="startPoint"
+                type="text"
+              />
+              <div class="error-container">
+                <div
+                  *ngIf="
+                    (form.get('startPoint')?.invalid &&
+                      form.get('startPoint')?.dirty) ||
+                    form.get('startPoint')?.touched
+                  "
+                >
+                  <span
+                    class="validate_input"
+                    *ngIf="form.get('startPoint')?.errors?.['required']"
+                    >{{ "required.cannotBlank" | translate }}</span
+                  >
+                  <span
+                    class="instruct"
+                    *ngIf="form.get('startPoint')?.errors?.['pattern']"
+                    >{{ "required.text_pattern" | translate }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tổng quãng đường (km)  -->
+          <div>
+            <div class="input-item">
+              <span class="required-star"
+                >*<label class="label-form" for=""
+                  >{{ "operation.setup-operation.total-distance" | translate }}
+                </label></span
+              >
+              <input
+                class="input-form"
+                (input)="validateText('name', $event)"
+                placeholder="Tổng quãng đường (km)"
+                formControlName="totalDistance"
+                type="text"
+              />
+              <div class="error-container">
+                <div
+                  *ngIf="
+                    (form.get('totalDistance')?.invalid &&
+                      form.get('totalDistance')?.dirty) ||
+                    form.get('totalDistance')?.touched
+                  "
+                >
+                  <span
+                    class="validate_input"
+                    *ngIf="form.get('totalDistance')?.errors?.['required']"
+                    >{{ "required.cannotBlank" | translate }}</span
+                  >
+                  <span
+                    class="instruct"
+                    *ngIf="form.get('totalDistance')?.errors?.['pattern']"
+                    >{{ "required.text_pattern" | translate }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Thời gian hoàn thành (phút)  -->
+          <div>
+            <div class="input-item">
+              <span class="required-star"
+                >*<label class="label-form" for=""
+                  >{{ "operation.setup-operation.time-finish" | translate }}
+                </label></span
+              >
+              <input
+                class="input-form"
+                (input)="validateText('name', $event)"
+                placeholder="Thời gian hoàn thành (phút)"
+                formControlName="completionTime"
+                type="text"
+              />
+              <div class="error-container">
+                <div
+                  *ngIf="
+                    (form.get('completionTime')?.invalid &&
+                      form.get('completionTime')?.dirty) ||
+                    form.get('completionTime')?.touched
+                  "
+                >
+                  <span
+                    class="validate_input"
+                    *ngIf="form.get('completionTime')?.errors?.['required']"
+                    >{{ "required.cannotBlank" | translate }}</span
+                  >
+                  <span
+                    class="instruct"
+                    *ngIf="form.get('completionTime')?.errors?.['pattern']"
+                    >{{ "required.text_pattern" | translate }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- form array -->
+        <div class="flex flex-col">
+          <div
+            formArrayName="stopPoints"
+            class="flex flex-col gap-[12px] items-center"
+            style="
+              border-radius: 8px;
+              border: 1px solid #d1d5db;
+              padding: 12px;
+              align-items: flex-start;
+            "
+          >
+            <div
+              *ngFor="let stopPoint of stopPoints.controls; let i = index"
+              [formGroupName]="i"
+              class="flex flex-wrap gap-[12px]"
+              style="width: 100%"
+            >
+              <!-- Tên điểm dừng 1  -->
+              <div>
+                <div class="input-item">
+                  <span class="required-star"
+                    >*<label class="label-form" for=""
+                      >{{
+                        "operation.setup-operation.name-stop-place-1"
+                          | translate
+                      }}
+                    </label></span
+                  >
+                  <input
+                    class="input-form"
+                    (input)="validateText('name', $event)"
+                    placeholder="Tên điểm dừng 1"
+                    formControlName="stopName"
+                    type="text"
+                  />
+                  <div class="error-container">
+                    <div
+                      *ngIf="
+                        (stopPoint.get('stopName')?.invalid &&
+                          stopPoint.get('stopName')?.dirty) ||
+                        stopPoint.get('stopName')?.touched
+                      "
+                    >
+                      <span
+                        class="validate_input"
+                        *ngIf="stopPoint.get('stopName')?.errors?.['required']"
+                        >{{ "required.cannotBlank" | translate }}</span
+                      >
+                      <span
+                        class="instruct"
+                        *ngIf="stopPoint.get('stopName')?.errors?.['pattern']"
+                        >{{ "required.text_pattern" | translate }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Thời gian chạy (phút)  -->
+              <div>
+                <div class="input-item">
+                  <span class="required-star"
+                    >*<label class="label-form" for=""
+                      >{{ "operation.setup-operation.time-run" | translate }}
+                    </label></span
+                  >
+                  <input
+                    class="input-form"
+                    (input)="validateText('name', $event)"
+                    placeholder="Thời gian chạy (phút)"
+                    formControlName="runningTime"
+                    type="text"
+                  />
+                  <div class="error-container">
+                    <div
+                      *ngIf="
+                        (stopPoint.get('runningTime')?.invalid &&
+                          stopPoint.get('runningTime')?.dirty) ||
+                        stopPoint.get('runningTime')?.touched
+                      "
+                    >
+                      <span
+                        class="validate_input"
+                        *ngIf="stopPoint.get('runningTime')?.errors?.['required']"
+                        >{{ "required.cannotBlank" | translate }}</span
+                      >
+                      <span
+                        class="instruct"
+                        *ngIf="stopPoint.get('runningTime')?.errors?.['pattern']"
+                        >{{ "required.text_pattern" | translate }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Thời gian chờ (phút)  -->
+              <div>
+                <div class="input-item">
+                  <span class="required-star"
+                    >*<label class="label-form" for=""
+                      >{{ "operation.setup-operation.time-wait" | translate }}
+                    </label></span
+                  >
+                  <input
+                    class="input-form"
+                    (input)="validateText('name', $event)"
+                    placeholder="Thời gian chờ (phút)"
+                    formControlName="waitingTime"
+                    type="text"
+                  />
+                  <div class="error-container">
+                    <div
+                      *ngIf="
+                        (stopPoint.get('waitingTime')?.invalid &&
+                          stopPoint.get('waitingTime')?.dirty) ||
+                        stopPoint.get('waitingTime')?.touched
+                      "
+                    >
+                      <span
+                        class="validate_input"
+                        *ngIf="stopPoint.get('waitingTime')?.errors?.['required']"
+                        >{{ "required.cannotBlank" | translate }}</span
+                      >
+                      <span
+                        class="instruct"
+                        *ngIf="stopPoint.get('waitingTime')?.errors?.['pattern']"
+                        >{{ "required.text_pattern" | translate }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Số km  -->
+              <div>
+                <div class="input-item">
+                  <span class="required-star"
+                    >*<label class="label-form" for=""
+                      >{{ "operation.setup-operation.number-km" | translate }}
+                    </label></span
+                  >
+                  <input
+                    class="input-form"
+                    (input)="validateText('name', $event)"
+                    placeholder="Số km"
+                    formControlName="distance"
+                    type="text"
+                  />
+                  <div class="error-container">
+                    <div
+                      *ngIf="
+                        (stopPoint.get('distance')?.invalid &&
+                          stopPoint.get('distance')?.dirty) ||
+                        stopPoint.get('distance')?.touched
+                      "
+                    >
+                      <span
+                        class="validate_input"
+                        *ngIf="stopPoint.get('distance')?.errors?.['required']"
+                        >{{ "required.cannotBlank" | translate }}</span
+                      >
+                      <span
+                        class="instruct"
+                        *ngIf="stopPoint.get('distance')?.errors?.['pattern']"
+                        >{{ "required.text_pattern" | translate }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Lộ trình ngắn nhất  -->
+              <div>
+                <div class="input-item">
+                  <span class="required-star"
+                    >*<label class="label-form" for=""
+                      >{{
+                        "operation.setup-operation.shortest-journey" | translate
+                      }}
+                    </label></span
+                  >
+                  <input
+                    class="input-form"
+                    (input)="validateText('name', $event)"
+                    placeholder="Lộ trình ngắn nhất"
+                    formControlName="shortestItinerary"
+                    type="text"
+                  />
+                  <div class="error-container">
+                    <div
+                      *ngIf="
+                        (stopPoint.get('shortestItinerary')?.invalid &&
+                          stopPoint.get('shortestItinerary')?.dirty) ||
+                        stopPoint.get('shortestItinerary')?.touched
+                      "
+                    >
+                      <span
+                        class="validate_input"
+                        *ngIf="stopPoint.get('shortestItinerary')?.errors?.['required']"
+                        >{{ "required.cannotBlank" | translate }}</span
+                      >
+                      <span
+                        class="instruct"
+                        *ngIf="stopPoint.get('shortestItinerary')?.errors?.['pattern']"
+                        >{{ "required.text_pattern" | translate }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <svg
+                *ngIf="stopPoints.length > 1"
+                (click)="removeFormArray(i)"
+                style="margin-top: 35px"
+                width="16"
+                height="19"
+                viewBox="0 0 16 19"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M3 18.5C2.45 18.5 1.97917 18.3042 1.5875 17.9125C1.19583 17.5208 1 17.05 1 16.5V3.5H0V1.5H5V0.5H11V1.5H16V3.5H15V16.5C15 17.05 14.8042 17.5208 14.4125 17.9125C14.0208 18.3042 13.55 18.5 13 18.5H3ZM5 14.5H7V5.5H5V14.5ZM9 14.5H11V5.5H9V14.5Z"
+                  fill="#EF4444"
+                />
+              </svg>
+            </div>
+
+            <svg
+              (click)="addFormArray()"
+              width="66"
+              height="66"
+              viewBox="0 0 66 66"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g filter="url(#filter0_d_1786_14024)">
+                <rect
+                  x="13"
+                  y="9"
+                  width="40"
+                  height="40"
+                  rx="20"
+                  fill="#274EA1"
+                  shape-rendering="crispEdges"
+                />
+                <path
+                  d="M32 30H27C26.7167 30 26.4792 29.9042 26.2875 29.7125C26.0958 29.5208 26 29.2833 26 29C26 28.7167 26.0958 28.4792 26.2875 28.2875C26.4792 28.0958 26.7167 28 27 28H32V23C32 22.7167 32.0958 22.4792 32.2875 22.2875C32.4792 22.0958 32.7167 22 33 22C33.2833 22 33.5208 22.0958 33.7125 22.2875C33.9042 22.4792 34 22.7167 34 23V28H39C39.2833 28 39.5208 28.0958 39.7125 28.2875C39.9042 28.4792 40 28.7167 40 29C40 29.2833 39.9042 29.5208 39.7125 29.7125C39.5208 29.9042 39.2833 30 39 30H34V35C34 35.2833 33.9042 35.5208 33.7125 35.7125C33.5208 35.9042 33.2833 36 33 36C32.7167 36 32.4792 35.9042 32.2875 35.7125C32.0958 35.5208 32 35.2833 32 35V30Z"
+                  fill="#FCFCFC"
+                />
+              </g>
+              <defs>
+                <filter
+                  id="filter0_d_1786_14024"
+                  x="0"
+                  y="0"
+                  width="66"
+                  height="66"
+                  filterUnits="userSpaceOnUse"
+                  color-interpolation-filters="sRGB"
+                >
+                  <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                  <feColorMatrix
+                    in="SourceAlpha"
+                    type="matrix"
+                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                    result="hardAlpha"
+                  />
+                  <feMorphology
+                    radius="3"
+                    operator="dilate"
+                    in="SourceAlpha"
+                    result="effect1_dropShadow_1786_14024"
+                  />
+                  <feOffset dy="4" />
+                  <feGaussianBlur stdDeviation="5" />
+                  <feComposite in2="hardAlpha" operator="out" />
+                  <feColorMatrix
+                    type="matrix"
+                    values="0 0 0 0 0.100104 0 0 0 0 0.201267 0 0 0 0 0.416562 0 0 0 0.08 0"
+                  />
+                  <feBlend
+                    mode="normal"
+                    in2="BackgroundImageFix"
+                    result="effect1_dropShadow_1786_14024"
+                  />
+                  <feBlend
+                    mode="normal"
+                    in="SourceGraphic"
+                    in2="effect1_dropShadow_1786_14024"
+                    result="shape"
+                  />
+                </filter>
+              </defs>
+            </svg>
+          </div>
+        </div>
+
+        <!-- row 3 -->
+        <div class="flex flex-wrap gap-[12px] justify-content-start">
+          <!-- Tên điểm cuối  -->
+          <div>
+            <div class="input-item">
+              <span class="required-star"
+                >*<label class="label-form" for=""
+                  >{{ "operation.setup-operation.name-last-place" | translate }}
+                </label></span
+              >
+              <input
+                class="input-form"
+                (input)="validateText('name', $event)"
+                placeholder="Tên điểm cuối"
+                formControlName="endPoint"
+                type="text"
+              />
+              <div class="error-container">
+                <div
+                  *ngIf="
+                    (form.get('endPoint')?.invalid &&
+                      form.get('endPoint')?.dirty) ||
+                    form.get('endPoint')?.touched
+                  "
+                >
+                  <span
+                    class="validate_input"
+                    *ngIf="form.get('endPoint')?.errors?.['required']"
+                    >{{ "required.cannotBlank" | translate }}</span
+                  >
+                  <span
+                    class="instruct"
+                    *ngIf="form.get('endPoint')?.errors?.['pattern']"
+                    >{{ "required.text_pattern" | translate }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Thời gian chạy (phút)  -->
+          <div>
+            <div class="input-item">
+              <span class="required-star"
+                >*<label class="label-form" for=""
+                  >{{ "operation.setup-operation.time-run" | translate }}
+                </label></span
+              >
+              <input
+                class="input-form"
+                (input)="validateText('name', $event)"
+                placeholder="Thời gian chạy (phút)"
+                formControlName="runningTime"
+                type="text"
+              />
+              <div class="error-container">
+                <div
+                  *ngIf="
+                    (form.get('runningTime')?.invalid &&
+                      form.get('runningTime')?.dirty) ||
+                    form.get('runningTime')?.touched
+                  "
+                >
+                  <span
+                    class="validate_input"
+                    *ngIf="form.get('runningTime')?.errors?.['required']"
+                    >{{ "required.cannotBlank" | translate }}</span
+                  >
+                  <span
+                    class="instruct"
+                    *ngIf="form.get('runningTime')?.errors?.['pattern']"
+                    >{{ "required.text_pattern" | translate }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Số km  -->
+          <div>
+            <div class="input-item">
+              <span class="required-star"
+                >*<label class="label-form" for=""
+                  >{{ "operation.setup-operation.number-km" | translate }}
+                </label></span
+              >
+              <input
+                class="input-form"
+                (input)="validateText('name', $event)"
+                placeholder="Số km"
+                formControlName="distance"
+                type="text"
+              />
+              <div class="error-container">
+                <div
+                  *ngIf="
+                    (form.get('distance')?.invalid &&
+                      form.get('distance')?.dirty) ||
+                    form.get('distance')?.touched
+                  "
+                >
+                  <span
+                    class="validate_input"
+                    *ngIf="form.get('distance')?.errors?.['required']"
+                    >{{ "required.cannotBlank" | translate }}</span
+                  >
+                  <span
+                    class="instruct"
+                    *ngIf="form.get('distance')?.errors?.['pattern']"
+                    >{{ "required.text_pattern" | translate }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lộ trình ngắn nhất  -->
+          <div>
+            <div class="input-item">
+              <span class="required-star"
+                >*<label class="label-form" for=""
+                  >{{
+                    "operation.setup-operation.shortest-journey" | translate
+                  }}
+                </label></span
+              >
+              <input
+                class="input-form"
+                (input)="validateText('name', $event)"
+                placeholder="Lộ trình ngắn nhất"
+                formControlName="shortestItinerary"
+                type="text"
+              />
+              <div class="error-container">
+                <div
+                  *ngIf="
+                    (form.get('shortestItinerary')?.invalid &&
+                      form.get('shortestItinerary')?.dirty) ||
+                    form.get('shortestItinerary')?.touched
+                  "
+                >
+                  <span
+                    class="validate_input"
+                    *ngIf="form.get('shortestItinerary')?.errors?.['required']"
+                    >{{ "required.cannotBlank" | translate }}</span
+                  >
+                  <span
+                    class="instruct"
+                    *ngIf="form.get('shortestItinerary')?.errors?.['pattern']"
+                    >{{ "required.text_pattern" | translate }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- row 4 -->
+        <div class="flex gap-[12px] justify-content-start">
+          <!-- Giá vé  -->
+          <div>
+            <div class="input-item">
+              <span class="required-star"
+                >*<label class="label-form" for=""
+                  >{{ "operation.setup-operation.ticket-price" | translate }}
+                </label></span
+              >
+              <input
+                class="input-form"
+                (input)="validateText('name', $event)"
+                placeholder="Giá vé"
+                formControlName="ticketPrice"
+                type="text"
+              />
+              <div class="error-container">
+                <div
+                  *ngIf="
+                    (form.get('ticketPrice')?.invalid &&
+                      form.get('ticketPrice')?.dirty) ||
+                    form.get('ticketPrice')?.touched
+                  "
+                >
+                  <span
+                    class="validate_input"
+                    *ngIf="form.get('ticketPrice')?.errors?.['required']"
+                    >{{ "required.cannotBlank" | translate }}</span
+                  >
+                  <span
+                    class="instruct"
+                    *ngIf="form.get('ticketPrice')?.errors?.['pattern']"
+                    >{{ "required.text_pattern" | translate }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- button  -->
+    <div class="mt-[12px] flex justify-content-end gap-[12px]">
+      <button type="button" class="btn btn-cancel" (click)="form.reset()">
+        Hủy
+      </button>
+      <button type="button" class="btn btn-save" (click)="onSubmit()">
+        Lưu
+      </button>
+    </div>
+
+    <!-- table  -->
+    <div class="mt-[12px]">
+      <div class="mb-[12px]">
+        <span class="roboto-500" style="font-size: 16px">{{
+          "operation.setup-operation.list-journey" | translate
+        }}</span>
+      </div>
+
+      <nz-table
+        #basicTable
+        [nzData]="listData"
+        [nzShowPagination]="false"
+        nzTableLayout="fixed"
+        [nzScroll]="{ x: '1500px' }"
+      >
+        <thead>
+          <tr>
+            <th
+              nzWidth="70px"
+              nzAlign="center"
+              class="font-inter"
+              style="color: #000000"
+            >
+              STT
+            </th>
+            <th
+              nzWidth="150px"
+              nzAlign="center"
+              class="font-inter"
+              style="color: #000000"
+            >
+              Lộ trình
+            </th>
+            <th
+              nzWidth="150px"
+              nzAlign="center"
+              class="font-inter"
+              style="color: #000000"
+            >
+              Điểm xuất phát
+            </th>
+            <th
+              nzWidth="200px"
+              nzAlign="center"
+              class="font-inter"
+              style="color: #000000"
+            >
+              Điểm dừng
+            </th>
+            <th
+              nzWidth="150px"
+              nzAlign="center"
+              class="font-inter"
+              style="color: #000000"
+            >
+              Điểm cuối
+            </th>
+            <th
+              nzWidth="170px"
+              nzAlign="center"
+              class="font-inter"
+              style="color: #000000"
+            >
+              Tổng quãng đường (km)
+            </th>
+            <th
+              nzWidth="170px"
+              nzAlign="center"
+              class="font-inter"
+              style="color: #000000"
+            >
+              Thời gian hoàn thành (phút)
+            </th>
+            <th
+              nzWidth="170px"
+              nzAlign="center"
+              class="font-inter"
+              style="color: #000000"
+            >
+              Giá vé
+            </th>
+            <th
+              nzWidth="100px"
+              nzAlign="center"
+              class="font-inter"
+              style="color: #000000"
+            >
+              Thao tác
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of listData; let i = index">
+            <td nzAlign="center">{{ i + 1 }}</td>
+            <td>
+              <div class="flex items-center">
+                <span
+                  nzEllipsis
+                  style="
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                  "
+                  class="cell-table"
+                  nz-tooltip
+                  [nzTooltipTitle]="data.name"
+                  >{{ data.name }}</span
+                >
+              </div>
+            </td>
+            <td>
+              <div class="flex items-center">
+                <span
+                  nzEllipsis
+                  style="
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                  "
+                  class="cell-table"
+                  nz-tooltip
+                  [nzTooltipTitle]="data.startPoint"
+                  >{{ data.startPoint }}</span
+                >
+              </div>
+            </td>
+            <td>
+              <div class="flex flex-wrap items-center">
+                <div
+                  *ngFor="let stopPoint of data.stopPoints"
+                  nzEllipsis
+                  style="
+                    font-size: 13px;
+                    color: #274ea1;
+                    background: #1a69c51a;
+                    height: 19px;
+                    margin-right: 4px;
+                    margin-top: 4px;
+                    padding: 2px 6px;
+                    border-radius: 4px;
+                  "
+                  class="cell-table roboto-500"
+                  nz-tooltip
+                  [nzTooltipTitle]="stopPoint"
+                >
+                  <span>{{ stopPoint }}</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="flex items-center">
+                <span
+                  nzEllipsis
+                  style="
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                  "
+                  class="cell-table"
+                  nz-tooltip
+                  [nzTooltipTitle]="data.endPoint"
+                  >{{ data.endPoint }}</span
+                >
+              </div>
+            </td>
+            <td>
+              <div class="flex items-center justify-content-end">
+                <span
+                  nzEllipsis
+                  style="
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                  "
+                  class="cell-table"
+                  nz-tooltip
+                  [nzTooltipTitle]="data.totalDistance"
+                  >{{ data.totalDistance }}</span
+                >
+              </div>
+            </td>
+            <td>
+              <div class="flex items-center justify-content-end">
+                <span
+                  nzEllipsis
+                  style="
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                  "
+                  class="cell-table"
+                  nz-tooltip
+                  [nzTooltipTitle]="data.completionTime"
+                  >{{ data.completionTime }}</span
+                >
+              </div>
+            </td>
+            <td>
+              <div class="flex items-center justify-content-end">
+                <span
+                  nzEllipsis
+                  style="
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                  "
+                  class="cell-table"
+                  nz-tooltip
+                  [nzTooltipTitle]="data.ticketPrice"
+                  >{{ data.ticketPrice }}</span
+                >
+              </div>
+            </td>
+            <td nzAlign="center">
+              <a
+                *ngIf="data.id"
+                class="mx-1 button_show_detail roboto-500"
+                style="font-size: 12px"
+                (click)="viewDetail(data)"
+              >
+                Xem chi tiết
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+
+      <div style="display: flex; justify-content: center; margin-top: 16px">
+        <nz-pagination
+          [(nzPageIndex)]="pageIndex"
+          [nzTotal]="total"
+          [nzPageSize]="pageSize"
+          (nzPageIndexChange)="onPageChange($event)"
+          class="custom-pagination"
+        >
+        </nz-pagination>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,16 @@
+@import "../../../shared/styles/common.style.scss";
+
+a {
+  height: 100%;
+  padding: 12px 32px;
+  color: #a6aeb5;
+  border-radius: 29px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+.selected-item {
+  border: 1px solid #274ea1 !important;
+  color: #274ea1 !important;
+  background: #1a69c51a !important;
+}

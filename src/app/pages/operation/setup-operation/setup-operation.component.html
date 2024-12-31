@@ -1,0 +1,17 @@
+<div class="flex flex-col px-3" style="background: #f3f3f3">
+  <div class="flex gap-[16px]" style="height: 40px">
+    <a
+      class="roboto-500 flex items-center"
+      [routerLink]="['/operation/setup-operation/route']"
+      routerLinkActive="selected-item"
+      >{{ "operation.setup-operation.setup-route" | translate }}</a
+    >
+    <a
+      class="roboto-500 flex items-center"
+      [routerLink]="['/operation/setup-operation/place']"
+      routerLinkActive="selected-item"
+      >{{ "operation.setup-operation.setup-place" | translate }}</a
+    >
+  </div>
+</div>
+<router-outlet></router-outlet>

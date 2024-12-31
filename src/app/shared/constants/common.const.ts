@@ -9,6 +9,14 @@ export const COMMON_STATUS = [
   },
 ];
 
+export const API_CODE = {
+  SUCCESS: '200',
+  UNAUTHORIZED: '401',
+  FORBIDDEN: '403',
+  NOT_FOUND: '404',
+  SERVER_ERROR: '500',
+};
+
 export const PREFIX_API = '/manager-service/api/v1';
 
 export const INIT_PAGE = 1;
@@ -18,20 +26,20 @@ export const INIT_SIZE = 10;
 export const DATE_FORMAT = {
   API: 'yyyy-MM-dd HH:mm:ss',
   TABLE: 'dd/MM/yyyy HH:mm:ss',
-  COMMON: 'dd/MM/yyyy'
-}
+  COMMON: 'dd/MM/yyyy',
+};
 
 export const TABLE_SIZE = [
-  {value: 10, label: '10'},
-  {value: 15, label: '15'},
-  {value: 20, label: '20'},
-]
+  { value: 10, label: '10' },
+  { value: 15, label: '15' },
+  { value: 20, label: '20' },
+];
 
 export const CUSTOMER_TABLE_SIZE = [
-  {value: 10, label: '10'},
-  {value: 15, label: '15'},
-  {value: 20, label: '20'},
-]
+  { value: 10, label: '10' },
+  { value: 15, label: '15' },
+  { value: 20, label: '20' },
+];
 
 export const DATE_PICKER_FORMATS = {
   parse: {
@@ -47,14 +55,15 @@ export const DATE_PICKER_FORMATS = {
 
 export const FILE_SIZE = 5 * 1024 * 1024;
 
-export const FILE_TYPE_VALID = /\.(xls|xlsx)$/i
+export const FILE_TYPE_VALID = /\.(xls|xlsx)$/i;
 
-export const LOCALE = 'en-US'
+export const LOCALE = 'en-US';
 
-export const VIETNAMESE_REGEX = /^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễếệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹý\s]+$/;
+export const VIETNAMESE_REGEX =
+  /^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễếệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹý\s]+$/;
 
-export const NUMBER_REGEX = /^[0-9]+$/
+export const NUMBER_REGEX = /^[0-9]+$/;
 
-export const DONTANYTHING = '-'
+export const DONTANYTHING = '-';
 
-export const ENGLISHTEXT_AND_NUMBER = /^[a-zA-Z0-9]*$/  
+export const ENGLISHTEXT_AND_NUMBER = /^[a-zA-Z0-9]*$/;

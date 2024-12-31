@@ -1,0 +1,105 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+@import "../../shared/styles/common.style.scss";
+
+.form-control {
+  border: none;
+}
+
+::ng-deep {
+  nz-form-label.ant-form-item-label.form-label.ant-col {
+    margin-bottom: -5px;
+  }
+}
+
+.label_management {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 23.44px;
+  text-align: left;
+  color: rgba(37, 44, 50, 1);
+}
+
+/* Tùy chỉnh tab */
+.nz-tabset .ant-tabs-nav .ant-tabs-tab {
+  display: inline-block;
+  padding: 10px 20px; /* Điều chỉnh khoảng cách padding */
+  background-color: #ccff00; /* Màu nền nút */
+  color: white; /* Màu chữ */
+  border-radius: 4px; /* Bo góc */
+  margin-right: 8px; /* Khoảng cách giữa các nút */
+  transition: background-color 0.3s; /* Hiệu ứng chuyển đổi màu */
+}
+
+::ng-deep .ant-tabs-nav-list .ant-tabs-tab {
+  display: inline-block;
+  padding: 10px 20px;
+  // background-color: #da1f1f;
+  color: rgba(107, 114, 128, 1);
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16.41px;
+  text-align: left;
+}
+
+::ng-deep .ant-tabs-nav-list .ant-tabs-tab-active {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: rgba(233, 240, 250, 1) !important;
+  color: white !important;
+
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16.41px;
+  text-align: left;
+  border-bottom: none !important;
+}
+
+::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: rgba(39, 78, 161, 1) !important;
+}
+
+::ng-deep .ant-tabs-nav-wrap .ant-tabs-nav-list {
+  border-bottom: none !important;
+}
+
+::ng-deep .nz-tabset .ant-tabs-nav .ant-tabs-tab-active {
+  background-color: #932364; /* Màu nền khi tab được chọn */
+  padding: 10px 20px;
+}
+
+.nz-tabset .ant-tabs-nav .ant-tabs-tab:hover {
+  background-color: #0056b3; /* Màu nền khi hover */
+}
+
+.routerPage {
+  padding-top: 10px;
+  padding-left: 8px;
+  a {
+    color: rgba(107, 114, 128, 1);
+    padding: 10px 24px;
+    height: 36px;
+    font-size: 14px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+  }
+}
+
+.routerPage a:hover {
+  background-color: rgba(26, 105, 197, 0.1);
+}
+
+.routerPage a.active {
+  background-color: rgba(26, 105, 197, 0.1);
+  color: rgba(39, 78, 161, 1);
+}
