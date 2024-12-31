@@ -302,3 +302,7 @@
 .custom-pagination .ant-pagination-disabled {
   color: #bfbfbf;
 }
+
+input.ng-invalid.ng-touched {
+  border-color: #ff4d4f !important;
+}
