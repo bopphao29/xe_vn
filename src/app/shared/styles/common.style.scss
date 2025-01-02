@@ -61,3 +61,8 @@ input.ng-invalid.ng-touched {
     border: 1px solid #ff4d4f !important;
   }
 }
+
+::ng-deep .ant-input-affix-wrapper .ant-select .ant-select-selector {
+  border: none !important;
+  height: 100% !important;
+}

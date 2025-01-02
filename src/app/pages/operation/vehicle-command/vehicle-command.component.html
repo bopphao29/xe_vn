@@ -1,0 +1,17 @@
+<div class="flex flex-col px-3" style="background: #f3f3f3">
+  <div class="flex gap-[16px]" style="height: 40px">
+    <a
+      class="roboto-500 flex items-center"
+      [routerLink]="['/operation/vehicle-command/extend']"
+      routerLinkActive="selected-item"
+      >{{ "operation.vehicle-command.extend" | translate }}</a
+    >
+    <a
+      class="roboto-500 flex items-center"
+      [routerLink]="['/operation/vehicle-command/tour']"
+      routerLinkActive="selected-item"
+      >{{ "operation.vehicle-command.tour" | translate }}</a
+    >
+  </div>
+</div>
+<router-outlet></router-outlet>

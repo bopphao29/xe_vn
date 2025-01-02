@@ -125,8 +125,9 @@ export class SetupOperationPopupDetailComponent implements OnInit {
     return this.form.get('stopPoints') as FormArray;
   }
 
-  validateText(path: string | (string | number)[], event: Event) {
-    // this.validateService.validateText(this.form, path, event)
+  validateText(event: Event) {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.replace(/[^0-9]/g, '');
   }
 
   closeModal() {

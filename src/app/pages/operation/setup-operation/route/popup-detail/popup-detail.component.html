@@ -13,7 +13,6 @@
             >
             <input
               class="input-form"
-              (input)="validateText('name', $event)"
               placeholder="Tên lộ trình"
               formControlName="name"
               type="text"
@@ -48,7 +47,6 @@
             >
             <input
               class="input-form"
-              (input)="validateText('name', $event)"
               placeholder="Điểm xuất phát"
               formControlName="startPoint"
               type="text"
@@ -84,7 +82,7 @@
             >
             <input
               class="input-form"
-              (input)="validateText('name', $event)"
+              (input)="validateText($event)"
               placeholder="Tổng quãng đường (km)"
               formControlName="totalDistance"
               type="text"
@@ -120,7 +118,7 @@
             >
             <input
               class="input-form"
-              (input)="validateText('name', $event)"
+              (input)="validateText($event)"
               placeholder="Thời gian hoàn thành (phút)"
               formControlName="completionTime"
               type="text"
@@ -177,7 +175,6 @@
                 >
                 <input
                   class="input-form"
-                  (input)="validateText('name', $event)"
                   placeholder="Tên điểm dừng 1"
                   formControlName="stopName"
                   type="text"
@@ -213,7 +210,7 @@
                 >
                 <input
                   class="input-form"
-                  (input)="validateText('name', $event)"
+                  (input)="validateText($event)"
                   placeholder="Thời gian chạy (phút)"
                   formControlName="runningTime"
                   type="text"
@@ -249,7 +246,7 @@
                 >
                 <input
                   class="input-form"
-                  (input)="validateText('name', $event)"
+                  (input)="validateText($event)"
                   placeholder="Thời gian chờ (phút)"
                   formControlName="waitingTime"
                   type="text"
@@ -285,7 +282,7 @@
                 >
                 <input
                   class="input-form"
-                  (input)="validateText('name', $event)"
+                  (input)="validateText($event)"
                   placeholder="Số km"
                   formControlName="distance"
                   type="text"
@@ -323,7 +320,6 @@
                 >
                 <input
                   class="input-form"
-                  (input)="validateText('name', $event)"
                   placeholder="Lộ trình ngắn nhất"
                   formControlName="shortestItinerary"
                   type="text"
@@ -449,7 +445,6 @@
             >
             <input
               class="input-form"
-              (input)="validateText('name', $event)"
               placeholder="Tên điểm cuối"
               formControlName="endPoint"
               type="text"
@@ -485,7 +480,7 @@
             >
             <input
               class="input-form"
-              (input)="validateText('name', $event)"
+              (input)="validateText($event)"
               placeholder="Thời gian chạy (phút)"
               formControlName="runningTime"
               type="text"
@@ -521,7 +516,7 @@
             >
             <input
               class="input-form"
-              (input)="validateText('name', $event)"
+              (input)="validateText($event)"
               placeholder="Số km"
               formControlName="distance"
               type="text"
@@ -557,7 +552,6 @@
             >
             <input
               class="input-form"
-              (input)="validateText('name', $event)"
               placeholder="Lộ trình ngắn nhất"
               formControlName="shortestItinerary"
               type="text"
@@ -596,7 +590,7 @@
             >
             <input
               class="input-form"
-              (input)="validateText('name', $event)"
+              (input)="validateText($event)"
               placeholder="Giá vé"
               formControlName="ticketPrice"
               type="text"

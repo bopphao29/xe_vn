@@ -38,6 +38,34 @@ export const OPERATION_ROUTES: Routes = [
           },
         ],
       },
+      {
+        path: 'vehicle-command',
+        loadComponent: () =>
+          import('.//vehicle-command/vehicle-command.component').then(
+            (c) => c.VehicleCommandComponent
+          ),
+        children: [
+          {
+            path: '',
+            redirectTo: 'extend',
+            pathMatch: 'full',
+          },
+          {
+            path: 'extend',
+            loadComponent: () =>
+              import('./vehicle-command/extend/extend.component').then(
+                (c) => c.ExtendVehicleComponent
+              ),
+          },
+          {
+            path: 'tour',
+            loadComponent: () =>
+              import('./vehicle-command/tour/tour.component').then(
+                (c) => c.TourVehicleComponent
+              ),
+          },
+        ],
+      },
     ],
   },
 ];

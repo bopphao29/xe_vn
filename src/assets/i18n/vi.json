@@ -280,6 +280,27 @@
       "list-journey": "Danh sách lộ trình",
       "last-place": "Điểm cuối",
       "task": "Tác vụ"
+    },
+    "vehicle-command": {
+      "extend": "Xe tăng cường",
+      "tour": "Xe đi tour",
+      "bks": "BKS",
+      "driver": "Lái xe",
+      "phone": "SĐT",
+      "current_db": "Định biên hiện tại",
+      "extend_route": "Tăng cường tuyến",
+      "extend_time": "Thời gian tăng cường",
+      "from_date": "Từ ngày",
+      "hour": "Giờ",
+      "to_date": "Đến ngày",
+      "extend_reason": "Lý do tăng cường",
+      "list_active_vehicle": "Danh sách xe đang hoạt động",
+      "name_driver": "Tên lái xe",
+      "status": "Tình trạng",
+      "free_time": "Thời gian trống (tiếng)",
+      "start": "Bắt đầu",
+      "end": "Kết thúc",
+      "position": "Vị trí"
     }
   },
   "table": {
