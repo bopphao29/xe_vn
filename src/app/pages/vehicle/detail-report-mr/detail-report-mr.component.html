@@ -22,27 +22,26 @@
                     <table class="custom-table">
                         <tbody>
                             <tr>
-                                <td class="col-1">Người lập</td>
+                                <td class="col-1">BKS</td>
                                 <td class="col-2">{{ inforMR?.createdBy || '' }}</td>
                             </tr>
                             <tr>
-                                <td class="col-1">Chức vụ</td>
+                                <td class="col-1">Lái xe</td>
                                 <td class="col-2">{{ inforMR?.creatorPosition || '' }}</td>
                             </tr>
                             <tr>
-                                <td class="col-1">Số điện thoại</td>
+                                <td class="col-1">Loại xe</td>
                                 <td class="col-2">{{ inforMR?.creatorPhoneNumber || '' }}</td>
                             </tr>
                             <tr>
-                                <td class="col-1">Tình trạng ưu tiên</td>
+                                <td class="col-1">Năm sản xuất</td>
                                 <td class="col-2">
-                                    <span style="color: rgba(239, 68, 68, 1);" *ngIf="inforMR?.priorityStatus == 1">
-                                        Ưu tiên bảo dưỡng gấp
-                                    </span>
-                                    <span *ngIf="inforMR?.priorityStatus == 2">
-                                        Mặc định
-                                    </span>
+                                    
                                 </td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">Số Km hiện tại</td>
+                                <td class="col-2">{{ inforMR?.creatorPhoneNumber || '' }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -52,19 +51,23 @@
                     <table class="custom-table">
                         <tbody>
                             <tr>
-                                <td class="col-1">Biển kiểm soát</td>
+                                <td class="col-1">Tổng số lượt BDSC</td>
                                 <td class="col-2">{{ inforMR?.registerNo }}</td>
                             </tr>
                             <tr>
-                                <td class="col-1">Lái xe</td>
+                                <td class="col-1">Tổng tình trạng xe</td>
                                 <td class="col-2">{{ inforMR?.driver }}</td>
                             </tr>
                             <tr>
-                                <td class="col-1">Số điện thoại</td>
+                                <td class="col-1">Tổng thời gian SC</td>
                                 <td class="col-2">{{  inforMR?.phoneNumber }}</td>
                             </tr>
                             <tr>
-                                <td class="col-1">Cơ sở bảo dưỡng</td>
+                                <td class="col-1">Tổng công việc SC</td>
+                                <td class="col-2">{{inforMR?.maintenancePlace}}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">Tổng vật tư thay thế</td>
                                 <td class="col-2">{{inforMR?.maintenancePlace}}</td>
                             </tr>
                         </tbody>

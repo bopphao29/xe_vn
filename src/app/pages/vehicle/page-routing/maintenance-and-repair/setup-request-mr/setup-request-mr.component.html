@@ -1,7 +1,21 @@
-<div class="p-4 pt-0" style="background-color: #f3f3f3">
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <span *ngIf="!id">Thiết lập yêu cầu bảo dưỡng sửa chữa</span>
-    <span *ngIf="id">Chi tiết yêu cầu bảo dưỡng sửa chữa</span>
+
+<div class="p-2" style="background-color: #f3f3f3">
+    
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div nz-col nzSpan="14" *ngIf="id">
+            <button type="button" (click)="onBack($event); " class="flex" style="margin-bottom: 10px;">
+                <span class="mx-2 " style="margin-top: 3px ; cursor: pointer;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.825 9L9.425 14.6L8 16L0 8L8 0L9.425 1.4L3.825 7H16V9H3.825Z" fill="#274EA1" />
+                    </svg>
+                </span>
+                <span>
+                    Quay lại
+                </span>
+            </button>
+            </div>
+        <span *ngIf="!id">Thiết lập yêu cầu bảo dưỡng sửa chữa</span>
+        <span *ngIf="id">Thông tin xe BDSC</span>
 
     <div style="background-color: #ffffff; border-radius: 12px">
       <div nz-row>
@@ -55,7 +69,7 @@
                 >
                   <nz-option
                     *ngFor="let data of listForMaintenance"
-                    [nzValue]="data.id"
+                    [nzValue]="data.registerNo"
                     [nzLabel]="data.registerNo"
                   ></nz-option>
                 </nz-select>
@@ -136,18 +150,11 @@
               </div>
             </div>
 
-            <div class="input-wrapper">
-              <div class="">
-                <label class="label-form" for="">{{
-                  "vehicle.latestOdometer" | translate
-                }}</label>
-                <input
-                  class="input-form"
-                  placeholder="30E-8888"
-                  type="number"
-                  formControlName="latestOdometer"
-                />
-                <!-- <div class="error-container">
+                        <div class="input-wrapper">
+                            <div class="">
+                                <label class="label-form" for="" >{{'vehicle.latestOdometer' | translate}}</label>
+                                <input class="input-form"  placeholder="Nhập" type="number" formControlName="latestOdometer" >
+                                <!-- <div class="error-container">
                                     <div *ngIf="form.get('latestOdometer')?.invalid && (form.get('latestOdometer')?.dirty || form.get('latestOdometer')?.touched)">
                                         <span class="validate_input" *ngIf="form.get('latestOdometer')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                     </div>
@@ -565,3 +572,4 @@
     </div>
   </form>
 </div>
+

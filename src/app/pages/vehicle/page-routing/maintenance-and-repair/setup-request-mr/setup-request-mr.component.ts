@@ -36,7 +36,8 @@ import { DONTANYTHING } from '../../../../../shared/constants/common.const';
 import Swal from 'sweetalert2';
 import { NotificationService } from '../../../../../shared/services/notification.service';
 import { ValidateIntoPageService } from '../../../../../shared/services/validate-into-page.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-setup-request-mr',
@@ -83,8 +84,8 @@ export class SetupRequestMrComponent implements OnInit {
     private validateService: ValidateIntoPageService,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-    private datePipe: DatePipe
-  ) {}
+    private datePipe: DatePipe,
+    private routes: Router){}
 
   id: any;
 
@@ -140,17 +141,18 @@ export class SetupRequestMrComponent implements OnInit {
       ],
     });
 
-    if (this.id) {
-      this.getDetailMR(this.id);
-    }
 
-    this.getRoute();
-    this.supplies();
-    this.getMaintenanceFacilities();
+    this.getRoute()
+    this.supplies()
+    this.getMaintenanceFacilities()
 
-    this.form.get('registerNo')?.valueChanges.subscribe((registerNoId) => {
+    this.form.get('driver')?.disable();
+    this.form.get('phoneNumber')?.disable();
+    this.form.get('currentOdometer')?.disable();
+
+    this.form.get('registerNo')?.valueChanges.subscribe((registerNo) => {
       const selectedData = this.listForMaintenanceCopy.find(
-        (data) => data.id === registerNoId
+        (data) => data.registerNo === registerNo
       );
       console.log(selectedData);
       if (selectedData) {
@@ -159,15 +161,15 @@ export class SetupRequestMrComponent implements OnInit {
           phoneNumber: selectedData.phoneNumber,
           latestOdometer: selectedData.latestMaintenanceOdometer,
           latestDate: selectedData.latestMaintenanceDate,
-          currentOdometer: selectedData.currentOdometer,
-        });
-      } else {
-        this.form.patchValue({
-          driver: '',
-          phoneNumber: '',
+          currentOdometer: selectedData.currentOdometer
         });
       }
     });
+
+    
+    if (this.id) {
+      this.getDetailMR(this.id);
+    }
   }
 
   isFromRequestMr: boolean = false;
@@ -203,8 +205,12 @@ export class SetupRequestMrComponent implements OnInit {
       this.replacementSupplies = processedDataRS;
     }
 
-    // Kiểm tra kết quả
-  }
+  // Kiểm tra kết quả
+}
+
+onBack(event: any) {
+  this.routes.navigate(['vehicle/detail-mr/'+this.id]);
+}
 
   validateNumber(name: string, event: Event) {
     this.validateService.validateNumber(this.form, name, event);
@@ -308,19 +314,10 @@ export class SetupRequestMrComponent implements OnInit {
         response.data.supposedEndTime
       );
 
-      const matchedFacility = this.listForMaintenanceCopy.find(
-        (facility) => facility.registerNo === response.data.registerNo
-      );
-      console.log(this.listForMaintenanceCopy);
-      // Nếu tìm thấy, patch giá trị registerId vào form
-      if (matchedFacility) {
-        console.log(matchedFacility);
-        this.form.get('registerNo')?.setValue(matchedFacility.id);
-      }
-
       this.form.patchValue({
         routeId: response.data.routeId,
         driver: response.data.driver,
+        registerNo: response.data.registerNo,
         phoneNumber: response.data.phoneNumber,
         latestOdometer: response.data.latestOdometer,
         latestDate: response.data.latestDate,
@@ -337,8 +334,6 @@ export class SetupRequestMrComponent implements OnInit {
         note: response.data.note,
       });
 
-      console.log(response.data.supposedStartTime);
-      // this.form.get('supposedStartTime')?.setValue(response.data.supposedStartTime)
     });
   }
 
@@ -446,58 +441,47 @@ export class SetupRequestMrComponent implements OnInit {
     return '';
   }
 
-  resNo = '';
-  onSubmit() {
-    this.form.markAllAsTouched();
-    const supposedStartTime = this.formatTime(
-      this.form.value.supposedStartTime
-    );
-    const supposedEndTime = this.formatTime(this.form.value.supposedEndTime);
-    if (this.form.invalid) {
-      this.notification.error('Kiểm tra lại trường bắt buộc');
-    } else {
-      const registerNo = this.form.get('registerNo')?.value;
-      const selectedVehicle = this.listForMaintenance.find(
-        (data) => data.id === registerNo
-      );
-      if (selectedVehicle) {
-        this.resNo = selectedVehicle.registerNo;
-      }
+  resNo = ""
+  onSubmit(){
+    
+    this.form.markAllAsTouched()
+    // const dsts = this.form.getRawValue()
+    const supposedStartTime = this.formatTime(this.form.value.supposedStartTime);
+      const supposedEndTime = this.formatTime(this.form.value.supposedEndTime);
+    if(this.form.invalid){
+      this.notification.error('Kiểm tra lại trường bắt buộc')
+    }
+    else{
       const formmatDate = 'yyyy-MM-dd';
 
       const supposedEndDate = this.form.get('supposedEndDate')?.value;
       const supposedStartDate = this.form.get('supposedStartDate')?.value;
       console.log(this.form.get('priorityStatus')?.value);
       const dataFrom = {
-        ...this.form.value,
-        priorityStatus: this.form.get('priorityStatus')?.value === true ? 1 : 0,
+        ...this.form.getRawValue(),
+        priorityStatus : this.form.get('priorityStatus')?.value === true ? 1 : 0,
         id: this.id ? Number(this.id) : null,
         supposedStartTime: supposedStartTime,
         supposedEndTime: supposedEndTime,
         supposedEndDate: this.datePipe.transform(supposedEndDate, formmatDate),
-        supposedStartDate: this.datePipe.transform(
-          supposedStartDate,
-          formmatDate
-        ),
-        registerNo: this.resNo,
+        supposedStartDate: this.datePipe.transform( supposedStartDate, formmatDate),
         lstVehicleStatus: this.vehicleStatus,
         lstTestCategories: this.testItem,
         lstWorkPerformed: this.workPerformed,
         lstReplacementSupplies: this.replacementSupplies,
       };
 
-      if (this.id) {
-        this.vehicleService
-          .chageMaintenanceRepairSchedules(dataFrom)
-          .subscribe({
-            next: (response: any) => {
-              this.notification.success('Sửa yêu cầu BDSC thành công!');
-            },
-            error: (error: any) => {
-              this.notification.error('Có lỗi xảy ra');
-            },
-          });
-      } else {
+      if(this.id){
+
+        this.vehicleService.chageMaintenanceRepairSchedules(dataFrom).subscribe({
+          next : (response: any) => {
+            this.notification.success('Sửa yêu cầu BDSC thành công!')
+          },
+          error: (error: any)=>{
+            this.notification.error('Có lỗi xảy ra')
+          }
+        })
+      }else{
         this.vehicleService.maintenanceRepairSchedules(dataFrom).subscribe({
           next: (response: any) => {
             this.notification.success('Thiết lập BDSC thành công!');
@@ -510,3 +494,4 @@ export class SetupRequestMrComponent implements OnInit {
     }
   }
 }
+

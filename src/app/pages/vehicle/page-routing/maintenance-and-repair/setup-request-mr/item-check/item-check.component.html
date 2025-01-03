@@ -49,7 +49,7 @@
     <ng-template #modalContentisItemCheck>
         <div class="headmodal">
             <span style="justify-content: center; align-items: center; font-size: 24px; color: rgba(37, 44, 50, 1);" nz-icon nzType="check-circle" nzTheme="outline">
-                {{ isEditMode ? ('vehicle.testItem' | translate) : ('common.testItem' | translate) }}
+                {{ isEditMode ? ('vehicle.changeTitle' | translate) : ('vehicle.testItem' | translate) }}
             </span>
         </div>
         <div >
@@ -80,7 +80,7 @@
     [nzContent]="modalContentDeleteStatusVehicle" [nzFooter]="null" [nzStyle]="{'min-width' : '464px', 'min-height':'335px', 'width':'464px'}"  nzClassName="status_vehicle_modal">
     <ng-template #modalContentDeleteStatusVehicle>
         <div class="headmodal">
-            <span style="justify-content: center; align-items: center; font-size: 24px; color: rgba(37, 44, 50, 1);" nz-icon nzType="check-circle" nzTheme="outline">{{'common.statusVehicle' | translate}}</span>
+            <span style="justify-content: center; align-items: center; font-size: 24px; color: rgba(37, 44, 50, 1);" nz-icon nzType="check-circle" nzTheme="outline">{{'vehicle.statusVehicle' | translate}}</span>
         </div>
         <div >
               

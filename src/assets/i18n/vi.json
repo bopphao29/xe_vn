@@ -171,7 +171,8 @@
     "routerVehicle": "Xe tuyến",
     "transitVehicle": "Xe trung chuyển",
     "currentOdometer": "Số km hiện tại",
-    "testItem": "Hạng mục kiểm tra"
+    "testItem": "Hạng mục kiểm tra",
+    "":""
   },
   "navbar": {
     "ras": "Liên hệ",

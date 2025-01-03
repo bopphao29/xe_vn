@@ -400,7 +400,7 @@ export class DetailVehicalComponent implements OnInit {
             });
           }
         }
-      }, 500)
+      }, 800)
     });
   }
 

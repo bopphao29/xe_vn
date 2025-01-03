@@ -46,7 +46,7 @@ export class DetailReportMrComponent implements OnInit{
 
 
   constructor(
-      private routes: Router,
+      private router: Router,
       private vehicleServices : VehicalServiceService,
       private route: ActivatedRoute,
       
@@ -57,16 +57,23 @@ export class DetailReportMrComponent implements OnInit{
     this.route.params.subscribe((params : any)=>{
       const regisNo = params['id']
       this.regisNo = regisNo
-      this.getDetail(regisNo)
-      this.dataSummaryByRegisterNo(regisNo)
+      
     })
+
+    this.getDetail(this.regisNo)
+    this.summaryByRegisterNo(this.regisNo)
   }
 
-  onBack(event: Event){
-    this.routes.navigate(['/vehicle/maintenance-repair?tab=report-request'])
-
+  onBack(event: any) {
+    const router = localStorage.getItem('activeLink');
+    if (router === 'maintenanceRepair') {
+      // event.preventDefault();
+      localStorage.setItem('activeLink', 'maintenanceRepair'); // Cập nhật đúng giá trị
+      this.router.navigate(['vehicle', 'maintenance-repair'], {
+        queryParams: { tab: 'report-request' }, // Điều hướng tới `list-request`
+      });
+    }
   }
-
   pageIndex = 1
   pageSize = 12
   total = -1

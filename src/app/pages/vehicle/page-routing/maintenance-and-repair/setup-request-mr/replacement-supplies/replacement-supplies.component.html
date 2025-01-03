@@ -50,7 +50,7 @@
     <ng-template #modalContentreplacementSupplies>
         <div class="headmodal">
             <span style="justify-content: center; align-items: center; font-size: 24px; color: rgba(37, 44, 50, 1);" nz-icon nzType="check-circle" nzTheme="outline">
-                {{ isEditMode ? ('common.editStatusVehicle' | translate) : ('common.replacementSupplies' | translate) }}
+                {{ isEditMode ? ('common.changeTitle' | translate) : ('vehicle.replacementSupplies' | translate) }}
             </span>
         </div>
         <div >
@@ -71,13 +71,13 @@
             </div>
             <div class="input-wrapper" style="width: 20%;">
                 <div class="">
-                    <label class="label-form" for="" >{{'vehicle.replacementSupplies' | translate}}</label>
+                    <label class="label-form" for="" >{{'table.vehicle.count' | translate}}</label>
                     <input class="input-form" placeholder="Nhập" type="number" min="0" [(ngModel)]="quantity" >
                 </div>
             </div>
             <div class="input-wrapper" style="width: 20%;">
                 <div class="">
-                    <label class="label-form" for="" >{{'vehicle.replacementSupplies' | translate}}</label>
+                    <label class="label-form" for="" >{{'table.vehicle.unitOfMeasure' | translate}}</label>
                     <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="unit" >
                 </div>
             </div>
