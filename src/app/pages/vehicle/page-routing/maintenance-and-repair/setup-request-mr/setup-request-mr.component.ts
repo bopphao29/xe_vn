@@ -9,6 +9,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { DatePipe } from '@angular/common';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
@@ -52,6 +53,7 @@ import { ActivatedRoute } from '@angular/router';
     NzTimePickerModule,
     NzPaginationModule
 ],
+  providers: [DatePipe],
   templateUrl: './setup-request-mr.component.html',
   styleUrl: './setup-request-mr.component.scss'
 })
@@ -69,8 +71,9 @@ export class SetupRequestMrComponent implements OnInit{
     private notification: NotificationService,
     private validateService : ValidateIntoPageService,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
-    
+    private cdr: ChangeDetectorRef,
+    private datePipe: DatePipe
+
   ){}
 
   id: any
@@ -89,15 +92,15 @@ export class SetupRequestMrComponent implements OnInit{
           registerNo: [null, Validators.required],
           driver: [null, Validators.required],
           phoneNumber: [null, Validators.required],
-          latestOdometer: [null, Validators.required],
-          latestDate: [null, Validators.required],
+          latestOdometer: [null],
+          latestDate: [null],
           currentOdometer: [null, Validators.required],
           levelMaintenance: [null, Validators.required],
           supposedStartTime: [null, Validators.required],
           supposedStartDate: [null, Validators.required],
           supposedEndTime: [null, Validators.required],
           supposedEndDate: [null, Validators.required],
-          maintenanceFacilityId: [null, Validators.required],
+          maintenancePlace: [null, Validators.required],
           approvalStatus: 1,
           priorityStatus: 0,
           status: 1,
@@ -127,24 +130,24 @@ export class SetupRequestMrComponent implements OnInit{
         }
       )
 
-   
+      if(this.id){
+        this.getDetailMR(this.id)
+      }  
 
     this.getRoute()
-    this.showListForMaintenance()
-    this.getAllForMaintenance()
+    this.supplies()
     this.getMaintenanceFacilities()
 
-    if(this.id){
-      this.getDetailMR(this.id)
-    }
-
     this.form.get('registerNo')?.valueChanges.subscribe((registerNoId) => {
-      const selectedData = this.listForMaintenance.find(data => data.id === registerNoId);
-      
+      const selectedData = this.listForMaintenanceCopy.find(data => data.id === registerNoId);
+      console.log(selectedData)
       if (selectedData) {
         this.form.patchValue({
-          driver: selectedData.driver,
+          driver: selectedData.driverName,
           phoneNumber: selectedData.phoneNumber,
+          latestOdometer: selectedData.latestMaintenanceOdometer,
+          latestDate: selectedData.latestMaintenanceDate,
+          currentOdometer: selectedData.currentOdometer
         });
       } else {
         this.form.patchValue({
@@ -157,7 +160,7 @@ export class SetupRequestMrComponent implements OnInit{
 
   
   vehicleStatus: { name: string }[] = [];
-  itemCheck: { name: string }[] = [];
+  testItem: { name: string }[] = [];
   workPerformed: { name: string }[] = [];
   replacementSupplies: {supplyId: number; quantity: number;  unit: string }[] = [];
 receiveData(data: any[], name: string): void {
@@ -167,9 +170,9 @@ receiveData(data: any[], name: string): void {
   // Thay thế mảng hiện tại với mảng mới từ con
   if (name === 'vehicleStatus') {
     this.vehicleStatus = processedData; // Thay thế mảng vehicleStatus
-  } else if (name === 'itemCheck') {
-    this.itemCheck = processedData; // Thay thế mảng itemCheck
-  } else if(name === 'itemCheck'){
+  } else if (name === 'testItem') {
+    this.testItem = processedData; // Thay thế mảng itemCheck
+  } else if(name === 'workPerformed'){
     this.workPerformed = processedData; // Thay thế mảng workPerformed
   }else{
     this.replacementSupplies = processedDataRS
@@ -186,11 +189,24 @@ validateText(path: string | (string | number)[], event: Event) {
 }
 
   listRoute : any[] =[]
+  Idroute: any
   getRoute(){
     this.vehicleService.getRoute().subscribe((response : any)=> {
       this.listRoute = response.data
-      console.log(response.data)
-
+    })
+    this.form.get('routeId')?.valueChanges.subscribe((value : any) => {
+      this.Idroute = value ? value : null
+      if(this.Idroute){
+        this.form.get('driver')?.setValue(null)
+        this.form.get('registerNo')?.setValue(null)
+        this.form.get('phoneNumber')?.setValue(null)
+        this.form.get('latestOdometer')?.setValue(null)
+        this.form.get('latestDate')?.setValue(null)
+        this.form.get('currentOdometer')?.setValue(null)
+        this.showListForMaintenance()
+      }else{
+        console.log('')
+      }
     })
   }
 
@@ -202,18 +218,61 @@ validateText(path: string | (string | number)[], event: Event) {
   listForMaintenanceCopy : any[] =[]  
   listMaintenanceFacilities: any[] = []
 
-  getMaintenanceFacilities(){
-    this.vehicleService.getMaintenanceFacilities().subscribe((response: any)=>{
-        this.listMaintenanceFacilities = response.data
-      })
-    }
+
+    
+  supplies(){
+    this.vehicleService.supplies().subscribe((response : any)=> {
+      console.log(response)
+    })
+  }
+
+  formattedString: any
+  getMaintenanceFacilities() {
+    this.vehicleService.getMaintenanceFacilities().subscribe((response: any) => {
+      this.listMaintenanceFacilities = response.data.map((item: string) => ({ value: item }));
+      console.log(this.listMaintenanceFacilities);
+    });
+  }
+  
+  
+  
+  
 
   inforMR: any
   listVS : any [] = []
+  listWP: any [] = []
+  lstRS : any [] = []
+  lstTC : any [] = [] 
+
+  getForMaintenance(page: number, size: number){
+
+    this.vehicleService.getForMaintenance(page, size, this.Idroute).subscribe((response : any) => {
+      this.listForMaintenanceCopy = response.data?.content
+      this.total = response.data.totalElements
+      this.vehicleService.getForMaintenance(page, this.total,this.Idroute).subscribe((response: any)=> {
+        this.listForMaintenance = response.data?.content
+        console.log(this.listForMaintenance)
+      })
+      if(response.data.totalElements == 0){
+              Swal.fire({
+                icon: "warning",
+                // title: "......",
+                text: "Không tìm thấy dữ liệu bạn muốn tìm kiếm!",
+                // timer: 3000
+              });
+            }
+
+    })
+  }
+
   getDetailMR(id: number) {
     this.vehicleService.getDetailMR(id).subscribe((response: any)=>{
       this.inforMR = response.data
       this.listVS = response.data.lstVehicleStatus
+      this.listWP = response.data.lstWorkPerformed
+      this.lstRS = response.data.lstReplacementSupplies
+      this.lstTC = response.data.lstTestCategories
+
       this.cdr.detectChanges(); 
       console.log(this.listVS)
       // this.form.patchValue(response.data)
@@ -224,7 +283,7 @@ validateText(path: string | (string | number)[], event: Event) {
       const matchedFacility = this.listForMaintenanceCopy.find(
         (facility) => facility.registerNo === response.data.registerNo
       );
-  
+      console.log(this.listForMaintenanceCopy)
       // Nếu tìm thấy, patch giá trị registerId vào form
       if (matchedFacility) {
         console.log(matchedFacility)
@@ -243,7 +302,7 @@ validateText(path: string | (string | number)[], event: Event) {
           supposedStartDate: response.data.supposedStartDate,
           supposedEndTime: supposedEndTime,
           supposedEndDate: response.data.supposedEndDate,
-          maintenanceFacilityId: response.data.maintenanceFacilityId,
+          maintenancePlace: response.data.maintenancePlace,
           approvalStatus: response.data.approvalStatus,
           priorityStatus: response.data.priorityStatus,
           status: response.data.status,
@@ -263,50 +322,35 @@ validateText(path: string | (string | number)[], event: Event) {
     return date;
   }
 
-  getAllForMaintenance(){
-    this.vehicleService.getForMaintenance(0, 1000).subscribe((response : any) => {
-      this.listForMaintenanceCopy = response.data?.content
-    })
-  }
-  
-  getForMaintenance(page: number, size: number){
-    this.vehicleService.getForMaintenance(page, size).subscribe((response : any) => {
-      this.listForMaintenance = response.data?.content
-      this.total = response.data.totalElements
-      console.log(response)
-      if(response.data.totalElements == 0){
-              Swal.fire({
-                icon: "warning",
-                // title: "......",
-                text: "Không tìm thấy dữ liệu bạn muốn tìm kiếm!",
-                // timer: 3000
-              });
-            }
 
-    })
+  cancelFix(){
+
   }
 
   showListForMaintenance(){
       const page = this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 
       const size = 9
-    
+    console.log(this.Idroute)
     this.getForMaintenance(page, size)
   }
+
   onPageChange(page: number): void {
     this.pageIndex = page;
     this.showListForMaintenance()
   }
 
+  priorityStatus: number = 0;
+
   onCheckboxChange(event: Event) {
     const isChecked = (event.target as HTMLInputElement).checked;
-    this.form.get('priorityStatus')?.setValue(isChecked ? 0 : 1); 
+    this.priorityStatus = isChecked ? 1 : 0;
   }
 
   showNoDataForMaintenance(){
     const numberData = 9
     const data = {registerNo: null, driver: null, phoneNumber: null, maintenanceKm: null}
     
-    const dataRrows = this.listForMaintenance.slice();
+    const dataRrows = this.listForMaintenanceCopy.slice();
     const currentData = dataRrows.length
     if(currentData < numberData){
       const isChangeData = numberData - currentData
@@ -346,12 +390,12 @@ validateText(path: string | (string | number)[], event: Event) {
   
 
   onSelectRow(data: any): void {
-    const selectedItem = this.listForMaintenance.find(item => item.registerNo === data.registerNo);
-  
+    const selectedItem = this.listForMaintenanceCopy.find(item => item.registerNo === data.registerNo);
+    console.log(selectedItem)
     if (selectedItem) {
       this.form.patchValue({
         registerNo: selectedItem.id, // Patch ID để khớp với nzValue
-        driver: data.driver,
+        driver: data.driverName,
         phoneNumber: data.phoneNumber,
       });
     }
@@ -386,25 +430,45 @@ validateText(path: string | (string | number)[], event: Event) {
       if (selectedVehicle) {
         this.resNo = selectedVehicle.registerNo
       }
+      const formmatDate = 'yyyy-MM-dd'
+
+    const supposedEndDate = this.form.get('supposedEndDate')?.value;
+    const supposedStartDate = this.form.get('supposedStartDate')?.value;
+      console.log(this.form.get('priorityStatus')?.value)
       const dataFrom = {
         ...this.form.value,
+        priorityStatus : this.form.get('priorityStatus')?.value === true ? 1 : 0,
+        id: this.id ? Number(this.id) : null,
         supposedStartTime: supposedStartTime,
         supposedEndTime : supposedEndTime,
+        supposedEndDate: this.datePipe.transform(supposedEndDate, formmatDate),
+        supposedStartDate: this.datePipe.transform( supposedStartDate, formmatDate),
         registerNo: this.resNo,
         lstVehicleStatus: this.vehicleStatus,
-        lstTestCategories: this.itemCheck,
+        lstTestCategories: this.testItem,
         lstWorkPerformed: this.workPerformed,
         lstReplacementSupplies: this.replacementSupplies
       }
 
-      this.vehicleService.maintenanceRepairSchedules(dataFrom).subscribe({
-        next : (response: any) => {
-          this.notification.success('Thiết lập BDSC thành công  ')
-        },
-        error: (error: any)=>{
-          this.notification.error('Có lỗi xảy ra')
-        }
-      })
+      if(this.id){
+        this.vehicleService.chageMaintenanceRepairSchedules(dataFrom).subscribe({
+          next : (response: any) => {
+            this.notification.success('Sửa yêu cầu BDSC thành công!')
+          },
+          error: (error: any)=>{
+            this.notification.error('Có lỗi xảy ra')
+          }
+        })
+      }else{
+        this.vehicleService.maintenanceRepairSchedules(dataFrom).subscribe({
+          next : (response: any) => {
+            this.notification.success('Thiết lập BDSC thành công!')
+          },
+          error: (error: any)=>{
+            this.notification.error('Có lỗi xảy ra')
+          }
+        })
+      }
     }
   }
 

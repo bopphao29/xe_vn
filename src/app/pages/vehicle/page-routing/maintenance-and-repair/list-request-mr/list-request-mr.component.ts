@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -40,6 +40,7 @@ import { Router } from '@angular/router';
         NzUploadModule,
         NzPaginationModule,
   ],
+  providers: [DatePipe],
   templateUrl: './list-request-mr.component.html',
   styleUrl: './list-request-mr.component.scss'
 })
@@ -53,7 +54,9 @@ export class ListRequestMrComponent implements OnInit{
   constructor(
     private fb: FormBuilder,
     private vehicleServices: VehicalServiceService,
-    private routes :Router
+    private routes :Router,
+    private datePipe: DatePipe,
+    
   ){
   }
   
@@ -83,7 +86,7 @@ export class ListRequestMrComponent implements OnInit{
   pageSize = 12
 
     getListMR(data: any){
-      this.vehicleServices.mRChedulessearch(data).subscribe((response: any)=>{
+      this.vehicleServices.mRChedulessearch(this.pageIndex - 1, this.pageSize ,data).subscribe((response: any)=>{
         this.dataMRC = response.data.content
         this.total = response.data.totalElements
         console.log(this.total)
@@ -101,16 +104,18 @@ export class ListRequestMrComponent implements OnInit{
   startDate : Date = new Date()
   endDate : Date = new Date()
   search(){
+    const formmatDate = 'yyyy-MM-dd'
+
     const rangeDate = this.form.get('rangeDate')?.value
-    this.startDate = rangeDate ? rangeDate[0] : null
+    this.startDate = rangeDate ? rangeDate[0] : null 
     this.endDate = rangeDate ? rangeDate[1] : null
     this.form.updateValueAndValidity();
     const dataForm = {
       ...this.form.value,
-      startDate : rangeDate ? this.startDate : '',
-      endDate: rangeDate ? this.endDate : '',
-      page: this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 ,
-      size: 12,
+      startDate : rangeDate ? this.datePipe.transform( this.startDate, formmatDate) : '',
+      endDate: rangeDate ? this.datePipe.transform( this.endDate, formmatDate) : '',
+      // page: this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1 ,
+      // size: 12,
     }
 
     delete dataForm.rangeDate

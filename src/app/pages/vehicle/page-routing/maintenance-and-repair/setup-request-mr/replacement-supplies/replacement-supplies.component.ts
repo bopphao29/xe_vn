@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -25,7 +25,28 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
   styleUrl: './replacement-supplies.component.scss'
 })
 export class ReplacementSuppliesComponent {
+    @Input() parentData: any[] = [];
+    
     @Output() dataEmitter = new EventEmitter<any[]>()
+
+    ngOnChanges(changes: SimpleChanges) {
+          if (changes['parentData']) {
+            this.replacementSuppliesList = this.parentData.map(item => ({
+              id: item.id,
+              quantity: item.quantity,
+              unit: item.unit,
+              supplyId: item.supplyId,
+              ...item,
+            }));
+            this.displayedData = this.parentData.map(item => ({
+              id: item.id,
+              quantity: item.quantity,
+              unit: item.unit,
+              supplyId: item.supplyId,
+              ...item,
+            }));
+          }
+        }
   constructor(
   ){
 
