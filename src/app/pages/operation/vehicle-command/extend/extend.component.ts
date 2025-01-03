@@ -66,29 +66,16 @@ export class ExtendVehicleComponent implements OnInit {
 
   loadForm() {
     this.form = this.fb.group({
-      routeType: [null, Validators.required],
-      name: ['', Validators.required],
-      startPoint: ['', Validators.required],
-      totalDistance: ['', Validators.required],
-      completionTime: ['', Validators.required],
-      endPoint: ['', Validators.required],
-      runningTime: ['', Validators.required],
-      distance: ['', Validators.required],
-      shortestItinerary: ['', Validators.required],
-      ticketPrice: ['', Validators.required],
-      stopPoints: this.fb.array(
-        this.listFake.map(() => this.createStopPoint())
-      ),
-    });
-  }
-
-  createStopPoint(): FormGroup {
-    return this.fb.group({
-      stopName: ['', Validators.required],
-      runningTime: ['', Validators.required],
-      waitingTime: ['', Validators.required],
-      distance: ['', Validators.required],
-      shortestItinerary: ['', Validators.required],
+      bks: [null, Validators.required],
+      reason: ['', Validators.required],
+      endTime: ['', Validators.required],
+      endDate: ['', Validators.required],
+      startTime: ['', Validators.required],
+      startDate: ['', Validators.required],
+      reinforcedRoute: ['', Validators.required],
+      currentQuota: ['', Validators.required],
+      phone: ['', Validators.required],
+      driverName: ['', Validators.required],
     });
   }
 
@@ -178,13 +165,5 @@ export class ExtendVehicleComponent implements OnInit {
         this.total = res.data.totalElements;
       }
     });
-  }
-
-  addFormArray() {
-    this.stopPoints.push(this.createStopPoint());
-  }
-
-  removeFormArray(index: number) {
-    this.stopPoints.removeAt(index);
   }
 }

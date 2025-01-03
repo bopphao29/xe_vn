@@ -29,7 +29,7 @@
                 <nz-select
                   [nzPlaceHolder]="'operation.vehicle-command.bks' | translate"
                   class="nzSelect"
-                  formControlName="name"
+                  formControlName="bks"
                   style="height: 100% !important"
                 >
                   <nz-option
@@ -55,20 +55,20 @@
               </ng-template>
               <div
                 *ngIf="
-                  (form.get('name')?.invalid && form.get('name')?.dirty) ||
-                  form.get('name')?.touched
+                  (form.get('bks')?.invalid && form.get('bks')?.dirty) ||
+                  form.get('bks')?.touched
                 "
                 class="error-container"
               >
                 <div>
                   <span
                     class="validate_input"
-                    *ngIf="form.get('name')?.errors?.['required']"
+                    *ngIf="form.get('bks')?.errors?.['required']"
                     >{{ "required.cannotBlank" | translate }}</span
                   >
                   <span
                     class="instruct"
-                    *ngIf="form.get('name')?.errors?.['pattern']"
+                    *ngIf="form.get('bks')?.errors?.['pattern']"
                     >{{ "required.text_pattern" | translate }}</span
                   >
                 </div>
@@ -93,7 +93,7 @@
                     'operation.vehicle-command.driver' | translate
                   "
                   class="nzSelect"
-                  formControlName="startPoint"
+                  formControlName="driverName"
                   style="height: 100% !important"
                 >
                   <nz-option
@@ -105,21 +105,21 @@
               </nz-input-group>
               <div
                 *ngIf="
-                  (form.get('startPoint')?.invalid &&
-                    form.get('startPoint')?.dirty) ||
-                  form.get('startPoint')?.touched
+                  (form.get('driverName')?.invalid &&
+                    form.get('driverName')?.dirty) ||
+                  form.get('driverName')?.touched
                 "
                 class="error-container"
               >
                 <div>
                   <span
                     class="validate_input"
-                    *ngIf="form.get('startPoint')?.errors?.['required']"
+                    *ngIf="form.get('driverName')?.errors?.['required']"
                     >{{ "required.cannotBlank" | translate }}</span
                   >
                   <span
                     class="instruct"
-                    *ngIf="form.get('startPoint')?.errors?.['pattern']"
+                    *ngIf="form.get('driverName')?.errors?.['pattern']"
                     >{{ "required.text_pattern" | translate }}</span
                   >
                 </div>
@@ -139,26 +139,25 @@
                 class="input-form"
                 (input)="validateText($event)"
                 placeholder="SĐT"
-                formControlName="totalDistance"
+                formControlName="phone"
                 type="text"
               />
               <div
                 *ngIf="
-                  (form.get('totalDistance')?.invalid &&
-                    form.get('totalDistance')?.dirty) ||
-                  form.get('totalDistance')?.touched
+                  (form.get('phone')?.invalid && form.get('phone')?.dirty) ||
+                  form.get('phone')?.touched
                 "
                 class="error-container"
               >
                 <div>
                   <span
                     class="validate_input"
-                    *ngIf="form.get('totalDistance')?.errors?.['required']"
+                    *ngIf="form.get('phone')?.errors?.['required']"
                     >{{ "required.cannotBlank" | translate }}</span
                   >
                   <span
                     class="instruct"
-                    *ngIf="form.get('totalDistance')?.errors?.['pattern']"
+                    *ngIf="form.get('phone')?.errors?.['pattern']"
                     >{{ "required.text_pattern" | translate }}</span
                   >
                 </div>
@@ -178,26 +177,26 @@
                 class="input-form"
                 (input)="validateText($event)"
                 placeholder="Định biên hiện tại       "
-                formControlName="completionTime"
+                formControlName="currentQuota"
                 type="number"
               />
               <div
                 *ngIf="
-                  (form.get('completionTime')?.invalid &&
-                    form.get('completionTime')?.dirty) ||
-                  form.get('completionTime')?.touched
+                  (form.get('currentQuota')?.invalid &&
+                    form.get('currentQuota')?.dirty) ||
+                  form.get('currentQuota')?.touched
                 "
                 class="error-container"
               >
                 <div>
                   <span
                     class="validate_input"
-                    *ngIf="form.get('completionTime')?.errors?.['required']"
+                    *ngIf="form.get('currentQuota')?.errors?.['required']"
                     >{{ "required.cannotBlank" | translate }}</span
                   >
                   <span
                     class="instruct"
-                    *ngIf="form.get('completionTime')?.errors?.['pattern']"
+                    *ngIf="form.get('currentQuota')?.errors?.['pattern']"
                     >{{ "required.text_pattern" | translate }}</span
                   >
                 </div>
@@ -218,7 +217,7 @@
                   'operation.vehicle-command.extend_route' | translate
                 "
                 class="nzSelect"
-                formControlName="completionTime"
+                formControlName="reinforcedRoute"
                 style="height: 48px !important"
               >
                 <nz-option
@@ -229,21 +228,21 @@
               </nz-select>
               <div
                 *ngIf="
-                  (form.get('completionTime')?.invalid &&
-                    form.get('completionTime')?.dirty) ||
-                  form.get('completionTime')?.touched
+                  (form.get('reinforcedRoute')?.invalid &&
+                    form.get('reinforcedRoute')?.dirty) ||
+                  form.get('reinforcedRoute')?.touched
                 "
                 class="error-container"
               >
                 <div>
                   <span
                     class="validate_input"
-                    *ngIf="form.get('completionTime')?.errors?.['required']"
+                    *ngIf="form.get('reinforcedRoute')?.errors?.['required']"
                     >{{ "required.cannotBlank" | translate }}</span
                   >
                   <span
                     class="instruct"
-                    *ngIf="form.get('completionTime')?.errors?.['pattern']"
+                    *ngIf="form.get('reinforcedRoute')?.errors?.['pattern']"
                     >{{ "required.text_pattern" | translate }}</span
                   >
                 </div>
@@ -262,7 +261,6 @@
             </div>
             <div class="flex flex-col">
               <div
-                formArrayName="stopPoints"
                 class="flex flex-col gap-[12px] items-center"
                 style="
                   border-radius: 8px;
@@ -271,12 +269,7 @@
                   align-items: flex-start;
                 "
               >
-                <div
-                  *ngFor="let stopPoint of stopPoints.controls; let i = index"
-                  [formGroupName]="i"
-                  class="flex flex-wrap gap-[12px]"
-                  style="width: 100%"
-                >
+                <div class="flex flex-wrap gap-[12px]" style="width: 100%">
                   <div class="flex flex-col gap-[12px]">
                     <div class="flex gap-[8px]">
                       <!-- Từ ngày  -->
@@ -292,26 +285,26 @@
                           nzFormat="dd/MM/yyyy"
                           class="w-full"
                           style="width: 100%"
-                          formControlName="bcStartDate"
+                          formControlName="startDate"
                           nzPlaceHolder="{{ 'Chọn ngày' | translate }}"
                         ></nz-date-picker>
                         <div
                           *ngIf="
-                            (form.get('totalDistance')?.invalid &&
-                              form.get('totalDistance')?.dirty) ||
-                            form.get('totalDistance')?.touched
+                            (form.get('startDate')?.invalid &&
+                              form.get('startDate')?.dirty) ||
+                            form.get('startDate')?.touched
                           "
                           class="error-container"
                         >
                           <div>
                             <span
                               class="validate_input"
-                              *ngIf="form.get('totalDistance')?.errors?.['required']"
+                              *ngIf="form.get('startDate')?.errors?.['required']"
                               >{{ "required.cannotBlank" | translate }}</span
                             >
                             <span
                               class="instruct"
-                              *ngIf="form.get('totalDistance')?.errors?.['pattern']"
+                              *ngIf="form.get('startDate')?.errors?.['pattern']"
                               >{{ "required.text_pattern" | translate }}</span
                             >
                           </div>
@@ -329,7 +322,7 @@
                             'operation.vehicle-command.hour' | translate
                           "
                           class="nzSelect"
-                          formControlName="completionTime"
+                          formControlName="startTime"
                           style="height: 48px !important"
                         >
                           <nz-option
@@ -340,21 +333,21 @@
                         </nz-select>
                         <div
                           *ngIf="
-                            (form.get('completionTime')?.invalid &&
-                              form.get('completionTime')?.dirty) ||
-                            form.get('completionTime')?.touched
+                            (form.get('startTime')?.invalid &&
+                              form.get('startTime')?.dirty) ||
+                            form.get('startTime')?.touched
                           "
                           class="error-container"
                         >
                           <div>
                             <span
                               class="validate_input"
-                              *ngIf="form.get('completionTime')?.errors?.['required']"
+                              *ngIf="form.get('startTime')?.errors?.['required']"
                               >{{ "required.cannotBlank" | translate }}</span
                             >
                             <span
                               class="instruct"
-                              *ngIf="form.get('completionTime')?.errors?.['pattern']"
+                              *ngIf="form.get('startTime')?.errors?.['pattern']"
                               >{{ "required.text_pattern" | translate }}</span
                             >
                           </div>
@@ -375,26 +368,26 @@
                           nzFormat="dd/MM/yyyy"
                           class="w-full"
                           style="width: 100%"
-                          formControlName="bcStartDate"
+                          formControlName="endDate"
                           nzPlaceHolder="{{ 'Chọn ngày' | translate }}"
                         ></nz-date-picker>
                         <div
                           *ngIf="
-                            (form.get('totalDistance')?.invalid &&
-                              form.get('totalDistance')?.dirty) ||
-                            form.get('totalDistance')?.touched
+                            (form.get('endDate')?.invalid &&
+                              form.get('endDate')?.dirty) ||
+                            form.get('endDate')?.touched
                           "
                           class="error-container"
                         >
                           <div>
                             <span
                               class="validate_input"
-                              *ngIf="form.get('totalDistance')?.errors?.['required']"
+                              *ngIf="form.get('endDate')?.errors?.['required']"
                               >{{ "required.cannotBlank" | translate }}</span
                             >
                             <span
                               class="instruct"
-                              *ngIf="form.get('totalDistance')?.errors?.['pattern']"
+                              *ngIf="form.get('endDate')?.errors?.['pattern']"
                               >{{ "required.text_pattern" | translate }}</span
                             >
                           </div>
@@ -412,7 +405,7 @@
                             'operation.vehicle-command.hour' | translate
                           "
                           class="nzSelect"
-                          formControlName="completionTime"
+                          formControlName="endTime"
                           style="height: 48px !important"
                         >
                           <nz-option
@@ -423,21 +416,21 @@
                         </nz-select>
                         <div
                           *ngIf="
-                            (form.get('completionTime')?.invalid &&
-                              form.get('completionTime')?.dirty) ||
-                            form.get('completionTime')?.touched
+                            (form.get('endTime')?.invalid &&
+                              form.get('endTime')?.dirty) ||
+                            form.get('endTime')?.touched
                           "
                           class="error-container"
                         >
                           <div>
                             <span
                               class="validate_input"
-                              *ngIf="form.get('completionTime')?.errors?.['required']"
+                              *ngIf="form.get('endTime')?.errors?.['required']"
                               >{{ "required.cannotBlank" | translate }}</span
                             >
                             <span
                               class="instruct"
-                              *ngIf="form.get('completionTime')?.errors?.['pattern']"
+                              *ngIf="form.get('endTime')?.errors?.['pattern']"
                               >{{ "required.text_pattern" | translate }}</span
                             >
                           </div>
@@ -460,7 +453,7 @@
               class="textarea-form"
               (input)="validateText($event)"
               placeholder="Lý do tăng cường"
-              formControlName="totalDistance"
+              formControlName="reason"
               type="text"
             />
           </div>
@@ -494,7 +487,6 @@
                 'operation.vehicle-command.extend_route' | translate
               "
               class="nzSelect"
-              formControlName="completionTime"
               style="height: 48px !important"
             >
               <nz-option
@@ -529,7 +521,6 @@
             nzFormat="dd/MM/yyyy"
             class="w-full"
             style="width: 100%"
-            formControlName="bcStartDate"
             nzPlaceHolder="{{ 'Chọn ngày' | translate }}"
           ></nz-date-picker>
         </div>
