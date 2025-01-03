@@ -1,0 +1,144 @@
+<div style="background-color: #f7f7f7;">
+    <div nz-row>
+        <div nz-col nzSpan="14">
+            <button (click)="onBack($event)" class="flex" style="margin-top: 10px;">
+                <span class="mx-2 " style="margin-top: 3px ; cursor: pointer;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.825 9L9.425 14.6L8 16L0 8L8 0L9.425 1.4L3.825 7H16V9H3.825Z" fill="#274EA1" />
+                    </svg>
+                </span>
+                <span>
+                    Quay lại
+                    
+                </span>
+            </button>
+            </div>
+
+    </div>
+    <div nz-row class="p-2">
+        <div nz-col nzSpan="24" class="p-2" style="background-color: rgba(252, 252, 252, 1); border-radius: 12px;">
+            <div nz-row class="" style=" margin-top: 8px;">
+                <div nz-col nzSpan="8" style="width: calc(50% - 16px); padding-right: 8px;">
+                    <table class="custom-table">
+                        <tbody>
+                            <tr>
+                                <td class="col-1">Người lập</td>
+                                <td class="col-2">{{ inforMR?.createdBy || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">Chức vụ</td>
+                                <td class="col-2">{{ inforMR?.creatorPosition || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">Số điện thoại</td>
+                                <td class="col-2">{{ inforMR?.creatorPhoneNumber || '' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">Tình trạng ưu tiên</td>
+                                <td class="col-2">
+                                    <span style="color: rgba(239, 68, 68, 1);" *ngIf="inforMR?.priorityStatus == 1">
+                                        Ưu tiên bảo dưỡng gấp
+                                    </span>
+                                    <span *ngIf="inforMR?.priorityStatus == 2">
+                                        Mặc định
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div nz-col nzSpan="8" style="width: calc(50% - 16px); padding-left: 8px;">
+                    <table class="custom-table">
+                        <tbody>
+                            <tr>
+                                <td class="col-1">Biển kiểm soát</td>
+                                <td class="col-2">{{ inforMR?.registerNo }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">Lái xe</td>
+                                <td class="col-2">{{ inforMR?.driver }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">Số điện thoại</td>
+                                <td class="col-2">{{  inforMR?.phoneNumber }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-1">Cơ sở bảo dưỡng</td>
+                                <td class="col-2">{{inforMR?.maintenancePlace}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-top: 16px;"></div>
+            <span class="label_setup mx-2">Chi tiết yêu cầu bảo dưỡng sửa chữa</span>
+
+            <div nz-row style="margin-top: 20px;" class="p-4">
+                <div nz-col nzSpan="22">
+                    <table class="custom-table-list" style="background-color: #FCFCFC; text-align: center; width: 100%;">
+                        <tbody>
+                            <tr style="background-color: #fcfcfc;">
+                                <th class="list-col-1">STT</th>
+                                <th class="list-col-3" style="text-align: left !important; padding-left: 10px;">Biển kiểm soát</th>
+                                <th class="list-col-2">Lái xe</th>
+                                <th class="list-col-2">SĐT</th>
+                                <th class="list-col-3">Người lập</th>
+                                <th class="list-col-3">Ngày lập</th>
+            
+                                <th class="list-col-4">Tình trạng</th>
+                                <th class="list-col-2">Người duyệt</th>
+                                <th class="list-col-3">Ngày duyệt</th>
+                                <th class="list-col-2">Tác vụ</th>
+            
+                            </tr>
+                            <tr *ngFor="let data of showEmpolyeeNoData(); let i = index">
+                                <td class="list-col-1">{{(pageIndex - 1) * pageSize + i + 1}}</td>
+                                <td class="list-col-3" style="text-align: left !important; padding-left: 10px;">{{data.registerNo || '-'}}</td>
+                                <td class="list-col-3" style="text-align: left !important; padding-left: 10px;">{{data.driver || '-'}}</td>
+                                <td class="list-col-2">{{data.phoneNumber || '-'}}</td>
+                                <td class="list-col-2">{{data.createdAt || '-'}}</td>
+                                
+                                <td class="list-col-2">{{(data.createdBy | date: 'dd/MM/yyyy')  || '-'}}</td>
+                                <td class="list-col-3">
+                                    <span style="color: rgba(239, 68, 68, 1);" *ngIf="data.status == 2">
+                                        Đang sửa chữa
+                                    </span>
+                                    <span *ngIf="data.status == 1">
+                                        Chờ duyệt
+                                    </span>
+                                </td>
+                                
+                                <td class="list-col-4">{{data.approvedBy|| '-'}}</td>
+                                <td class="list-col-2">{{(data.approvedAt | date: 'dd/MM/yyyy') || '-'}}</td>
+                                <td class="list-col-2">
+                                    <a  *ngIf="data.id" (click)="routerDetail(data.id)" class="button_show_detail">
+                                        Xem chi tiết
+                                    </a>
+                                    <a *ngIf="!data.id">
+                                        -
+                                    </a>
+                                </td>
+                            </tr>
+            
+            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            
+            <div style="display: flex; justify-content: center;">
+                <nz-pagination
+              [(nzPageIndex)]="pageIndex"
+              [nzTotal]="total"
+              [nzPageSize]="pageSize"
+              (nzPageIndexChange)="onPageChange($event, regisNo)"
+              class="custom-pagination">
+            </nz-pagination>
+            </div>
+        </div>
+        
+    </div>
+
+</div>

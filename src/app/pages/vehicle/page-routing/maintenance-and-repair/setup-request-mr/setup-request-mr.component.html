@@ -1,6 +1,8 @@
 <div class="p-4 pt-0" style="background-color: #f3f3f3">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <span>Thiết lập yêu cầu bảo dưỡng sửa chữa</span>
+        <span *ngIf="!id">Thiết lập yêu cầu bảo dưỡng sửa chữa</span>
+        <span *ngIf="id">Chi tiết yêu cầu bảo dưỡng sửa chữa</span>
+
         <div style="background-color: #ffffff; border-radius: 12px;">
             <div nz-row>
                 <div style="width: 50%;">
@@ -24,7 +26,7 @@
                             <div class="">
                                 <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehicle.registerNo' | translate}}</label>
                                 <nz-select nzPlaceHolder="Chọn" class="nzSelect"  formControlName="registerNo">
-                                <nz-option *ngFor="let data of listForMaintenanceCopy" [nzValue]="data.id" [nzLabel]="data.registerNo"></nz-option>
+                                <nz-option *ngFor="let data of listForMaintenance" [nzValue]="data.id" [nzLabel]="data.registerNo"></nz-option>
                                 </nz-select>
                                 <div class="error-container">
                                     <div *ngIf="form.get('registerNo')?.invalid && (form.get('registerNo')?.dirty) || form.get('registerNo')?.touched">
@@ -62,26 +64,26 @@
 
                         <div class="input-wrapper">
                             <div class="">
-                                <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehicle.latestOdometer' | translate}}</label>
+                                <label class="label-form" for="" >{{'vehicle.latestOdometer' | translate}}</label>
                                 <input class="input-form"  placeholder="30E-8888" type="number" formControlName="latestOdometer" >
-                                <div class="error-container">
+                                <!-- <div class="error-container">
                                     <div *ngIf="form.get('latestOdometer')?.invalid && (form.get('latestOdometer')?.dirty || form.get('latestOdometer')?.touched)">
                                         <span class="validate_input" *ngIf="form.get('latestOdometer')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                     
                         </div>
 
                         <div class="input-wrapper">
                             <div class="">
-                                <label class="label-form" ><span style="color: red">*</span> {{'vehicle.latestDate' | translate}} </label>
+                                <label class="label-form" > {{'vehicle.latestDate' | translate}} </label>
                                 <nz-date-picker nzFormat="dd/MM/yyyy" formControlName="latestDate" class="w-full" style="width: 100%" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
-                                    <div class="error-container">
+                                    <!-- <div class="error-container">
                                         <div *ngIf="form.get('latestDate')?.invalid && (form.get('latestDate')?.dirty) || form.get('latestDate')?.touched">
                                             <span class="validate_input" *ngIf="form.get('latestDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                         </div>
-                                    </div>
+                                    </div> -->
                             </div>
                           </div>
 
@@ -166,12 +168,12 @@
                         <div class="input-wrapper">
                             <div class="">
                                 <span style="color: red;" >*</span><label class="label-form" for="" >{{'vehicle.maintenancePlace' | translate}}</label>
-                                <nz-select nzPlaceHolder="Chọn" class="nzSelect"  formControlName="maintenanceFacilityId" style="height: 48px !important;"> 
-                                    <nz-option *ngFor="let data of listMaintenanceFacilities" [nzValue]="data.id" [nzLabel]="data.name"></nz-option>
+                                <nz-select nzPlaceHolder="Chọn" class="nzSelect"  formControlName="maintenancePlace" style="height: 48px !important;"> 
+                                    <nz-option *ngFor="let data of listMaintenanceFacilities" [nzValue]="data.value" [nzLabel]="data.value"></nz-option>
                                 </nz-select>
                                 <div class="error-container">
-                                    <div *ngIf="form.get('maintenanceFacilityId')?.invalid && (form.get('maintenanceFacilityId')?.dirty) || form.get('maintenanceFacilityId')?.touched">
-                                        <span class="validate_input" *ngIf="form.get('maintenanceFacilityId')?.hasError('required')">{{'required.cannotBlank' | translate}}</span>
+                                    <div *ngIf="form.get('maintenancePlace')?.invalid && (form.get('maintenancePlace')?.dirty) || form.get('maintenancePlace')?.touched">
+                                        <span class="validate_input" *ngIf="form.get('maintenancePlace')?.hasError('required')">{{'required.cannotBlank' | translate}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -192,7 +194,7 @@
                     </div>
                     <div nz-row>
                     <div class="flex" style="padding-left: 36px; gap: 8px">
-                        <input style="width: 24px; height: 24px;" type="checkbox" formControlName="priorityStatus" name="" id="">
+                        <input style="width: 24px; height: 24px;" type="checkbox" [checked]="priorityStatus === 1" formControlName="priorityStatus" name="" id="" (change)="onCheckboxChange($event)">
                         <span style="color: rgba(37, 44, 50, 1); size: 16px; font-weight: 500; font-size: 16px; ">{{'vehicle.priority' | translate}}</span>
                     </div>
                     </div>
@@ -211,9 +213,9 @@
                                     <th class="list-col-2">{{'table.action' | translate}}</th>
                                 </tr>
                                 <tr *ngFor="let data of showNoDataForMaintenance(), let i = index">
-                                    <td class="list-col-1">{{i + 1||'-' }}</td>
+                                    <td class="list-col-1">{{(pageIndex - 1) * pageSize + i + 1}}</td>
                                     <td class="list-col-2">{{data.registerNo || '-'}}</td>
-                                    <td class="list-col-3">{{data.driver || '-'}}</td>
+                                    <td class="list-col-3">{{data.driverName || '-'}}</td>
                                     <td class="list-col-2">{{data.phoneNumber || '-'}}</td>
                                     <td class="list-col-2">{{data.maintenanceOdometer || '-'}}</td>
             
@@ -249,22 +251,27 @@
                         <app-car-status [parentData]="listVS"  (dataEmitter)="receiveData($event, 'vehicleStatus')"></app-car-status>
                       </nz-tab>
                       <nz-tab nzTitle="{{'vehicle.itemCheck' | translate}}">
-                        <app-item-check (dataEmitter)="receiveData($event, 'itemCheck')"></app-item-check>
+                        <app-item-check [parentData]="lstTC" (dataEmitter)="receiveData($event, 'testItem')"></app-item-check>
                       </nz-tab>
                       <nz-tab nzTitle="{{'vehicle.workPerformed' | translate}}">
-                        <app-work-performed (dataEmitter)="receiveData($event, 'workPerformed')"></app-work-performed>
+                        <app-work-performed [parentData]="listWP" (dataEmitter)="receiveData($event, 'workPerformed')"></app-work-performed>
                       </nz-tab>
                       <nz-tab nzTitle="{{'vehicle.replacementSupplies' | translate}}">
-                        <app-replacement-supplies (dataEmitter)="receiveData($event, 'replacementSupplies')"></app-replacement-supplies>
+                        <app-replacement-supplies [parentData]="lstRS" (dataEmitter)="receiveData($event, 'replacementSupplies')"></app-replacement-supplies>
                       </nz-tab>
                      
                     </nz-tabset>
                   </div>
             </div>
         </div>
-        <span class="ml-1 flex justify-end  ">
-            <button type="submit" class="button-infor" style="background-color: #274EA1; color: white;" nz-button nzType="default"
-                >Lưu</button>
-        </span>
+        <div class="ml-1 flex justify-end" style="gap: 12px;">
+            <span *ngIf="id">
+                <button type="button" (click)="cancelFix()" class="button-infor" nz-button style="color: #274EA1; border-color: #274EA1;" nzType="default">Hủy</button>
+            </span>
+            <span >
+                <button type="submit" class="button-infor" style="background-color: #274EA1; color: white;" nz-button nzType="default"
+                    >{{!id ? 'Hoàn tất' : 'Lưu'}}</button>
+            </span>
+        </div>
     </form>
 </div>

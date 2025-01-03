@@ -105,5 +105,12 @@ export const VEHICLE_ROUTES: Routes = [
       import('./page-routing/maintenance-and-repair/setup-request-mr/setup-request-mr.component').then(
         (c) => c.SetupRequestMrComponent
       )
+  },
+  {
+    path: 'vehicle/detail-report-mr/:id',
+    loadComponent : () => 
+      import('./detail-report-mr/detail-report-mr.component').then(
+        (c) => c.DetailReportMrComponent
+      )
   }
 ]

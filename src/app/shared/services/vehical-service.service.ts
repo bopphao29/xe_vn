@@ -79,8 +79,8 @@ export class VehicalServiceService {
     return this.httpClient.post(this.url + 'api/vehicles/update-approval-status', data)
   }
 
-  getForMaintenance(page: number,size:number){
-    const params = 'page='+page.toString()+'&size='+size.toString()
+  getForMaintenance(page: number,size:number, routerId: any){
+    const params = 'page='+page.toString()+'&size='+size.toString() +'&routerId=' + routerId
     return this.httpClient.get(this.url + 'api/vehicles/get-for-maintenance?' + params)
   }
 
@@ -92,12 +92,17 @@ export class VehicalServiceService {
     return this.httpClient.post(this.url + 'api/maintenance-repair-schedules', data)
   }
 
-  getMaintenanceFacilities(){
-    return this.httpClient.get(this.url + 'api/maintenance-facilities')
+  chageMaintenanceRepairSchedules(data: any){
+    return this.httpClient.put(this.url + 'api/maintenance-repair-schedules', data)
   }
 
-  mRChedulessearch(data: any){
-    return this.httpClient.post(this.url + 'api/maintenance-repair-schedules/search', data)
+  getMaintenanceFacilities(){
+    return this.httpClient.get(this.url + 'api/supplies/get-maintenance-places')
+  }
+
+  mRChedulessearch(page: any, size: any, data: any){
+    const params = 'page='+page.toString()+'&size='+size.toString()
+    return this.httpClient.post(this.url + 'api/maintenance-repair-schedules/search?' + params, data)
   }
 
   getDetailMR(id: any){
@@ -115,5 +120,24 @@ export class VehicalServiceService {
   deleteMR(id: number){
     return this.httpClient.delete(this.url + 'api/maintenance-repair-schedules/'+id)
 
+  }
+
+  summaryReport(page: any, size: any,data :any){
+    const params = 'page='+page.toString()+'&size='+size.toString()
+
+    return this.httpClient.post(this.url + 'api/maintenance-repair-schedules/summary?' +params, data)
+  }
+
+  supplies(){
+    return this.httpClient.get(this.url + 'api/supplies')
+  }
+
+  summaryDetail(page: any, size: any, registerNo: any){
+    const params = 'page='+page.toString()+'&size='+size.toString() +'&registerNo=' + registerNo
+    return this.httpClient.get(this.url + 'api/maintenance-repair-schedules/summary-details?'+params)
+  }
+
+  summaryByRegisterNo(registerNo: any){
+    return this.httpClient.get(this.url + 'api/maintenance-repair-schedules/summary-by-register-no?registerNo='+ registerNo)
   }
 }

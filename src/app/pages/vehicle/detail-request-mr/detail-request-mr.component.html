@@ -92,20 +92,20 @@
                             </tr>
                             <tr>
                                 <td class="col-1">Chức vụ</td>
-                                <td class="col-2">{{ inforMR?.staffYOB || '' }}</td>
+                                <td class="col-2">{{ inforMR?.creatorPosition || '' }}</td>
                             </tr>
                             <tr>
                                 <td class="col-1">Số điện thoại</td>
-                                <td class="col-2">{{ inforMR?.phoneNumber || '' }}</td>
+                                <td class="col-2">{{ inforMR?.creatorPhoneNumber || '' }}</td>
                             </tr>
                             <tr>
-                                <td class="col-1">tình trạng ưu tiên</td>
+                                <td class="col-1">Tình trạng ưu tiên</td>
                                 <td class="col-2">
                                     <span style="color: rgba(239, 68, 68, 1);" *ngIf="inforMR?.priorityStatus == 1">
                                         Ưu tiên bảo dưỡng gấp
                                     </span>
                                     <span *ngIf="inforMR?.priorityStatus == 2">
-                                        Đang chờ duyệt
+                                        Mặc định
                                     </span>
                                 </td>
                             </tr>
@@ -122,14 +122,14 @@
                             </tr>
                             <tr>
                                 <td class="col-1">Lái xe</td>
-                                <td class="col-2">{{ inforMR?.branchName }}</td>
+                                <td class="col-2">{{ inforMR?.driver }}</td>
                             </tr>
                             <tr>
-                                <td class="col-1">số điện thoại</td>
+                                <td class="col-1">Số điện thoại</td>
                                 <td class="col-2">{{  inforMR?.phoneNumber }}</td>
                             </tr>
                             <tr>
-                                <td class="col-1">cơ sở bảo dưỡng</td>
+                                <td class="col-1">Cơ sở bảo dưỡng</td>
                                 <td class="col-2">{{inforMR?.maintenancePlace}}</td>
                             </tr>
                         </tbody>
@@ -146,7 +146,7 @@
                                 <td class="col-2">{{ inforMR?.latestOdometer || '' }}</td>
                             </tr>
                             <tr>
-                                <td class="col-1">ngày BD gần nhất</td>
+                                <td class="col-1">Ngày BD gần nhất</td>
                                 <td class="col-2">{{ (inforMR?.latestDate | date : 'dd/MM/yyyy') || '' }}</td>
                             </tr>
                             <tr>
@@ -154,7 +154,7 @@
                                 <td class="col-2">{{ inforMR?.phoneNumber || '' }}</td>
                             </tr>
                             <tr>
-                                <td class="col-1">cấp bD hiện tại</td>
+                                <td class="col-1">Cấp bD hiện tại</td>
                                 <td class="col-2">
                                     <span *ngIf="inforMR?.levelMaintenance == 1">
                                         Bảo dưỡng định kỳ
@@ -172,19 +172,19 @@
                     <table class="custom-table">
                         <tbody>
                             <tr>
-                                <td class="col-1">giờ vào dự kiến</td>
+                                <td class="col-1">Giờ vào dự kiến</td>
                                 <td class="col-2">{{ inforMR?.supposedStartTime }}</td>
                             </tr>
                             <tr>
-                                <td class="col-1">ngày vào</td>
+                                <td class="col-1">Ngày vào</td>
                                 <td class="col-2">{{ inforMR?.supposedStartDate | date : 'dd/MM/yyyy' }}</td>
                             </tr>
                             <tr>
-                                <td class="col-1">giờ ra dự kiến</td>
+                                <td class="col-1">Giờ ra dự kiến</td>
                                 <td class="col-2">{{  inforMR?.supposedEndTime }}</td>
                             </tr>
                             <tr>
-                                <td class="col-1">ngày ra</td>
+                                <td class="col-1">Ngày ra</td>
                                 <td class="col-2">{{  inforMR?.supposedEndDate | date : 'dd/MM/yyyy'}}</td>
                             </tr>
                         </tbody>
@@ -198,7 +198,7 @@
                     <table class="custom-table">
                         <tbody>
                             <tr>
-                                <td class="col-1">lưu ý khác</td>
+                                <td class="col-1">Lưu ý khác</td>
                                 <td class="col-2">{{ inforMR?.note || '' }}</td>
                             </tr>
                         </tbody>
@@ -214,16 +214,17 @@
                         <tbody>
                             <tr class="header-table">
                                 <th class="col-table-3">STT</th>
-                                <th class="col-table-4">tình trạng xe</th>
+                                <th class="col-table-4">Tình trạng xe</th>
 
                             </tr>
                             <tr *ngFor="let data of inforMR?.lstVehicleStatus; let i =index ">
                                 <td class="col-table-3">{{i + 1}}</td>
                                 <td class="col-table-4">{{ data?.name || '' }}</td>
                             </tr>
-                            <tr *ngIf="inforMR?.vehicleStatusNote != '' || inforMR?.vehicleStatusNote != null">
-                                <td class="opinion" colspan="2">Ý kiến của người duyệt: {{inforMR?.vehicleStatusNote}} </td>
+                            <tr>
+                                <td class="opinion" colspan="2"> Ý kiến của người duyệt: {{ inforMR?.vehicleStatusNote ? inforMR.vehicleStatusNote : '...' }} </td>
                             </tr>
+                            
                         </tbody>
                     </table>
                 </div>
@@ -236,16 +237,17 @@
                         <tbody>
                             <tr class="header-table">
                                 <th class="col-table-3">STT</th>
-                                <th class="col-table-4">hạng mục kiểm tra</th>
+                                <th class="col-table-4">Hạng mục kiểm tra</th>
 
                             </tr>
                             <tr *ngFor="let data of inforMR?.lstTestCategories; let i =index ">
                                 <td class="col-table-3">{{i + 1}}</td>
                                 <td class="col-table-4">{{ data?.name || '' }}</td>
                             </tr>
-                            <tr *ngIf="inforMR?.testItemNote != '' || inforMR?.testItemNote != null">
-                                <td class="opinion" colspan="2">Ý kiến của người duyệt: {{inforMR?.testItemNote}} </td>
+                            <tr>
+                                <td class="opinion" colspan="2"> Ý kiến của người duyệt: {{ inforMR?.testItemNote ? inforMR.testItemNote : '...' }} </td>
                             </tr>
+                              
                         </tbody>
                     </table>
                 </div>
@@ -258,19 +260,15 @@
                         <tbody>
                             <tr class="header-table">
                                 <th class="col-table-3">STT</th>
-                                <th class="col-table-4">công việc thực hiện</th>
+                                <th class="col-table-4">Công việc thực hiện</th>
 
                             </tr>
                             <tr *ngFor="let data of inforMR?.lstWorkPerformed; let i =index ">
                                 <td class="col-table-3">{{i + 1}}</td>
                                 <td class="col-table-4">{{ inforMR?.name || '' }}</td>
                             </tr>
-                            <tr *ngIf="inforMR?.workPerformedNote != '' || inforMR?.workPerformedNote != null">
-                                <td class="opinion" colspan="2" >
-                                    <span >
-                                        Ý kiến của người duyệt:{{inforMR?.workPerformedNote}} 
-                                    </span>
-                                </td>
+                            <tr>
+                                <td class="opinion" colspan="2"> Ý kiến của người duyệt: {{ inforMR?.workPerformedNote ? inforMR.workPerformedNote : '...' }} </td>
                             </tr>
                         </tbody>
                     </table>
@@ -287,9 +285,9 @@
                         <tbody>
                             <tr class="header-table-vt">
                                 <th class="col-table-1">STT</th>
-                                <th class="col-table-2">vật tư, phụ tùng thay thế</th>
+                                <th class="col-table-2">Vật tư, phụ tùng thay thế</th>
                                 <th class="col-table-3">Đơn vị Tính</th>
-                                <th class="col-table-3">số lượng</th>
+                                <th class="col-table-3">Số lượng</th>
 
                             </tr>
                             <tr *ngFor="let data of inforMR?.lstWorkPerformed; let i =index ">
@@ -298,9 +296,10 @@
                                 <td class="col-table-3">{{data?.quantity}}</td>
                                 <td class="col-table-3">{{ data?.unit || '' }}</td>
                             </tr>
-                            <tr >
-                                <td *ngIf="inforMR?.replacementSupplyNote != '' || inforMR?.replacementSupplyNote != null" class="opinion" colspan="4">Ý kiến của người duyệt: {{inforMR?.replacementSupplyNote}}</td>
-                            </tr> 
+                          
+                            <tr>
+                                <td class="opinion" colspan="4"> Ý kiến của người duyệt: {{ inforMR?.replacementSupplyNote ? inforMR.replacementSupplyNote : '...' }} </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

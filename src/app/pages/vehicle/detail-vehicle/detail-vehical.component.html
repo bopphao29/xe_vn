@@ -680,10 +680,10 @@
                 <div class="input-wrapper">
                     <div class="">
                         <label class="label-form" for="" >{{'vehicle.loanMoney' | translate}}</label>
-                        <input class="input-form"  placeholder="30E-8888" type="text" formControlName="loanMoney" >
+                        <input class="input-form"  placeholder="30E-8888" type="text" formControlName="loanAmount" >
                         <div class="error-container">
-                            <div *ngIf="form.get('loanMoney')?.invalid && (form.get('loanMoney')?.dirty || form.get('loanMoney')?.touched)">
-                                <span class="validate_input" *ngIf="form.get('loanMoney')?.errors?.['required']">{{'required.loanMoney' | translate}}</span>
+                            <div *ngIf="form.get('loanAmount')?.invalid && (form.get('loanAmount')?.dirty || form.get('loanAmount')?.touched)">
+                                <span class="validate_input" *ngIf="form.get('loanAmount')?.errors?.['required']">{{'required.loanAmount' | translate}}</span>
                             </div>
                         </div>
                     </div>

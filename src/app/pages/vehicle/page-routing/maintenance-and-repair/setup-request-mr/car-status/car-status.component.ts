@@ -42,7 +42,6 @@ export class CarStatusComponent {
         vehicleStatus: item.name,
         ...item,
       }));
-      console.log('Giá trị mới nhận từ cha:', this.statusVehicleList);
     }
   }
   constructor(
@@ -120,6 +119,7 @@ handleCancelisStatusVehicle(): void {
   }  
  
   sendDataToParent(): void {
+    console.log(this.statusVehicleList)
     this.dataEmitter.emit(this.statusVehicleList); // Gửi dữ liệu ra ngoài
   }
   

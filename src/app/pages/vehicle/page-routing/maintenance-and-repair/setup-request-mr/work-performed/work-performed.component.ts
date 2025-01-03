@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -22,11 +22,28 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
   styleUrl: './work-performed.component.scss'
 })
 export class WorkPerformedComponent {
+  @Input() parentData: any[] = [];
+  
   @Output() dataEmitter = new EventEmitter<any[]>()
   constructor(
   ){
 
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+        if (changes['parentData']) {
+          this.workPerformedList = this.parentData.map(item => ({
+            id: item.id,
+            testItemInput: item.name,
+            ...item,
+          }));
+          this.displayedData = this.parentData.map(item => ({
+            id: item.id,
+            testItemInput: item.name,
+            ...item,
+          }));
+        }
+      }
   isWorkPerformed : boolean = false
   isDeleteworkPerformed: boolean = false
   workPerformedInput: string = ''

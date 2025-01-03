@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { EmailValidator, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -22,8 +22,25 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
   styleUrl: './item-check.component.scss'
 })
 export class ItemCheckComponent {
+    @Input() parentData: any[] = [];
+  
   @Output() dataEmitter = new EventEmitter<any[]>()
+  data : any[] = []
 
+   ngOnChanges(changes: SimpleChanges) {
+      if (changes['parentData']) {
+        this.testItemList = this.parentData.map(item => ({
+          id: item.id,
+          testItemInput: item.name,
+          ...item,
+        }));
+        this.displayedData = this.parentData.map(item => ({
+          id: item.id,
+          testItemInput: item.name,
+          ...item,
+        }));
+      }
+    }
   constructor(
     ){
   
@@ -33,9 +50,6 @@ export class ItemCheckComponent {
   testItemInput: string = ''
   testItemList: Array<{ id: number; testItem: string }> = [];
 
-  sendDataToParent(){
-    this.dataEmitter.emit(this.testItemList)
-  }
 //phan trang
 displayedData: Array<{ id: number; testItem: string }> = []; // Dữ liệu hiển thị
 pageIndex: number = 1; 
@@ -125,9 +139,13 @@ handleSubmitisItemCheck(): void {
   
     // Đóng modal xóa
     this.isDeleteItemCheck = false;
-    this.itemCheckToDelete = '';
+    this.itemCheckToDelete = null;
     this.sendDataToParent()
   }
 
+  sendDataToParent(){
+    console.log(this.testItemList)
+    this.dataEmitter.emit(this.testItemList)
+  }
   
 }

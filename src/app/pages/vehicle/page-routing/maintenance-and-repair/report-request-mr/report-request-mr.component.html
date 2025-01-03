@@ -26,8 +26,8 @@
 
                 <div nz-col nzSpan="3" class="mx-2">
                     <div class="">
-                        <label class="form-label">Lái xe</label>
-                        <nz-select nzPlaceHolder="Tất cả" formControlName="manufacturer" style="width: 100%;" >
+                        <label class="form-label">Loại xe</label>
+                        <nz-select nzPlaceHolder="Tất cả" formControlName="vehicleTypeId" style="width: 100%;" >
                             <nz-option nzValue="" nzLabel="Tất cả"></nz-option>
 
                             <nz-option *ngFor="let data of listManufacture" [nzValue]="data" [nzLabel]="data"></nz-option>
@@ -104,29 +104,30 @@
                         <th class="list-col-4">SỐ Km hiện tại</th>
                         <th class="list-col-6">Lái xe</th>
     
-                        <th class="list-col-5">Số lượt BDSC <span>()</span></th>
-                        <th class="list-col-5">Tình trạng xe <span>()</span></th>
-                        <th class="list-col-5">Thời gian SC (giờ) <span>()</span></th>
-                        <th class="list-col-5">Công việc SC <span>()</span></th>
-                        <th class="list-col-5">Vật tư thay thế <span>()</span></th>
-                        <th class="list-col-3">Tác vụ <span>()</span></th>
+                        <th class="list-col-5">Số lượt BDSC <span class="number_bdsc">({{inforBDSC?.totalMaintenances }})</span></th>
+                        <th class="list-col-5">Tình trạng xe <span class="number_bdsc">({{inforBDSC?.totalVehicleStatuses}})</span></th>
+                        <th class="list-col-5">Thời gian SC (giờ) <span class="number_bdsc">({{inforBDSC?.totalHours}})</span></th>
+                        <th class="list-col-5">Công việc SC <span class="number_bdsc">({{inforBDSC?.totalWorksPerformed}})</span></th>
+                        <th class="list-col-5">Vật tư thay thế <span class="number_bdsc">({{inforBDSC?.totalReplacementSupplies}})</span></th>
+                        <th class="list-col-3">Tác vụ </th>
 
                     </tr>
                     <tr *ngFor="let data of showEmpolyeeNoData(); let i = index">
-                        <td class="list-col-1">{{i + 1}}</td>
+                        <td class="list-col-1">{{(pageIndex - 1) * pageSize + i + 1}}</td>
                         <td class="list-col-4" style="text-align: left !important; padding-left: 10px;">{{data.registerNo || '-'}}</td>
-                        <td class="list-col-4" style="text-align: left !important; padding-left: 10px;">{{data.driver || '-'}}</td>
-                        <td class="list-col-2">{{data.phoneNumber || '-'}}</td>
-                        <td class="list-col-4">{{data.createdAt || '-'}}</td>
-                        <td class="list-col-6">{{data.createdAt || '-'}}</td>
+                        <td class="list-col-4" style="text-align: left !important; padding-left: 10px;">{{data.vehicleType || '-'}}</td>
+                        <td class="list-col-2">{{data.manufacturerYear || '-'}}</td>
+                        <td class="list-col-4">{{data.odometer || '-'}}</td>
+                        <td class="list-col-6">{{data.driver || '-'}}</td>
 
-                        <td class="list-col-5">{{data.phoneNumber || '-'}}</td>
-                        <td class="list-col-5">{{data.createdAt || '-'}}</td>
-                        <td class="list-col-5">{{data.createdAt || '-'}}</td>
-                        <td class="list-col-5">{{data.createdAt || '-'}}</td>
-                        <td class="list-col-5">{{data.createdAt || '-'}}</td>
+
+                        <td class="list-col-5">{{(data.numberOfMaintenance ? data.numberOfMaintenance : 0)}}</td>
+                        <td class="list-col-5">{{(data.vehicleStatuses ? data.vehicleStatuses : 0)}}</td>
+                        <td class="list-col-5">{{(data.hours ? data.hours : 0)}}</td>
+                        <td class="list-col-5">{{(data.worksPerformed ? data.worksPerformed : 0)}}</td>
+                        <td class="list-col-5">{{(data.replacementSupplies ? data.replacementSupplies : 0)}}</td>
                         <td class="list-col-3">
-                            <a  *ngIf="data.id" (click)="routerDetail(data.id)" class="button_show_detail">
+                            <a  *ngIf="data.id" (click)="routerDetail(data.registerNo)" class="button_show_detail">
                                 Xem chi tiết
                             </a>
                             <a *ngIf="!data.id">
