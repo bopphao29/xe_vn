@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -36,179 +41,216 @@ import { NotificationService } from '../../../shared/services/notification.servi
     NzIconModule,
     NzRadioModule,
     NzModalModule,
-    NzPaginationModule
+    NzPaginationModule,
   ],
   templateUrl: './detail-request-mr.component.html',
-  styleUrl: './detail-request-mr.component.scss'
+  styleUrl: './detail-request-mr.component.scss',
 })
 export class DetailRequestMrComponent implements OnInit {
+  isValidDate: boolean = true;
 
   constructor(
     private router: Router,
     private vehicleServices: VehicalServiceService,
     private route: ActivatedRoute,
-        private fb: FormBuilder,
-        private notification: NotificationService
-    
-  ) { }
+    private fb: FormBuilder,
+    private notification: NotificationService
+  ) {}
 
-  id: any
+  id: any;
 
-  form !: FormGroup
-  formUnApprove !: FormGroup
-  reason :string = ''
+  form!: FormGroup;
+  formUnApprove!: FormGroup;
+  reason: string = '';
   ngOnInit(): void {
-
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       this.id = params.get('id');
-      console.log(this.id)
-      this.getDetailMR(this.id)
-
+      console.log(this.id);
+      this.getDetailMR(this.id);
     });
 
-    this.form  = this.fb.group({
-      vehicleStatusNote : '',
+    this.form = this.fb.group({
+      vehicleStatusNote: '',
       testItemNote: '',
       workPerformedNote: '',
-      replacementSupplyNote: ''
-    })
+      replacementSupplyNote: '',
+    });
+
+    // this.isValidDate = this.checkValidDate();
   }
 
-  pdfExport() {
+  checkValidDate() {
+    if (
+      !this.inforMR?.supposedStartDate ||
+      !this.inforMR?.supposedEndDate ||
+      !this.inforMR?.supposedStartTime ||
+      !this.inforMR?.supposedEndTime
+    ) {
+      return false;
+    }
 
+    const startDateTime = new Date(this.inforMR.supposedStartDate);
+    const endDateTime = new Date(this.inforMR.supposedEndDate);
+
+    const [startHours, startMinutes] = this.inforMR.supposedStartTime
+      .split(':')
+      .map(Number);
+    const [endHours, endMinutes] = this.inforMR.supposedEndTime
+      .split(':')
+      .map(Number);
+
+    startDateTime.setHours(startHours, startMinutes);
+    endDateTime.setHours(endHours, endMinutes);
+
+    return startDateTime <= new Date() && new Date() <= endDateTime;
   }
 
-  cancelUnApprove(){
-    this.reason = ''
-    this.unApprove = false
+  pdfExport() {}
 
+  cancelUnApprove() {
+    this.reason = '';
+    this.unApprove = false;
   }
 
-  isApproveCancel: boolean = false
-  hasSubmitUnApprove(){
+  isApproveCancel: boolean = false;
+  hasSubmitUnApprove() {
     const dataForm = {
-      type : 0,
+      type: 0,
       reason: this.reason,
-      mrsId : Number(this.id)
-    }
+      mrsId: Number(this.id),
+    };
 
     this.vehicleServices.approvalMR(dataForm).subscribe({
-      next : (response: any) => {
-        this.unApprove = false
-        this.isApproveCancel = true
-
+      next: (response: any) => {
+        this.unApprove = false;
+        this.isApproveCancel = true;
       },
-      error: (error: any)=>{
-        this.notification.error('Có lỗi xảy ra')
-      }
-    })
+      error: (error: any) => {
+        this.notification.error('Có lỗi xảy ra');
+      },
+    });
   }
 
-  isApprove : boolean = false
-  isApproveDone: boolean = false
-  unApprove : boolean = false
-  isShareModal : boolean = false  
-  isDeleteMR: boolean = false  
+  isApprove: boolean = false;
+  isApproveDone: boolean = false;
+  unApprove: boolean = false;
+  isShareModal: boolean = false;
+  isDeleteMR: boolean = false;
 
-  onUnApprove(){
-    this.unApprove = true
-    this.cancelOpinion()
-  }
-  OnApprove(){
-    this.isApprove = true
-  }
-
-  onDelete(){
-    this.isDeleteMR = true
-  }
-  handleCancelApprove(){
-    this.isApprove = false
+  onComplete() {
+    this.router.navigate(['/vehicle/detail-mr-complete/' + this.id], {
+      state: {
+        isFromRequestMr: true,
+      },
+    });
   }
 
-  handleCancelApproveDone(){
-    this.isApproveDone = false
-
+  selectAll(event: any) {
+    // console.log(event)
   }
 
-  cancelApprove(){
-    this.isApproveCancel = false
+  selectItem(event: any, data: any) {
+    // console.log(event)
   }
 
-  onShare(){
-    this.isShareModal = true
+  isComplete: boolean = false;
 
-  }
-  cancelShareModal(){
-    this.isShareModal = false
+  onAPT() {
+    this.isComplete = true;
   }
 
-  cancelDeleteMR(){
-    this.isDeleteMR = false
+  onUnApprove() {
+    this.unApprove = true;
+    this.cancelOpinion();
+  }
+  OnApprove() {
+    this.isApprove = true;
   }
 
-  handleSubmitDeleteMR(){
+  onDelete() {
+    this.isDeleteMR = true;
+  }
+  handleCancelApprove() {
+    this.isApprove = false;
+  }
+
+  handleCancelApproveDone() {
+    this.isApproveDone = false;
+  }
+
+  cancelApprove() {
+    this.isApproveCancel = false;
+  }
+
+  onShare() {
+    this.isShareModal = true;
+  }
+  cancelShareModal() {
+    this.isShareModal = false;
+  }
+
+  cancelDeleteMR() {
+    this.isDeleteMR = false;
+  }
+
+  handleSubmitDeleteMR() {
     this.vehicleServices.deleteMR(this.id).subscribe({
-      next : (response: any) => {
-        this.isDeleteMR = false
-        this.notification.success('Xóa thành công!')
-
+      next: (response: any) => {
+        this.isDeleteMR = false;
+        this.notification.success('Xóa thành công!');
       },
-      error: (error: any)=>{
-        this.notification.error('Có lỗi xảy ra')
-      }
-    })
+      error: (error: any) => {
+        this.notification.error('Có lỗi xảy ra');
+      },
+    });
   }
-  handleSubmitApprove(){
+  handleSubmitApprove() {
     const dataForm = {
-      type : 1,
-      mrsId : Number(this.id)
-    }
+      type: 1,
+      mrsId: Number(this.id),
+    };
     this.vehicleServices.approvalMR(dataForm).subscribe({
-      next : (response: any) => {
-        this.isApprove = false
-        this.isApproveDone = true
-
+      next: (response: any) => {
+        this.isApprove = false;
+        this.isApproveDone = true;
       },
-      error: (error: any)=>{
-        this.notification.error('Có lỗi xảy ra')
-      }
-    })
-  } 
-
-  hasOpinion : boolean = false
-  onOpinion(){
-    this.hasOpinion = true
-    this.cancelUnApprove()
+      error: (error: any) => {
+        this.notification.error('Có lỗi xảy ra');
+      },
+    });
   }
 
-  hasSubmitOpinion(){
+  hasOpinion: boolean = false;
+  onOpinion() {
+    this.hasOpinion = true;
+    this.cancelUnApprove();
+  }
+
+  hasSubmitOpinion() {
     const dataForm = {
       id: this.id,
-      ...this.form.value
-    }
+      ...this.form.value,
+    };
 
-    this.vehicleServices.maintenanceNote(dataForm).subscribe(
-      {
-        next: (response) => {
-          this.notification.success('Thêm ý kiến thành công!')
-          this.hasOpinion = false  
-          this.form.reset()
-          this.getDetailMR(this.id)
-          // window.location.reload()
-          // this.getUser(this.idEmployee)
-        },
-        error: (error) => {
-        }
-      }
-    )
+    this.vehicleServices.maintenanceNote(dataForm).subscribe({
+      next: (response) => {
+        this.notification.success('Thêm ý kiến thành công!');
+        this.hasOpinion = false;
+        this.form.reset();
+        this.getDetailMR(this.id);
+        // window.location.reload()
+        // this.getUser(this.idEmployee)
+      },
+      error: (error) => {},
+    });
   }
 
-  cancelOpinion(){
-    this.hasOpinion = false
-    this.form.reset()
+  cancelOpinion() {
+    this.hasOpinion = false;
+    this.form.reset();
   }
 
-  inforMR: any
+  inforMR: any;
 
   onBack(event: any) {
     const router = localStorage.getItem('activeLink');
@@ -222,14 +264,12 @@ export class DetailRequestMrComponent implements OnInit {
   }
 
   getDetailMR(id: number) {
-    this.vehicleServices.getDetailMR(id).subscribe((response: any)=>{
-      this.inforMR = response.data
-    })
+    this.vehicleServices.getDetailMR(id).subscribe((response: any) => {
+      this.inforMR = response.data;
+    });
   }
 
-  onFix(){
+  onFix() {
     this.router.navigate(['/vehicle/detail-mr-change/' + this.id]);
   }
-  
-
 }
