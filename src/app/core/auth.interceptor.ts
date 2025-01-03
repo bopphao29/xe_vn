@@ -35,7 +35,13 @@ export class AuthInterceptor implements HttpInterceptor {
     const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
     const language = 'vi-VN';
 
-    if (token) {
+    if (request.url.includes('auth/re-token')) {
+      request = request.clone({
+        setHeaders: {
+          'Content-Type': 'application/json',
+        },
+      });
+    } else if (token) {
       request = request.clone({
         setHeaders: {
           Authorization: 'Bearer ' + token,
@@ -144,7 +150,13 @@ export const authInterceptor: HttpInterceptorFn = (
   let request = req;
   let count = 0;
 
-  if (token) {
+  if (req.url.includes('auth/re-token')) {
+    request = req.clone({
+      setHeaders: {
+        'Content-Type': 'application/json',
+      },
+    });
+  } else if (token) {
     request = req.clone({
       setHeaders: {
         Authorization: 'Bearer ' + token,

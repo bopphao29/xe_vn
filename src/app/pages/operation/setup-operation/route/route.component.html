@@ -48,6 +48,7 @@
       <div
         class="flex flex-col gap-[20px]"
         style="background: #fcfcfc; padding: 12px 16px; border-radius: 12px"
+        style="box-shadow: 0 4px 10px 3px #1a336a14"
       >
         <!-- row 1 -->
         <div class="flex flex-wrap gap-[12px] justify-content-start">
@@ -715,13 +716,13 @@
         }}</span>
       </div>
 
-      <!-- #basicTable
+      <nz-table
+        #basicTable
         [nzData]="listData"
         [nzShowPagination]="false"
         nzTableLayout="fixed"
-        [nzScroll]="{ x: '1500px' }" -->
-
-      <table style="width: 100%; border-collapse: collapse">
+        [nzScroll]="{ x: '1500px' }"
+      >
         <thead>
           <tr>
             <th
@@ -932,7 +933,7 @@
             </td>
           </tr>
         </tbody>
-      </table>
+      </nz-table>
 
       <div style="display: flex; justify-content: center; margin-top: 16px">
         <nz-pagination

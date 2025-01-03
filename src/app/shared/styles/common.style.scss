@@ -55,14 +55,28 @@ input.ng-invalid.ng-touched {
   border-color: #ff4d4f !important;
 }
 
-::ng-deep .ant-select.ng-invalid.ng-touched,
-.ant-select.ng-invalid.ng-dirty {
+::ng-deep.ant-select.ng-invalid.ng-touched:not(
+    .ant-input-affix-wrapper .ant-select.ng-invalid.ng-touched
+  ),
+.ant-select.ng-invalid.ng-dirty:not(
+    .ant-input-affix-wrapper .ant-select.ng-invalid.ng-touched
+  ) {
   .ant-select-selector {
     border: 1px solid #ff4d4f !important;
   }
 }
 
-::ng-deep .ant-input-affix-wrapper .ant-select .ant-select-selector {
+::ng-deep .ant-input-affix-wrapper .ant-select .ant-select-selector,
+::ng-deep .ant-input-affix-wrapper input {
   border: none !important;
   height: 100% !important;
+}
+
+::ng-deep .ant-input-affix-wrapper:has(.ant-select.ng-invalid.ng-touched) {
+  border: 1px solid #ff4d4f !important;
+}
+
+::ng-deep .ant-input-affix-wrapper {
+  border-radius: 8px !important;
+  height: 100%;
 }
