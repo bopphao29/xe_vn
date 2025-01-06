@@ -37,8 +37,10 @@ export class CarStatusComponent implements OnInit {
   @Input() parentData: any[] = [];
   @Output() dataEmitter = new EventEmitter<any[]>();
   @Input() isFromRequestMr: boolean = false;
+  @Input() isEdit: boolean = false;
 
   data: any[] = [];
+
   ngOnChanges(changes: SimpleChanges) {
     if (changes['parentData']) {
       this.statusVehicleList = this.parentData.map((item) => ({
@@ -50,8 +52,11 @@ export class CarStatusComponent implements OnInit {
         id: item.id,
         vehicleStatus: item.name,
         ...item,
+        isAdd: false,
       }));
-      console.log(this.displayedData);
+
+      console.log(this.isFromRequestMr);
+      console.log(this.isEdit);
     }
   }
   constructor(
@@ -83,7 +88,7 @@ export class CarStatusComponent implements OnInit {
   dataOption: any[] = [];
 
   onChange(value: string): void {
-    this.filteredOptions = this.options.filter((name) =>
+    this.filteredOptions = this.options.filter((name: any) =>
       name.toLowerCase().includes(value.toLowerCase())
     );
   }

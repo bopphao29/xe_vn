@@ -1,155 +1,214 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '../../../enviroments/enviroment';
-
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class VehicalServiceService {
+  constructor(private httpClient: HttpClient) {}
 
-  constructor(
-    private httpClient : HttpClient
+  url = environment.server + '/vehicles/';
+  urlUser = environment.server + '/users/';
+  urlTransport = environment.server + '/transport/';
 
-  ) { }
-
-  url = environment.server + '/vehicles/'
-  urlUser = environment.server + '/users/'
-  urlTransport = environment.server + '/transport/'
-
-
-  createVehicle(formData : FormData){
- 
-    return this.httpClient.post(this.url + 'api/vehicles', formData)
-
+  updateVehicleFixRequest(body: any): Observable<any> {
+    return this.httpClient.post(
+      this.url + 'api/maintenance-repair-schedules/complete',
+      body
+    );
   }
 
-  getVehicleDetail(id : any){
-    return this.httpClient.get(this.url + 'api/vehicles/'+id)
+  createVehicle(formData: FormData) {
+    return this.httpClient.post(this.url + 'api/vehicles', formData);
   }
 
-  getVehicleType(){
-      return this.httpClient.get(this.url + 'api/vehicle-types')
+  getVehicleDetail(id: any) {
+    return this.httpClient.get(this.url + 'api/vehicles/' + id);
   }
 
-  getRoute(){
-    return this.httpClient.get(this.urlTransport + 'api/routes')
+  getVehicleType() {
+    return this.httpClient.get(this.url + 'api/vehicle-types');
   }
 
-  searchVehicle(page: number,size:number, data: any){
-    const params = 'page='+page.toString()+'&size='+size.toString()
-
-    return this.httpClient.post(this.url + 'api/vehicles/search?'+params, data)
+  getRoute() {
+    return this.httpClient.get(this.urlTransport + 'api/routes');
   }
 
-  getVehicleModel(id: any){
-    return this.httpClient.get(this.url + 'api/vehicle-models?vehicleTypeId=' + id)
+  searchVehicle(page: number, size: number, data: any) {
+    const params = 'page=' + page.toString() + '&size=' + size.toString();
+
+    return this.httpClient.post(
+      this.url + 'api/vehicles/search?' + params,
+      data
+    );
   }
 
-  getLegalOwners(){
-    return this.httpClient.get(this.url + 'api/legal-owners')
+  getVehicleModel(id: any) {
+    return this.httpClient.get(
+      this.url + 'api/vehicle-models?vehicleTypeId=' + id
+    );
   }
 
-  searchDriver(data: any){
-    return this.httpClient.post(this.urlUser + 'api/staff/get-drivers', data)
+  getLegalOwners() {
+    return this.httpClient.get(this.url + 'api/legal-owners');
   }
 
-  updateVehicle(formData: FormData){
-    return this.httpClient.put(this.url + 'api/vehicles', formData)
+  searchDriver(data: any) {
+    return this.httpClient.post(this.urlUser + 'api/staff/get-drivers', data);
   }
 
-  getManufactureYears(){
-    return this.httpClient.get(this.url + 'api/vehicles/get-manufacture-years')
+  updateVehicle(formData: FormData) {
+    return this.httpClient.put(this.url + 'api/vehicles', formData);
   }
 
-  getManufacturers(){
-    return this.httpClient.get(this.url + 'api/vehicles/get-manufacturers')
-
+  getManufactureYears() {
+    return this.httpClient.get(this.url + 'api/vehicles/get-manufacture-years');
   }
 
-  saveMaintenanceRepair(data: any){
-    return this.httpClient.get(this.url + 'api/maintenance-repair-schedules', data)
+  getManufacturers() {
+    return this.httpClient.get(this.url + 'api/vehicles/get-manufacturers');
   }
 
-  searchDocumentsNearingExpiration(){
-    return this.httpClient.get(this.url + 'api/vehicles/documents-nearing-expiration')
+  saveMaintenanceRepair(data: any) {
+    return this.httpClient.get(
+      this.url + 'api/maintenance-repair-schedules',
+      data
+    );
   }
 
-  approveVehical(data : any){
-    return this.httpClient.post(this.url + 'api/vehicles/update-approval-status', data)
+  searchDocumentsNearingExpiration() {
+    return this.httpClient.get(
+      this.url + 'api/vehicles/documents-nearing-expiration'
+    );
   }
 
-  getForMaintenance(page: number,size:number, routerId: any){
-    const params = 'page='+page.toString()+'&size='+size.toString() +'&routerId=' + routerId
-    return this.httpClient.get(this.url + 'api/vehicles/get-for-maintenance?' + params)
+  approveVehical(data: any) {
+    return this.httpClient.post(
+      this.url + 'api/vehicles/update-approval-status',
+      data
+    );
   }
 
-  printVehicleDetail(data : any){
-    return this.httpClient.get(this.url + 'api/vehicles/print-vehicle-infos', data)
+  getForMaintenance(page: number, size: number, routerId: any) {
+    const params =
+      'page=' +
+      page.toString() +
+      '&size=' +
+      size.toString() +
+      '&routerId=' +
+      routerId;
+    return this.httpClient.get(
+      this.url + 'api/vehicles/get-for-maintenance?' + params
+    );
   }
 
-  maintenanceRepairSchedules(data: any){
-    return this.httpClient.post(this.url + 'api/maintenance-repair-schedules', data)
+  printVehicleDetail(data: any) {
+    return this.httpClient.get(
+      this.url + 'api/vehicles/print-vehicle-infos',
+      data
+    );
   }
 
-  chageMaintenanceRepairSchedules(data: any){
-    return this.httpClient.put(this.url + 'api/maintenance-repair-schedules', data)
+  maintenanceRepairSchedules(data: any) {
+    return this.httpClient.post(
+      this.url + 'api/maintenance-repair-schedules',
+      data
+    );
   }
 
-  getMaintenanceFacilities(){
-    return this.httpClient.get(this.url + 'api/supplies/get-maintenance-places')
+  chageMaintenanceRepairSchedules(data: any) {
+    return this.httpClient.put(
+      this.url + 'api/maintenance-repair-schedules',
+      data
+    );
   }
 
-  mRChedulessearch(page: any, size: any, data: any){
-    const params = 'page='+page.toString()+'&size='+size.toString()
-    return this.httpClient.post(this.url + 'api/maintenance-repair-schedules/search?' + params, data)
+  getMaintenanceFacilities() {
+    return this.httpClient.get(
+      this.url + 'api/supplies/get-maintenance-places'
+    );
   }
 
-  getDetailMR(id: any){
-    return this.httpClient.get(this.url + 'api/maintenance-repair-schedules/'+ id)
+  mRChedulessearch(page: any, size: any, data: any) {
+    const params = 'page=' + page.toString() + '&size=' + size.toString();
+    return this.httpClient.post(
+      this.url + 'api/maintenance-repair-schedules/search?' + params,
+      data
+    );
   }
 
-  maintenanceNote(data: any){
-    return this.httpClient.post(this.url + 'api/maintenance-repair-schedules/maintenance-note', data)
+  getDetailMR(id: any, type: number) {
+    const params = '?type=' + type;
+    return this.httpClient.get(
+      this.url + 'api/maintenance-repair-schedules/' + id + params
+    );
   }
 
-  approvalMR(data: any){
-    return this.httpClient.post(this.url + 'api/maintenance-repair-schedules/approval', data)
+  maintenanceNote(data: any) {
+    return this.httpClient.post(
+      this.url + 'api/maintenance-repair-schedules/maintenance-note',
+      data
+    );
   }
 
-  deleteMR(id: number){
-    return this.httpClient.delete(this.url + 'api/maintenance-repair-schedules/'+id)
-
+  approvalMR(data: any) {
+    return this.httpClient.post(
+      this.url + 'api/maintenance-repair-schedules/approval',
+      data
+    );
   }
 
-  summaryReport(page: any, size: any,data :any){
-    const params = 'page='+page.toString()+'&size='+size.toString()
-
-    return this.httpClient.post(this.url + 'api/maintenance-repair-schedules/summary?' +params, data)
+  deleteMR(id: number) {
+    return this.httpClient.delete(
+      this.url + 'api/maintenance-repair-schedules/' + id
+    );
   }
 
-  summaryDetail(page: any, size: any, registerNo: any){
-    const params = 'page='+page.toString()+'&size='+size.toString() +'&registerNo=' + registerNo
-    return this.httpClient.get(this.url + 'api/maintenance-repair-schedules/summary-details?'+params)
+  summaryReport(page: any, size: any, data: any) {
+    const params = 'page=' + page.toString() + '&size=' + size.toString();
+
+    return this.httpClient.post(
+      this.url + 'api/maintenance-repair-schedules/summary?' + params,
+      data
+    );
   }
 
-  summaryByRegisterNo(registerNo: any){
-    return this.httpClient.get(this.url + 'api/maintenance-repair-schedules/summary-by-register-no?registerNo='+ registerNo)
+  summaryDetail(page: any, size: any, registerNo: any) {
+    const params =
+      'page=' +
+      page.toString() +
+      '&size=' +
+      size.toString() +
+      '&registerNo=' +
+      registerNo;
+    return this.httpClient.get(
+      this.url + 'api/maintenance-repair-schedules/summary-details?' + params
+    );
   }
 
-  vehicleStatuses(){
-    return this.httpClient.get(this.url + 'api/vehicle-statuses')
+  summaryByRegisterNo(registerNo: any) {
+    return this.httpClient.get(
+      this.url +
+        'api/maintenance-repair-schedules/summary-by-register-no?registerNo=' +
+        registerNo
+    );
   }
 
-  testCategories(){
-    return this.httpClient.get(this.url + 'api/test-categories')
+  vehicleStatuses() {
+    return this.httpClient.get(this.url + 'api/vehicle-statuses');
   }
 
-  workPerformeds(){
-    return this.httpClient.get(this.url + 'api/work-performeds')
+  testCategories() {
+    return this.httpClient.get(this.url + 'api/test-categories');
   }
 
-  supplies(){
-    return this.httpClient.get(this.url + 'api/supplies')
+  workPerformeds() {
+    return this.httpClient.get(this.url + 'api/work-performeds');
+  }
+
+  supplies() {
+    return this.httpClient.get(this.url + 'api/supplies');
   }
 }

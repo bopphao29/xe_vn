@@ -1,6 +1,18 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../../../../../shared/services/notification.service';
 import { ValidateIntoPageService } from '../../../../../../shared/services/validate-into-page.service';
@@ -23,38 +35,36 @@ import { ItemCheckComponent } from './item-check/item-check.component';
 import { WorkPerformedComponent } from './work-performed/work-performed.component';
 import { CarStatusComponent } from './car-status/car-status.component';
 
-
 @Component({
   selector: 'app-setup-deep-cleaning',
   standalone: true,
   imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NzButtonModule,
-        TranslateModule,
-        NzTabsModule,
-        NzSelectModule,
-        NzFormModule,
-        NzButtonModule,
-        NzInputModule,
-        NzDatePickerModule,
-        NzUploadModule,
-        NzIconModule,
-        NzRadioModule,
-        NzModalModule,
-        ItemCheckComponent,
-        WorkPerformedComponent,
-        CarStatusComponent,
-        NzTimePickerModule,
-        NzPaginationModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NzButtonModule,
+    TranslateModule,
+    NzTabsModule,
+    NzSelectModule,
+    NzFormModule,
+    NzButtonModule,
+    NzInputModule,
+    NzDatePickerModule,
+    NzUploadModule,
+    NzIconModule,
+    NzRadioModule,
+    NzModalModule,
+    ItemCheckComponent,
+    WorkPerformedComponent,
+    CarStatusComponent,
+    NzTimePickerModule,
+    NzPaginationModule,
   ],
   providers: [DatePipe],
   templateUrl: './setup-deep-cleaning.component.html',
-  styleUrl: './setup-deep-cleaning.component.scss'
+  styleUrl: './setup-deep-cleaning.component.scss',
 })
 export class SetupDeepCleaningComponent implements OnInit {
-
   form!: FormGroup;
   constructor(
     private fb: FormBuilder,
@@ -65,9 +75,7 @@ export class SetupDeepCleaningComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private datePipe: DatePipe,
     private routes: Router
-  ) {
-
-  }
+  ) {}
 
   @Output() dataEmmitter = new EventEmitter<string>();
 
@@ -75,7 +83,8 @@ export class SetupDeepCleaningComponent implements OnInit {
     this.dataEmmitter.emit('setup-request');
   }
 
-  id: any
+  id: any;
+
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.id = params.get('id');
@@ -128,11 +137,9 @@ export class SetupDeepCleaningComponent implements OnInit {
       ],
     });
 
-    
-
-    this.getRoute()
-    this.supplies()
-    this.getMaintenanceFacilities()
+    this.getRoute();
+    this.supplies();
+    this.getMaintenanceFacilities();
 
     this.form.get('driver')?.disable();
     this.form.get('phoneNumber')?.disable();
@@ -149,11 +156,10 @@ export class SetupDeepCleaningComponent implements OnInit {
           phoneNumber: selectedData.phoneNumber,
           latestOdometer: selectedData.latestMaintenanceOdometer,
           latestDate: selectedData.latestMaintenanceDate,
-          currentOdometer: selectedData.currentOdometer
+          currentOdometer: selectedData.currentOdometer,
         });
       }
     });
-
 
     if (this.id) {
       this.getDetailMR(this.id);
@@ -169,7 +175,6 @@ export class SetupDeepCleaningComponent implements OnInit {
   isFromRequestMr: boolean = false;
   priorityStatus: number = 0;
 
-
   checkIsFromRequestMr() {
     const state = history.state;
     if (state && state.isFromRequestMr) {
@@ -181,11 +186,9 @@ export class SetupDeepCleaningComponent implements OnInit {
     window.history.back(); //need to check
   }
 
-
   vehicleStatus: { name: string }[] = [];
   testItem: { name: string }[] = [];
   workPerformed: { name: string }[] = [];
-
 
   inforMR: any;
   listVS: any[] = [];
@@ -207,10 +210,10 @@ export class SetupDeepCleaningComponent implements OnInit {
       this.testItem = processedData; // Thay thế mảng itemCheck
     } else {
       this.workPerformed = processedData; // Thay thế mảng workPerformed
-    } 
+    }
 
-  // Kiểm tra kết quả
-}
+    // Kiểm tra kết quả
+  }
 
   listMaintenanceFacilities: any[] = [];
 
@@ -228,7 +231,6 @@ export class SetupDeepCleaningComponent implements OnInit {
     const isChecked = (event.target as HTMLInputElement).checked;
     this.priorityStatus = isChecked ? 1 : 0;
   }
-
 
   listRoute: any[] = [];
   Idroute: any;
@@ -305,7 +307,6 @@ export class SetupDeepCleaningComponent implements OnInit {
     return dataRrows;
   }
 
-  
   onSelectRow(data: any): void {
     const selectedItem = this.listForMaintenanceCopy.find(
       (item) => item.registerNo === data.registerNo
@@ -320,29 +321,29 @@ export class SetupDeepCleaningComponent implements OnInit {
     }
   }
 
-  listForMaintenanceCopy: any[] = []
-  listForMaintenance: any[] = []
-    getForMaintenance(page: number, size: number) {
-      this.vehicleService
-        .getForMaintenance(page, size, this.Idroute)
-        .subscribe((response: any) => {
-          this.listForMaintenanceCopy = response.data?.content;
-          this.total = response.data.totalElements;
-          this.vehicleService
-            .getForMaintenance(page, this.total, this.Idroute)
-            .subscribe((response: any) => {
-              this.listForMaintenance = response.data?.content;
-            });
-          if (response.data.totalElements == 0) {
-            Swal.fire({
-              icon: 'warning',
-              // title: "......",
-              text: 'Không tìm thấy dữ liệu bạn muốn tìm kiếm!',
-              // timer: 3000
-            });
-          }
-        });
-    }
+  listForMaintenanceCopy: any[] = [];
+  listForMaintenance: any[] = [];
+  getForMaintenance(page: number, size: number) {
+    this.vehicleService
+      .getForMaintenance(page, size, this.Idroute)
+      .subscribe((response: any) => {
+        this.listForMaintenanceCopy = response.data?.content;
+        this.total = response.data.totalElements;
+        this.vehicleService
+          .getForMaintenance(page, this.total, this.Idroute)
+          .subscribe((response: any) => {
+            this.listForMaintenance = response.data?.content;
+          });
+        if (response.data.totalElements == 0) {
+          Swal.fire({
+            icon: 'warning',
+            // title: "......",
+            text: 'Không tìm thấy dữ liệu bạn muốn tìm kiếm!',
+            // timer: 3000
+          });
+        }
+      });
+  }
 
   pageIndex = 1;
   pageSize = 9;
@@ -361,7 +362,7 @@ export class SetupDeepCleaningComponent implements OnInit {
   }
 
   getDetailMR(id: number) {
-    this.vehicleService.getDetailMR(id).subscribe((response: any) => {
+    this.vehicleService.getDetailMR(id, 1).subscribe((response: any) => {
       // this.inforMR = response.data;
       // this.listVS = response.data.lstVehicleStatus;
       // this.listWP = response.data.lstWorkPerformed;
@@ -398,12 +399,11 @@ export class SetupDeepCleaningComponent implements OnInit {
       });
 
       // this.form.patchValue(response.data)
-
     });
   }
 
   onBack(event: any) {
-    this.routes.navigate(['vehicle/detail-mr/'+this.id]);
+    this.routes.navigate(['vehicle/detail-mr/' + this.id]);
   }
 
   formatTime(time: any): string {
@@ -420,16 +420,16 @@ export class SetupDeepCleaningComponent implements OnInit {
     return '';
   }
 
-  onSubmit(){
-    
-    this.form.markAllAsTouched()
+  onSubmit() {
+    this.form.markAllAsTouched();
     // const dsts = this.form.getRawValue()
-    const supposedStartTime = this.formatTime(this.form.value.supposedStartTime);
-      const supposedEndTime = this.formatTime(this.form.value.supposedEndTime);
-    if(this.form.invalid){
-      this.notification.error('Kiểm tra lại trường bắt buộc')
-    }
-    else{
+    const supposedStartTime = this.formatTime(
+      this.form.value.supposedStartTime
+    );
+    const supposedEndTime = this.formatTime(this.form.value.supposedEndTime);
+    if (this.form.invalid) {
+      this.notification.error('Kiểm tra lại trường bắt buộc');
+    } else {
       const formmatDate = 'yyyy-MM-dd';
 
       const supposedEndDate = this.form.get('supposedEndDate')?.value;
@@ -437,28 +437,32 @@ export class SetupDeepCleaningComponent implements OnInit {
       console.log(this.form.get('priorityStatus')?.value);
       const dataFrom = {
         ...this.form.getRawValue(),
-        priorityStatus : this.form.get('priorityStatus')?.value === true ? 1 : 0,
+        priorityStatus: this.form.get('priorityStatus')?.value === true ? 1 : 0,
         id: this.id ? Number(this.id) : null,
         supposedStartTime: supposedStartTime,
         supposedEndTime: supposedEndTime,
         supposedEndDate: this.datePipe.transform(supposedEndDate, formmatDate),
-        supposedStartDate: this.datePipe.transform( supposedStartDate, formmatDate),
+        supposedStartDate: this.datePipe.transform(
+          supposedStartDate,
+          formmatDate
+        ),
         lstVehicleStatus: this.vehicleStatus,
         lstTestCategories: this.testItem,
         lstWorkPerformed: this.workPerformed,
       };
 
-      if(this.id){
-
-        this.vehicleService.chageMaintenanceRepairSchedules(dataFrom).subscribe({
-          next : (response: any) => {
-            this.notification.success('Sửa yêu cầu BDSC thành công!')
-          },
-          error: (error: any)=>{
-            this.notification.error('Có lỗi xảy ra')
-          }
-        })
-      }else{
+      if (this.id) {
+        this.vehicleService
+          .chageMaintenanceRepairSchedules(dataFrom)
+          .subscribe({
+            next: (response: any) => {
+              this.notification.success('Sửa yêu cầu BDSC thành công!');
+            },
+            error: (error: any) => {
+              this.notification.error('Có lỗi xảy ra');
+            },
+          });
+      } else {
         this.vehicleService.maintenanceRepairSchedules(dataFrom).subscribe({
           next: (response: any) => {
             this.notification.success('Thiết lập BDSC thành công!');

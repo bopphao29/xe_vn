@@ -1,21 +1,31 @@
-
 <div class="p-2" style="background-color: #f3f3f3">
-    
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div nz-col nzSpan="14" *ngIf="id">
-            <button type="button" (click)="onBack($event); " class="flex" style="margin-bottom: 10px;">
-                <span class="mx-2 " style="margin-top: 3px ; cursor: pointer;">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3.825 9L9.425 14.6L8 16L0 8L8 0L9.425 1.4L3.825 7H16V9H3.825Z" fill="#274EA1" />
-                    </svg>
-                </span>
-                <span>
-                    Quay lại
-                </span>
-            </button>
-            </div>
-        <span *ngIf="!id">Thiết lập yêu cầu bảo dưỡng sửa chữa</span>
-        <span *ngIf="id">Thông tin xe BDSC</span>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div nz-col nzSpan="14" *ngIf="id">
+      <button
+        type="button"
+        (click)="onBack($event)"
+        class="flex"
+        style="margin-bottom: 10px"
+      >
+        <span class="mx-2" style="margin-top: 3px; cursor: pointer">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3.825 9L9.425 14.6L8 16L0 8L8 0L9.425 1.4L3.825 7H16V9H3.825Z"
+              fill="#274EA1"
+            />
+          </svg>
+        </span>
+        <span> Quay lại </span>
+      </button>
+    </div>
+    <span *ngIf="!id">Thiết lập yêu cầu bảo dưỡng sửa chữa</span>
+    <span *ngIf="id">Thông tin xe BDSC</span>
 
     <div style="background-color: #ffffff; border-radius: 12px">
       <div nz-row>
@@ -150,15 +160,23 @@
               </div>
             </div>
 
-                        <div class="input-wrapper">
-                            <div class="">
-                                <label class="label-form" for="" >{{'vehicle.latestOdometer' | translate}}</label>
-                                <input class="input-form"  placeholder="Nhập" type="number" min="0" formControlName="latestOdometer" >
-                                <div class="error-container">
-                                    <!-- <div *ngIf="form.get('latestOdometer')?.invalid && (form.get('latestOdometer')?.dirty || form.get('latestOdometer')?.touched)">
+            <div class="input-wrapper">
+              <div class="">
+                <label class="label-form" for="">{{
+                  "vehicle.latestOdometer" | translate
+                }}</label>
+                <input
+                  class="input-form"
+                  placeholder="Nhập"
+                  type="number"
+                  min="0"
+                  formControlName="latestOdometer"
+                />
+                <div class="error-container">
+                  <!-- <div *ngIf="form.get('latestOdometer')?.invalid && (form.get('latestOdometer')?.dirty || form.get('latestOdometer')?.touched)">
                                         <span class="validate_input" *ngIf="form.get('latestOdometer')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                     </div> -->
-                                </div>
+                </div>
               </div>
             </div>
 
@@ -175,10 +193,10 @@
                   nzPlaceHolder="{{ 'Chọn ngày' | translate }}"
                 ></nz-date-picker>
                 <div class="error-container">
-                                        <!-- <div *ngIf="form.get('latestDate')?.invalid && (form.get('latestDate')?.dirty) || form.get('latestDate')?.touched">
+                  <!-- <div *ngIf="form.get('latestDate')?.invalid && (form.get('latestDate')?.dirty) || form.get('latestDate')?.touched">
                                             <span class="validate_input" *ngIf="form.get('latestDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
                                         </div> -->
-                                    </div>
+                </div>
               </div>
             </div>
 
@@ -191,7 +209,8 @@
                 <input
                   class="input-form"
                   placeholder="Nhập"
-                  type="number" min="0"
+                  type="number"
+                  min="0"
                   formControlName="currentOdometer"
                 />
                 <div class="error-container">
@@ -521,6 +540,7 @@
                 [parentData]="listVS"
                 (dataEmitter)="receiveData($event, 'vehicleStatus')"
                 [isFromRequestMr]="isFromRequestMr"
+                [isEdit]="isEdit"
               ></app-car-status>
             </nz-tab>
             <nz-tab nzTitle="{{ 'vehicle.itemCheck' | translate }}">
@@ -572,4 +592,3 @@
     </div>
   </form>
 </div>
-

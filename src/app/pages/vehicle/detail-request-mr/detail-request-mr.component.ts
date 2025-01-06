@@ -21,6 +21,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { VehicalServiceService } from '../../../shared/services/vehical-service.service';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 
 @Component({
   selector: 'app-detail-request-mr',
@@ -42,6 +43,7 @@ import { NotificationService } from '../../../shared/services/notification.servi
     NzRadioModule,
     NzModalModule,
     NzPaginationModule,
+    NzTimePickerModule,
   ],
   templateUrl: './detail-request-mr.component.html',
   styleUrl: './detail-request-mr.component.scss',
@@ -65,12 +67,12 @@ export class DetailRequestMrComponent implements OnInit {
   id: any;
 
   form!: FormGroup;
+  formComplete!: FormGroup;
   formUnApprove!: FormGroup;
   reason: string = '';
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.id = params.get('id');
-      console.log(this.id);
       this.getDetailMR(this.id);
     });
 
@@ -79,6 +81,11 @@ export class DetailRequestMrComponent implements OnInit {
       testItemNote: '',
       workPerformedNote: '',
       replacementSupplyNote: '',
+    });
+
+    this.formComplete = this.fb.group({
+      completionTime: null,
+      completionDate: null,
     });
   }
 
@@ -298,7 +305,7 @@ export class DetailRequestMrComponent implements OnInit {
   }
 
   getDetailMR(id: number) {
-    this.vehicleServices.getDetailMR(id).subscribe((response: any) => {
+    this.vehicleServices.getDetailMR(id, 1).subscribe((response: any) => {
       this.inforMR = response.data;
       this.inforMR.lstVehicleStatus = Array.isArray(
         this.inforMR.lstVehicleStatus
@@ -340,5 +347,33 @@ export class DetailRequestMrComponent implements OnInit {
     this.router.navigate(['/vehicle/detail-mr-change/' + this.id]);
   }
 
-  onSave() {}
+  onSave() {
+    const body = {
+      id: this.inforMR.id,
+      completionTime: this.formComplete.value.completionTime
+        ? new Date(this.formComplete.value.completionTime).getTime()
+        : 0,
+      completionDate: this.formComplete.value.completionDate
+        ? new Date(this.formComplete.value.completionDate).getTime()
+        : 0,
+      lstVehicleStatusIds: this.inforMR.lstVehicleStatus
+        .filter((item: any) => !item.selected)
+        .map((item: any) => item.id),
+      lstTestCategoryIds: this.inforMR.lstTestCategories
+        .filter((item: any) => !item.selected)
+        .map((item: any) => item.id),
+      lstWorkPerformedIds: this.inforMR.lstWorkPerformed
+        .filter((item: any) => !item.selected)
+        .map((item: any) => item.id),
+      lstReplacementSupplyIds: this.inforMR.replacementSupplyNote
+        .filter((item: any) => !item.selected)
+        .map((item: any) => item.id),
+    };
+    console.log(body);
+    this.vehicleServices.updateVehicleFixRequest(body).subscribe((res: any) => {
+      if (res) {
+        console.log(res);
+      }
+    });
+  }
 }
