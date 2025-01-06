@@ -716,13 +716,12 @@
         }}</span>
       </div>
 
-      <nz-table
-        #basicTable
+      <!-- #basicTable
         [nzData]="listData"
         [nzShowPagination]="false"
         nzTableLayout="fixed"
-        [nzScroll]="{ x: '1500px' }"
-      >
+        [nzScroll]="{ x: '1500px' }" -->
+      <table>
         <thead>
           <tr>
             <th
@@ -800,7 +799,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let data of listData; let i = index">
+          <tr *ngFor="let data of listData; let i = index" rowspan="2">
             <td nzAlign="center">{{ i + 1 }}</td>
             <td>
               <div class="flex items-center">
@@ -933,7 +932,7 @@
             </td>
           </tr>
         </tbody>
-      </nz-table>
+      </table>
 
       <div style="display: flex; justify-content: center; margin-top: 16px">
         <nz-pagination

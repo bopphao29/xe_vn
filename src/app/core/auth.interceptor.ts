@@ -83,6 +83,13 @@ export class AuthInterceptor implements HttpInterceptor {
           localStorage.setItem(STORAGE_KEYS.TOKEN, newToken);
           localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, newRefreshToken);
 
+          // Clone the original request with the new token
+          request = request.clone({
+            setHeaders: {
+              Authorization: 'Bearer ' + newToken,
+            },
+          });
+
           // Retry the original request with the new token
           return next.handle(request);
         }),

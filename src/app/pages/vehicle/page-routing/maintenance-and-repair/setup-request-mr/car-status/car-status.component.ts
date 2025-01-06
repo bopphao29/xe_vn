@@ -28,13 +28,12 @@ import { VehicalServiceService } from '../../../../../../shared/services/vehical
     TranslateModule,
     NzModalModule,
     NzPaginationModule,
-    NzAutocompleteModule
+    NzAutocompleteModule,
   ],
   templateUrl: './car-status.component.html',
   styleUrl: './car-status.component.scss',
 })
-export class CarStatusComponent implements OnInit{
-
+export class CarStatusComponent implements OnInit {
   @Input() parentData: any[] = [];
   @Output() dataEmitter = new EventEmitter<any[]>();
   @Input() isFromRequestMr: boolean = false;
@@ -52,26 +51,25 @@ export class CarStatusComponent implements OnInit{
         vehicleStatus: item.name,
         ...item,
       }));
+      console.log(this.displayedData);
     }
   }
   constructor(
     private dialogService: DialogService,
     private vehicleServices: VehicalServiceService
-
   ) {}
 
-  
   ngOnInit(): void {
-    this.vehicleStatuses()
+    this.vehicleStatuses();
   }
 
   isStatusVehicle: boolean = false;
   isDeleteStatusVehicle: boolean = false;
   statusVehicle: string = '';
-  statusVehicleList: Array<{ id: number; vehicleStatus: string }> = [];
+  statusVehicleList: Array<any> = [];
 
   //phan trang
-  displayedData: Array<{ id: number; vehicleStatus: string }> = []; // Dữ liệu hiển thị
+  displayedData: Array<any> = []; // Dữ liệu hiển thị
   pageIndex: number = 1;
   pageSize: number = 9;
   total: number = 0;
@@ -80,38 +78,39 @@ export class CarStatusComponent implements OnInit{
     this.updateDisplayedData();
   }
 
-  options: any[] = []
-  filteredOptions: any[] = []
-  dataOption: any[] = []
+  options: any[] = [];
+  filteredOptions: any[] = [];
+  dataOption: any[] = [];
 
   onChange(value: string): void {
-    this.filteredOptions = this.options.filter(name =>
+    this.filteredOptions = this.options.filter((name) =>
       name.toLowerCase().includes(value.toLowerCase())
     );
   }
-  
+
   vehicleStatuses() {
-    this.vehicleServices.vehicleStatuses().subscribe(
-      {next: (response : any) => {
-        console.log(response.data)
+    this.vehicleServices.vehicleStatuses().subscribe({
+      next: (response: any) => {
+        console.log(response.data);
         if (response && response.data) {
-          this.options = (response?.data || []).filter((option: any) => option.name != null);
-           this.dataOption = this.options.map((data: any)=> data.name)
-  
+          this.options = (response?.data || []).filter(
+            (option: any) => option.name != null
+          );
+          this.dataOption = this.options.map((data: any) => data.name);
+
           this.filteredOptions = [...this.dataOption];
         } else {
           this.options = [];
           this.filteredOptions = [];
         }
       },
-      error : (error) => {
+      error: (error) => {
         console.error('Lỗi khi gọi API:', error);
         this.options = [];
         this.filteredOptions = [];
-      }}
-    );
+      },
+    });
   }
-  
 
   updateDisplayedData(): void {
     const startIndex = (this.pageIndex - 1) * this.pageSize;
@@ -152,6 +151,7 @@ export class CarStatusComponent implements OnInit{
         this.statusVehicleList.push({
           id: this.statusVehicleList.length + 1,
           vehicleStatus: this.statusVehicle,
+          isAdd: true,
         });
       }
       this.total = this.statusVehicleList.length; // Cập nhật tổng số mục
@@ -160,6 +160,7 @@ export class CarStatusComponent implements OnInit{
     this.isStatusVehicle = false; // Đóng modal
     this.isEditMode = false; // Đặt lại chế độ
     this.sendDataToParent();
+    console.log(this.statusVehicleList);
   }
 
   sendDataToParent(): void {

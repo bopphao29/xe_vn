@@ -1,150 +1,320 @@
-<div class="" style="background-color: #FCFCFC;">
-    <table class="custom-table-list" style="background-color: #FCFCFC;">
-        <tbody>
-            <tr style="background-color: #fcfcfc; text-align: center;">
-                <th class="list-col-1">{{'table.stt' | translate}}</th>
-                <th class="list-col-3">{{'vehicle.replacementSupplies' | translate}}</th>
-                <th class="list-col-2">{{'table.vehicle.count' | translate}}</th>
-                <th class="list-col-2">{{'table.vehicle.unitOfMeasure' | translate}}</th>
-                <th class="list-col-2">{{'table.action' | translate}}</th>
-            </tr>
-            <tr style="text-align: center;" *ngFor="let item of displayedData; let i = index">
-                <td class="list-col-1">{{ i + 1 }}</td>
-                <td class="list-col-3">{{item.supplyId}}</td>
-                <th class="list-col-2">{{item.quantity}}</th>
-                <th class="list-col-2">{{item.unit}}</th>
-                <td class="button_action list-col-2  " style="text-align: center;">
-                    <div>
-                        <a (click)="editreplacementSupplies(item)" class="mx-1 button_show_detail">Sửa</a>
-                        <a (click)="openDeleteModal(item)" class="mx-1 button_show_detail-delete">Xóa</a>
-                      </div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-    <div nz-row class="w-full" >
-        <div style="margin-top: 18px;">
-            <button type="button" (click)="onAdd()" class="button_add"><svg
-                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                    stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-            </button>
-        </div>
+<div class="" style="background-color: #fcfcfc">
+  <table class="custom-table-list" style="background-color: #fcfcfc">
+    <tbody>
+      <tr style="background-color: #fcfcfc; text-align: center">
+        <th class="list-col-1">{{ "table.stt" | translate }}</th>
+        <th class="list-col-3">
+          {{ "vehicle.replacementSupplies" | translate }}
+        </th>
+        <th class="list-col-2">{{ "table.vehicle.count" | translate }}</th>
+        <th class="list-col-2">
+          {{ "table.vehicle.unitOfMeasure" | translate }}
+        </th>
+        <th class="list-col-2">{{ "table.action" | translate }}</th>
+      </tr>
+      <tr
+        style="text-align: center"
+        *ngFor="let item of displayedData; let i = index"
+      >
+        <td class="list-col-1">{{ i + 1 }}</td>
+        <td class="list-col-3">{{ item.supplyId }}</td>
+        <th class="list-col-2">{{ item.quantity }}</th>
+        <th class="list-col-2">{{ item.unit }}</th>
+        <td class="button_action list-col-2" style="text-align: center">
+          <div>
+            <a
+              (click)="editreplacementSupplies(item)"
+              class="mx-1 button_show_detail"
+              >Sửa</a
+            >
+            <a
+              (click)="openDeleteModal(item)"
+              class="mx-1 button_show_detail-delete"
+              >Xóa</a
+            >
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div nz-row class="w-full">
+    <div style="margin-top: 18px">
+      <button type="button" (click)="onAdd()" class="button_add">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 4.5v15m7.5-7.5h-15"
+          />
+        </svg>
+      </button>
     </div>
+  </div>
 
-    <div style="margin-top: 20px; display: flex; justify-content: center;">
-        <nz-pagination
-        [(nzPageIndex)]="pageIndex"
-        [nzTotal]="replacementSuppliesList.length"
-        [nzPageSize]="pageSize"
-        (nzPageIndexChange)="onPageChange($event)"
-        class="custom-pagination">
+  <div style="margin-top: 20px; display: flex; justify-content: center">
+    <nz-pagination
+      [(nzPageIndex)]="pageIndex"
+      [nzTotal]="replacementSuppliesList.length"
+      [nzPageSize]="pageSize"
+      (nzPageIndexChange)="onPageChange($event)"
+      class="custom-pagination"
+    >
     </nz-pagination>
-    </div>
+  </div>
 </div>
 
-<nz-modal [(nzVisible)]="isreplacementSupplies" (nzOnCancel)="handleCancelisreplacementSupplies()" (nzOnOk)="handleSubmitisreplacementSupplies()" [nzCentered]="true" [nzClosable]="false" 
-    [nzContent]="modalContentreplacementSupplies" [nzFooter]="null" [nzStyle]="{'min-width' : '808px', 'min-height':'335px', 'width':'464px'}"  nzClassName="status_vehicle_modal">
-    <ng-template #modalContentreplacementSupplies>
-        <div class="headmodal">
-            <span style="justify-content: center; align-items: center; font-size: 24px; color: rgba(37, 44, 50, 1);" nz-icon nzType="check-circle" nzTheme="outline">
-                {{ isEditMode ? ('common.changeTitle' | translate) : ('vehicle.replacementSupplies' | translate) }}
-            </span>
+<nz-modal
+  [(nzVisible)]="isreplacementSupplies"
+  (nzOnCancel)="handleCancelisreplacementSupplies()"
+  (nzOnOk)="handleSubmitisreplacementSupplies()"
+  [nzCentered]="true"
+  [nzClosable]="false"
+  [nzContent]="modalContentreplacementSupplies"
+  [nzFooter]="null"
+  [nzStyle]="{ 'min-width': '808px', 'min-height': '335px', width: '464px' }"
+  nzClassName="status_vehicle_modal"
+>
+  <ng-template #modalContentreplacementSupplies>
+    <div class="headmodal">
+      <span
+        style="
+          justify-content: center;
+          align-items: center;
+          font-size: 24px;
+          color: rgba(37, 44, 50, 1);
+        "
+        nz-icon
+        nzType="check-circle"
+        nzTheme="outline"
+      >
+        {{
+          isEditMode
+            ? ("common.changeTitle" | translate)
+            : ("vehicle.replacementSupplies" | translate)
+        }}
+      </span>
+    </div>
+    <div>
+      <div class="box-input">
+        <div class="input-wrapper" style="width: 60%">
+          <div class="">
+            <label class="label-form" for="">{{
+              "vehicle.replacementSupplies" | translate
+            }}</label>
+            <input
+              class="input-form"
+              placeholder="Nhập"
+              type="text"
+              [(ngModel)]="supplyId"
+              (ngModelChange)="onChange($event, 'supplyId')"
+              [nzAutocomplete]="autoSupplyId"
+              tabindex="-1"
+            />
+            <nz-autocomplete
+              [nzDataSource]="filteredOptions"
+              nzBackfill
+              #autoSupplyId
+            ></nz-autocomplete>
+          </div>
         </div>
-        <div >
-              
-        <div class="box-input" >
-            <div class="input-wrapper" style="width: 60%;">
-                <div class="">
-                    <label class="label-form" for="" >{{'vehicle.replacementSupplies' | translate}}</label>
-                    <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="supplyId" 
-                    (ngModelChange)="onChange($event, 'supplyId')"
-                    [nzAutocomplete]="autoSupplyId"
-                    >
-                    <nz-autocomplete [nzDataSource]="filteredOptions" nzBackfill #autoSupplyId></nz-autocomplete>
-                </div>
-            </div>
-            <div class="input-wrapper" style="width: 20%;">
-                <div class="">
-                    <label class="label-form" for="" >{{'table.vehicle.count' | translate}}</label>
-                    <input class="input-form" placeholder="Nhập" type="number" min="0" [(ngModel)]="quantity" >
-                </div>
-            </div>
-            <div class="input-wrapper" style="width: 20%;">
-                <div class="">
-                    <label class="label-form" for="" >{{'table.vehicle.unitOfMeasure' | translate}}</label>
-                    <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="unit" (ngModelChange)="onChange($event, 'unit')"
-                    [nzAutocomplete]="autoUnit"
-                    >
-                    <nz-autocomplete [nzDataSource]="filteredOptionUnits" nzBackfill #autoUnit></nz-autocomplete>
-                </div>
-            </div>
-        </div>            
-            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 20px"> 
-                <span>
-                    <button class="button-status" nz-button style="color: #274EA1;" nzType="default"
-                        (click)="handleCancelisreplacementSupplies()">{{'common.cancelButton' | translate}}</button>
-                </span>
-                <span>
-                    <button [disabled]="!supplyId" class="button-status" nz-button style="color: #ffffff; background-color: #274EA1;" nzType="default"
-                        (click)="handleSubmitisreplacementSupplies()">{{'common.saveButton' | translate}}</button>
-                </span>
-            </div>
+        <div class="input-wrapper" style="width: 20%">
+          <div class="">
+            <label class="label-form" for="">{{
+              "table.vehicle.count" | translate
+            }}</label>
+            <input
+              class="input-form"
+              placeholder="Nhập"
+              type="number"
+              min="0"
+              [(ngModel)]="quantity"
+            />
+          </div>
         </div>
-        
-    </ng-template>
+        <div class="input-wrapper" style="width: 20%">
+          <div class="">
+            <label class="label-form" for="">{{
+              "table.vehicle.unitOfMeasure" | translate
+            }}</label>
+            <input
+              class="input-form"
+              placeholder="Nhập"
+              type="text"
+              [(ngModel)]="unit"
+              (ngModelChange)="onChange($event, 'unit')"
+              [nzAutocomplete]="autoUnit"
+            />
+            <nz-autocomplete
+              [nzDataSource]="filteredOptionUnits"
+              nzBackfill
+              #autoUnit
+            ></nz-autocomplete>
+          </div>
+        </div>
+      </div>
+      <div
+        style="
+          display: flex;
+          gap: 8px;
+          justify-content: center;
+          margin-top: 20px;
+        "
+      >
+        <span>
+          <button
+            class="button-status"
+            nz-button
+            style="color: #274ea1"
+            nzType="default"
+            (click)="handleCancelisreplacementSupplies()"
+          >
+            {{ "common.cancelButton" | translate }}
+          </button>
+        </span>
+        <span>
+          <button
+            [disabled]="!supplyId"
+            class="button-status"
+            nz-button
+            style="color: #ffffff; background-color: #274ea1"
+            nzType="default"
+            (click)="handleSubmitisreplacementSupplies()"
+          >
+            {{ "common.saveButton" | translate }}
+          </button>
+        </span>
+      </div>
+    </div>
+  </ng-template>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isDeleteReplacementSupplies" (nzOnCancel)="handleCancelisDeleteReplacementSupplies()" (nzOnOk)="handleSubmitisDeleteReplacementSupplies()" [nzCentered]="true" [nzClosable]="false" 
-    [nzContent]="modalContentDeleteReplacementSupplies" [nzFooter]="null" [nzStyle]="{'min-width' : '808px', 'min-height':'335px', 'width':'464px'}"  nzClassName="status_vehicle_modal">
-    <ng-template #modalContentDeleteReplacementSupplies>
-        <div class="headmodal">
-            <span style="justify-content: center; align-items: center; font-size: 24px; color: rgba(37, 44, 50, 1);" nz-icon nzType="check-circle" nzTheme="outline">
-                {{ isEditMode ? ('common.editStatusVehicle' | translate) : ('common.replacementSupplies' | translate) }}
-            </span>
+<nz-modal
+  [(nzVisible)]="isDeleteReplacementSupplies"
+  (nzOnCancel)="handleCancelisDeleteReplacementSupplies()"
+  (nzOnOk)="handleSubmitisDeleteReplacementSupplies()"
+  [nzCentered]="true"
+  [nzClosable]="false"
+  [nzContent]="modalContentDeleteReplacementSupplies"
+  [nzFooter]="null"
+  [nzStyle]="{ 'min-width': '808px', 'min-height': '335px', width: '464px' }"
+  nzClassName="status_vehicle_modal"
+>
+  <ng-template #modalContentDeleteReplacementSupplies>
+    <div class="headmodal">
+      <span
+        style="
+          justify-content: center;
+          align-items: center;
+          font-size: 24px;
+          color: rgba(37, 44, 50, 1);
+        "
+        nz-icon
+        nzType="check-circle"
+        nzTheme="outline"
+      >
+        {{
+          isEditMode
+            ? ("common.editStatusVehicle" | translate)
+            : ("common.replacementSupplies" | translate)
+        }}
+      </span>
+    </div>
+    <div>
+      <div class="box-input">
+        <div class="input-wrapper" style="width: 60%">
+          <div class="">
+            <label class="label-form" for="">{{
+              "vehicle.replacementSupplies" | translate
+            }}</label>
+            <input
+              class="input-form"
+              placeholder="Nhập"
+              type="text"
+              [(ngModel)]="supplyId"
+              (ngModelChange)="onChange($event, 'supplyId')"
+              [nzAutocomplete]="autoSupplyId"
+            />
+            <nz-autocomplete
+              [nzDataSource]="filteredOptions"
+              nzBackfill
+              #autoSupplyId
+            ></nz-autocomplete>
+          </div>
         </div>
-        <div >
-              
-            <div class="box-input" >
-                <div class="input-wrapper" style="width: 60%;">
-                    <div class="">
-                        <label class="label-form" for="" >{{'vehicle.replacementSupplies' | translate}}</label>
-                        <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="supplyId" 
-                        (ngModelChange)="onChange($event, 'supplyId')"
-                        [nzAutocomplete]="autoSupplyId"
-                        >
-                        <nz-autocomplete [nzDataSource]="filteredOptions" nzBackfill #autoSupplyId></nz-autocomplete>
-                    </div>
-                </div>
-                <div class="input-wrapper" style="width: 20%;">
-                    <div class="">
-                        <label class="label-form" for="" >{{'table.vehicle.count' | translate}}</label>
-                        <input class="input-form" placeholder="Nhập" type="number" min="0" [(ngModel)]="quantity" >
-                    </div>
-                </div>
-                <div class="input-wrapper" style="width: 20%;">
-                    <div class="">
-                        <label class="label-form" for="" >{{'table.vehicle.unitOfMeasure' | translate}}</label>
-                        <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="unit" (ngModelChange)="onChange($event, 'unit')"
-                        [nzAutocomplete]="autoUnit"
-                        >
-                        <nz-autocomplete [nzDataSource]="filteredOptionUnits" nzBackfill #autoUnit></nz-autocomplete>
-                    </div>
-                </div>
-            </div>            
-            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 20px"> 
-                <span>
-                    <button class="button-status" nz-button style="color: #274EA1;" nzType="default"
-                        (click)="handleCancelisDeleteReplacementSupplies()">{{'common.cancelButton' | translate}}</button>
-                </span>
-                <span>
-                    <button [disabled]="!supplyId" class="button-status" nz-button style="color: #ffffff; background-color: #274EA1;" nzType="default"
-                        (click)="handleSubmitisDeleteReplacementSupplies()">{{'common.deleteButton' | translate}}</button>
-                </span>
-            </div>
+        <div class="input-wrapper" style="width: 20%">
+          <div class="">
+            <label class="label-form" for="">{{
+              "table.vehicle.count" | translate
+            }}</label>
+            <input
+              class="input-form"
+              placeholder="Nhập"
+              type="number"
+              min="0"
+              [(ngModel)]="quantity"
+            />
+          </div>
         </div>
-        
-    </ng-template>
+        <div class="input-wrapper" style="width: 20%">
+          <div class="">
+            <label class="label-form" for="">{{
+              "table.vehicle.unitOfMeasure" | translate
+            }}</label>
+            <input
+              class="input-form"
+              placeholder="Nhập"
+              type="text"
+              [(ngModel)]="unit"
+              (ngModelChange)="onChange($event, 'unit')"
+              [nzAutocomplete]="autoUnit"
+            />
+            <nz-autocomplete
+              [nzDataSource]="filteredOptionUnits"
+              nzBackfill
+              #autoUnit
+            ></nz-autocomplete>
+          </div>
+        </div>
+      </div>
+      <div
+        style="
+          display: flex;
+          gap: 8px;
+          justify-content: center;
+          margin-top: 20px;
+        "
+      >
+        <span>
+          <button
+            class="button-status"
+            nz-button
+            style="color: #274ea1"
+            nzType="default"
+            (click)="handleCancelisDeleteReplacementSupplies()"
+          >
+            {{ "common.cancelButton" | translate }}
+          </button>
+        </span>
+        <span>
+          <button
+            [disabled]="!supplyId"
+            class="button-status"
+            nz-button
+            style="color: #ffffff; background-color: #274ea1"
+            nzType="default"
+            (click)="handleSubmitisDeleteReplacementSupplies()"
+          >
+            {{ "common.deleteButton" | translate }}
+          </button>
+        </span>
+      </div>
+    </div>
+  </ng-template>
 </nz-modal>

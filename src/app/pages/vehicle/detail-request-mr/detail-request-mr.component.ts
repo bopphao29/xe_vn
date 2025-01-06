@@ -47,7 +47,12 @@ import { NotificationService } from '../../../shared/services/notification.servi
   styleUrl: './detail-request-mr.component.scss',
 })
 export class DetailRequestMrComponent implements OnInit {
-  isValidDate: boolean = true;
+  isValidDate: boolean = false;
+
+  selectAllVehicleStatus: boolean = false;
+  selectAllTestCategories: boolean = false;
+  selectAllWorkPerformed: boolean = false;
+  selectAllReplacementSupply: boolean = false;
 
   constructor(
     private router: Router,
@@ -75,20 +80,23 @@ export class DetailRequestMrComponent implements OnInit {
       workPerformedNote: '',
       replacementSupplyNote: '',
     });
-
-    // this.isValidDate = this.checkValidDate();
   }
 
   checkValidDate() {
+    if (this.inforMR.status === 3) {
+      return false;
+    }
     if (
-      !this.inforMR?.supposedStartDate ||
-      !this.inforMR?.supposedEndDate ||
-      !this.inforMR?.supposedStartTime ||
-      !this.inforMR?.supposedEndTime
+      (this.inforMR.status === 2 || this.inforMR.status === 1) &&
+      (!this.inforMR?.supposedStartDate ||
+        !this.inforMR?.supposedEndDate ||
+        !this.inforMR?.supposedStartTime ||
+        !this.inforMR?.supposedEndTime)
     ) {
       return false;
     }
 
+    const now = new Date();
     const startDateTime = new Date(this.inforMR.supposedStartDate);
     const endDateTime = new Date(this.inforMR.supposedEndDate);
 
@@ -102,7 +110,7 @@ export class DetailRequestMrComponent implements OnInit {
     startDateTime.setHours(startHours, startMinutes);
     endDateTime.setHours(endHours, endMinutes);
 
-    return startDateTime <= new Date() && new Date() <= endDateTime;
+    return startDateTime <= now && now <= endDateTime;
   }
 
   pdfExport() {}
@@ -145,12 +153,38 @@ export class DetailRequestMrComponent implements OnInit {
     });
   }
 
-  selectAll(event: any) {
-    // console.log(event)
+  selectAll(event: any, table: string): void {
+    const isChecked = event.target.checked;
+    switch (table) {
+      case 'vehicleStatus':
+        this.selectAllVehicleStatus = isChecked;
+        this.inforMR.lstVehicleStatus.forEach(
+          (item: any) => (item.selected = isChecked)
+        );
+        break;
+      case 'testCategories':
+        this.selectAllTestCategories = isChecked;
+        this.inforMR.lstTestCategories.forEach(
+          (item: any) => (item.selected = isChecked)
+        );
+        break;
+      case 'workPerformed':
+        this.selectAllWorkPerformed = isChecked;
+        this.inforMR.lstWorkPerformed.forEach(
+          (item: any) => (item.selected = isChecked)
+        );
+        break;
+      case 'replacementSupply':
+        this.selectAllReplacementSupply = isChecked;
+        this.inforMR.replacementSupplyNote.forEach(
+          (item: any) => (item.selected = isChecked)
+        );
+        break;
+    }
   }
 
-  selectItem(event: any, data: any) {
-    // console.log(event)
+  selectItem(event: any, item: any): void {
+    item.selected = event.target.checked;
   }
 
   isComplete: boolean = false;
@@ -266,6 +300,7 @@ export class DetailRequestMrComponent implements OnInit {
   getDetailMR(id: number) {
     this.vehicleServices.getDetailMR(id).subscribe((response: any) => {
       this.inforMR = response.data;
+      this.isValidDate = this.checkValidDate();
     });
   }
 
