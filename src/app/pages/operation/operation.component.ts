@@ -33,16 +33,13 @@ export class OperationComponent {
       const savedLink = localStorage.getItem('activeLink');
       this.activeLink = savedLink ? savedLink : this.routerString;
     });
-    // this.navigatePage();
 
-    // this.updateActiveLink(this.routes.url);
-
-    // Lắng nghe sự thay đổi của router
-    // this.routes.events.subscribe((event: any) => {
-    //   if (event instanceof NavigationEnd) {
-    //     this.updateActiveLink(event.urlAfterRedirects);
-    //   }
-    // });
+    //default setup operation
+    if (this.listActiveLink.length > 0) {
+      this.activeLink = this.listActiveLink[2].actLink;
+      localStorage.setItem('activeLink', this.listActiveLink[2].actLink);
+      this.routes.navigate([this.listActiveLink[2].router]);
+    }
   }
 
   updateActiveLink(url: string): void {

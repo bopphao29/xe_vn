@@ -8,7 +8,7 @@ import {
   HttpInterceptorFn,
   HttpHandlerFn,
 } from '@angular/common/http';
-import { catchError, finalize, Observable, throwError,switchMap } from 'rxjs';
+import { catchError, finalize, Observable, throwError, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { STORAGE_KEYS } from '../shared/constants/system.const';
@@ -16,7 +16,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { clearStore } from '../shared/utilities/system.utils';
 import { NotificationService } from '../shared/services/notification.service';
 import { AuthServiceService } from '../shared/services/auth-service.service';
-import { EMPTY } from 'rxjs';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -35,7 +34,14 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
     const language = 'vi-VN';
-    if (token) {
+
+    if (request.url.includes('auth/re-token')) {
+      request = request.clone({
+        setHeaders: {
+          'Content-Type': 'application/json',
+        },
+      });
+    } else if (token) {
       request = request.clone({
         setHeaders: {
           Authorization: 'Bearer ' + token,
@@ -53,15 +59,47 @@ export class AuthInterceptor implements HttpInterceptor {
       }),
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
-          clearStore();
-          // this.router.navigate(['/login']);
-          // this.router.navigate(['vehical/setup-vehical']);
+          return this.handle401Error(request, next);
         } else {
           this.handleError(error);
         }
         return throwError(() => new Error(`${error}`));
       })
     );
+  }
+
+  private handle401Error(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    const refreshToken = localStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
+    if (refreshToken) {
+      const dataToken = { refreshToken: refreshToken };
+      return this.authServices.retokenLogin(dataToken).pipe(
+        switchMap((response: any) => {
+          const newToken = response.data.accessToken;
+          const newRefreshToken = response.data.refreshToken;
+
+          localStorage.setItem(STORAGE_KEYS.TOKEN, newToken);
+          localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, newRefreshToken);
+
+          // Retry the original request with the new token
+          return next.handle(request);
+        }),
+        catchError((refreshError) => {
+          this.notification.error(
+            this.injector.get(TranslateService).instant('common.err_system')
+          );
+          clearStore();
+          this.router.navigate(['/login']);
+          return throwError(() => refreshError);
+        })
+      );
+    } else {
+      clearStore();
+      this.router.navigate(['/login']);
+      return throwError(() => new Error('No refresh token available'));
+    }
   }
 
   private handleError(err: HttpErrorResponse) {
@@ -105,14 +143,20 @@ export const authInterceptor: HttpInterceptorFn = (
   const injector = inject(Injector);
   const spinner = inject(NgxSpinnerService);
   const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
-  const refreshToken = localStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN)
+  const refreshToken = localStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
 
-  const authServices = inject(AuthServiceService)
+  const authServices = inject(AuthServiceService);
   const language = 'vi-VN';
   let request = req;
   let count = 0;
 
-  if (token) {
+  if (req.url.includes('auth/re-token')) {
+    request = req.clone({
+      setHeaders: {
+        'Content-Type': 'application/json',
+      },
+    });
+  } else if (token) {
     request = req.clone({
       setHeaders: {
         Authorization: 'Bearer ' + token,
@@ -132,31 +176,35 @@ export const authInterceptor: HttpInterceptorFn = (
       const translate = injector.get(TranslateService);
 
       if (err.status === 401 && refreshToken) {
-        // Gọi API refresh token
         const dataToken = {
-          refreshToken : refreshToken
-        }
+          refreshToken: refreshToken,
+        };
         return authServices.retokenLogin(dataToken).pipe(
           switchMap((response: any) => {
-            const newToken = response.token;
-            const newRefreshToken = response.refreshToken;
-      
-            // Lưu token và refresh token mới vào localStorage
+            const newToken = response.data.accessToken;
+            const newRefreshToken = response.data.refreshToken;
+
             localStorage.setItem(STORAGE_KEYS.TOKEN, newToken);
             localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, newRefreshToken);
-      
-            // Nếu không cần gọi lại request ban đầu, kết thúc luồng xử lý
-            return EMPTY; // Hoặc `of(null)` nếu bạn muốn trả giá trị mặc định
+
+            // Clone the original request with the new token
+            request = request.clone({
+              setHeaders: {
+                Authorization: 'Bearer ' + newToken,
+              },
+            });
+
+            // Retry the original request with the new token
+            return next(request);
           }),
           catchError((refreshError) => {
-            // Nếu refresh token không hợp lệ, chuyển người dùng về trang đăng nhập
             toastr.error(translate.instant('common.err_system'));
             localStorage.clear();
             router.navigate(['/login']);
             return throwError(() => refreshError);
           })
         );
-      }  else if (err.status >= 400 && err.status < 500 && err.status !== 401) {
+      } else if (err.status >= 400 && err.status < 500 && err.status !== 401) {
         toastr.error(err.error.message);
       } else {
         toastr.error(translate.instant('common.err_system'));

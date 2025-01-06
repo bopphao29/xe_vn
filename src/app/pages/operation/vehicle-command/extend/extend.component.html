@@ -1,0 +1,761 @@
+<div class="px-3 pt-[24px]" style="background: #f3f3f3">
+  <form action="" nz-form [formGroup]="form">
+    <div class="w-full flex flex-col gap-[12px]">
+      <span class="roboto-500" style="font-size: 16px">{{
+        "operation.vehicle-command.extend" | translate
+      }}</span>
+      <div
+        class="flex flex-col gap-[20px] py-[12px] px-[16px]"
+        style="
+          background: #fcfcfc;
+          border-radius: 12px;
+          box-shadow: 0 4px 10px 3px #1a336a14;
+        "
+      >
+        <!-- row 1 -->
+        <div class="flex flex-wrap gap-[12px] justify-content-start">
+          <!-- BKS  -->
+          <div>
+            <div class="input-item">
+              <span class="required-star"
+                >*<label class="label-form" for=""
+                  >{{ "operation.vehicle-command.bks" | translate }}
+                </label></span
+              >
+              <nz-input-group
+                [nzPrefix]="searchTemplate"
+                style="height: 48px !important"
+              >
+                <nz-select
+                  [nzPlaceHolder]="'operation.vehicle-command.bks' | translate"
+                  class="nzSelect"
+                  formControlName="bks"
+                  style="height: 100% !important"
+                >
+                  <nz-option
+                    *ngFor="let route of listRoute"
+                    [nzValue]="route.id"
+                    [nzLabel]="route.value"
+                  ></nz-option>
+                </nz-select>
+              </nz-input-group>
+              <ng-template #searchTemplate>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M16.6 18L10.3 11.7C9.8 12.1 9.225 12.4167 8.575 12.65C7.925 12.8833 7.23333 13 6.5 13C4.68333 13 3.14583 12.3708 1.8875 11.1125C0.629167 9.85417 0 8.31667 0 6.5C0 4.68333 0.629167 3.14583 1.8875 1.8875C3.14583 0.629167 4.68333 0 6.5 0C8.31667 0 9.85417 0.629167 11.1125 1.8875C12.3708 3.14583 13 4.68333 13 6.5C13 7.23333 12.8833 7.925 12.65 8.575C12.4167 9.225 12.1 9.8 11.7 10.3L18 16.6L16.6 18ZM6.5 11C7.75 11 8.8125 10.5625 9.6875 9.6875C10.5625 8.8125 11 7.75 11 6.5C11 5.25 10.5625 4.1875 9.6875 3.3125C8.8125 2.4375 7.75 2 6.5 2C5.25 2 4.1875 2.4375 3.3125 3.3125C2.4375 4.1875 2 5.25 2 6.5C2 7.75 2.4375 8.8125 3.3125 9.6875C4.1875 10.5625 5.25 11 6.5 11Z"
+                    fill="#6B7280"
+                  />
+                </svg>
+              </ng-template>
+              <div
+                *ngIf="
+                  (form.get('bks')?.invalid && form.get('bks')?.dirty) ||
+                  form.get('bks')?.touched
+                "
+                class="error-container"
+              >
+                <div>
+                  <span
+                    class="validate_input"
+                    *ngIf="form.get('bks')?.errors?.['required']"
+                    >{{ "required.cannotBlank" | translate }}</span
+                  >
+                  <span
+                    class="instruct"
+                    *ngIf="form.get('bks')?.errors?.['pattern']"
+                    >{{ "required.text_pattern" | translate }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lái xe  -->
+          <div>
+            <div class="input-item">
+              <span class="required-star"
+                >*<label class="label-form" for=""
+                  >{{ "operation.vehicle-command.driver" | translate }}
+                </label></span
+              >
+              <nz-input-group
+                [nzPrefix]="searchTemplate"
+                style="height: 48px !important"
+              >
+                <nz-select
+                  [nzPlaceHolder]="
+                    'operation.vehicle-command.driver' | translate
+                  "
+                  class="nzSelect"
+                  formControlName="driverName"
+                  style="height: 100% !important"
+                >
+                  <nz-option
+                    *ngFor="let route of listRoute"
+                    [nzValue]="route.id"
+                    [nzLabel]="route.value"
+                  ></nz-option>
+                </nz-select>
+              </nz-input-group>
+              <div
+                *ngIf="
+                  (form.get('driverName')?.invalid &&
+                    form.get('driverName')?.dirty) ||
+                  form.get('driverName')?.touched
+                "
+                class="error-container"
+              >
+                <div>
+                  <span
+                    class="validate_input"
+                    *ngIf="form.get('driverName')?.errors?.['required']"
+                    >{{ "required.cannotBlank" | translate }}</span
+                  >
+                  <span
+                    class="instruct"
+                    *ngIf="form.get('driverName')?.errors?.['pattern']"
+                    >{{ "required.text_pattern" | translate }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SĐT  -->
+          <div>
+            <div class="input-item">
+              <span class="required-star"
+                >*<label class="label-form" for=""
+                  >{{ "operation.vehicle-command.phone" | translate }}
+                </label></span
+              >
+              <input
+                class="input-form"
+                (input)="validateText($event)"
+                placeholder="SĐT"
+                formControlName="phone"
+                type="text"
+              />
+              <div
+                *ngIf="
+                  (form.get('phone')?.invalid && form.get('phone')?.dirty) ||
+                  form.get('phone')?.touched
+                "
+                class="error-container"
+              >
+                <div>
+                  <span
+                    class="validate_input"
+                    *ngIf="form.get('phone')?.errors?.['required']"
+                    >{{ "required.cannotBlank" | translate }}</span
+                  >
+                  <span
+                    class="instruct"
+                    *ngIf="form.get('phone')?.errors?.['pattern']"
+                    >{{ "required.text_pattern" | translate }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Định biên hiện tại  -->
+          <div>
+            <div class="input-item">
+              <span class="required-star"
+                >*<label class="label-form" for=""
+                  >{{ "operation.vehicle-command.current_db" | translate }}
+                </label></span
+              >
+              <input
+                class="input-form"
+                (input)="validateText($event)"
+                placeholder="Định biên hiện tại       "
+                formControlName="currentQuota"
+                type="number"
+              />
+              <div
+                *ngIf="
+                  (form.get('currentQuota')?.invalid &&
+                    form.get('currentQuota')?.dirty) ||
+                  form.get('currentQuota')?.touched
+                "
+                class="error-container"
+              >
+                <div>
+                  <span
+                    class="validate_input"
+                    *ngIf="form.get('currentQuota')?.errors?.['required']"
+                    >{{ "required.cannotBlank" | translate }}</span
+                  >
+                  <span
+                    class="instruct"
+                    *ngIf="form.get('currentQuota')?.errors?.['pattern']"
+                    >{{ "required.text_pattern" | translate }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tăng cường tuyến   -->
+          <div>
+            <div class="input-item">
+              <span class="required-star"
+                >*<label class="label-form" for=""
+                  >{{ "operation.vehicle-command.extend_route" | translate }}
+                </label></span
+              >
+              <nz-select
+                [nzPlaceHolder]="
+                  'operation.vehicle-command.extend_route' | translate
+                "
+                class="nzSelect"
+                formControlName="reinforcedRoute"
+                style="height: 48px !important"
+              >
+                <nz-option
+                  *ngFor="let route of listRoute"
+                  [nzValue]="route.id"
+                  [nzLabel]="route.value"
+                ></nz-option>
+              </nz-select>
+              <div
+                *ngIf="
+                  (form.get('reinforcedRoute')?.invalid &&
+                    form.get('reinforcedRoute')?.dirty) ||
+                  form.get('reinforcedRoute')?.touched
+                "
+                class="error-container"
+              >
+                <div>
+                  <span
+                    class="validate_input"
+                    *ngIf="form.get('reinforcedRoute')?.errors?.['required']"
+                    >{{ "required.cannotBlank" | translate }}</span
+                  >
+                  <span
+                    class="instruct"
+                    *ngIf="form.get('reinforcedRoute')?.errors?.['pattern']"
+                    >{{ "required.text_pattern" | translate }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- form array -->
+        <div class="flex gap-[12px]">
+          <div class="flex flex-col gap-[4px] justify-content-start">
+            <div>
+              <span class="roboto-500" style="font-size: 13px">{{
+                "operation.vehicle-command.extend_time" | translate
+              }}</span>
+            </div>
+            <div class="flex flex-col">
+              <div
+                class="flex flex-col gap-[12px] items-center"
+                style="
+                  border-radius: 8px;
+                  border: 1px solid #d1d5db;
+                  padding: 12px;
+                  align-items: flex-start;
+                "
+              >
+                <div class="flex flex-wrap gap-[12px]" style="width: 100%">
+                  <div class="flex flex-col gap-[12px]">
+                    <div class="flex gap-[8px]">
+                      <!-- Từ ngày  -->
+                      <div class="input-item">
+                        <span class="required-star"
+                          >*<label class="label-form" for=""
+                            >{{
+                              "operation.vehicle-command.from_date" | translate
+                            }}
+                          </label></span
+                        >
+                        <nz-date-picker
+                          nzFormat="dd/MM/yyyy"
+                          class="w-full"
+                          style="width: 100%"
+                          formControlName="startDate"
+                          nzPlaceHolder="{{ 'Chọn ngày' | translate }}"
+                        ></nz-date-picker>
+                        <div
+                          *ngIf="
+                            (form.get('startDate')?.invalid &&
+                              form.get('startDate')?.dirty) ||
+                            form.get('startDate')?.touched
+                          "
+                          class="error-container"
+                        >
+                          <div>
+                            <span
+                              class="validate_input"
+                              *ngIf="form.get('startDate')?.errors?.['required']"
+                              >{{ "required.cannotBlank" | translate }}</span
+                            >
+                            <span
+                              class="instruct"
+                              *ngIf="form.get('startDate')?.errors?.['pattern']"
+                              >{{ "required.text_pattern" | translate }}</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Giờ  -->
+                      <div class="input-item">
+                        <span class="required-star"
+                          >*<label class="label-form" for=""
+                            >{{ "operation.vehicle-command.hour" | translate }}
+                          </label></span
+                        >
+                        <nz-select
+                          [nzPlaceHolder]="
+                            'operation.vehicle-command.hour' | translate
+                          "
+                          class="nzSelect"
+                          formControlName="startTime"
+                          style="height: 48px !important"
+                        >
+                          <nz-option
+                            *ngFor="let route of listRoute"
+                            [nzValue]="route.id"
+                            [nzLabel]="route.value"
+                          ></nz-option>
+                        </nz-select>
+                        <div
+                          *ngIf="
+                            (form.get('startTime')?.invalid &&
+                              form.get('startTime')?.dirty) ||
+                            form.get('startTime')?.touched
+                          "
+                          class="error-container"
+                        >
+                          <div>
+                            <span
+                              class="validate_input"
+                              *ngIf="form.get('startTime')?.errors?.['required']"
+                              >{{ "required.cannotBlank" | translate }}</span
+                            >
+                            <span
+                              class="instruct"
+                              *ngIf="form.get('startTime')?.errors?.['pattern']"
+                              >{{ "required.text_pattern" | translate }}</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex gap-[8px]">
+                      <!-- Đến ngày  -->
+                      <div class="input-item">
+                        <span class="required-star"
+                          >*<label class="label-form" for=""
+                            >{{
+                              "operation.vehicle-command.to_date" | translate
+                            }}
+                          </label></span
+                        >
+                        <nz-date-picker
+                          nzFormat="dd/MM/yyyy"
+                          class="w-full"
+                          style="width: 100%"
+                          formControlName="endDate"
+                          nzPlaceHolder="{{ 'Chọn ngày' | translate }}"
+                        ></nz-date-picker>
+                        <div
+                          *ngIf="
+                            (form.get('endDate')?.invalid &&
+                              form.get('endDate')?.dirty) ||
+                            form.get('endDate')?.touched
+                          "
+                          class="error-container"
+                        >
+                          <div>
+                            <span
+                              class="validate_input"
+                              *ngIf="form.get('endDate')?.errors?.['required']"
+                              >{{ "required.cannotBlank" | translate }}</span
+                            >
+                            <span
+                              class="instruct"
+                              *ngIf="form.get('endDate')?.errors?.['pattern']"
+                              >{{ "required.text_pattern" | translate }}</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Giờ -->
+                      <div class="input-item">
+                        <span class="required-star"
+                          >*<label class="label-form" for=""
+                            >{{ "operation.vehicle-command.hour" | translate }}
+                          </label></span
+                        >
+                        <nz-select
+                          [nzPlaceHolder]="
+                            'operation.vehicle-command.hour' | translate
+                          "
+                          class="nzSelect"
+                          formControlName="endTime"
+                          style="height: 48px !important"
+                        >
+                          <nz-option
+                            *ngFor="let route of listRoute"
+                            [nzValue]="route.id"
+                            [nzLabel]="route.value"
+                          ></nz-option>
+                        </nz-select>
+                        <div
+                          *ngIf="
+                            (form.get('endTime')?.invalid &&
+                              form.get('endTime')?.dirty) ||
+                            form.get('endTime')?.touched
+                          "
+                          class="error-container"
+                        >
+                          <div>
+                            <span
+                              class="validate_input"
+                              *ngIf="form.get('endTime')?.errors?.['required']"
+                              >{{ "required.cannotBlank" | translate }}</span
+                            >
+                            <span
+                              class="instruct"
+                              *ngIf="form.get('endTime')?.errors?.['pattern']"
+                              >{{ "required.text_pattern" | translate }}</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-[4px]" style="width: 30%">
+            <div>
+              <span class="roboto-500" style="font-size: 13px">{{
+                "operation.vehicle-command.extend_time" | translate
+              }}</span>
+            </div>
+            <input
+              class="textarea-form"
+              (input)="validateText($event)"
+              placeholder="Lý do tăng cường"
+              formControlName="reason"
+              type="text"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- button  -->
+    <div class="mt-[12px] flex justify-content-end gap-[12px]">
+      <button type="button" class="btn btn-cancel" (click)="form.reset()">
+        Hủy
+      </button>
+      <button type="button" class="btn btn-save" (click)="onSubmit()">
+        Lưu
+      </button>
+    </div>
+
+    <!-- table  -->
+    <div class="mt-[12px] flex flex-col gap-[12px]">
+      <div>
+        <span class="roboto-500" style="font-size: 16px">{{
+          "operation.vehicle-command.list_active_vehicle" | translate
+        }}</span>
+      </div>
+
+      <div class="flex justify-between">
+        <div class="flex gap-[12px]">
+          <div style="width: 240px">
+            <nz-select
+              [nzPlaceHolder]="
+                'operation.vehicle-command.extend_route' | translate
+              "
+              class="nzSelect"
+              style="height: 48px !important"
+            >
+              <nz-option
+                *ngFor="let route of listRoute"
+                [nzValue]="route.id"
+                [nzLabel]="route.value"
+              ></nz-option>
+            </nz-select>
+          </div>
+          <div style="width: 240px">
+            <nz-input-group [nzPrefix]="searchInputTpl">
+              <input type="text" placeholder="Tìm kiếm" name="" id="" />
+            </nz-input-group>
+            <ng-template #searchInputTpl>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M16.3333 17.5L11.0833 12.25C10.6667 12.5833 10.1875 12.8472 9.64583 13.0417C9.10417 13.2361 8.52778 13.3333 7.91667 13.3333C6.40278 13.3333 5.12153 12.809 4.07292 11.7604C3.02431 10.7118 2.5 9.43056 2.5 7.91667C2.5 6.40278 3.02431 5.12153 4.07292 4.07292C5.12153 3.02431 6.40278 2.5 7.91667 2.5C9.43056 2.5 10.7118 3.02431 11.7604 4.07292C12.809 5.12153 13.3333 6.40278 13.3333 7.91667C13.3333 8.52778 13.2361 9.10417 13.0417 9.64583C12.8472 10.1875 12.5833 10.6667 12.25 11.0833L17.5 16.3333L16.3333 17.5ZM7.91667 11.6667C8.95833 11.6667 9.84375 11.3021 10.5729 10.5729C11.3021 9.84375 11.6667 8.95833 11.6667 7.91667C11.6667 6.875 11.3021 5.98958 10.5729 5.26042C9.84375 4.53125 8.95833 4.16667 7.91667 4.16667C6.875 4.16667 5.98958 4.53125 5.26042 5.26042C4.53125 5.98958 4.16667 6.875 4.16667 7.91667C4.16667 8.95833 4.53125 9.84375 5.26042 10.5729C5.98958 11.3021 6.875 11.6667 7.91667 11.6667Z"
+                  fill="#A6AEB5"
+                />
+              </svg>
+            </ng-template>
+          </div>
+        </div>
+        <div style="width: 240px">
+          <nz-date-picker
+            nzFormat="dd/MM/yyyy"
+            class="w-full"
+            style="width: 100%"
+            nzPlaceHolder="{{ 'Chọn ngày' | translate }}"
+          ></nz-date-picker>
+        </div>
+      </div>
+
+      <nz-table
+        #basicTable
+        [nzData]="listData"
+        [nzShowPagination]="false"
+        nzTableLayout="fixed"
+        [nzScroll]="{ x: '1500px' }"
+      >
+        <thead>
+          <tr>
+            <th
+              nzWidth="70px"
+              nzAlign="center"
+              class="font-inter"
+              style="color: #000000"
+            >
+              STT
+            </th>
+            <th
+              nzWidth="150px"
+              nzAlign="center"
+              class="font-inter"
+              style="color: #000000"
+            >
+              Lộ trình
+            </th>
+            <th
+              nzWidth="150px"
+              nzAlign="center"
+              class="font-inter"
+              style="color: #000000"
+            >
+              Điểm xuất phát
+            </th>
+            <th
+              nzWidth="200px"
+              nzAlign="center"
+              class="font-inter"
+              style="color: #000000"
+            >
+              Điểm dừng
+            </th>
+            <th
+              nzWidth="150px"
+              nzAlign="center"
+              class="font-inter"
+              style="color: #000000"
+            >
+              Điểm cuối
+            </th>
+            <th
+              nzWidth="170px"
+              nzAlign="center"
+              class="font-inter"
+              style="color: #000000"
+            >
+              Tổng quãng đường (km)
+            </th>
+            <th
+              nzWidth="170px"
+              nzAlign="center"
+              class="font-inter"
+              style="color: #000000"
+            >
+              Thời gian hoàn thành (phút)
+            </th>
+            <th
+              nzWidth="170px"
+              nzAlign="center"
+              class="font-inter"
+              style="color: #000000"
+            >
+              Giá vé
+            </th>
+            <th
+              nzWidth="100px"
+              nzAlign="center"
+              class="font-inter"
+              style="color: #000000"
+            >
+              Thao tác
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of listData; let i = index">
+            <td nzAlign="center">{{ i + 1 }}</td>
+            <td>
+              <div class="flex items-center">
+                <span
+                  nzEllipsis
+                  style="
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                  "
+                  class="cell-table"
+                  nz-tooltip
+                  [nzTooltipTitle]="data.name"
+                  >{{ data.name }}</span
+                >
+              </div>
+            </td>
+            <td>
+              <div class="flex items-center">
+                <span
+                  nzEllipsis
+                  style="
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                  "
+                  class="cell-table"
+                  nz-tooltip
+                  [nzTooltipTitle]="data.startPoint"
+                  >{{ data.startPoint }}</span
+                >
+              </div>
+            </td>
+            <td>
+              <div class="flex flex-wrap items-center">
+                <div
+                  *ngFor="let stopPoint of data.stopPoints"
+                  nzEllipsis
+                  style="
+                    font-size: 13px;
+                    color: #274ea1;
+                    background: #1a69c51a;
+                    height: 19px;
+                    margin-right: 4px;
+                    margin-top: 4px;
+                    padding: 2px 6px;
+                    border-radius: 4px;
+                  "
+                  class="cell-table roboto-500"
+                  nz-tooltip
+                  [nzTooltipTitle]="stopPoint"
+                >
+                  <span>{{ stopPoint }}</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="flex items-center">
+                <span
+                  nzEllipsis
+                  style="
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                  "
+                  class="cell-table"
+                  nz-tooltip
+                  [nzTooltipTitle]="data.endPoint"
+                  >{{ data.endPoint }}</span
+                >
+              </div>
+            </td>
+            <td>
+              <div class="flex items-center justify-content-end">
+                <span
+                  nzEllipsis
+                  style="
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                  "
+                  class="cell-table"
+                  nz-tooltip
+                  [nzTooltipTitle]="data.totalDistance"
+                  >{{ data.totalDistance }}</span
+                >
+              </div>
+            </td>
+            <td>
+              <div class="flex items-center justify-content-end">
+                <span
+                  nzEllipsis
+                  style="
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                  "
+                  class="cell-table"
+                  nz-tooltip
+                  [nzTooltipTitle]="data.completionTime"
+                  >{{ data.completionTime }}</span
+                >
+              </div>
+            </td>
+            <td>
+              <div class="flex items-center justify-content-end">
+                <span
+                  nzEllipsis
+                  style="
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                  "
+                  class="cell-table"
+                  nz-tooltip
+                  [nzTooltipTitle]="data.ticketPrice"
+                  >{{ data.ticketPrice }}</span
+                >
+              </div>
+            </td>
+            <td nzAlign="center">
+              <a
+                *ngIf="data.id"
+                class="mx-1 button_show_detail roboto-500"
+                style="font-size: 12px"
+                (click)="viewDetail(data)"
+              >
+                Xem chi tiết
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+
+      <div style="display: flex; justify-content: center; margin-top: 16px">
+        <nz-pagination
+          [(nzPageIndex)]="paginate.page"
+          [nzTotal]="total"
+          [nzPageSize]="paginate.size"
+          (nzPageIndexChange)="onPageChange($event)"
+          [nzShowSizeChanger]="false"
+          class="custom-pagination"
+        >
+        </nz-pagination>
+      </div>
+    </div>
+  </form>
+</div>

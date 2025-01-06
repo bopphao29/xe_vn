@@ -14,15 +14,15 @@ import {
   Validators,
 } from '@angular/forms';
 import { DialogService } from '../../../../shared/services/dialog.service';
-import { SetupOperationPopupDetailComponent } from './popup-detail/popup-detail.component';
-import { RouteService } from './route.service';
+import { TourService } from './tour.service';
 import { API_CODE } from '../../../../shared/constants/common.const';
 import { NotificationService } from '../../../../shared/services/notification.service';
+import { SetupOperationPopupDetailComponent } from '../../setup-operation/route/popup-detail/popup-detail.component';
 
 @Component({
-  selector: 'app-setup-operation-route',
-  templateUrl: './route.component.html',
-  styleUrls: ['./route.component.scss'],
+  selector: 'app-tour-vehicle',
+  templateUrl: './tour.component.html',
+  styleUrls: ['./tour.component.scss'],
   standalone: true,
   imports: [
     NzSelectModule,
@@ -34,7 +34,7 @@ import { NotificationService } from '../../../../shared/services/notification.se
     NzPaginationModule,
   ],
 })
-export class SetupOperationRouteComponent implements OnInit {
+export class TourVehicleComponent implements OnInit {
   listRoute: Array<{ id: any; value: any }> = [];
   listData: any = [];
   paginate = {
@@ -49,7 +49,7 @@ export class SetupOperationRouteComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialogSrv: DialogService,
-    private routeSrv: RouteService,
+    private routeSrv: TourService,
     private notification: NotificationService,
     private validateService: ValidateIntoPageService
   ) {}
