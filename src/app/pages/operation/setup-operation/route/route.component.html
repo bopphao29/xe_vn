@@ -716,12 +716,12 @@
         }}</span>
       </div>
 
-      <!-- #basicTable
-        [nzData]="listData"
-        [nzShowPagination]="false"
-        nzTableLayout="fixed"
-        [nzScroll]="{ x: '1500px' }" -->
-      <table>
+
+      <nz-table       #basicTable
+      [nzData]="listData"
+      [nzShowPagination]="false"
+      nzTableLayout="fixed"
+      [nzScroll]="{ x: '1500px' }">
         <thead>
           <tr>
             <th
@@ -932,7 +932,7 @@
             </td>
           </tr>
         </tbody>
-      </table>
+      </nz-table>
 
       <div style="display: flex; justify-content: center; margin-top: 16px">
         <nz-pagination
