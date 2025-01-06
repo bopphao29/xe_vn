@@ -61,13 +61,13 @@ export class ReplacementSuppliesComponent implements OnInit{
   }
   isreplacementSupplies : boolean = false
   isDeleteStatusVehicle: boolean = false
-  supplyId: string = ''
+  supplyId: any
   unit : string = '' 
   quantity: number = 0
-  replacementSuppliesList: Array<{ id: number; supplyId: string; quantity: number ;unit: string }> = [];
+  replacementSuppliesList: Array<{ id: number; supplyId: number; quantity: number ;unit: string }> = [];
 
 //phan trang
-displayedData: Array<{ id: number; supplyId: string; quantity: number ;unit: string }> = []; // Dữ liệu hiển thị
+displayedData: Array<{ id: number; supplyId: number; quantity: number ;unit: string }> = []; // Dữ liệu hiển thị
 pageIndex: number = 1; 
 pageSize: number = 9; 
 total: number = 0; 
@@ -82,7 +82,7 @@ updateDisplayedData(): void {
   this.displayedData = this.replacementSuppliesList.slice(startIndex, endIndex);
 }
 
-editreplacementSupplies(item: { id: number; supplyId: string; quantity: number ;unit: string }): void {
+editreplacementSupplies(item: { id: number; supplyId: number; quantity: number ;unit: string }): void {
   this.supplyId = item.supplyId; // Gán giá trị từ item vào biến ngModel
   this.quantity = item.quantity
   this.unit = item.unit
@@ -125,10 +125,7 @@ supplies() {
     {next: (response : any) => {
       console.log(response.data)
       if (response && response.data) {
-        this.options = (response?.data || []).filter((option: any) => option.supplyName != null);
-        this.dataOption = this.options.map((data: any)=> data.supplyName)
-        this.filteredOptions = [...this.dataOption];
-
+        this.options = response?.data
         this.optionUnits = (response?.data || []).filter((option: any) => option.unit != null);
         this.dataOptionUnits = Array.from(new Set(this.optionUnits.map((data: any) => data.unit)));
         this.filteredOptionUnits = [...this.dataOptionUnits];
@@ -155,7 +152,7 @@ handleCancelisreplacementSupplies(): void {
 
 
 handleSubmitisreplacementSupplies(): void {
-    if (this.supplyId.trim()) {
+    if (this.supplyId) {
       if (this.isEditMode) {
         // Cập nhật đối tượng đã chọn trong danh sách
         const index = this.replacementSuppliesList.findIndex(item => item.id === this.replacementSuppliesList.length); // Tìm đối tượng cũ dựa vào id

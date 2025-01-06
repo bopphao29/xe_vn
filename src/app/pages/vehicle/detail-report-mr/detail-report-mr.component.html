@@ -22,26 +22,27 @@
                     <table class="custom-table">
                         <tbody>
                             <tr>
-                                <td class="col-1">BKS</td>
-                                <td class="col-2">{{ inforMR?.createdBy || '' }}</td>
+                                <td class="co">BKS</td>
+                                <td class="col-2">{{ dataSummaryByRegisterNo?.registerNo || '' }}</td>
                             </tr>
                             <tr>
                                 <td class="col-1">Lái xe</td>
-                                <td class="col-2">{{ inforMR?.creatorPosition || '' }}</td>
+                                <td class="col-2">{{ dataSummaryByRegisterNo?.driver || '' }}</td>
                             </tr>
                             <tr>
                                 <td class="col-1">Loại xe</td>
-                                <td class="col-2">{{ inforMR?.creatorPhoneNumber || '' }}</td>
+                                <td class="col-2">{{ dataSummaryByRegisterNo?.vehicleType || '' }}</td>
                             </tr>
                             <tr>
                                 <td class="col-1">Năm sản xuất</td>
                                 <td class="col-2">
-                                    
+                                    {{ dataSummaryByRegisterNo?.manufacturerYear || '' }}
                                 </td>
+
                             </tr>
                             <tr>
                                 <td class="col-1">Số Km hiện tại</td>
-                                <td class="col-2">{{ inforMR?.creatorPhoneNumber || '' }}</td>
+                                <td class="col-2">{{ dataSummaryByRegisterNo?.odometer || '' }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -52,23 +53,23 @@
                         <tbody>
                             <tr>
                                 <td class="col-1">Tổng số lượt BDSC</td>
-                                <td class="col-2">{{ inforMR?.registerNo }}</td>
+                                <td class="col-2">{{ dataSummaryByRegisterNo?.numberOfMaintenance }}</td>
                             </tr>
                             <tr>
                                 <td class="col-1">Tổng tình trạng xe</td>
-                                <td class="col-2">{{ inforMR?.driver }}</td>
+                                <td class="col-2">{{ dataSummaryByRegisterNo?.vehicleStatuses }}</td>
                             </tr>
                             <tr>
                                 <td class="col-1">Tổng thời gian SC</td>
-                                <td class="col-2">{{  inforMR?.phoneNumber }}</td>
+                                <td class="col-2">{{  dataSummaryByRegisterNo?.hours }}</td>
                             </tr>
                             <tr>
                                 <td class="col-1">Tổng công việc SC</td>
-                                <td class="col-2">{{inforMR?.maintenancePlace}}</td>
+                                <td class="col-2">{{dataSummaryByRegisterNo?.worksPerformed}}</td>
                             </tr>
                             <tr>
                                 <td class="col-1">Tổng vật tư thay thế</td>
-                                <td class="col-2">{{inforMR?.maintenancePlace}}</td>
+                                <td class="col-2">{{dataSummaryByRegisterNo?.replacementSupplies}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -79,54 +80,55 @@
 
             <div nz-row style="margin-top: 20px;" class="p-4">
                 <div nz-col nzSpan="22">
-                    <table class="custom-table-list" style="background-color: #FCFCFC; text-align: center; width: 100%;">
+                    <table class="custom-table-list" style="background-color: #FCFCFC; text-align: center; width: 100%; border-collapse: collapse;">
+                        <thead>
+                          <tr style="background-color: #f4f4f4;">
+                            <th class="list-col">Tháng</th>
+                            <th class="list-col">Số lần BDSC</th>
+                            <th class="list-col">Ngày BDSC</th>
+                            <th class="list-col">Tình trạng xe</th>
+                            <th class="list-col">Thời gian SC (giờ)</th>
+                            <th class="list-col">Công việc SC</th>
+                            <th class="list-col">Tác vụ</th>
+                          </tr>
+                        </thead>
                         <tbody>
-                            <tr style="background-color: #fcfcfc;">
-                                <th class="list-col-1">STT</th>
-                                <th class="list-col-3" style="text-align: left !important; padding-left: 10px;">Biển kiểm soát</th>
-                                <th class="list-col-2">Lái xe</th>
-                                <th class="list-col-2">SĐT</th>
-                                <th class="list-col-3">Người lập</th>
-                                <th class="list-col-3">Ngày lập</th>
-            
-                                <th class="list-col-4">Tình trạng</th>
-                                <th class="list-col-2">Người duyệt</th>
-                                <th class="list-col-3">Ngày duyệt</th>
-                                <th class="list-col-2">Tác vụ</th>
-            
-                            </tr>
-                            <tr *ngFor="let data of showEmpolyeeNoData(); let i = index">
-                                <td class="list-col-1">{{(pageIndex - 1) * pageSize + i + 1}}</td>
-                                <td class="list-col-3" style="text-align: left !important; padding-left: 10px;">{{data.registerNo || '-'}}</td>
-                                <td class="list-col-3" style="text-align: left !important; padding-left: 10px;">{{data.driver || '-'}}</td>
-                                <td class="list-col-2">{{data.phoneNumber || '-'}}</td>
-                                <td class="list-col-2">{{data.createdAt || '-'}}</td>
-                                
-                                <td class="list-col-2">{{(data.createdBy | date: 'dd/MM/yyyy')  || '-'}}</td>
-                                <td class="list-col-3">
-                                    <span style="color: rgba(239, 68, 68, 1);" *ngIf="data.status == 2">
-                                        Đang sửa chữa
-                                    </span>
-                                    <span *ngIf="data.status == 1">
-                                        Chờ duyệt
-                                    </span>
-                                </td>
-                                
-                                <td class="list-col-4">{{data.approvedBy|| '-'}}</td>
-                                <td class="list-col-2">{{(data.approvedAt | date: 'dd/MM/yyyy') || '-'}}</td>
-                                <td class="list-col-2">
-                                    <a  *ngIf="data.id" (click)="routerDetail(data.id)" class="button_show_detail">
-                                        Xem chi tiết
+                            <!-- Lặp qua từng nhóm (theo tháng) -->
+                            <ng-container *ngFor="let group of showEmpolyeeNoData(); let groupIndex = index">
+                              <!-- Lặp qua từng chi tiết trong nhóm -->
+                              <ng-container *ngFor="let detail of group.lstDetails; let i = index">
+                                <tr>
+                                  <!-- Cột "Tháng" (gộp dòng) -->
+                                  <td *ngIf="i === 0" class="list-col" [attr.rowspan]="group.lstDetails.length">
+                                    {{ group.month }}
+                                  </td>
+                        
+                                  <!-- Cột "Số lần BDSC" (gộp dòng) -->
+                                  <td *ngIf="i === 0" class="list-col" [attr.rowspan]="group.lstDetails.length">
+                                    {{ group.numberOfMaintenance }}
+                                  </td>
+                        
+                                  <!-- Cột chi tiết -->
+                                  <td class="list-col">{{ detail.date || '-' }}</td>
+                                  <td class="list-col">
+                                    <span *ngIf="detail.vehicleStatuses === 0">Hoạt động</span>
+                                    <span *ngIf="detail.vehicleStatuses === 1">Không hoạt động</span>
+                                    <span *ngIf="detail.vehicleStatuses === null">-</span>
+                                  </td>
+                                  <td class="list-col">{{ detail.hours || '-' }}</td>
+                                  <td class="list-col">{{ detail.worksPerformed || '-' }}</td>
+                                  <td class="list-col">
+                                    <a *ngIf="detail.id" (click)="routerDetail(detail?.id)" class="button_show_detail">
+                                      Xem chi tiết
                                     </a>
-                                    <a *ngIf="!data.id">
-                                        -
-                                    </a>
-                                </td>
-                            </tr>
-            
-            
-                        </tbody>
-                    </table>
+                                    <span *ngIf="!detail.id">-</span>
+                                  </td>
+                                </tr>
+                              </ng-container>
+                            </ng-container>
+                          </tbody>
+                      </table>
+                      
                 </div>
             </div>
             
