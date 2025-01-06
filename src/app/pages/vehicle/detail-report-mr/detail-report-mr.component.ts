@@ -17,6 +17,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { VehicalServiceService } from '../../../shared/services/vehical-service.service';
+import { DialogService } from '../../../shared/services/dialog.service';
+import { ChildReportComponent } from './report-mr-child/child-report/child-report.component';
 
 @Component({
   selector: 'app-detail-report-mr',
@@ -49,6 +51,7 @@ export class DetailReportMrComponent implements OnInit{
       private router: Router,
       private vehicleServices : VehicalServiceService,
       private route: ActivatedRoute,
+      private dialog: DialogService
       
   ){}
 
@@ -80,7 +83,21 @@ export class DetailReportMrComponent implements OnInit{
   inforMR : any
   listSM : any[]= []
 
+  detailChild : any
   routerDetail(id: any){
+    console.log(id)
+    this.vehicleServices.getDetailMR(id).subscribe((response : any) =>{
+      this.detailChild = response.data 
+      const dialogRef = this.dialog.openDialog(
+        ChildReportComponent,
+        '',
+        this.detailChild,
+        {
+          nzWidth: '100vh',
+        }
+      )
+
+    })
 
   }
 
@@ -89,33 +106,46 @@ export class DetailReportMrComponent implements OnInit{
     // this.search()
     this.getDetail(regisNo)
   }
-
-  showEmpolyeeNoData(){
-    const numberData = 12
-    const data = {id: null, name: null, yearOfBirth: null, phoneNumber: null, officeName: null, branchName: null, punishmentForm: null, lastModifiedDate: null}
+  
+  showEmpolyeeNoData() {
+    const numberData = 12;
+    const emptyDetail = { date: '-', vehicleStatuses: null, hours: '-', worksPerformed: '-', id: null };
     
-    const dataRrows = this.listSM.slice();
-    const currentData = dataRrows.length
-    if(currentData < numberData){
-      const isChangeData = numberData - currentData
-      for(let i = 0; i < isChangeData; i++){
-        dataRrows.push(data)
+    // Tạo danh sách nhóm với dữ liệu ban đầu
+    const dataGroups = this.listSM.map((item) => {
+      const details = item.lstDetails || [];
+      return {
+        month: item.month,
+        numberOfMaintenance: item.numberOfMaintenance,
+        lstDetails: details.length ? details : [emptyDetail], // Ít nhất có một chi tiết trống
+      };
+    });
+  
+    // Tính tổng số hàng hiện tại
+    const currentRowCount = dataGroups.reduce((sum, group) => sum + group.lstDetails.length, 0);
+  
+    // Nếu số hàng hiện tại ít hơn 12, thêm các hàng trống
+    if (currentRowCount < numberData) {
+      const rowsToAdd = numberData - currentRowCount;
+      for (let i = 0; i < rowsToAdd; i++) {
+        dataGroups.push({
+          month: '-',
+          numberOfMaintenance: '-',
+          lstDetails: [emptyDetail],
+        });
       }
     }
-    return dataRrows;
+  
+    return dataGroups;
   }
+  
+  
 
   getDetail(regisNo: any){
     this.vehicleServices.summaryDetail(this.pageIndex - 1, this.pageSize, regisNo).subscribe((response: any)=>{
             this.listSM = response.data.content
             this.total = response.data.totalElements
-            // console.log(this.total)
-            // if(response.data.totalElements == 0){
-            //   Swal.fire({
-            //     icon: "warning",
-            //     text: "Không tìm thấy dữ liệu bạn muốn tìm kiếm!",
-            //   });
-            // }
+           
           })
   }
  

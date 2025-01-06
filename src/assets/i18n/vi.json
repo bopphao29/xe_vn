@@ -405,7 +405,7 @@
     "vehicleModel": "Cần nhập mẫu xe"
   },
   "pattern": {
-    "registerNo": "Nhập dạng biển số: 29F1-963.32",
+    "registerNo": "Nhập số, chữ tiếng anh dạng: 29F1-963.32",
     "zalo": "Chỉ nhập số hoặc chữ",
     "numberAndEnglishText": "Nhập số và chữ tiếng anh"
   },

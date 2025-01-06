@@ -422,9 +422,12 @@ onBack(event: any) {
     console.log(selectedItem);
     if (selectedItem) {
       this.form.patchValue({
-        registerNo: selectedItem.id, // Patch ID để khớp với nzValue
+        registerNo: data.registerNo, // Patch ID để khớp với nzValue
         driver: data.driverName,
         phoneNumber: data.phoneNumber,
+        latestOdometer: data.latestOdometer,
+        latestDate: data.latestDate,
+        currentOdometer: data.currentOdometer
       });
     }
   }
