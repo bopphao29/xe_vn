@@ -108,7 +108,10 @@
             <label class="label-form" for="">{{
               "vehicle.replacementSupplies" | translate
             }}</label>
-            <input
+            <nz-select nzPlaceHolder="Chọn" [(ngModel)]="supplyId" class="nzSelect" style="width: 100%">
+                <nz-option *ngFor="let options of options" [nzValue]="options.id" [nzLabel]="options.supplyName"></nz-option>
+            </nz-select>
+            <!-- <input
               class="input-form"
               placeholder="Nhập"
               type="text"
@@ -121,7 +124,7 @@
               [nzDataSource]="filteredOptions"
               nzBackfill
               #autoSupplyId
-            ></nz-autocomplete>
+            ></nz-autocomplete> -->
           </div>
         </div>
         <div class="input-wrapper" style="width: 20%">
@@ -180,7 +183,6 @@
         </span>
         <span>
           <button
-            [disabled]="!supplyId"
             class="button-status"
             nz-button
             style="color: #ffffff; background-color: #274ea1"
@@ -304,7 +306,6 @@
         </span>
         <span>
           <button
-            [disabled]="!supplyId"
             class="button-status"
             nz-button
             style="color: #ffffff; background-color: #274ea1"
