@@ -57,11 +57,7 @@
         <div class="input-wrapper">
             <div class="">
                 <label class="label-form" for="" >{{'vehicle.workPerformed' | translate}}</label>
-                <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="workPerformedInput"
-                (ngModelChange)="onChange($event)"
-                [nzAutocomplete]="auto"
-                >
-                <nz-autocomplete [nzDataSource]="filteredOptions" nzBackfill #auto></nz-autocomplete>
+                <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="workPerformedInput">
             </div>
     
           </div>            

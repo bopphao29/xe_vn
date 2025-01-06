@@ -104,10 +104,7 @@
             placeholder="Nhập"
             type="text"
             [(ngModel)]="statusVehicle"
-            (ngModelChange)="onChange($event)"
-            [nzAutocomplete]="auto"
           />
-          <nz-autocomplete [nzDataSource]="filteredOptions" nzBackfill #auto></nz-autocomplete>
         </div>
       </div>
       <div

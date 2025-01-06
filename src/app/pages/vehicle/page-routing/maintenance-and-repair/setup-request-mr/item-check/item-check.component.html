@@ -9,11 +9,11 @@
             </tr>
             <tr *ngFor="let item of displayedData; let i = index">
                 <td class="list-col-1">{{ i + 1 }}</td>
-                <td class="list-col-3">{{ item.testItem }}</td>
+                <td class="list-col-3">{{ item.testItemInput }}</td>
                 <td class="button_action list-col-2" style="text-align: center;">
                   <div>
                     <a (click)="editVehicleStatus(item)" class="mx-1 button_show_detail">Sửa</a>
-                    <a (click)="openDeleteModal(item)" class="mx-1 button_show_detail">Xóa</a>
+                    <a (click)="openDeleteModal(item)" class="mx-1 button_show_detail-delete">Xóa</a>
                   </div>
                 </td>
               </tr>
@@ -57,7 +57,12 @@
         <div class="input-wrapper">
             <div class="">
                 <label class="label-form" for="" >{{'vehicle.testItem' | translate}}</label>
-                <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="testItemInput" >
+                <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="testItemInput" 
+                (ngModelChange)="onChange($event)"
+                [nzAutocomplete]="auto"
+                >
+                <nz-autocomplete [nzDataSource]="filteredOptions" nzBackfill #auto></nz-autocomplete>
+
             </div>
     
           </div>            

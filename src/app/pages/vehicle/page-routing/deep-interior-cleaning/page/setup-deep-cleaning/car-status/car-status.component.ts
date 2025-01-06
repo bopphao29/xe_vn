@@ -3,19 +3,15 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { ModalVehicalComponent } from '../../../../../../shared/modals/modal-vehical/modal-vehical.component';
-import { DialogService } from '../../../../../../shared/services/dialog.service';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
-import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
-import { VehicalServiceService } from '../../../../../../shared/services/vehical-service.service';
+import { DialogService } from '../../../../../../../shared/services/dialog.service';
 
 @Component({
   selector: 'app-car-status',
@@ -28,13 +24,11 @@ import { VehicalServiceService } from '../../../../../../shared/services/vehical
     TranslateModule,
     NzModalModule,
     NzPaginationModule,
-    NzAutocompleteModule
   ],
   templateUrl: './car-status.component.html',
   styleUrl: './car-status.component.scss',
 })
-export class CarStatusComponent implements OnInit{
-
+export class CarStatusComponent {
   @Input() parentData: any[] = [];
   @Output() dataEmitter = new EventEmitter<any[]>();
   @Input() isFromRequestMr: boolean = false;
@@ -54,16 +48,7 @@ export class CarStatusComponent implements OnInit{
       }));
     }
   }
-  constructor(
-    private dialogService: DialogService,
-    private vehicleServices: VehicalServiceService
-
-  ) {}
-
-  
-  ngOnInit(): void {
-    this.vehicleStatuses()
-  }
+  constructor(private dialogService: DialogService) {}
 
   isStatusVehicle: boolean = false;
   isDeleteStatusVehicle: boolean = false;
@@ -79,39 +64,6 @@ export class CarStatusComponent implements OnInit{
     this.pageIndex = page;
     this.updateDisplayedData();
   }
-
-  options: any[] = []
-  filteredOptions: any[] = []
-  dataOption: any[] = []
-
-  onChange(value: string): void {
-    this.filteredOptions = this.options.filter(name =>
-      name.toLowerCase().includes(value.toLowerCase())
-    );
-  }
-  
-  vehicleStatuses() {
-    this.vehicleServices.vehicleStatuses().subscribe(
-      {next: (response : any) => {
-        console.log(response.data)
-        if (response && response.data) {
-          this.options = (response?.data || []).filter((option: any) => option.name != null);
-           this.dataOption = this.options.map((data: any)=> data.name)
-  
-          this.filteredOptions = [...this.dataOption];
-        } else {
-          this.options = [];
-          this.filteredOptions = [];
-        }
-      },
-      error : (error) => {
-        console.error('Lỗi khi gọi API:', error);
-        this.options = [];
-        this.filteredOptions = [];
-      }}
-    );
-  }
-  
 
   updateDisplayedData(): void {
     const startIndex = (this.pageIndex - 1) * this.pageSize;
@@ -163,6 +115,7 @@ export class CarStatusComponent implements OnInit{
   }
 
   sendDataToParent(): void {
+    console.log(this.statusVehicleList);
     this.dataEmitter.emit(this.statusVehicleList); // Gửi dữ liệu ra ngoài
   }
 

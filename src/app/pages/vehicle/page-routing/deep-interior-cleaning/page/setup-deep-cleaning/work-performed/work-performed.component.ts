@@ -1,12 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
-import { VehicalServiceService } from '../../../../../../shared/services/vehical-service.service';
-import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 
 @Component({
   selector: 'app-work-performed',
@@ -18,22 +16,20 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
       NzButtonModule,
       TranslateModule,
       NzModalModule,
-      NzAutocompleteModule,
       NzPaginationModule,
   ],
   templateUrl: './work-performed.component.html',
   styleUrl: './work-performed.component.scss'
 })
-export class WorkPerformedComponent implements OnInit{
+export class WorkPerformedComponent {
   @Input() parentData: any[] = [];
   
   @Output() dataEmitter = new EventEmitter<any[]>()
   constructor(
-    private vehicleServices: VehicalServiceService
-  ){}
-  ngOnInit(): void {
-    this.workPerformeds()
+  ){
+
   }
+
   ngOnChanges(changes: SimpleChanges) {
         if (changes['parentData']) {
           this.workPerformedList = this.parentData.map(item => ({
@@ -64,38 +60,6 @@ total: number = 0;
 onPageChange(page: number): void {
   this.pageIndex = page;
   this.updateDisplayedData();
-}
-
-
-options: any[] = []
-dataOption: any[] = []
-filteredOptions: any[] = []
-onChange(value: string): void {
-  this.filteredOptions = this.dataOption.filter(name =>
-    name.toLowerCase().includes(value.toLowerCase())
-  );
-}
-
-workPerformeds() {
-  this.vehicleServices.workPerformeds().subscribe(
-    {next: (response : any) => {
-      console.log(response.data)
-      if (response && response.data) {
-        this.options = (response?.data || []).filter((option: any) => option.name != null);
-         this.dataOption = this.options.map((data: any)=> data.name)
-
-        this.filteredOptions = [...this.dataOption];
-      } else {
-        this.options = [];
-        this.filteredOptions = [];
-      }
-    },
-    error : (error) => {
-      console.error('Lỗi khi gọi API:', error);
-      this.options = [];
-      this.filteredOptions = [];
-    }}
-  );
 }
 
 updateDisplayedData(): void {

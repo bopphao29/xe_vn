@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { VehicalServiceService } from '../../../../../../shared/services/vehical-service.service';
 
 @Component({
   selector: 'app-replacement-supplies',
@@ -19,12 +21,13 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NzModalModule,
     NzPaginationModule,
     NzSelectModule,
+    NzAutocompleteModule
     
   ],
   templateUrl: './replacement-supplies.component.html',
   styleUrl: './replacement-supplies.component.scss'
 })
-export class ReplacementSuppliesComponent {
+export class ReplacementSuppliesComponent implements OnInit{
     @Input() parentData: any[] = [];
     
     @Output() dataEmitter = new EventEmitter<any[]>()
@@ -48,8 +51,13 @@ export class ReplacementSuppliesComponent {
           }
         }
   constructor(
+    private vehicleServices: VehicalServiceService
   ){
 
+  }
+
+  ngOnInit(): void {
+    this.supplies()
   }
   isreplacementSupplies : boolean = false
   isDeleteStatusVehicle: boolean = false
@@ -91,6 +99,51 @@ onAdd(){
   this.isreplacementSupplies = true
 }
 
+
+options: any[] = []
+optionUnits: any[] = []
+dataOption: any[] = []
+dataOptionUnits: any[] = []
+filteredOptions: any[] = []
+filteredOptionUnits: any[] = []
+filteredUnit: any[] = []
+onChange(value: string, nameInput: string): void {
+  if(nameInput == 'supplyId'){
+    this.filteredOptions = this.dataOption.filter(name =>
+      name.toLowerCase().includes(value.toLowerCase())
+    );
+  }else{
+    this.filteredOptionUnits = this.dataOptionUnits.filter(name =>
+      name.toLowerCase().includes(value.toLowerCase())
+    );
+  }
+
+}
+
+supplies() {
+  this.vehicleServices.supplies().subscribe(
+    {next: (response : any) => {
+      console.log(response.data)
+      if (response && response.data) {
+        this.options = (response?.data || []).filter((option: any) => option.supplyName != null);
+        this.dataOption = this.options.map((data: any)=> data.supplyName)
+        this.filteredOptions = [...this.dataOption];
+
+        this.optionUnits = (response?.data || []).filter((option: any) => option.unit != null);
+        this.dataOptionUnits = Array.from(new Set(this.optionUnits.map((data: any) => data.unit)));
+        this.filteredOptionUnits = [...this.dataOptionUnits];
+      } else {
+        this.options = [];
+        this.filteredOptions = [];
+      }
+    },
+    error : (error) => {
+      console.error('Lỗi khi gọi API:', error);
+      this.options = [];
+      this.filteredOptions = [];
+    }}
+  );
+}
 
 handleCancelisreplacementSupplies(): void {
   this.supplyId = ''; // Reset giá trị nhập vào

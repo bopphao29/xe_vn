@@ -153,7 +153,7 @@
                         <div class="input-wrapper">
                             <div class="">
                                 <label class="label-form" for="" >{{'vehicle.latestOdometer' | translate}}</label>
-                                <input class="input-form"  placeholder="Nhập" type="number" min="0" formControlName="latestOdometer" >
+                                <input class="input-form"  placeholder="Nhập" type="number" formControlName="latestOdometer" >
                                 <!-- <div class="error-container">
                                     <div *ngIf="form.get('latestOdometer')?.invalid && (form.get('latestOdometer')?.dirty || form.get('latestOdometer')?.touched)">
                                         <span class="validate_input" *ngIf="form.get('latestOdometer')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>
@@ -191,7 +191,7 @@
                 <input
                   class="input-form"
                   placeholder="30E-8888"
-                  type="number" min="0"
+                  type="number"
                   formControlName="currentOdometer"
                 />
                 <div class="error-container">
@@ -534,12 +534,6 @@
                 [parentData]="listWP"
                 (dataEmitter)="receiveData($event, 'workPerformed')"
               ></app-work-performed>
-            </nz-tab>
-            <nz-tab nzTitle="{{ 'vehicle.replacementSupplies' | translate }}">
-              <app-replacement-supplies
-                [parentData]="lstRS"
-                (dataEmitter)="receiveData($event, 'replacementSupplies')"
-              ></app-replacement-supplies>
             </nz-tab>
           </nz-tabset>
         </div>

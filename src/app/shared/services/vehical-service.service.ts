@@ -128,10 +128,6 @@ export class VehicalServiceService {
     return this.httpClient.post(this.url + 'api/maintenance-repair-schedules/summary?' +params, data)
   }
 
-  supplies(){
-    return this.httpClient.get(this.url + 'api/supplies')
-  }
-
   summaryDetail(page: any, size: any, registerNo: any){
     const params = 'page='+page.toString()+'&size='+size.toString() +'&registerNo=' + registerNo
     return this.httpClient.get(this.url + 'api/maintenance-repair-schedules/summary-details?'+params)
@@ -139,5 +135,21 @@ export class VehicalServiceService {
 
   summaryByRegisterNo(registerNo: any){
     return this.httpClient.get(this.url + 'api/maintenance-repair-schedules/summary-by-register-no?registerNo='+ registerNo)
+  }
+
+  vehicleStatuses(){
+    return this.httpClient.get(this.url + 'api/vehicle-statuses')
+  }
+
+  testCategories(){
+    return this.httpClient.get(this.url + 'api/test-categories')
+  }
+
+  workPerformeds(){
+    return this.httpClient.get(this.url + 'api/work-performeds')
+  }
+
+  supplies(){
+    return this.httpClient.get(this.url + 'api/supplies')
   }
 }

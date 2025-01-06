@@ -16,7 +16,7 @@
                 <td class="button_action list-col-2  " style="text-align: center;">
                     <div>
                         <a (click)="editreplacementSupplies(item)" class="mx-1 button_show_detail">Sửa</a>
-                        <a (click)="openDeleteModal(item)" class="mx-1 button_show_detail">Xóa</a>
+                        <a (click)="openDeleteModal(item)" class="mx-1 button_show_detail-delete">Xóa</a>
                       </div>
                 </td>
             </tr>
@@ -59,14 +59,11 @@
             <div class="input-wrapper" style="width: 60%;">
                 <div class="">
                     <label class="label-form" for="" >{{'vehicle.replacementSupplies' | translate}}</label>
-                    <nz-select nzPlaceHolder="Nam" [(ngModel)]="supplyId" class="nzSelect" style="width: 100%;">
-                        <nz-option nzValue="1" nzLabel="Má Phanh"></nz-option>
-                        <nz-option nzValue="2" nzLabel="Lốp"></nz-option>
-                        <nz-option nzValue="3" nzLabel="Đèn Hậu"></nz-option>
-
-                        <!-- <nz-option *ngFor="let gender of listGender" [nzValue]="gender.id" [nzLabel]="gender.value"></nz-option> -->
-
-                    </nz-select>
+                    <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="supplyId" 
+                    (ngModelChange)="onChange($event, 'supplyId')"
+                    [nzAutocomplete]="autoSupplyId"
+                    >
+                    <nz-autocomplete [nzDataSource]="filteredOptions" nzBackfill #autoSupplyId></nz-autocomplete>
                 </div>
             </div>
             <div class="input-wrapper" style="width: 20%;">
@@ -78,7 +75,10 @@
             <div class="input-wrapper" style="width: 20%;">
                 <div class="">
                     <label class="label-form" for="" >{{'table.vehicle.unitOfMeasure' | translate}}</label>
-                    <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="unit" >
+                    <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="unit" (ngModelChange)="onChange($event, 'unit')"
+                    [nzAutocomplete]="autoUnit"
+                    >
+                    <nz-autocomplete [nzDataSource]="filteredOptionUnits" nzBackfill #autoUnit></nz-autocomplete>
                 </div>
             </div>
         </div>            
@@ -107,33 +107,33 @@
         </div>
         <div >
               
-        <div class="box-input" >
-            <div class="input-wrapper" style="width: 60%;">
-                <div class="">
-                    <label class="label-form" for="" >{{'vehicle.replacementSupplies' | translate}}</label>
-                    <nz-select nzPlaceHolder="Nam" [(ngModel)]="supplyId" class="nzSelect" style="width: 100%;">
-                        <nz-option nzValue="1" nzLabel="Má Phanh"></nz-option>
-                        <nz-option nzValue="2" nzLabel="Lốp"></nz-option>
-                        <nz-option nzValue="3" nzLabel="Đèn Hậu"></nz-option>
-
-                        <!-- <nz-option *ngFor="let gender of listGender" [nzValue]="gender.id" [nzLabel]="gender.value"></nz-option> -->
-
-                    </nz-select>
+            <div class="box-input" >
+                <div class="input-wrapper" style="width: 60%;">
+                    <div class="">
+                        <label class="label-form" for="" >{{'vehicle.replacementSupplies' | translate}}</label>
+                        <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="supplyId" 
+                        (ngModelChange)="onChange($event, 'supplyId')"
+                        [nzAutocomplete]="autoSupplyId"
+                        >
+                        <nz-autocomplete [nzDataSource]="filteredOptions" nzBackfill #autoSupplyId></nz-autocomplete>
+                    </div>
                 </div>
-            </div>
-            <div class="input-wrapper" style="width: 20%;">
-                <div class="">
-                    <label class="label-form" for="" >{{'vehicle.replacementSupplies' | translate}}</label>
-                    <input class="input-form" placeholder="Nhập" type="number" min="0" [(ngModel)]="quantity" >
+                <div class="input-wrapper" style="width: 20%;">
+                    <div class="">
+                        <label class="label-form" for="" >{{'table.vehicle.count' | translate}}</label>
+                        <input class="input-form" placeholder="Nhập" type="number" min="0" [(ngModel)]="quantity" >
+                    </div>
                 </div>
-            </div>
-            <div class="input-wrapper" style="width: 20%;">
-                <div class="">
-                    <label class="label-form" for="" >{{'vehicle.replacementSupplies' | translate}}</label>
-                    <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="unit" >
+                <div class="input-wrapper" style="width: 20%;">
+                    <div class="">
+                        <label class="label-form" for="" >{{'table.vehicle.unitOfMeasure' | translate}}</label>
+                        <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="unit" (ngModelChange)="onChange($event, 'unit')"
+                        [nzAutocomplete]="autoUnit"
+                        >
+                        <nz-autocomplete [nzDataSource]="filteredOptionUnits" nzBackfill #autoUnit></nz-autocomplete>
+                    </div>
                 </div>
-            </div>
-        </div>            
+            </div>            
             <div style="display: flex; gap: 8px; justify-content: center; margin-top: 20px"> 
                 <span>
                     <button class="button-status" nz-button style="color: #274EA1;" nzType="default"

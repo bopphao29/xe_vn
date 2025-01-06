@@ -1,1 +1,32 @@
-<p>deep-interior-cleaning works!</p>
+<div class="tabs p-4 pt-3" style="background-color: #f3f3f3;">
+    <a 
+      class="tab-link" 
+      [class.active]="currentTab === 'setup-request'"
+      (click)="changeTab('setup-request')"
+    >
+      {{'vehicle.setupRequestMR' | translate}}
+    </a>
+    <a 
+      class="tab-link" 
+      [class.active]="currentTab === 'list-request'"
+      (click)="changeTab('list-request')"
+    >
+      {{'vehicle.listRequestMR' | translate}}
+    </a>
+    <a 
+      class="tab-link" 
+      [class.active]="currentTab === 'report-request'"
+      (click)="changeTab('report-request')"
+    >
+      {{'vehicle.reportRequestMR' | translate}}
+    </a>
+    
+  </div>
+  
+  <!-- Hiển thị component con dựa trên giá trị của `currentTab` -->
+  <div class="tab-content" style="margin-top: 0px !important; background-color: #f3f3f3;">
+    <app-setup-deep-cleaning  *ngIf="currentTab === 'setup-request'"></app-setup-deep-cleaning>
+    <app-list-deep-cleaning (dataEmmitter)="changeTab('list-request')" *ngIf="currentTab === 'list-request'"></app-list-deep-cleaning>
+    <app-report-deep-cleaning *ngIf="currentTab === 'report-request'" [data]="data"></app-report-deep-cleaning>
+  </div>
+  

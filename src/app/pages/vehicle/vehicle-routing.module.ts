@@ -60,6 +60,28 @@ export const VEHICLE_ROUTES: Routes = [
           import(
             './page-routing/deep-interior-cleaning/deep-interior-cleaning.component'
           ).then((c) => c.DeepInteriorCleaningComponent),
+          children: [
+            {
+              path: 'setup-deep-cleaning',
+              loadComponent: () =>
+                import('./page-routing/deep-interior-cleaning/page/setup-deep-cleaning/setup-deep-cleaning.component').then(
+                  (c) => c.SetupDeepCleaningComponent
+                )
+            },{
+              path : 'list-deep-cleaning',
+              loadComponent : () =>
+                import('./page-routing/deep-interior-cleaning/page/list-deep-cleaning/list-deep-cleaning.component').then(
+                  (c) => c.ListDeepCleaningComponent
+                )
+            },
+            {
+              path: 'report-deep-cleaning',
+              loadComponent: () => 
+                import('./page-routing/deep-interior-cleaning/page/report-deep-cleaning/report-deep-cleaning.component').then(
+                  (c) => c.ReportDeepCleaningComponent
+                )
+            }
+          ]
       },
       {
         path: 'operational-management',

@@ -314,3 +314,10 @@ nz-select.ng-invalid.ng-touched {
 nz-time-picker.ng-invalid.ng-touched {
   border-color: #ff4d4f !important;
 }
+
+.button_show_detail-delete{
+  color: rgba(227, 60, 60, 1);
+  border: 1px solid rgba(227, 60, 60, 0.3);
+  padding: 4px 10px 4px 10px;
+  border-radius: 21px;
+}

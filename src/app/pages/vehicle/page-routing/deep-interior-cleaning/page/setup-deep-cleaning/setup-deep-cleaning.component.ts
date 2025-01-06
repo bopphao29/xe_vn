@@ -1,18 +1,11 @@
-import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-} from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { CommonModule, DatePipe } from '@angular/common';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NotificationService } from '../../../../../../shared/services/notification.service';
+import { ValidateIntoPageService } from '../../../../../../shared/services/validate-into-page.service';
+import { VehicalServiceService } from '../../../../../../shared/services/vehical-service.service';
+import Swal from 'sweetalert2';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
@@ -20,61 +13,47 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
-import { DatePipe } from '@angular/common';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
-import { CarStatusComponent } from './car-status/car-status.component';
 import { ItemCheckComponent } from './item-check/item-check.component';
 import { WorkPerformedComponent } from './work-performed/work-performed.component';
-import { ReplacementSuppliesComponent } from './replacement-supplies/replacement-supplies.component';
-import { VehicalServiceService } from '../../../../../shared/services/vehical-service.service';
-import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
-import { NzPaginationModule } from 'ng-zorro-antd/pagination';
-import { DONTANYTHING } from '../../../../../shared/constants/common.const';
-import Swal from 'sweetalert2';
-import { NotificationService } from '../../../../../shared/services/notification.service';
-import { ValidateIntoPageService } from '../../../../../shared/services/validate-into-page.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CarStatusComponent } from './car-status/car-status.component';
 
 
 @Component({
-  selector: 'app-setup-request-mr',
+  selector: 'app-setup-deep-cleaning',
   standalone: true,
   imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NzButtonModule,
-    TranslateModule,
-    NzTabsModule,
-    NzSelectModule,
-    NzFormModule,
-    NzButtonModule,
-    NzInputModule,
-    NzDatePickerModule,
-    NzUploadModule,
-    NzIconModule,
-    NzRadioModule,
-    NzModalModule,
-    CarStatusComponent,
-    ItemCheckComponent,
-    WorkPerformedComponent,
-    ReplacementSuppliesComponent,
-    NzTimePickerModule,
-    NzPaginationModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NzButtonModule,
+        TranslateModule,
+        NzTabsModule,
+        NzSelectModule,
+        NzFormModule,
+        NzButtonModule,
+        NzInputModule,
+        NzDatePickerModule,
+        NzUploadModule,
+        NzIconModule,
+        NzRadioModule,
+        NzModalModule,
+        ItemCheckComponent,
+        WorkPerformedComponent,
+        CarStatusComponent,
+        NzTimePickerModule,
+        NzPaginationModule,
   ],
   providers: [DatePipe],
-  templateUrl: './setup-request-mr.component.html',
-  styleUrl: './setup-request-mr.component.scss',
+  templateUrl: './setup-deep-cleaning.component.html',
+  styleUrl: './setup-deep-cleaning.component.scss'
 })
-export class SetupRequestMrComponent implements OnInit {
-  @Output() dataEmmitter = new EventEmitter<string>();
-
-  routerLink() {
-    this.dataEmmitter.emit('setup-request');
-  }
+export class SetupDeepCleaningComponent implements OnInit {
 
   form!: FormGroup;
   constructor(
@@ -85,10 +64,18 @@ export class SetupRequestMrComponent implements OnInit {
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
     private datePipe: DatePipe,
-    private routes: Router){}
+    private routes: Router
+  ) {
 
-  id: any;
+  }
 
+  @Output() dataEmmitter = new EventEmitter<string>();
+
+  routerLink() {
+    this.dataEmmitter.emit('setup-request');
+  }
+
+  id: any
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.id = params.get('id');
@@ -141,6 +128,7 @@ export class SetupRequestMrComponent implements OnInit {
       ],
     });
 
+    
 
     this.getRoute()
     this.supplies()
@@ -166,14 +154,21 @@ export class SetupRequestMrComponent implements OnInit {
       }
     });
 
-    
+
     if (this.id) {
       this.getDetailMR(this.id);
     }
   }
 
-  
+  supplies() {
+    this.vehicleService.supplies().subscribe((response: any) => {
+      console.log(response);
+    });
+  }
+
   isFromRequestMr: boolean = false;
+  priorityStatus: number = 0;
+
 
   checkIsFromRequestMr() {
     const state = history.state;
@@ -182,10 +177,21 @@ export class SetupRequestMrComponent implements OnInit {
     }
   }
 
+  cancelFix() {
+    window.history.back(); //need to check
+  }
+
+
   vehicleStatus: { name: string }[] = [];
   testItem: { name: string }[] = [];
   workPerformed: { name: string }[] = [];
-  replacementSupplies: { supplyId: number; quantity: number; unit: string }[] =[];
+
+
+  inforMR: any;
+  listVS: any[] = [];
+  listWP: any[] = [];
+  lstRS: any[] = [];
+  lstTC: any[] = [];
   receiveData(data: any[], name: string): void {
     // Trích xuất và chuyển đổi dữ liệu thành { name: "..." }
     const processedData = data.map((item) => ({ name: item[name] }));
@@ -199,25 +205,30 @@ export class SetupRequestMrComponent implements OnInit {
       this.vehicleStatus = processedData; // Thay thế mảng vehicleStatus
     } else if (name === 'testItem') {
       this.testItem = processedData; // Thay thế mảng itemCheck
-    } else if (name === 'workPerformed') {
-      this.workPerformed = processedData; // Thay thế mảng workPerformed
     } else {
-      this.replacementSupplies = processedDataRS;
-    }
+      this.workPerformed = processedData; // Thay thế mảng workPerformed
+    } 
 
   // Kiểm tra kết quả
 }
 
-onBack(event: any) {
-  this.routes.navigate(['vehicle/detail-mr/'+this.id]);
-}
+  listMaintenanceFacilities: any[] = [];
 
-  validateNumber(name: string, event: Event) {
-    this.validateService.validateNumber(this.form, name, event);
+  getMaintenanceFacilities() {
+    this.vehicleService
+      .getMaintenanceFacilities()
+      .subscribe((response: any) => {
+        this.listMaintenanceFacilities = response.data.map((item: string) => ({
+          value: item,
+        }));
+      });
   }
-  validateText(path: string | (string | number)[], event: Event) {
-    this.validateService.validateText(this.form, path, event);
+
+  onCheckboxChange(event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    this.priorityStatus = isChecked ? 1 : 0;
   }
+
 
   listRoute: any[] = [];
   Idroute: any;
@@ -241,71 +252,123 @@ onBack(event: any) {
     });
   }
 
+  disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
+    return (beforeDate: Date | null): boolean => {
+      if (!beforeDate || !this.form) return false;
+
+      const afterDate = this.form.get(name)?.value;
+      if (!afterDate) return false;
+
+      const AfterDateObject = new Date(afterDate);
+
+      return beforeDate <= AfterDateObject;
+    };
+  }
+
+  disableAfterDate(name: string): (afterDate: Date | null) => boolean {
+    return (afterDate: Date | null): boolean => {
+      if (!afterDate || !this.form) return false;
+
+      const beforeDate = this.form.get(name)?.value;
+      if (!beforeDate) return false;
+
+      const beforeDateObject = new Date(beforeDate);
+
+      return afterDate >= beforeDateObject;
+    };
+  }
+
+  showListForMaintenance() {
+    const page = this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1;
+    const size = 9;
+    console.log(this.Idroute);
+    this.getForMaintenance(page, size);
+  }
+
+  showNoDataForMaintenance() {
+    const numberData = 9;
+    const data = {
+      registerNo: null,
+      driver: null,
+      phoneNumber: null,
+      maintenanceKm: null,
+    };
+
+    const dataRrows = this.listForMaintenanceCopy.slice();
+    const currentData = dataRrows.length;
+    if (currentData < numberData) {
+      const isChangeData = numberData - currentData;
+      for (let i = 0; i < isChangeData; i++) {
+        dataRrows.push(data);
+      }
+    }
+    return dataRrows;
+  }
+
+  
+  onSelectRow(data: any): void {
+    const selectedItem = this.listForMaintenanceCopy.find(
+      (item) => item.registerNo === data.registerNo
+    );
+    console.log(selectedItem);
+    if (selectedItem) {
+      this.form.patchValue({
+        registerNo: selectedItem.id, // Patch ID để khớp với nzValue
+        driver: data.driverName,
+        phoneNumber: data.phoneNumber,
+      });
+    }
+  }
+
+  listForMaintenanceCopy: any[] = []
+  listForMaintenance: any[] = []
+    getForMaintenance(page: number, size: number) {
+      this.vehicleService
+        .getForMaintenance(page, size, this.Idroute)
+        .subscribe((response: any) => {
+          this.listForMaintenanceCopy = response.data?.content;
+          this.total = response.data.totalElements;
+          this.vehicleService
+            .getForMaintenance(page, this.total, this.Idroute)
+            .subscribe((response: any) => {
+              this.listForMaintenance = response.data?.content;
+            });
+          if (response.data.totalElements == 0) {
+            Swal.fire({
+              icon: 'warning',
+              // title: "......",
+              text: 'Không tìm thấy dữ liệu bạn muốn tìm kiếm!',
+              // timer: 3000
+            });
+          }
+        });
+    }
+
   pageIndex = 1;
   pageSize = 9;
   total = 1;
 
-  listForMaintenance: any[] = [];
-  listForMaintenanceCopy: any[] = [];
-  listMaintenanceFacilities: any[] = [];
-
-  supplies() {
-    this.vehicleService.supplies().subscribe((response: any) => {
-      console.log(response);
-    });
+  onPageChange(page: number): void {
+    this.pageIndex = page;
+    this.showListForMaintenance();
   }
 
-  formattedString: any;
-  getMaintenanceFacilities() {
-    this.vehicleService
-      .getMaintenanceFacilities()
-      .subscribe((response: any) => {
-        this.listMaintenanceFacilities = response.data.map((item: string) => ({
-          value: item,
-        }));
-        console.log(this.listMaintenanceFacilities);
-      });
-  }
-
-  inforMR: any;
-  listVS: any[] = [];
-  listWP: any[] = [];
-  lstRS: any[] = [];
-  lstTC: any[] = [];
-
-  getForMaintenance(page: number, size: number) {
-    this.vehicleService
-      .getForMaintenance(page, size, this.Idroute)
-      .subscribe((response: any) => {
-        this.listForMaintenanceCopy = response.data?.content;
-        this.total = response.data.totalElements;
-        this.vehicleService
-          .getForMaintenance(page, this.total, this.Idroute)
-          .subscribe((response: any) => {
-            this.listForMaintenance = response.data?.content;
-            console.log(this.listForMaintenance);
-          });
-        if (response.data.totalElements == 0) {
-          Swal.fire({
-            icon: 'warning',
-            // title: "......",
-            text: 'Không tìm thấy dữ liệu bạn muốn tìm kiếm!',
-            // timer: 3000
-          });
-        }
-      });
+  convertStringToDate(timeString: string): Date {
+    const [hours, minutes] = timeString.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, 0);
+    return date;
   }
 
   getDetailMR(id: number) {
     this.vehicleService.getDetailMR(id).subscribe((response: any) => {
-      this.inforMR = response.data;
-      this.listVS = response.data.lstVehicleStatus;
-      this.listWP = response.data.lstWorkPerformed;
-      this.lstRS = response.data.lstReplacementSupplies;
-      this.lstTC = response.data.lstTestCategories;
+      // this.inforMR = response.data;
+      // this.listVS = response.data.lstVehicleStatus;
+      // this.listWP = response.data.lstWorkPerformed;
+      // this.lstRS = response.data.lstReplacementSupplies;
+      // this.lstTC = response.data.lstTestCategories;
 
       this.cdr.detectChanges();
-      console.log(this.listVS);
       // this.form.patchValue(response.data)
       const supposedStartTime = this.convertStringToDate(
         response.data.supposedStartTime
@@ -339,94 +402,8 @@ onBack(event: any) {
     });
   }
 
-  convertStringToDate(timeString: string): Date {
-    const [hours, minutes] = timeString.split(':').map(Number);
-    const date = new Date();
-    date.setHours(hours, minutes, 0);
-    return date;
-  }
-
-  cancelFix() {
-    window.history.back(); //need to check
-  }
-
-  showListForMaintenance() {
-    const page = this.pageIndex - 1 < 0 ? 0 : this.pageIndex - 1;
-    const size = 9;
-    console.log(this.Idroute);
-    this.getForMaintenance(page, size);
-  }
-
-  onPageChange(page: number): void {
-    this.pageIndex = page;
-    this.showListForMaintenance();
-  }
-
-  priorityStatus: number = 0;
-
-  onCheckboxChange(event: Event) {
-    const isChecked = (event.target as HTMLInputElement).checked;
-    this.priorityStatus = isChecked ? 1 : 0;
-  }
-
-  showNoDataForMaintenance() {
-    const numberData = 9;
-    const data = {
-      registerNo: null,
-      driver: null,
-      phoneNumber: null,
-      maintenanceKm: null,
-    };
-
-    const dataRrows = this.listForMaintenanceCopy.slice();
-    const currentData = dataRrows.length;
-    if (currentData < numberData) {
-      const isChangeData = numberData - currentData;
-      for (let i = 0; i < isChangeData; i++) {
-        dataRrows.push(data);
-      }
-    }
-    return dataRrows;
-  }
-
-  disableBeforeDate(name: string): (beforeDate: Date | null) => boolean {
-    return (beforeDate: Date | null): boolean => {
-      if (!beforeDate || !this.form) return false;
-
-      const afterDate = this.form.get(name)?.value;
-      if (!afterDate) return false;
-
-      const AfterDateObject = new Date(afterDate);
-
-      return beforeDate <= AfterDateObject;
-    };
-  }
-
-  disableAfterDate(name: string): (afterDate: Date | null) => boolean {
-    return (afterDate: Date | null): boolean => {
-      if (!afterDate || !this.form) return false;
-
-      const beforeDate = this.form.get(name)?.value;
-      if (!beforeDate) return false;
-
-      const beforeDateObject = new Date(beforeDate);
-
-      return afterDate >= beforeDateObject;
-    };
-  }
-
-  onSelectRow(data: any): void {
-    const selectedItem = this.listForMaintenanceCopy.find(
-      (item) => item.registerNo === data.registerNo
-    );
-    console.log(selectedItem);
-    if (selectedItem) {
-      this.form.patchValue({
-        registerNo: selectedItem.id, // Patch ID để khớp với nzValue
-        driver: data.driverName,
-        phoneNumber: data.phoneNumber,
-      });
-    }
+  onBack(event: any) {
+    this.routes.navigate(['vehicle/detail-mr/'+this.id]);
   }
 
   formatTime(time: any): string {
@@ -443,7 +420,6 @@ onBack(event: any) {
     return '';
   }
 
-  resNo = ""
   onSubmit(){
     
     this.form.markAllAsTouched()
@@ -470,7 +446,6 @@ onBack(event: any) {
         lstVehicleStatus: this.vehicleStatus,
         lstTestCategories: this.testItem,
         lstWorkPerformed: this.workPerformed,
-        lstReplacementSupplies: this.replacementSupplies,
       };
 
       if(this.id){
@@ -496,4 +471,3 @@ onBack(event: any) {
     }
   }
 }
-

@@ -273,7 +273,7 @@
                   >
                     Ưu tiên bảo dưỡng gấp
                   </span>
-                  <span *ngIf="inforMR?.priorityStatus == 2"> Mặc định </span>
+                  <span *ngIf="inforMR?.priorityStatus == 0s"> Mặc định </span>
                 </td>
               </tr>
             </tbody>
@@ -327,7 +327,7 @@
                 <td class="col-2">{{ inforMR?.phoneNumber || "" }}</td>
               </tr>
               <tr>
-                <td class="col-1">Cấp bD hiện tại</td>
+                <td class="col-1">Cấp BD hiện tại</td>
                 <td class="col-2">
                   <span *ngIf="inforMR?.levelMaintenance == 1">
                     Bảo dưỡng định kỳ
@@ -455,14 +455,14 @@
               </tr>
               <tr *ngFor="let data of inforMR?.lstWorkPerformed; let i = index">
                 <td class="col-table-3">{{ i + 1 }}</td>
-                <td class="col-table-4">{{ inforMR?.name || "" }}</td>
+                <td class="col-table-4">{{ data?.name || "" }}</td>
               </tr>
               <tr>
                 <td class="opinion" colspan="2">
-                  Ý kiến của người duyệt:
+                  Ý kiến của người duyệt
                   {{
                     inforMR?.workPerformedNote
-                      ? inforMR.workPerformedNote
+                      ? ':'+inforMR.workPerformedNote
                       : "..."
                   }}
                 </td>
@@ -483,7 +483,7 @@
                 <th class="col-table-3">Đơn vị Tính</th>
                 <th class="col-table-3">Số lượng</th>
               </tr>
-              <tr *ngFor="let data of inforMR?.lstWorkPerformed; let i = index">
+              <tr *ngFor="let data of inforMR?.replacementSupplyNote; let i = index">
                 <td class="col-table-1">{{ i + 1 }}</td>
                 <td class="col-table-2">{{ data?.supplyId }}</td>
                 <td class="col-table-3">{{ data?.quantity }}</td>
