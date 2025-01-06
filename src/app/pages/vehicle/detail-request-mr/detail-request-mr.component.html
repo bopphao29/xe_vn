@@ -1,4 +1,4 @@
-<div style="background-color: #f7f7f7">
+<div class="p-[16px]" style="background-color: #f7f7f7">
   <div nz-row>
     <div nz-col nzSpan="14">
       <button (click)="onBack($event)" class="flex" style="margin-top: 10px">
@@ -237,6 +237,19 @@
     </div>
   </div>
   <span class="label_setup mx-2">Chi tiết yêu cầu bảo dưỡng sửa chữa</span>
+  <div class="flex gap-[16px]">
+    <div class="input-item">
+      <input class="input-form" placeholder="Tên lộ trình" type="text" />
+    </div>
+    <div class="input-item">
+      <nz-date-picker
+        nzFormat="dd/MM/yyyy"
+        class="w-full"
+        style="width: 100%"
+        nzPlaceHolder="{{ 'Chọn ngày' | translate }}"
+      ></nz-date-picker>
+    </div>
+  </div>
   <div nz-row class="p-2">
     <div
       nz-col
@@ -418,6 +431,7 @@
                     <input
                       *ngIf="isComplete"
                       type="checkbox"
+                      [(ngModel)]="data.selected"
                       (change)="selectItem($event, data)"
                     />
                   </div>
@@ -472,6 +486,7 @@
                     </div>
                     <input
                       *ngIf="isComplete"
+                      [(ngModel)]="data.selected"
                       type="checkbox"
                       (change)="selectItem($event, data)"
                     />
@@ -521,6 +536,7 @@
                     <input
                       *ngIf="isComplete"
                       type="checkbox"
+                      [(ngModel)]="data.selected"
                       (change)="selectItem($event, data)"
                     />
                   </div>
@@ -576,6 +592,7 @@
                   <div class="flex justify-content-end">
                     <input
                       *ngIf="isComplete"
+                      [(ngModel)]="data.selected"
                       type="checkbox"
                       (change)="selectItem($event, data)"
                     />
@@ -772,6 +789,10 @@
         </span>
       </div>
     </div>
+  </div>
+  <div class="flex justify-center gap-[12px]">
+    <button class="btn-cancel" (click)="onBack($event)">Quay lại</button>
+    <button class="btn-save" (click)="onSave()">Xác nhận</button>
   </div>
 </div>
 

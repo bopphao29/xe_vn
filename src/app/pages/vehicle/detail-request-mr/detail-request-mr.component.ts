@@ -300,6 +300,38 @@ export class DetailRequestMrComponent implements OnInit {
   getDetailMR(id: number) {
     this.vehicleServices.getDetailMR(id).subscribe((response: any) => {
       this.inforMR = response.data;
+      this.inforMR.lstVehicleStatus = Array.isArray(
+        this.inforMR.lstVehicleStatus
+      )
+        ? this.inforMR.lstVehicleStatus.map((item: any) => ({
+            ...item,
+            selected: false,
+          }))
+        : [];
+      this.inforMR.lstTestCategories = Array.isArray(
+        this.inforMR.lstTestCategories
+      )
+        ? this.inforMR.lstTestCategories.map((item: any) => ({
+            ...item,
+            selected: false,
+          }))
+        : [];
+      this.inforMR.lstWorkPerformed = Array.isArray(
+        this.inforMR.lstWorkPerformed
+      )
+        ? this.inforMR.lstWorkPerformed.map((item: any) => ({
+            ...item,
+            selected: false,
+          }))
+        : [];
+      this.inforMR.replacementSupplyNote = Array.isArray(
+        this.inforMR.replacementSupplyNote
+      )
+        ? this.inforMR.replacementSupplyNote.map((item: any) => ({
+            ...item,
+            selected: false,
+          }))
+        : [];
       this.isValidDate = this.checkValidDate();
     });
   }
@@ -307,4 +339,6 @@ export class DetailRequestMrComponent implements OnInit {
   onFix() {
     this.router.navigate(['/vehicle/detail-mr-change/' + this.id]);
   }
+
+  onSave() {}
 }
