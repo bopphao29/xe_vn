@@ -1,111 +1,223 @@
+<div class="" style="background-color: #fcfcfc">
+  <table class="custom-table-list" style="background-color: #fcfcfc">
+    <tbody>
+      <tr style="background-color: #fcfcfc">
+        <th class="list-col-1">{{ "table.stt" | translate }}</th>
+        <th class="list-col-3">{{ "vehicle.workPerformed" | translate }}</th>
+        <th class="list-col-2">{{ "table.action" | translate }}</th>
+      </tr>
+      <tr *ngFor="let item of displayedData; let i = index">
+        <td class="list-col-1">{{ i + 1 }}</td>
+        <td class="list-col-3">{{ item.workPerformedInput }}</td>
+        <td class="button_action list-col-2" style="text-align: center">
+          <div>
+            <a (click)="editWorkPerformed(item)" class="mx-1 button_show_detail"
+              >Sửa</a
+            >
+            <a
+              (click)="openDeleteModal(item)"
+              class="mx-1 button_show_detail-delete"
+              >Xóa</a
+            >
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-<div class="" style="background-color: #FCFCFC;">
-    <table class="custom-table-list" style="background-color: #FCFCFC;">
-        <tbody>
-            <tr style="background-color: #fcfcfc;">
-                <th class="list-col-1">{{'table.stt' | translate}}</th>
-                <th class="list-col-3">{{'vehicle.workPerformed' | translate}}</th>
-                <th class="list-col-2">{{'table.action' | translate}}</th>
-            </tr>
-            <tr *ngFor="let item of displayedData; let i = index">
-                <td class="list-col-1">{{ i + 1 }}</td>
-                <td class="list-col-3">{{ item.workPerformedInput }}</td>
-                <td class="button_action list-col-2" style="text-align: center;">
-                  <div>
-                    <a (click)="editWorkPerformed(item)" class="mx-1 button_show_detail">Sửa</a>
-                    <a (click)="openDeleteModal(item)"  class="mx-1 button_show_detail-delete">Xóa</a>
-                  </div>
-                </td>
-              </tr>
-
-        </tbody>
-    </table>
-
-
-    <div nz-row class="w-full" >
-        <div style="margin-top: 18px;">
-            <button type="button" class="button_add" (click)="onAdd()"><svg
-                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                    stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-            </button>
-        </div>
+  <div nz-row class="w-full">
+    <div style="margin-top: 18px">
+      <button type="button" class="button_add" (click)="onAdd()">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 4.5v15m7.5-7.5h-15"
+          />
+        </svg>
+      </button>
     </div>
+  </div>
 
-    <div style="margin-top: 20px; display: flex; justify-content: center;">
-        <nz-pagination
-            [(nzPageIndex)]="pageIndex"
-            [nzTotal]="workPerformedList.length"
-            [nzPageSize]="pageSize"
-            (nzPageIndexChange)="onPageChange($event)"
-            class="custom-pagination">
-        </nz-pagination>
-    </div>
+  <div style="margin-top: 20px; display: flex; justify-content: center">
+    <nz-pagination
+      [(nzPageIndex)]="pageIndex"
+      [nzTotal]="workPerformedList.length"
+      [nzPageSize]="pageSize"
+      (nzPageIndexChange)="onPageChange($event)"
+      class="custom-pagination"
+    >
+    </nz-pagination>
+  </div>
 </div>
 
-<nz-modal [(nzVisible)]="isWorkPerformed" (nzOnCancel)="handleCancelisWorkPerformed()" (nzOnOk)="handleSubmitisWorkPerformed()" [nzCentered]="true" [nzClosable]="false" 
-    [nzContent]="modalContentisWorkPerformed" [nzFooter]="null" [nzStyle]="{'min-width' : '464px', 'min-height':'335px', 'width':'464px'}"  nzClassName="status_vehicle_modal">
-    <ng-template #modalContentisWorkPerformed>
-        <div class="headmodal">
-            <span style="justify-content: center; align-items: center; font-size: 24px; color: rgba(37, 44, 50, 1);" nz-icon nzType="check-circle" nzTheme="outline">
-                {{ isEditMode ? ('vehicle.changeTitle' | translate) : ('vehicle.workPerformed' | translate) }}
-            </span>
+<nz-modal
+  [(nzVisible)]="isWorkPerformed"
+  (nzOnCancel)="handleCancelisWorkPerformed()"
+  (nzOnOk)="handleSubmitisWorkPerformed()"
+  [nzCentered]="true"
+  [nzClosable]="false"
+  [nzContent]="modalContentisWorkPerformed"
+  [nzFooter]="null"
+  [nzStyle]="{ 'min-width': '464px', 'min-height': '335px', width: '464px' }"
+  nzClassName="status_vehicle_modal"
+>
+  <ng-template #modalContentisWorkPerformed>
+    <div class="headmodal">
+      <span
+        style="
+          justify-content: center;
+          align-items: center;
+          font-size: 24px;
+          color: rgba(37, 44, 50, 1);
+        "
+        nz-icon
+        nzType="check-circle"
+        nzTheme="outline"
+      >
+        {{
+          isEditMode
+            ? ("vehicle.changeTitle" | translate)
+            : ("vehicle.workPerformed" | translate)
+        }}
+      </span>
+    </div>
+    <div>
+      <div class="input-wrapper">
+        <div class="">
+          <label class="label-form" for="">{{
+            "vehicle.workPerformed" | translate
+          }}</label>
+          <input
+            class="input-form"
+            placeholder="Nhập"
+            type="text"
+            [(ngModel)]="workPerformedInput"
+            (ngModelChange)="onChange($event)"
+            [nzAutocomplete]="auto"
+            tabindex="-1"
+          />
+          <nz-autocomplete
+            [nzDataSource]="filteredOptions"
+            nzBackfill
+            #auto
+          ></nz-autocomplete>
         </div>
-        <div >
-              
-        <div class="input-wrapper">
-            <div class="">
-                <label class="label-form" for="" >{{'vehicle.workPerformed' | translate}}</label>
-                <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="workPerformedInput"
-                (ngModelChange)="onChange($event)"
-                [nzAutocomplete]="auto"
-                >
-                <nz-autocomplete [nzDataSource]="filteredOptions" nzBackfill #auto></nz-autocomplete>
-            </div>
-    
-          </div>            
-            <div style="display: flex; gap: 8px; justify-content: space-between; margin-top: 20px"> 
-                <span>
-                    <button class="button-status" nz-button style="color: #274EA1;" nzType="default"
-                        (click)="handleCancelisWorkPerformed()">{{'common.cancelButton' | translate}}</button>
-                </span>
-                <span>
-                    <button [disabled]="!workPerformedInput" class="button-status" nz-button style="color: #ffffff; background-color: #274EA1;" nzType="default"
-                        (click)="handleSubmitisWorkPerformed()">{{'common.saveButton' | translate}}</button>
-                </span>
-            </div>
-        </div>
-        
-    </ng-template>
+      </div>
+      <div
+        style="
+          display: flex;
+          gap: 8px;
+          justify-content: space-between;
+          margin-top: 20px;
+        "
+      >
+        <span>
+          <button
+            class="button-status"
+            nz-button
+            style="color: #274ea1"
+            nzType="default"
+            (click)="handleCancelisWorkPerformed()"
+          >
+            {{ "common.cancelButton" | translate }}
+          </button>
+        </span>
+        <span>
+          <button
+            [disabled]="!workPerformedInput"
+            class="button-status"
+            nz-button
+            style="color: #ffffff; background-color: #274ea1"
+            nzType="default"
+            (click)="handleSubmitisWorkPerformed()"
+          >
+            {{ "common.saveButton" | translate }}
+          </button>
+        </span>
+      </div>
+    </div>
+  </ng-template>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isDeleteworkPerformed" (nzOnCancel)="handleCancelDeleteworkPerformed()" (nzOnOk)="handleSubmitDeleteworkPerformed()" [nzCentered]="true" [nzClosable]="false" 
-    [nzContent]="modalContenDeleteworkPerformed" [nzFooter]="null" [nzStyle]="{'min-width' : '464px', 'min-height':'335px', 'width':'464px'}"  nzClassName="status_vehicle_modal">
-    <ng-template #modalContenDeleteworkPerformed>
-        <div class="headmodal">
-            <span style="justify-content: center; align-items: center; font-size: 24px; color: rgba(37, 44, 50, 1);" nz-icon nzType="check-circle" nzTheme="outline">{{'common.statusVehicle' | translate}}</span>
+<nz-modal
+  [(nzVisible)]="isDeleteworkPerformed"
+  (nzOnCancel)="handleCancelDeleteworkPerformed()"
+  (nzOnOk)="handleSubmitDeleteworkPerformed()"
+  [nzCentered]="true"
+  [nzClosable]="false"
+  [nzContent]="modalContenDeleteworkPerformed"
+  [nzFooter]="null"
+  [nzStyle]="{ 'min-width': '464px', 'min-height': '335px', width: '464px' }"
+  nzClassName="status_vehicle_modal"
+>
+  <ng-template #modalContenDeleteworkPerformed>
+    <div class="headmodal">
+      <span
+        style="
+          justify-content: center;
+          align-items: center;
+          font-size: 24px;
+          color: rgba(37, 44, 50, 1);
+        "
+        nz-icon
+        nzType="check-circle"
+        nzTheme="outline"
+        >{{ "common.statusVehicle" | translate }}</span
+      >
+    </div>
+    <div>
+      <div class="input-wrapper">
+        <div class="">
+          <label class="label-form" for="">{{
+            "vehicle.vehicleStatus" | translate
+          }}</label>
+          <input
+            class="input-form"
+            placeholder="Nhập"
+            type="text"
+            [(ngModel)]="workPerformedInput"
+          />
         </div>
-        <div >
-              
-        <div class="input-wrapper">
-            <div class="">
-                <label class="label-form" for="" >{{'vehicle.vehicleStatus' | translate}}</label>
-                <input class="input-form" placeholder="Nhập" type="text" [(ngModel)]="workPerformedInput" >
-            </div>
-    
-          </div>            
-            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 20px"> 
-                <span>
-                    <button class="button-status" nz-button style="color: #274EA1;" nzType="default"
-                        (click)="handleCancelDeleteworkPerformed()">{{'common.cancelButton' | translate}}</button>
-                </span>
-                <span>
-                    <button class="button-status" nz-button style="color: #ffffff; background-color: #274EA1;" nzType="default"
-                        (click)="handleSubmitDeleteworkPerformed()">{{'common.deleteButton' | translate}}</button>
-                </span>
-            </div>
-        </div>
-        
-    </ng-template>
+      </div>
+      <div
+        style="
+          display: flex;
+          gap: 8px;
+          justify-content: center;
+          margin-top: 20px;
+        "
+      >
+        <span>
+          <button
+            class="button-status"
+            nz-button
+            style="color: #274ea1"
+            nzType="default"
+            (click)="handleCancelDeleteworkPerformed()"
+          >
+            {{ "common.cancelButton" | translate }}
+          </button>
+        </span>
+        <span>
+          <button
+            class="button-status"
+            nz-button
+            style="color: #ffffff; background-color: #274ea1"
+            nzType="default"
+            (click)="handleSubmitDeleteworkPerformed()"
+          >
+            {{ "common.deleteButton" | translate }}
+          </button>
+        </span>
+      </div>
+    </div>
+  </ng-template>
 </nz-modal>

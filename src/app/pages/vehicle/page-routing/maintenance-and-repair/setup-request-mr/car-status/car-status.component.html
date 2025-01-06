@@ -12,13 +12,13 @@
         <td class="button_action list-col-2" style="text-align: center">
           <div>
             <a
-              [ngClass]="{ 'disabled-input': isFromRequestMr }"
+              [ngClass]="{ 'disabled-input': !(item.isAdd && isFromRequestMr) }"
               (click)="editVehicleStatus(item)"
               class="mx-1 button_show_detail"
               >Sửa</a
             >
             <a
-              [ngClass]="{ 'disabled-input': isFromRequestMr }"
+              [ngClass]="{ 'disabled-input': !(item.isAdd && isFromRequestMr) }"
               (click)="openDeleteModal(item)"
               class="mx-1 button_show_detail-delete"
               >Xóa</a
@@ -106,8 +106,13 @@
             [(ngModel)]="statusVehicle"
             (ngModelChange)="onChange($event)"
             [nzAutocomplete]="auto"
+            tabindex="-1"
           />
-          <nz-autocomplete [nzDataSource]="filteredOptions" nzBackfill #auto></nz-autocomplete>
+          <nz-autocomplete
+            [nzDataSource]="filteredOptions"
+            nzBackfill
+            #auto
+          ></nz-autocomplete>
         </div>
       </div>
       <div

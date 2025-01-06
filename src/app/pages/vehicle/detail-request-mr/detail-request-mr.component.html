@@ -273,7 +273,9 @@
                   >
                     Ưu tiên bảo dưỡng gấp
                   </span>
-                  <span *ngIf="inforMR?.priorityStatus == 0s"> Mặc định </span>
+                  <span *ngIf="inforMR?.priorityStatus == 0; s">
+                    Mặc định
+                  </span>
                 </td>
               </tr>
             </tbody>
@@ -383,6 +385,7 @@
         </div>
       </div>
 
+      <!-- table 1 -->
       <div style="margin-top: 16px"></div>
       <div nz-row class="" style="margin-left: 8px">
         <div nz-col style="width: calc(100% - 8px)">
@@ -390,19 +393,34 @@
             <tbody>
               <tr class="header-table">
                 <th class="col-table-3">STT</th>
-                <th class="col-table-4">Tình trạng xe</th>
-                <th *ngIf="isComplete" class="col-table-4">
-                  <div class="flex items-center gap-[8px]">
-                    <span>Chọn tất cả</span>
-                    <input type="checkbox" (change)="selectAll($event)" />
+                <th class="col-table-4">
+                  <div class="flex justify-between">
+                    <div>
+                      <span>Tình trạng xe</span>
+                    </div>
+                    <div *ngIf="isComplete" class="flex items-center gap-[8px]">
+                      <span>Chọn tất cả</span>
+                      <input
+                        type="checkbox"
+                        (change)="selectAll($event, 'vehicleStatus')"
+                      />
+                    </div>
                   </div>
                 </th>
               </tr>
               <tr *ngFor="let data of inforMR?.lstVehicleStatus; let i = index">
                 <td class="col-table-3">{{ i + 1 }}</td>
-                <td class="col-table-4">{{ data?.name || "" }}</td>
-                <td *ngIf="isComplete" class="col-table-4">
-                  <input type="checkbox" (change)="selectItem($event, data)" />
+                <td class="col-table-4">
+                  <div class="flex justify-between">
+                    <div>
+                      <span>{{ data?.name || "" }}</span>
+                    </div>
+                    <input
+                      *ngIf="isComplete"
+                      type="checkbox"
+                      (change)="selectItem($event, data)"
+                    />
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -419,6 +437,8 @@
           </table>
         </div>
       </div>
+
+      <!-- table 2 -->
       <div style="margin-top: 16px"></div>
       <div nz-row class="" style="margin-left: 8px">
         <div nz-col style="width: calc(100% - 8px)">
@@ -426,13 +446,37 @@
             <tbody>
               <tr class="header-table">
                 <th class="col-table-3">STT</th>
-                <th class="col-table-4">Hạng mục kiểm tra</th>
+                <th class="col-table-4">
+                  <div class="flex justify-between">
+                    <div>
+                      <span>Hạng mục kiểm tra</span>
+                    </div>
+                    <div *ngIf="isComplete" class="flex items-center gap-[8px]">
+                      <span>Chọn tất cả</span>
+                      <input
+                        type="checkbox"
+                        (change)="selectAll($event, 'testCategories')"
+                      />
+                    </div>
+                  </div>
+                </th>
               </tr>
               <tr
                 *ngFor="let data of inforMR?.lstTestCategories; let i = index"
               >
                 <td class="col-table-3">{{ i + 1 }}</td>
-                <td class="col-table-4">{{ data?.name || "" }}</td>
+                <td class="col-table-4">
+                  <div class="flex justify-between">
+                    <div>
+                      <span>{{ data?.name || "" }}</span>
+                    </div>
+                    <input
+                      *ngIf="isComplete"
+                      type="checkbox"
+                      (change)="selectItem($event, data)"
+                    />
+                  </div>
+                </td>
               </tr>
               <tr>
                 <td class="opinion" colspan="2">
@@ -444,6 +488,7 @@
           </table>
         </div>
       </div>
+      <!-- table 3 -->
       <div style="margin-top: 16px"></div>
       <div nz-row class="" style="margin-left: 8px">
         <div nz-col style="width: calc(100% - 8px)">
@@ -451,18 +496,42 @@
             <tbody>
               <tr class="header-table">
                 <th class="col-table-3">STT</th>
-                <th class="col-table-4">Công việc thực hiện</th>
+                <th class="col-table-4">
+                  <div class="flex justify-between">
+                    <div>
+                      <span>Công việc thực hiện</span>
+                    </div>
+                    <div *ngIf="isComplete" class="flex items-center gap-[8px]">
+                      <span>Chọn tất cả</span>
+                      <input
+                        type="checkbox"
+                        (change)="selectAll($event, 'workPerformed')"
+                      />
+                    </div>
+                  </div>
+                </th>
               </tr>
               <tr *ngFor="let data of inforMR?.lstWorkPerformed; let i = index">
                 <td class="col-table-3">{{ i + 1 }}</td>
-                <td class="col-table-4">{{ data?.name || "" }}</td>
+                <td class="col-table-4">
+                  <div class="flex justify-between">
+                    <div>
+                      <span>{{ data?.name || "" }}</span>
+                    </div>
+                    <input
+                      *ngIf="isComplete"
+                      type="checkbox"
+                      (change)="selectItem($event, data)"
+                    />
+                  </div>
+                </td>
               </tr>
               <tr>
                 <td class="opinion" colspan="2">
                   Ý kiến của người duyệt
                   {{
                     inforMR?.workPerformedNote
-                      ? ':'+inforMR.workPerformedNote
+                      ? ":" + inforMR.workPerformedNote
                       : "..."
                   }}
                 </td>
@@ -472,6 +541,7 @@
           <div></div>
         </div>
       </div>
+      <!-- table 4 -->
       <div style="margin-top: 16px"></div>
       <div nz-row class="" style="margin-left: 8px">
         <div nz-col style="width: calc(100% - 8px)">
@@ -482,16 +552,39 @@
                 <th class="col-table-2">Vật tư, phụ tùng thay thế</th>
                 <th class="col-table-3">Đơn vị Tính</th>
                 <th class="col-table-3">Số lượng</th>
+                <th class="col-table-4" *ngIf="isComplete">
+                  <div class="flex justify-between items-center">
+                    <span>Chọn tất cả</span>
+                    <input
+                      type="checkbox"
+                      (change)="selectAll($event, 'replacementSupply')"
+                    />
+                  </div>
+                </th>
               </tr>
-              <tr *ngFor="let data of inforMR?.replacementSupplyNote; let i = index">
+              <tr
+                *ngFor="
+                  let data of inforMR?.replacementSupplyNote;
+                  let i = index
+                "
+              >
                 <td class="col-table-1">{{ i + 1 }}</td>
                 <td class="col-table-2">{{ data?.supplyId }}</td>
                 <td class="col-table-3">{{ data?.quantity }}</td>
                 <td class="col-table-3">{{ data?.unit || "" }}</td>
+                <td class="col-table-3">
+                  <div class="flex justify-content-end">
+                    <input
+                      *ngIf="isComplete"
+                      type="checkbox"
+                      (change)="selectItem($event, data)"
+                    />
+                  </div>
+                </td>
               </tr>
 
               <tr>
-                <td class="opinion" colspan="4">
+                <td class="opinion" colspan="5">
                   Ý kiến của người duyệt:
                   {{
                     inforMR?.replacementSupplyNote
