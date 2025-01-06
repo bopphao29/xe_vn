@@ -318,4 +318,16 @@ export class ValidateIntoPageService {
   control?.updateValueAndValidity();
   }
   
+  onInputNumber(form: FormGroup,name: string, event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const value = parseFloat(inputElement.value);
+
+    // Nếu giá trị nhỏ hơn 0, đặt lại thành 0
+    if (value < 0) {
+        inputElement.value = '0';
+        // Nếu bạn đang sử dụng FormControl, cập nhật giá trị của nó
+        form.get(name)?.setValue(0);
+    }
+}
+
 }
