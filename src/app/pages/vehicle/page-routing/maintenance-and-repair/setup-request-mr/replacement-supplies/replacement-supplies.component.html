@@ -17,7 +17,7 @@
         *ngFor="let item of displayedData; let i = index"
       >
         <td class="list-col-1">{{ i + 1 }}</td>
-        <td class="list-col-3">{{ item.supplyId }}</td>
+        <td class="list-col-3" style="text-align: left">{{ getSupplyName(item.supplyId) }}</td>
         <th class="list-col-2">{{ item.quantity }}</th>
         <th class="list-col-2">{{ item.unit }}</th>
         <td class="button_action list-col-2" style="text-align: center">
@@ -136,7 +136,7 @@
               class="input-form"
               placeholder="Nhập"
               type="number"
-              min="0"
+              min="1"
               [(ngModel)]="quantity"
             />
           </div>
@@ -182,7 +182,8 @@
           </button>
         </span>
         <span>
-          <button
+          <button 
+            [disabled]="!supplyId && !unit && quantity < 1"
             class="button-status"
             nz-button
             style="color: #ffffff; background-color: #274ea1"
@@ -222,9 +223,7 @@
         nzTheme="outline"
       >
         {{
-          isEditMode
-            ? ("common.editStatusVehicle" | translate)
-            : ("common.replacementSupplies" | translate)
+         ("common.deleteButton" | translate)
         }}
       </span>
     </div>
@@ -235,7 +234,10 @@
             <label class="label-form" for="">{{
               "vehicle.replacementSupplies" | translate
             }}</label>
-            <input
+            <nz-select nzPlaceHolder="Chọn" [(ngModel)]="supplyId" class="nzSelect" style="width: 100%">
+                <nz-option *ngFor="let options of options" [nzValue]="options.id" [nzLabel]="options.supplyName"></nz-option>
+            </nz-select>
+            <!-- <input
               class="input-form"
               placeholder="Nhập"
               type="text"
@@ -247,7 +249,7 @@
               [nzDataSource]="filteredOptions"
               nzBackfill
               #autoSupplyId
-            ></nz-autocomplete>
+            ></nz-autocomplete> -->
           </div>
         </div>
         <div class="input-wrapper" style="width: 20%">
@@ -259,7 +261,7 @@
               class="input-form"
               placeholder="Nhập"
               type="number"
-              min="0"
+              min="1"
               [(ngModel)]="quantity"
             />
           </div>
@@ -305,7 +307,7 @@
           </button>
         </span>
         <span>
-          <button
+          <button 
             class="button-status"
             nz-button
             style="color: #ffffff; background-color: #274ea1"

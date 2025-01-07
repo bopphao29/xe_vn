@@ -86,7 +86,7 @@ export class DetailReportMrComponent implements OnInit{
   detailChild : any
   routerDetail(id: any){
     console.log(id)
-    this.vehicleServices.getDetailMR(id).subscribe((response : any) =>{
+    this.vehicleServices.getDetailMR(id,1).subscribe((response : any) =>{
       this.detailChild = response.data 
       const dialogRef = this.dialog.openDialog(
         ChildReportComponent,

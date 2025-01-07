@@ -105,8 +105,9 @@ export class VehicalServiceService {
     return this.httpClient.post(this.url + 'api/maintenance-repair-schedules/search?' + params, data)
   }
 
-  getDetailMR(id: any){
-    return this.httpClient.get(this.url + 'api/maintenance-repair-schedules/'+ id)
+  getDetailMR(id: any,type: number){
+    const params = '?type=' + type
+    return this.httpClient.get(this.url + 'api/maintenance-repair-schedules/'+ id+params)
   }
 
   maintenanceNote(data: any){

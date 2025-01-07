@@ -298,7 +298,7 @@ export class DetailRequestMrComponent implements OnInit {
   }
 
   getDetailMR(id: number) {
-    this.vehicleServices.getDetailMR(id).subscribe((response: any) => {
+    this.vehicleServices.getDetailMR(id,1).subscribe((response: any) => {
       this.inforMR = response.data;
       this.inforMR.lstVehicleStatus = Array.isArray(
         this.inforMR.lstVehicleStatus

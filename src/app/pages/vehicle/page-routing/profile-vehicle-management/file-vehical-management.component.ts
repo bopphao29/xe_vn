@@ -193,6 +193,7 @@ setActiveButton(index: number): void {
     }
     this.documentCode = code
     this.getlist(dataForm)
+    
     const formValue = this.form.value;
     if(formValue){
       localStorage.setItem('search', JSON.stringify(formValue));

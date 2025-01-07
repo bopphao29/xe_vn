@@ -115,6 +115,7 @@ export class SetupProfileCarComponent implements OnInit {
   maxYear: number = 0
   minYear: number = 0
   ngOnInit() {
+    this.status_vehicle = 1
     var year = new Date()
     const maxYear = new Date().getFullYear()
     const minYear = (year.getFullYear() - 100)
@@ -163,8 +164,8 @@ export class SetupProfileCarComponent implements OnInit {
         driver: this.fb.group({
           driverId: null,
           driverName: [null, Validators.required],
-          driverStatus: ['1'],
-          phoneNumber: [{ value: null, disabled: true }],
+          driverStatus: '1',
+          phoneNumber: [null],
           startDate: [null],
           endDate: [null]
         })
@@ -185,7 +186,7 @@ export class SetupProfileCarComponent implements OnInit {
         if(value == 1){
           this.status_vehicle = 1
         }else{
-          this.status_vehicle = 1
+          this.status_vehicle = 2
         }
       })
 

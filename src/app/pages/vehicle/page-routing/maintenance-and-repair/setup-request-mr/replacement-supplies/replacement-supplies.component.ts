@@ -150,6 +150,11 @@ handleCancelisreplacementSupplies(): void {
   this.isEditMode = false; // Reset chế độ sửa
 }
 
+getSupplyName(supplyId: number): string {
+  const supply = this.options.find(option => option.id === supplyId);
+  return supply ? supply.supplyName : '-'; // Trả về '-' nếu không tìm thấy
+}
+
 
 handleSubmitisreplacementSupplies(): void {
     if (this.supplyId) {

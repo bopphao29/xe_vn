@@ -170,6 +170,24 @@ export class SetupRequestMrComponent implements OnInit {
     if (this.id) {
       this.getDetailMR(this.id);
     }
+
+    this.form.get('supposedStartTime')?.valueChanges.subscribe((value: Date) => {
+      if (value) {
+        const updatedTime = new Date(value);
+        updatedTime.setMinutes(0); // Đặt phút là 00
+        updatedTime.setSeconds(0); // Đặt giây là 00 (nếu cần)
+        this.form.get('supposedStartTime')?.setValue(updatedTime, { emitEvent: false });
+      }
+    });
+
+    this.form.get('supposedEndTime')?.valueChanges.subscribe((value: Date) => {
+      if (value) {
+        const updatedTime = new Date(value);
+        updatedTime.setMinutes(0); // Đặt phút là 00
+        updatedTime.setSeconds(0); // Đặt giây là 00 (nếu cần)
+        this.form.get('supposedEndTime')?.setValue(updatedTime, { emitEvent: false });
+      }
+    });
   }
 
   
@@ -297,7 +315,7 @@ onBack(event: any) {
   }
 
   getDetailMR(id: number) {
-    this.vehicleService.getDetailMR(id).subscribe((response: any) => {
+    this.vehicleService.getDetailMR(id,1).subscribe((response: any) => {
       this.inforMR = response.data;
       this.listVS = response.data.lstVehicleStatus;
       this.listWP = response.data.lstWorkPerformed;

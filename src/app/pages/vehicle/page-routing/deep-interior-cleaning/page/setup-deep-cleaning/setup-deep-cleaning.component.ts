@@ -361,7 +361,7 @@ export class SetupDeepCleaningComponent implements OnInit {
   }
 
   getDetailMR(id: number) {
-    this.vehicleService.getDetailMR(id).subscribe((response: any) => {
+    this.vehicleService.getDetailMR(id,1).subscribe((response: any) => {
       // this.inforMR = response.data;
       // this.listVS = response.data.lstVehicleStatus;
       // this.listWP = response.data.lstWorkPerformed;
