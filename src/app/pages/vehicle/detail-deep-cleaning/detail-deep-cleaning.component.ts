@@ -1,12 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
@@ -18,39 +12,41 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
-import { NzUploadModule } from 'ng-zorro-antd/upload';
-import { VehicalServiceService } from '../../../shared/services/vehical-service.service';
-import { NotificationService } from '../../../shared/services/notification.service';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { API_CODE } from '../../../shared/constants/common.const';
+import { VehicalServiceService } from '../../../shared/services/vehical-service.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
-  selector: 'app-detail-request-mr',
+  selector: 'app-detail-deep-cleaning',
   standalone: true,
   imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NzButtonModule,
-    TranslateModule,
-    NzTabsModule,
-    NzSelectModule,
-    NzFormModule,
-    NzButtonModule,
-    NzInputModule,
-    NzDatePickerModule,
-    NzUploadModule,
-    NzIconModule,
-    NzRadioModule,
-    NzModalModule,
-    NzPaginationModule,
-    NzTimePickerModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NzButtonModule,
+        TranslateModule,
+        NzTabsModule,
+        NzSelectModule,
+        NzFormModule,
+        NzButtonModule,
+        NzInputModule,
+        NzDatePickerModule,
+        NzUploadModule,
+        NzIconModule,
+        NzRadioModule,
+        NzModalModule,
+        NzPaginationModule,
+        NzTimePickerModule,
   ],
-  templateUrl: './detail-request-mr.component.html',
-  styleUrl: './detail-request-mr.component.scss',
+  templateUrl: './detail-deep-cleaning.component.html',
+  styleUrl: './detail-deep-cleaning.component.scss'
 })
-export class DetailRequestMrComponent implements OnInit {
-  isValidDate: boolean = false;
+export class DetailDeepCleaningComponent implements OnInit{
+
+isValidDate: boolean = false;
 
   selectAllVehicleStatus: boolean = false;
   selectAllTestCategories: boolean = false;
@@ -296,11 +292,11 @@ export class DetailRequestMrComponent implements OnInit {
 
   onBack(event: any) {
     const router = localStorage.getItem('activeLink');
-    if (router === 'maintenanceRepair') {
+    if (router === 'deepInteriorCleaning') {
       // event.preventDefault();
-      localStorage.setItem('activeLink', 'maintenanceRepair'); // Cập nhật đúng giá trị
-      this.router.navigate(['vehicle', 'maintenance-repair'], {
-        queryParams: { tab: 'list-request' }, // Điều hướng tới `list-request`
+      localStorage.setItem('activeLink', 'deepInteriorCleaning'); // Cập nhật đúng giá trị
+      this.router.navigate(['vehicle', 'deep-interior-cleaning'], {
+        queryParams: { tab: 'listDCL' }, // Điều hướng tới `list-request`
       });
     }
   }
@@ -345,7 +341,7 @@ export class DetailRequestMrComponent implements OnInit {
   }
 
   onFix() {
-    this.router.navigate(['/vehicle/detail-mr-change/' + this.id]);
+    this.router.navigate(['/vehicle/detail-deep-cleaning-change/' + this.id]);
   }
 
   onSave() {
@@ -387,27 +383,4 @@ export class DetailRequestMrComponent implements OnInit {
       }
     });
   }
-//////////////////share:
-pdfUrl = 'https://example.com/yourfile.pdf'; // URL file PDF cần chia sẻ
-message = 'Xem tài liệu tại đây:'; // Nội dung tin nhắn
-
-// Chia sẻ qua Telegram
-shareToTelegram() {
-  const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(this.pdfUrl)}&text=${encodeURIComponent(this.message)}`;
-  window.open(telegramUrl, '_blank'); // Mở Telegram trên trình duyệt
-}
-
-// Chia sẻ qua Zalo
-shareToZalo() {
-  const zaloUrl = `https://zalo.me/share?text=${encodeURIComponent(this.message)}&url=${encodeURIComponent(this.pdfUrl)}`;
-  window.open(zaloUrl, '_blank'); // Mở Zalo trên trình duyệt
-}
-
-// Chia sẻ qua Gmail
-shareToGmail() {
-  const subject = 'Chia sẻ tài liệu';
-  const body = `${this.message} ${this.pdfUrl}`;
-  const gmailUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  window.location.href = gmailUrl; // Mở Gmail trong ứng dụng email mặc định
-}
 }

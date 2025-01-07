@@ -1,32 +1,32 @@
 <div class="tabs p-4 pt-3" style="background-color: #f3f3f3;">
     <a 
       class="tab-link" 
-      [class.active]="currentTab === 'setup-request'"
-      (click)="changeTab('setup-request')"
+      [class.active]="currentTab === 'setupDCL'"
+      (click)="changeTab('setupDCL')"
     >
-      {{'vehicle.setupRequestMR' | translate}}
+      {{'vehicle.setupDCL' | translate}}
     </a>
     <a 
       class="tab-link" 
-      [class.active]="currentTab === 'list-request'"
-      (click)="changeTab('list-request')"
+      [class.active]="currentTab === 'listDCL'"
+      (click)="changeTab('listDCL')"
     >
-      {{'vehicle.listRequestMR' | translate}}
+      {{'vehicle.listDCL' | translate}}
     </a>
     <a 
       class="tab-link" 
-      [class.active]="currentTab === 'report-request'"
-      (click)="changeTab('report-request')"
+      [class.active]="currentTab === 'reportDCL'"
+      (click)="changeTab('reportDCL')"
     >
-      {{'vehicle.reportRequestMR' | translate}}
+      {{'vehicle.reportDCL' | translate}}
     </a>
     
   </div>
   
   <!-- Hiển thị component con dựa trên giá trị của `currentTab` -->
   <div class="tab-content" style="margin-top: 0px !important; background-color: #f3f3f3;">
-    <app-setup-deep-cleaning  *ngIf="currentTab === 'setup-request'"></app-setup-deep-cleaning>
-    <app-list-deep-cleaning (dataEmmitter)="changeTab('list-request')" *ngIf="currentTab === 'list-request'"></app-list-deep-cleaning>
-    <app-report-deep-cleaning *ngIf="currentTab === 'report-request'" [data]="data"></app-report-deep-cleaning>
+    <app-setup-deep-cleaning  *ngIf="currentTab === 'setupDCL'"></app-setup-deep-cleaning>
+    <app-list-deep-cleaning (dataEmmitter)="changeTab('listDCL')" *ngIf="currentTab === 'listDCL'"></app-list-deep-cleaning>
+    <app-report-deep-cleaning *ngIf="currentTab === 'reportDCL'" [data]="data"></app-report-deep-cleaning>
   </div>
   

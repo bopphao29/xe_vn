@@ -166,13 +166,21 @@
     "workPerformed": "Công việc thực hiện",
     "replacementSupplies": "Vật tư thay thế",
     "priority": "Ưu tiên bảo dưỡng trước",
+    "priorityClean": "Ưu tiên vệ sinh trước",
     "enterAllInStar": "Nhập đủ tất cả các trường thông tin có dấu *",
     "router": "Tuyến",
     "routerVehicle": "Xe tuyến",
     "transitVehicle": "Xe trung chuyển",
     "currentOdometer": "Số km hiện tại",
     "testItem": "Hạng mục kiểm tra",
-    "": ""
+    "reportDCL": "Báo cáo VSNT chuyên sâu",
+    "setupDCL":"Thiết lập yêu cầu VSNT chuyên sâu",
+    "listDCL":"Danh sách yêu cầu VSNT chuyên sâu",
+    "lastKmNear": "Km VSNT gần nhất",
+    "dateLmNear":"Ngày VSNT gần nhất",
+    "levelVSNT":"Cấp VSNT hiện tại"
+    
+  
   },
   "navbar": {
     "ras": "Liên hệ",
@@ -340,7 +348,8 @@
       "licensePlate": "Biển kiểm soát",
       "maintenanceKm": "Km bảo dưỡng",
       "count": "Số lượng",
-      "unitOfMeasure": "Đơn vị tính"
+      "unitOfMeasure": "Đơn vị tính",
+      "kmVSNT":"Km VSNT chuyên sâu"
     },
     "employee": {
       "notePra": "Nội dung khen thưởng",
