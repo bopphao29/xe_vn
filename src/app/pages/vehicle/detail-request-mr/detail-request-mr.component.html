@@ -237,16 +237,23 @@
     </div>
   </div>
   <span class="label_setup mx-2">Chi tiết yêu cầu bảo dưỡng sửa chữa</span>
-  <div class="flex gap-[16px]">
+  <div class="flex gap-[16px]" *ngIf="isComplete" [formGroup]="formComplete">
     <div class="input-item">
-      <input class="input-form" placeholder="Tên lộ trình" type="text" />
+      <nz-time-picker
+        nzFormat="HH:mm:ss"
+        class="w-full"
+        style="width: 100%"
+        nzPlaceHolder="Giờ ra thực tế"
+        formControlName="completionTime"
+      ></nz-time-picker>
     </div>
     <div class="input-item">
       <nz-date-picker
         nzFormat="dd/MM/yyyy"
         class="w-full"
         style="width: 100%"
-        nzPlaceHolder="{{ 'Chọn ngày' | translate }}"
+        nzPlaceHolder="Ngày ra thực tế"
+        formControlName="completionDate"
       ></nz-date-picker>
     </div>
   </div>
@@ -790,7 +797,7 @@
       </div>
     </div>
   </div>
-  <div class="flex justify-center gap-[12px]">
+  <div class="flex justify-center gap-[12px]" *ngIf="isComplete">
     <button class="btn-cancel" (click)="onBack($event)">Quay lại</button>
     <button class="btn-save" (click)="onSave()">Xác nhận</button>
   </div>

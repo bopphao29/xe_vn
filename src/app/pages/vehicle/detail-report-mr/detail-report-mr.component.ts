@@ -25,46 +25,42 @@ import { ChildReportComponent } from './report-mr-child/child-report/child-repor
   standalone: true,
   imports: [
     CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NzButtonModule,
-        TranslateModule,
-        NzTabsModule,
-        NzSelectModule,
-        NzFormModule,
-        NzButtonModule,
-        NzInputModule,
-        NzDatePickerModule,
-        NzUploadModule,
-        NzIconModule,
-        NzRadioModule,
-        NzModalModule,
-        NzPaginationModule
+    FormsModule,
+    ReactiveFormsModule,
+    NzButtonModule,
+    TranslateModule,
+    NzTabsModule,
+    NzSelectModule,
+    NzFormModule,
+    NzButtonModule,
+    NzInputModule,
+    NzDatePickerModule,
+    NzUploadModule,
+    NzIconModule,
+    NzRadioModule,
+    NzModalModule,
+    NzPaginationModule,
   ],
   templateUrl: './detail-report-mr.component.html',
-  styleUrl: './detail-report-mr.component.scss'
+  styleUrl: './detail-report-mr.component.scss',
 })
-export class DetailReportMrComponent implements OnInit{
-
-
+export class DetailReportMrComponent implements OnInit {
   constructor(
-      private router: Router,
-      private vehicleServices : VehicalServiceService,
-      private route: ActivatedRoute,
-      private dialog: DialogService
-      
-  ){}
+    private router: Router,
+    private vehicleServices: VehicalServiceService,
+    private route: ActivatedRoute,
+    private dialog: DialogService
+  ) {}
 
-  regisNo : any
+  regisNo: any;
   ngOnInit(): void {
-    this.route.params.subscribe((params : any)=>{
-      const regisNo = params['id']
-      this.regisNo = regisNo
-      
-    })
+    this.route.params.subscribe((params: any) => {
+      const regisNo = params['id'];
+      this.regisNo = regisNo;
+    });
 
-    this.getDetail(this.regisNo)
-    this.summaryByRegisterNo(this.regisNo)
+    this.getDetail(this.regisNo);
+    this.summaryByRegisterNo(this.regisNo);
   }
 
   onBack(event: any) {
@@ -77,17 +73,17 @@ export class DetailReportMrComponent implements OnInit{
       });
     }
   }
-  pageIndex = 1
-  pageSize = 12
-  total = -1
-  inforMR : any
-  listSM : any[]= []
+  pageIndex = 1;
+  pageSize = 12;
+  total = -1;
+  inforMR: any;
+  listSM: any[] = [];
 
-  detailChild : any
-  routerDetail(id: any){
-    console.log(id)
-    this.vehicleServices.getDetailMR(id,1).subscribe((response : any) =>{
-      this.detailChild = response.data 
+  detailChild: any;
+  routerDetail(id: any) {
+    console.log(id);
+    this.vehicleServices.getDetailMR(id, 1).subscribe((response: any) => {
+      this.detailChild = response.data;
       const dialogRef = this.dialog.openDialog(
         ChildReportComponent,
         '',
@@ -95,22 +91,26 @@ export class DetailReportMrComponent implements OnInit{
         {
           nzWidth: '100vh',
         }
-      )
-
-    })
-
+      );
+    });
   }
 
   onPageChange(page: number, regisNo: any): void {
     this.pageIndex = page;
     // this.search()
-    this.getDetail(regisNo)
+    this.getDetail(regisNo);
   }
-  
+
   showEmpolyeeNoData() {
     const numberData = 12;
-    const emptyDetail = { date: '-', vehicleStatuses: null, hours: '-', worksPerformed: '-', id: null };
-    
+    const emptyDetail = {
+      date: '-',
+      vehicleStatuses: null,
+      hours: '-',
+      worksPerformed: '-',
+      id: null,
+    };
+
     // Tạo danh sách nhóm với dữ liệu ban đầu
     const dataGroups = this.listSM.map((item) => {
       const details = item.lstDetails || [];
@@ -120,10 +120,13 @@ export class DetailReportMrComponent implements OnInit{
         lstDetails: details.length ? details : [emptyDetail], // Ít nhất có một chi tiết trống
       };
     });
-  
+
     // Tính tổng số hàng hiện tại
-    const currentRowCount = dataGroups.reduce((sum, group) => sum + group.lstDetails.length, 0);
-  
+    const currentRowCount = dataGroups.reduce(
+      (sum, group) => sum + group.lstDetails.length,
+      0
+    );
+
     // Nếu số hàng hiện tại ít hơn 12, thêm các hàng trống
     if (currentRowCount < numberData) {
       const rowsToAdd = numberData - currentRowCount;
@@ -135,24 +138,25 @@ export class DetailReportMrComponent implements OnInit{
         });
       }
     }
-  
+
     return dataGroups;
   }
-  
-  
 
-  getDetail(regisNo: any){
-    this.vehicleServices.summaryDetail(this.pageIndex - 1, this.pageSize, regisNo).subscribe((response: any)=>{
-            this.listSM = response.data.content
-            this.total = response.data.totalElements
-           
-          })
+  getDetail(regisNo: any) {
+    this.vehicleServices
+      .summaryDetail(this.pageIndex - 1, this.pageSize, regisNo)
+      .subscribe((response: any) => {
+        this.listSM = response.data.content;
+        this.total = response.data.totalElements;
+      });
   }
- 
-  dataSummaryByRegisterNo : any
-  summaryByRegisterNo(regisNo: any){
-    this.vehicleServices.summaryByRegisterNo(regisNo).subscribe((response: any)=>{
-      this.dataSummaryByRegisterNo = response.data
-    })
+
+  dataSummaryByRegisterNo: any;
+  summaryByRegisterNo(regisNo: any) {
+    this.vehicleServices
+      .summaryByRegisterNo(regisNo)
+      .subscribe((response: any) => {
+        this.dataSummaryByRegisterNo = response.data;
+      });
   }
 }
