@@ -1,0 +1,35 @@
+<button class="w-full" [ngClass]="isDelete ? 'btn-delete' : 'btn'">
+  <div class="flex justify-center items-center gap-[8px]">
+    <ng-container *ngIf="icon === 'delete-filter'">
+      <svg
+        width="21"
+        height="20"
+        viewBox="0 0 21 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M9.66667 17.5V12.5H11.3333V14.1667H18V15.8333H11.3333V17.5H9.66667ZM3 15.8333V14.1667H8V15.8333H3ZM6.33333 12.5V10.8333H3V9.16667H6.33333V7.5H8V12.5H6.33333ZM9.66667 10.8333V9.16667H18V10.8333H9.66667ZM13 7.5V2.5H14.6667V4.16667H18V5.83333H14.6667V7.5H13ZM3 5.83333V4.16667H11.3333V5.83333H3Z"
+          fill="#274EA1"
+        />
+      </svg>
+    </ng-container>
+    <ng-container *ngIf="icon === 'delete'">
+      <svg
+        width="21"
+        height="21"
+        viewBox="0 0 21 21"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M6.33337 18C5.87504 18 5.48268 17.8368 5.15629 17.5104C4.8299 17.184 4.66671 16.7917 4.66671 16.3333V5.5H3.83337V3.83333H8.00004V3H13V3.83333H17.1667V5.5H16.3334V16.3333C16.3334 16.7917 16.1702 17.184 15.8438 17.5104C15.5174 17.8368 15.125 18 14.6667 18H6.33337ZM8.00004 14.6667H9.66671V7.16667H8.00004V14.6667ZM11.3334 14.6667H13V7.16667H11.3334V14.6667Z"
+          fill="#EF4444"
+        />
+      </svg>
+    </ng-container>
+    <span class="roboto-500" style="font-size: 16px">
+      {{ title }}
+    </span>
+  </div>
+</button>

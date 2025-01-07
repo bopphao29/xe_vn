@@ -172,7 +172,7 @@
     "transitVehicle": "Xe trung chuyển",
     "currentOdometer": "Số km hiện tại",
     "testItem": "Hạng mục kiểm tra",
-    "":""
+    "": ""
   },
   "navbar": {
     "ras": "Liên hệ",
@@ -257,7 +257,7 @@
       "vehicle-command": "Lệnh điều xe",
       "work-schedule": "Lịch làm việc lái xe tuyến",
       "fix-schedule": "Lịch bảo dưỡng sửa chữa",
-      "setup-price": "Thiết lập giá nhiên liệu",
+      "setup-fuel-price": "Thiết lập giá nhiên liệu",
       "setup-norm": "Thiết lập định mức"
     },
     "setup-operation": {
@@ -302,6 +302,28 @@
       "start": "Bắt đầu",
       "end": "Kết thúc",
       "position": "Vị trí"
+    },
+    "setup_fuel_price": {
+      "title": "Thiết lập giá nhiên liệu",
+      "apply_time": "Giờ áp dụng",
+      "apply_date": "Ngày áp dụng",
+      "fuel_price_table": "Bảng giá nhiên liệu",
+      "area": "Vùng",
+      "area_1": "Vùng 1",
+      "area_2": "Vùng 2",
+      "area_3": "Vùng 3",
+      "petrol_92": "Xăng RON92",
+      "petrol_95": "Xăng RON95",
+      "diesel_1": "Diesel 0,01",
+      "diesel_5": "Diesel 0,05",
+      "history_setup_fuel_price": "Lịch sử thiết lập giá nhiên liệu",
+      "from_date": "Từ ngày",
+      "to_date": "Đến ngày",
+      "fix_date": "Ngày điều chỉnh",
+      "fix_time": "Giờ điều chỉnh",
+      "a92": "Xăng A92",
+      "a95": "Xăng A95",
+      "task": "Tác vụ"
     }
   },
   "table": {

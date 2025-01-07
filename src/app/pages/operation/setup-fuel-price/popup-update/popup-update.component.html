@@ -1,0 +1,126 @@
+<div *nzModalTitle class="flex justify-center">
+  <span style="font-size: 24px; color: #252c32" class="roboto-500">
+    {{ modalData?.title }}
+  </span>
+</div>
+
+<div class="flex flex-col justify-center gap-[48px]">
+  <div class="flex gap-[12px]">
+    <div class="input-item">
+      <nz-time-picker
+        nzFormat="HH:mm:ss"
+        class="w-full"
+        style="width: 100%"
+        nzPlaceHolder="Giờ ra thực tế"
+      ></nz-time-picker>
+    </div>
+    <div class="input-item">
+      <nz-date-picker
+        nzFormat="dd/MM/yyyy"
+        class="w-full"
+        style="width: 100%"
+        nzPlaceHolder="Ngày ra thực tế"
+      ></nz-date-picker>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-[12px]">
+    <div class="flex justify-content-start item-center">
+      <span class="roboto-500" style="font-size: 16px">{{
+        "operation.setup_fuel_price.fuel_price_table" | translate
+      }}</span>
+    </div>
+    <table class="custom-table-list">
+      <thead>
+        <tr>
+          <th class="list-col-25 roboto-500" style="font-size: 14px">
+            {{ "operation.setup_fuel_price.area" | translate }}
+          </th>
+          <th class="list-col-25 roboto-500" style="font-size: 14px">
+            <div class="flex justify-content-end">
+              {{ "operation.setup_fuel_price.petrol_92" | translate }}
+            </div>
+          </th>
+          <th class="list-col-25 roboto-500" style="font-size: 14px">
+            <div class="flex justify-content-end">
+              {{ "operation.setup_fuel_price.petrol_95" | translate }}
+            </div>
+          </th>
+          <th class="list-col-25 roboto-500" style="font-size: 14px">
+            <div class="flex justify-content-end">
+              {{ "operation.setup_fuel_price.diesel_1" | translate }}
+            </div>
+          </th>
+          <th class="list-col-25 roboto-500" style="font-size: 14px">
+            <div class="flex justify-content-end">
+              {{ "operation.setup_fuel_price.diesel_5" | translate }}
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-size: 14px" class="roboto-500">
+            {{ "operation.setup_fuel_price.area_1" | translate }}
+          </td>
+          <td>
+            <input class="input-form" placeholder="SĐT" type="text" />
+          </td>
+          <td>
+            <input class="input-form" placeholder="SĐT" type="text" />
+          </td>
+          <td>
+            <input class="input-form" placeholder="SĐT" type="text" />
+          </td>
+          <td>
+            <input class="input-form" placeholder="SĐT" type="text" />
+          </td>
+        </tr>
+        <tr>
+          <td style="font-size: 14px" class="roboto-500">
+            {{ "operation.setup_fuel_price.area_2" | translate }}
+          </td>
+          <td>
+            <input class="input-form" placeholder="SĐT" type="text" />
+          </td>
+          <td>
+            <input class="input-form" placeholder="SĐT" type="text" />
+          </td>
+          <td>
+            <input class="input-form" placeholder="SĐT" type="text" />
+          </td>
+          <td>
+            <input class="input-form" placeholder="SĐT" type="text" />
+          </td>
+        </tr>
+        <tr>
+          <td style="font-size: 14px" class="roboto-500">
+            {{ "operation.setup_fuel_price.area_3" | translate }}
+          </td>
+          <td>
+            <input class="input-form" placeholder="SĐT" type="text" />
+          </td>
+          <td>
+            <input class="input-form" placeholder="SĐT" type="text" />
+          </td>
+          <td>
+            <input class="input-form" placeholder="SĐT" type="text" />
+          </td>
+          <td>
+            <input class="input-form" placeholder="SĐT" type="text" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flex justify-center gap-[12px]">
+    <button class="btn-cancel">Hủy</button>
+    <app-button
+      [title]="'Xóa'"
+      [icon]="'delete'"
+      [isDelete]="true"
+    ></app-button>
+    <button class="btn-save">Lưu</button>
+  </div>
+</div>

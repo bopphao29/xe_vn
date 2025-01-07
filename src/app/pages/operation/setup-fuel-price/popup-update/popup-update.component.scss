@@ -1,0 +1,34 @@
+@import "../../../../shared/styles/common.style.scss";
+
+.custom-table-list {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.custom-table-list th,
+.custom-table-list td {
+  border: 1px solid #d9d9d9;
+  // padding: 8px;
+  padding: 12px 13.5px;
+  height: 36px !important;
+}
+
+.custom-table-list .list-col-25 {
+  width: 20%;
+}
+
+.custom-table-list .list-col-1 {
+  width: 4%;
+}
+
+.custom-table-list .list-col-2 {
+  width: 65%;
+}
+
+.custom-table-list .list-col-3 {
+  width: 15.5%;
+}
+
+.custom-table-list .list-col-4 {
+  width: 15.5%;
+}

@@ -105,8 +105,8 @@ export class OperationComponent {
     },
     {
       id: 7,
-      actLink: 'setup-price',
-      router: 'operation/setup-price',
+      actLink: 'setup-fuel-price',
+      router: 'operation/setup-fuel-price',
     },
     {
       id: 8,
