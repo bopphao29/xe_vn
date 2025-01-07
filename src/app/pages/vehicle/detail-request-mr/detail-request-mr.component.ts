@@ -22,6 +22,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { VehicalServiceService } from '../../../shared/services/vehical-service.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
+import { API_CODE } from '../../../shared/constants/common.const';
 
 @Component({
   selector: 'app-detail-request-mr',
@@ -351,11 +352,21 @@ export class DetailRequestMrComponent implements OnInit {
     const body = {
       id: this.inforMR.id,
       completionTime: this.formComplete.value.completionTime
-        ? new Date(this.formComplete.value.completionTime).getTime()
-        : 0,
+        ? new Date(this.formComplete.value.completionTime).toLocaleTimeString(
+            'en-GB',
+            {
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+            }
+          )
+        : '',
       completionDate: this.formComplete.value.completionDate
-        ? new Date(this.formComplete.value.completionDate).getTime()
-        : 0,
+        ? new Date(this.formComplete.value.completionDate)
+            .toISOString()
+            .split('T')[0]
+        : '',
+
       lstVehicleStatusIds: this.inforMR.lstVehicleStatus
         .filter((item: any) => !item.selected)
         .map((item: any) => item.id),
@@ -369,10 +380,10 @@ export class DetailRequestMrComponent implements OnInit {
         .filter((item: any) => !item.selected)
         .map((item: any) => item.id),
     };
-    console.log(body);
+
     this.vehicleServices.updateVehicleFixRequest(body).subscribe((res: any) => {
-      if (res) {
-        console.log(res);
+      if (res && res.code === API_CODE.SUCCESS) {
+        this.getDetailMR(this.id);
       }
     });
   }
