@@ -720,19 +720,13 @@
         }}</span>
       </div>
 
-      <nz-table
-        #basicTable
-        [nzData]="listData"
-        [nzShowPagination]="false"
-        nzTableLayout="fixed"
-        [nzScroll]="{ x: '1500px' }"
-      >
+      <table class="custom-table-list">
         <thead>
-          <tr>
+          <tr style="background-color: #fcfcfc; text-align: center;">
             <th
               nzWidth="70px"
               nzAlign="center"
-              class="font-inter"
+              class="font-inter list-col-1"
               style="color: #000000"
             >
               STT
@@ -740,7 +734,7 @@
             <th
               nzWidth="150px"
               nzAlign="center"
-              class="font-inter"
+              class="font-inter list-col-3"
               style="color: #000000"
             >
               Lộ trình
@@ -748,7 +742,7 @@
             <th
               nzWidth="150px"
               nzAlign="center"
-              class="font-inter"
+              class="font-inter list-col-2"
               style="color: #000000"
             >
               Điểm xuất phát
@@ -756,7 +750,7 @@
             <th
               nzWidth="200px"
               nzAlign="center"
-              class="font-inter"
+              class="font-inter list-col-4"
               style="color: #000000"
             >
               Điểm dừng
@@ -764,7 +758,7 @@
             <th
               nzWidth="150px"
               nzAlign="center"
-              class="font-inter"
+              class="font-inter list-col-2"
               style="color: #000000"
             >
               Điểm cuối
@@ -772,7 +766,7 @@
             <th
               nzWidth="170px"
               nzAlign="center"
-              class="font-inter"
+              class="font-inter list-col-2"
               style="color: #000000"
             >
               Tổng quãng đường (km)
@@ -780,7 +774,7 @@
             <th
               nzWidth="170px"
               nzAlign="center"
-              class="font-inter"
+              class="font-inter list-col-2"
               style="color: #000000"
             >
               Thời gian hoàn thành (phút)
@@ -788,7 +782,7 @@
             <th
               nzWidth="170px"
               nzAlign="center"
-              class="font-inter"
+              class="font-inter list-col-2"
               style="color: #000000"
             >
               Giá vé
@@ -796,7 +790,7 @@
             <th
               nzWidth="100px"
               nzAlign="center"
-              class="font-inter"
+              class="font-inter list-col-2"
               style="color: #000000"
             >
               Thao tác
@@ -937,7 +931,7 @@
             </td>
           </tr>
         </tbody>
-      </nz-table>
+      </table>
 
       <div style="display: flex; justify-content: center; margin-top: 16px">
         <nz-pagination

@@ -145,9 +145,9 @@ export class SetupRequestMrComponent implements OnInit {
     this.supplies();
     this.getMaintenanceFacilities();
 
-    this.form.get('driver')?.disable();
-    this.form.get('phoneNumber')?.disable();
-    this.form.get('currentOdometer')?.disable();
+    // this.form.get('driver')?.disable();
+    // this.form.get('phoneNumber')?.disable();
+    // this.form.get('currentOdometer')?.disable();
 
     this.form.get('registerNo')?.valueChanges.subscribe((registerNo) => {
       const selectedData = this.listForMaintenanceCopy.find(
@@ -312,6 +312,7 @@ export class SetupRequestMrComponent implements OnInit {
       });
   }
 
+  listVStatus: any[] = []
   getDetailMR(id: number) {
     this.vehicleService.getDetailMR(id, 1).subscribe((response: any) => {
       this.inforMR = response.data;
@@ -347,7 +348,7 @@ export class SetupRequestMrComponent implements OnInit {
         approvalStatus: response.data.approvalStatus,
         priorityStatus: response.data.priorityStatus,
         status: response.data.status,
-        note: response.data.note,
+        note: response.data.note
       });
 
       // this.form.patchValue(response.data)
@@ -462,6 +463,17 @@ export class SetupRequestMrComponent implements OnInit {
   }
 
   resNo = '';
+  isDone : boolean = false
+  endClick(){
+    this.form.reset()
+  }
+
+  handleSubmitDone(){
+    this.isDone = false
+    this.routes.navigate(['vehicle', 'maintenance-repair'], {
+      queryParams: { tab: 'list-request' }, // Điều hướng tới `list-request`
+    });
+  }
   onSubmit() {
     this.form.markAllAsTouched();
     // const dsts = this.form.getRawValue()
@@ -469,6 +481,12 @@ export class SetupRequestMrComponent implements OnInit {
       this.form.value.supposedStartTime
     );
     const supposedEndTime = this.formatTime(this.form.value.supposedEndTime);
+    const allVS = [...this.listVS, ...this.vehicleStatus]
+    const allWP = [...this.listWP, ...this.workPerformed]
+    const allTC = [...this.lstTC, ...this.testItem]
+    const allRS = [...this.lstRS, ...this.replacementSupplies]
+
+
     if (this.form.invalid) {
       this.notification.error('Kiểm tra lại trường bắt buộc');
     } else {
@@ -488,10 +506,10 @@ export class SetupRequestMrComponent implements OnInit {
           supposedStartDate,
           formmatDate
         ),
-        lstVehicleStatus: this.vehicleStatus,
-        lstTestCategories: this.testItem,
-        lstWorkPerformed: this.workPerformed,
-        lstReplacementSupplies: this.replacementSupplies,
+        lstVehicleStatus: !this.id ? this.vehicleStatus : allVS, 
+        lstTestCategories:  !this.id ? this.testItem : allTC,
+        lstWorkPerformed:  !this.id ? this.workPerformed : allWP,
+        lstReplacementSupplies:  !this.id ? this.replacementSupplies : allRS,
       };
 
       if (this.id) {
@@ -502,16 +520,17 @@ export class SetupRequestMrComponent implements OnInit {
               this.notification.success('Sửa yêu cầu BDSC thành công!');
             },
             error: (error: any) => {
-              this.notification.error('Có lỗi xảy ra');
+              // this.notification.error('Có lỗi xảy ra');
             },
           });
       } else {
         this.vehicleService.maintenanceRepairSchedules(dataFrom).subscribe({
           next: (response: any) => {
-            this.notification.success('Thiết lập BDSC thành công!');
+            // this.notification.success('Thiết lập BDSC thành công!');
+            this.isDone = true
           },
           error: (error: any) => {
-            this.notification.error('Có lỗi xảy ra');
+            // this.notification.error('Có lỗi xảy ra');
           },
         });
       }

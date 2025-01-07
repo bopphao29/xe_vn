@@ -75,7 +75,9 @@
                         <th class="list-col-2">Tác vụ</th>
     
                     </tr>
-                    <tr *ngFor="let data of showEmpolyeeNoData(); let i = index">
+                    <tr *ngFor="let data of showEmpolyeeNoData(); let i = index"
+                    [ngClass]="{'row-red': data.priorityStatus == 1 && data.status != 3}"
+                    >
                         <td class="list-col-1">{{(pageIndex - 1) * pageSize + i + 1}}</td>
                         <td class="list-col-3" style="text-align: left !important; padding-left: 10px;">{{data.registerNo || '-'}}</td>
                         <td class="list-col-3" style="text-align: left !important; padding-left: 10px;">{{data.driver || '-'}}</td>
@@ -84,11 +86,23 @@
                         
                         <td class="list-col-2">{{(data.createdBy | date: 'dd/MM/yyyy')  || '-'}}</td>
                         <td class="list-col-3">
-                            <span style="color: rgba(239, 68, 68, 1);" *ngIf="data.status == 2">
+                            <span *ngIf="data.status == 5">
+                                Đã hoàn thành
+                            </span>
+                            <span *ngIf="data.status == 4">
+                                Không được duyệt
+                            </span>
+                            <span *ngIf="data.status == 3">
                                 Đang sửa chữa
+                            </span>
+                            <span *ngIf="data.status == 2">
+                                Chờ duyệt
                             </span>
                             <span *ngIf="data.status == 1">
                                 Chờ duyệt
+                            </span>
+                            <span *ngIf="!data.status">
+                                -
                             </span>
                         </td>
                         

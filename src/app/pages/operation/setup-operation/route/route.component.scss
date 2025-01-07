@@ -206,19 +206,19 @@
 }
 
 .custom-table-list .list-col-1 {
-  width: 4%;
+  width: calc(40 / 1880) * 100%;
 }
 
 .custom-table-list .list-col-2 {
-  width: 65%;
+  width: calc(200 / 1880) * 100%;
 }
 
 .custom-table-list .list-col-3 {
-  width: 15.5%;
+  width: calc( 240 / 1880) * 100%;
 }
 
 .custom-table-list .list-col-4 {
-  width: 15.5%;
+  width: calc(400 / 1880) * 100%;
 }
 
 .headmodal {
@@ -387,6 +387,14 @@
   .children {
     width: calc(100% / 7 * 5 + 36px);
   }
+}
+
+::ng-deep .custom-table-list tr:nth-child(2n+1){
+  background-color: #FCFCFC;
+}
+
+::ng-deep .custom-table-list tr:nth-child(2n+2){
+  background-color:  #F4F7FB; 
 }
 
 @media (max-width: 1460px) and (min-width: 1280px) {
