@@ -66,6 +66,34 @@ export const OPERATION_ROUTES: Routes = [
           },
         ],
       },
+      {
+        path: 'setup-fuel-price',
+        loadComponent: () =>
+          import('./setup-fuel-price/setup-fuel-price.component').then(
+            (c) => c.SetupFuelPriceComponent
+          ),
+        // children: [
+        //   {
+        //     path: '',
+        //     redirectTo: 'extend',
+        //     pathMatch: 'full',
+        //   },
+        //   {
+        //     path: 'extend',
+        //     loadComponent: () =>
+        //       import('./vehicle-command/extend/extend.component').then(
+        //         (c) => c.ExtendVehicleComponent
+        //       ),
+        //   },
+        //   {
+        //     path: 'tour',
+        //     loadComponent: () =>
+        //       import('./vehicle-command/tour/tour.component').then(
+        //         (c) => c.TourVehicleComponent
+        //       ),
+        //   },
+        // ],
+      },
     ],
   },
 ];

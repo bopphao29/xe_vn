@@ -74,7 +74,7 @@ export class DetailRequestMrComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.id = params.get('id');
-      this.getDetailMR(this.id);
+      this.getDetailMR(this.id, 1);
     });
 
     this.form = this.fb.group({
@@ -279,7 +279,7 @@ export class DetailRequestMrComponent implements OnInit {
         this.notification.success('Thêm ý kiến thành công!');
         this.hasOpinion = false;
         this.form.reset();
-        this.getDetailMR(this.id);
+        this.getDetailMR(this.id, 1);
         // window.location.reload()
         // this.getUser(this.idEmployee)
       },
@@ -305,8 +305,8 @@ export class DetailRequestMrComponent implements OnInit {
     }
   }
 
-  getDetailMR(id: number) {
-    this.vehicleServices.getDetailMR(id, 1).subscribe((response: any) => {
+  getDetailMR(id: number, type: number) {
+    this.vehicleServices.getDetailMR(id, type).subscribe((response: any) => {
       this.inforMR = response.data;
       this.inforMR.lstVehicleStatus = Array.isArray(
         this.inforMR.lstVehicleStatus
@@ -383,7 +383,7 @@ export class DetailRequestMrComponent implements OnInit {
 
     this.vehicleServices.updateVehicleFixRequest(body).subscribe((res: any) => {
       if (res && res.code === API_CODE.SUCCESS) {
-        this.getDetailMR(this.id);
+        this.getDetailMR(this.id, 3);
       }
     });
   }
