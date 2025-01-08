@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -16,6 +18,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { RouteService } from '../route.service';
 import { API_CODE } from '../../../../../shared/constants/common.const';
 import { NotificationService } from '../../../../../shared/services/notification.service';
+import { allowOnlyNumbers } from '../../../../../shared/utilities/allowOnlyNumber';
+import { formatNumber } from '../../../../../shared/utilities/formatNumber';
 
 @Component({
   selector: 'app-setup-operation-popup-detail',
@@ -42,6 +46,7 @@ export class SetupOperationPopupDetailComponent implements OnInit {
 
   data!: any;
   dataDetail!: any;
+  isShowStopName: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -108,11 +113,43 @@ export class SetupOperationPopupDetailComponent implements OnInit {
       ticketPrice: ['', Validators.required],
       stopPoints: this.fb.array([]),
     });
+    this.form.get('routeType')?.valueChanges.subscribe((value: any) => {
+      const stopPointsArray = this.form.get('stopPoints') as FormArray;
+      if (value === 2) {
+        this.isShowStopName = true;
+        stopPointsArray.controls.forEach((group: AbstractControl) => {
+          group.get('stopName')?.addValidators(Validators.required);
+          group.get('stopName')?.updateValueAndValidity();
+          group.get('runningTime')?.addValidators(Validators.required);
+          group.get('runningTime')?.updateValueAndValidity();
+          group.get('waitingTime')?.addValidators(Validators.required);
+          group.get('waitingTime')?.updateValueAndValidity();
+          group.get('distance')?.addValidators(Validators.required);
+          group.get('distance')?.updateValueAndValidity();
+          group.get('shortestItinerary')?.addValidators(Validators.required);
+          group.get('shortestItinerary')?.updateValueAndValidity();
+        });
+      } else {
+        this.isShowStopName = false;
+        stopPointsArray.controls.forEach((group: AbstractControl) => {
+          group.get('stopName')?.addValidators([]);
+          group.get('stopName')?.updateValueAndValidity();
+          group.get('runningTime')?.addValidators([]);
+          group.get('runningTime')?.updateValueAndValidity();
+          group.get('waitingTime')?.addValidators([]);
+          group.get('waitingTime')?.updateValueAndValidity();
+          group.get('distance')?.addValidators([]);
+          group.get('distance')?.updateValueAndValidity();
+          group.get('shortestItinerary')?.addValidators([]);
+          group.get('shortestItinerary')?.updateValueAndValidity();
+        });
+      }
+    });
   }
 
   createStopPoint(): FormGroup {
     return this.fb.group({
-      itineraryId: ['', Validators.required],
+      itineraryId: [''],
       stopName: ['', Validators.required],
       runningTime: ['', Validators.required],
       waitingTime: ['', Validators.required],
@@ -130,6 +167,14 @@ export class SetupOperationPopupDetailComponent implements OnInit {
     input.value = input.value.replace(/[^0-9]/g, '');
   }
 
+  onInputChange(event: any): void {
+    formatNumber(event, this.form.get('ticketPrice') as FormControl);
+  }
+
+  onKeyPress(event: any) {
+    allowOnlyNumbers(event);
+  }
+
   closeModal() {
     this.modal.close();
   }
@@ -137,6 +182,7 @@ export class SetupOperationPopupDetailComponent implements OnInit {
   saveEdit() {
     this.form.markAllAsTouched();
     if (this.form.invalid) {
+      console.log(this.form.value);
       this.notification.error('Vui lòng điền đầy đủ thông tin');
       return;
     } else {

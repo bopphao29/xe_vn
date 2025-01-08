@@ -18,14 +18,14 @@
             [nzLabel]="route.value"
           ></nz-option>
         </nz-select>
-        <div class="error-container">
-          <div
-            *ngIf="
-              (form.get('routeType')?.invalid &&
-                form.get('routeType')?.dirty) ||
-              form.get('routeType')?.touched
-            "
-          >
+        <div
+          class="error-container"
+          *ngIf="
+            (form.get('routeType')?.invalid && form.get('routeType')?.dirty) ||
+            form.get('routeType')?.touched
+          "
+        >
+          <div>
             <span
               class="validate_input"
               *ngIf="form.get('routeType')?.errors?.['required']"
@@ -207,7 +207,7 @@
         </div>
 
         <!-- form array -->
-        <div class="flex flex-col">
+        <div class="flex flex-col" *ngIf="isShowStopName">
           <div
             formArrayName="stopPoints"
             class="flex flex-col gap-[12px] items-center"
@@ -216,6 +216,7 @@
               border: 1px solid #d1d5db;
               padding: 12px;
               align-items: flex-start;
+              width: fit-content;
             "
           >
             <div
@@ -435,6 +436,7 @@
             </div>
 
             <svg
+              *ngIf="stopPoints.length <= 19"
               (click)="addFormArray()"
               width="66"
               height="66"
@@ -671,10 +673,11 @@
               >
               <input
                 class="input-form"
-                (input)="validateText($event)"
+                (input)="onInputChange($event)"
+                (keypress)="onKeyPress($event)"
                 placeholder="Giá vé"
                 formControlName="ticketPrice"
-                type="number"
+                type="text"
               />
               <div class="error-container">
                 <div
@@ -722,7 +725,7 @@
 
       <table class="custom-table-list">
         <thead>
-          <tr style="background-color: #fcfcfc; text-align: center;">
+          <tr style="background-color: #fcfcfc; text-align: center">
             <th
               nzWidth="70px"
               nzAlign="center"

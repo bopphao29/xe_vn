@@ -9,6 +9,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import {
   FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -18,6 +19,9 @@ import { SetupOperationPopupDetailComponent } from './popup-detail/popup-detail.
 import { RouteService } from './route.service';
 import { API_CODE } from '../../../../shared/constants/common.const';
 import { NotificationService } from '../../../../shared/services/notification.service';
+import { DecimalPipe } from '@angular/common';
+import { formatNumber } from '../../../../shared/utilities/formatNumber';
+import { allowOnlyNumbers } from '../../../../shared/utilities/allowOnlyNumber';
 
 @Component({
   selector: 'app-setup-operation-route',
@@ -33,6 +37,7 @@ import { NotificationService } from '../../../../shared/services/notification.se
     NzTableModule,
     NzPaginationModule,
   ],
+  providers: [DecimalPipe],
 })
 export class SetupOperationRouteComponent implements OnInit {
   listRoute: Array<{ id: any; value: any }> = [];
@@ -45,13 +50,13 @@ export class SetupOperationRouteComponent implements OnInit {
   pagedData: any[] = [];
   listFake = [1];
   form!: FormGroup;
+  isShowStopName: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private dialogSrv: DialogService,
     private routeSrv: RouteService,
-    private notification: NotificationService,
-    private validateService: ValidateIntoPageService
+    private notification: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -72,15 +77,44 @@ export class SetupOperationRouteComponent implements OnInit {
       distance: ['', Validators.required],
       shortestItinerary: ['', Validators.required],
       ticketPrice: ['', Validators.required],
-      stopPoints: this.fb.array(
-        this.listFake.map(() => this.createStopPoint())
-      ),
+      stopPoints: this.isShowStopName
+        ? this.fb.array(this.listFake.map(() => this.createStopPoint()))
+        : this.fb.array([]),
     });
+
+    this.form.get('routeType')?.valueChanges.subscribe((value: any) => {
+      if (value === 2) {
+        this.isShowStopName = true;
+        this.updateStopPoints();
+      } else {
+        this.isShowStopName = false;
+        this.updateStopPoints();
+      }
+    });
+  }
+
+  updateStopPoints(): void {
+    if (this.isShowStopName) {
+      this.form.setControl(
+        'stopPoints',
+        this.fb.array(this.listFake.map(() => this.createStopPoint()))
+      );
+    } else {
+      this.form.setControl('stopPoints', this.fb.array([]));
+    }
+  }
+
+  onInputChange(event: Event): void {
+    formatNumber(event, this.form.get('ticketPrice') as FormControl);
+  }
+
+  onKeyPress(event: any) {
+    allowOnlyNumbers(event);
   }
 
   createStopPoint(): FormGroup {
     return this.fb.group({
-      stopName: ['', Validators.required],
+      stopName: [''],
       runningTime: ['', Validators.required],
       waitingTime: ['', Validators.required],
       distance: ['', Validators.required],
@@ -158,6 +192,7 @@ export class SetupOperationRouteComponent implements OnInit {
     );
 
     dialogRef.afterClose.subscribe(() => {
+      // this.form.reset();
       this.search();
     });
   }

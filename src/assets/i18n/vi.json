@@ -174,13 +174,11 @@
     "currentOdometer": "Số km hiện tại",
     "testItem": "Hạng mục kiểm tra",
     "reportDCL": "Báo cáo VSNT chuyên sâu",
-    "setupDCL":"Thiết lập yêu cầu VSNT chuyên sâu",
-    "listDCL":"Danh sách yêu cầu VSNT chuyên sâu",
+    "setupDCL": "Thiết lập yêu cầu VSNT chuyên sâu",
+    "listDCL": "Danh sách yêu cầu VSNT chuyên sâu",
     "lastKmNear": "Km VSNT gần nhất",
-    "dateLmNear":"Ngày VSNT gần nhất",
-    "levelVSNT":"Cấp VSNT hiện tại"
-    
-  
+    "dateLmNear": "Ngày VSNT gần nhất",
+    "levelVSNT": "Cấp VSNT hiện tại"
   },
   "navbar": {
     "ras": "Liên hệ",
@@ -275,8 +273,8 @@
       "setup-journey": "Thiết lập lộ trình",
       "name-journey": "Tên lộ trình",
       "start-place": "Điểm xuất phát",
-      "total-distance": "Tổng quãng đường",
-      "time-finish": "Thời gian hoàn thành",
+      "total-distance": "Tổng quãng đường (km)",
+      "time-finish": "Thời gian hoàn thành (phút)",
       "stop-place": "Điểm dừng",
       "name-stop-place": "Tên điểm dừng",
       "name-stop-place-1": "Tên điểm dừng 1",
@@ -372,7 +370,7 @@
       "maintenanceKm": "Km bảo dưỡng",
       "count": "Số lượng",
       "unitOfMeasure": "Đơn vị tính",
-      "kmVSNT":"Km VSNT chuyên sâu"
+      "kmVSNT": "Km VSNT chuyên sâu"
     },
     "employee": {
       "notePra": "Nội dung khen thưởng",
