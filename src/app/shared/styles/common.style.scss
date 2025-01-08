@@ -80,3 +80,42 @@ input.ng-invalid.ng-touched {
   border-radius: 8px !important;
   height: 100%;
 }
+
+.custom-text {
+  font-size: 14px;
+  font-family: "Roboto", serif;
+  font-weight: 500;
+  font-style: normal;
+  color: #274ea1;
+}
+
+.custom-table-list,
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.custom-table td,
+.custom-table th,
+.custom-table-list td,
+.custom-table-list th {
+  border: 1px solid #d9d9d9;
+  padding-left: 10px;
+  text-align: left;
+}
+
+.custom-table-list tr:nth-child(2n + 1) {
+  background-color: #fcfcfc;
+}
+
+.custom-table-list tr:nth-child(2n + 2) {
+  background-color: #f4f7fb;
+}
+
+.custom-table tr:nth-child(2n + 1) {
+  background-color: #fcfcfc;
+}
+
+.custom-table tr:nth-child(2n + 2) {
+  background-color: #f4f7fb;
+}

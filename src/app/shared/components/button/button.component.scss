@@ -17,3 +17,12 @@
   border-radius: 8px;
   color: #274ea1;
 }
+
+.btn-delete,
+.btn {
+  transition: transform 0.1s ease-in-out;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}

@@ -332,6 +332,29 @@
       "a92": "Xăng A92",
       "a95": "Xăng A95",
       "task": "Tác vụ"
+    },
+    "work_schedule": {
+      "route": "Tuyến",
+      "main_driver": "Lái chính",
+      "second_driver": "Lái dự phòng",
+      "transit_driver": "Lái trung chuyển",
+      "extend_driver": "Lái tăng cường",
+      "total_driver": "Tổng lái",
+      "route_vehicle": "Xe tuyến",
+      "transit_vehicle": "Xe trung chuyển",
+      "total_vehicle": "Tổng xe",
+      "worksheet_driver": "Bảng công lái xe",
+      "driver_name": "Tên lái xe",
+      "full_time": "Đi làm cả ngày <span class=\"custom-text\">(X)</span>",
+      "part_time": "Đi làm nửa ngày <span class=\"custom-text\">(NN)</span>",
+      "off": "Xin nghỉ <span class=\"custom-text\">(XN)</span>",
+      "alternate_off": "Nghỉ luân phiên <span class=\"custom-text\">(LP)</span>",
+      "contract": "Đi hợp đồng <span class=\"custom-text\">(HĐ)</span>",
+      "transit_route": "Chuyển tuyến <span class=\"custom-text\">(CT)</span>",
+      "suspend": "Đình chỉ <span class=\"custom-text\">(ĐC)</span>",
+      "sleep_hn": "Ngủ HN",
+      "transit": "Trung chuyển",
+      "total_work": "Tổng công"
     }
   },
   "table": {

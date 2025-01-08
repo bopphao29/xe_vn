@@ -281,16 +281,10 @@
           [icon]="'delete-filter'"
           [title]="'Xóa bộ lọc'"
         ></app-button>
-        <button class="btn-save">Tìm kiếm</button>
+        <button class="btn btn-save">Tìm kiếm</button>
       </div>
 
-      <nz-table
-        #basicTable
-        [nzData]="listData"
-        [nzShowPagination]="false"
-        nzTableLayout="fixed"
-        [nzScroll]="{ x: '1500px' }"
-      >
+      <table class="custom-table">
         <thead>
           <tr>
             <th
@@ -501,7 +495,7 @@
             </td>
           </tr>
         </tbody>
-      </nz-table>
+      </table>
 
       <div style="display: flex; justify-content: center; margin-top: 16px">
         <nz-pagination
