@@ -122,6 +122,14 @@ export const VEHICLE_ROUTES: Routes = [
       ),
   },
   {
+    // path: 'detail-vehical/:id',
+    path: 'vehicle/detail-deep-cleaning/:id',
+    loadComponent: () =>
+      import('./detail-deep-cleaning/detail-deep-cleaning.component').then(
+        (c) => c.DetailDeepCleaningComponent
+      ),
+  },
+  {
     path: 'vehicle/detail-mr-change/:id',
     loadComponent: () =>
       import(
@@ -129,10 +137,24 @@ export const VEHICLE_ROUTES: Routes = [
       ).then((c) => c.SetupRequestMrComponent),
   },
   {
+    path: 'vehicle/detail-deep-cleaning-change/:id',
+    loadComponent: () =>
+      import(
+        './page-routing/deep-interior-cleaning/page/setup-deep-cleaning/setup-deep-cleaning.component'
+      ).then((c) => c.SetupDeepCleaningComponent),
+  },
+  {
     path: 'vehicle/detail-report-mr/:id',
     loadComponent: () =>
       import('./detail-report-mr/detail-report-mr.component').then(
         (c) => c.DetailReportMrComponent
+      ),
+  },
+  {
+    path: 'vehicle/detail-report-dcl/:id',
+    loadComponent: () =>
+      import('./detail-report-dcl/detail-report-dcl.component').then(
+        (c) => c.DetailReportDclComponent
       ),
   },
   {

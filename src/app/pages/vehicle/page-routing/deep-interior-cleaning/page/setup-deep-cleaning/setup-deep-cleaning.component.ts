@@ -80,7 +80,7 @@ export class SetupDeepCleaningComponent implements OnInit {
   @Output() dataEmmitter = new EventEmitter<string>();
 
   routerLink() {
-    this.dataEmmitter.emit('setup-request');
+    this.dataEmmitter.emit('setupDCL');
   }
 
   id: any;
@@ -403,7 +403,7 @@ export class SetupDeepCleaningComponent implements OnInit {
   }
 
   onBack(event: any) {
-    this.routes.navigate(['vehicle/detail-mr/' + this.id]);
+    this.routes.navigate(['vehicle/detail-deep-cleaning/' + this.id]);
   }
 
   formatTime(time: any): string {

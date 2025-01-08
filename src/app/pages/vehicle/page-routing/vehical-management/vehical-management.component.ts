@@ -86,7 +86,7 @@ export class VehicalManagementComponent {
         // {id : 3, actLink: 'setupRequestMR', router: 'vehicle/maintenance-repair/setup-request-mr'},
     // {id : 4, actLink: 'listRequestMR', router: 'vehicle/maintenance-repair/list-request-mr'},
     // {id : 5, actLink: 'reportRequestMR', router: 'vehicle/maintenance-repair/report-request-mr'},
-    {id : 4, actLink: 'deepInteriorCleaning', router: 'vehicle/deep-interior-cleaning'},
+    {id : 4, actLink: 'deepInteriorCleaning', router: 'vehicle/deep-interior-cleaning', tab: 'setupDCL'},
     {id : 5, actLink: 'operationalManagement', router: 'vehicle/operational-management'},
     {id : 6, actLink: 'operaterTimeManagement', router: 'vehicle/operater-time-management'},
     {id : 7, actLink: 'fuelAnagement', router: 'vehicle/fuel-anagement'},

@@ -41,7 +41,7 @@ export class DeepInteriorCleaningComponent implements OnInit{
     })
   }
 
-  currentTab: string = 'setup-request'; // Tab mặc định
+  currentTab: string = 'setupDCL'; // Tab mặc định
 
   changeTab(tab: string) {
     this.currentTab = tab;

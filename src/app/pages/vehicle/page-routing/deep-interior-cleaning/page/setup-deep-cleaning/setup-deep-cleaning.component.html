@@ -14,7 +14,7 @@
                 </span>
             </button>
             </div>
-        <span *ngIf="!id">Thiết lập yêu cầu bảo dưỡng sửa chữa</span>
+        <span *ngIf="!id">Thiết lập yêu cầu VSNT chuyên sâu</span>
         <span *ngIf="id">Thông tin xe BDSC</span>
 
     <div style="background-color: #ffffff; border-radius: 12px">
@@ -124,7 +124,7 @@
               <div class="">
                 <span style="color: red">*</span
                 ><label class="label-form" for="">{{
-                  "vehicle.vehiclePhone" | translate
+                  "vehicle.phoneNumber" | translate
                 }}</label>
                 <input
                   class="input-form"
@@ -152,7 +152,7 @@
 
                         <div class="input-wrapper">
                             <div class="">
-                                <label class="label-form" for="" >{{'vehicle.latestOdometer' | translate}}</label>
+                                <label class="label-form" for="" >{{'vehicle.lastKmNear' | translate}}</label>
                                 <input class="input-form"  placeholder="Nhập" type="number" formControlName="latestOdometer" >
                                 <!-- <div class="error-container">
                                     <div *ngIf="form.get('latestOdometer')?.invalid && (form.get('latestOdometer')?.dirty || form.get('latestOdometer')?.touched)">
@@ -165,7 +165,7 @@
             <div class="input-wrapper">
               <div class="">
                 <label class="label-form">
-                  {{ "vehicle.latestDate" | translate }}
+                  {{ "vehicle.dateLmNear" | translate }}
                 </label>
                 <nz-date-picker
                   nzFormat="dd/MM/yyyy"
@@ -216,7 +216,7 @@
               <div class="">
                 <span style="color: red">*</span
                 ><label class="label-form" for="">{{
-                  "vehicle.levelMaintenance" | translate
+                  "vehicle.levelVSNT" | translate
                 }}</label>
                 <nz-select
                   nzPlaceHolder="Chọn"
@@ -443,7 +443,7 @@
                   font-weight: 500;
                   font-size: 16px;
                 "
-                >{{ "vehicle.priority" | translate }}</span
+                >{{ "vehicle.priorityClean" | translate }}</span
               >
             </div>
           </div>
@@ -465,7 +465,7 @@
                     {{ "table.phoneNumber" | translate }}
                   </th>
                   <th class="list-col-2">
-                    {{ "table.vehicle.maintenanceKm" | translate }}
+                    {{ "table.vehicle.kmVSNT" | translate }}
                   </th>
                   <th class="list-col-2">{{ "table.action" | translate }}</th>
                 </tr>

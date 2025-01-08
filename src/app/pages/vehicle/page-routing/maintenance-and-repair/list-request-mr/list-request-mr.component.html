@@ -86,24 +86,7 @@
                         
                         <td class="list-col-2">{{(data.createdBy | date: 'dd/MM/yyyy')  || '-'}}</td>
                         <td class="list-col-3">
-                            <span *ngIf="data.status == 5">
-                                Đã hoàn thành
-                            </span>
-                            <span *ngIf="data.status == 4">
-                                Không được duyệt
-                            </span>
-                            <span *ngIf="data.status == 3">
-                                Đang sửa chữa
-                            </span>
-                            <span *ngIf="data.status == 2">
-                                Chờ duyệt
-                            </span>
-                            <span *ngIf="data.status == 1">
-                                Chờ duyệt
-                            </span>
-                            <span *ngIf="!data.status">
-                                -
-                            </span>
+                            {{data.statusStr}}
                         </td>
                         
                         <td class="list-col-4">{{data.approvedBy|| '-'}}</td>

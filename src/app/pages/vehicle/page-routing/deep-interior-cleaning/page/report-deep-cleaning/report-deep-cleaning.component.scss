@@ -1,0 +1,201 @@
+.form-control {
+    border: none;
+    background-color: rgb(243 243 243);
+  }
+  
+  ::ng-deep {
+    nz-form-label.ant-form-item-label.form-label.ant-col {
+        margin-bottom: -5px;
+    }
+  
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+        height: 48px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-radius: 5px;
+    }
+  
+    nz-select-item.ant-select-selection-item.ng-star-inserted {
+        font-weight: 600;
+    }
+  
+    .form-input {
+        // height: 50px;
+        border-radius: 5px;
+    }
+  
+    .ant-picker {
+        // height: 50px;
+        border-radius: 5px;
+    }
+  
+    .button {
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;      
+        border-radius: 10px;
+        border-color: #274EA1;
+        font-size: 18px;
+        min-width: 160px;
+        min-height: 48px !important;
+        font-weight: 500;
+    }
+  
+    .custom-upload {
+        display: flex;
+        align-items: center;
+    }
+  
+    .upload-input {
+        flex: 1;
+        padding: 8px;
+        /* Adjust padding as needed */
+    }
+  
+    .ng-tns-c2245839801-68.ant-upload-list-text-container.ng-star-inserted {
+        display: none;
+    }
+  
+  
+    .ant-upload-picture-card-wrapper {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+    .ant-upload.ant-upload-select-picture-card {
+        width: 350px;
+        height: 250px;
+    }
+  
+  }
+  
+  :host ::ng-deep .avatar-uploader>.ant-upload {
+    width: 128px;
+    height: 128px;
+  }
+  
+  .custom-table-list {
+    width: 100%;
+    border-collapse: collapse;
+    
+  }
+  
+  .custom-table-list tbody tr th, .custom-table-list tbody tr td {
+    border: 1px solid #d9d9d9;
+    // padding: 8px;
+    height: 36px !important;    
+  }
+  
+  .custom-table-list .list-col-1 {
+    width: calc(40 / 1880)*100% !important;
+    height: 36px !important;    
+  
+  }
+  
+  .custom-table-list .list-col-2{
+    width: calc(100 / 1880)*100% !important;
+    height: 36px !important;   
+  }
+
+  .custom-table-list .list-col-3 {
+    width: calc(120 / 1880)*100% !important;
+    height: 36px !important;    
+  
+  }
+  
+  .custom-table-list .list-col-4 {
+    width: calc(160 / 1880)*100% !important;
+    height: 36px !important;    
+  
+  }
+  
+  .custom-table-list .list-col-5{
+    width: calc(180 / 1880)*100% !important;
+    height: 36px !important;   
+  }
+
+  .custom-table-list .list-col-6{
+    width: calc(240 / 1880)*100% !important;
+    height: 36px !important;   
+  }
+
+  .custom-table-list .list-col-5{
+    width: calc(100 / 1880)*100% !important;
+    height: 36px !important;   
+  }
+  
+  ::ng-deep .custom-table-list tr:nth-child(2n+2){
+    background-color:  #FCFCFC;
+  }
+  
+  ::ng-deep .custom-table-list tr:nth-child(2n+1){
+    background-color: #F4F7FB;
+  }
+  
+  .button_show_detail{
+    border: 1px solid #274ea1; 
+    padding: 4px 10px 4px 10px; 
+    border-radius: 21px; 
+    height: 24px !important; 
+    line-height: 24px ; 
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    color: #274EA1;
+    white-space: nowrap;
+  
+  }
+  
+  ::ng-deep .custom-pagination .ant-pagination {
+    display: flex;
+    justify-content: center; 
+    margin-top: 20px;
+  }
+  
+  ::ng-deep .custom-pagination .ant-pagination-item {
+   border: none;
+   background-color: transparent;
+  }
+  
+  ::ng-deep .custom-pagination .ant-pagination-item a{
+   color: #274EA1 !important;
+   font-weight: 500;
+    
+  }
+  
+  ::ng-deep .custom-pagination  .ant-pagination-prev .ant-pagination-item-link, ::ng-deep .custom-pagination  .ant-pagination-next .ant-pagination-item-link {
+  background-color: transparent;
+  border: none;
+  }
+  
+  ::ng-deep .custom-pagination  .ant-pagination-prev .ant-pagination-item-link .anticon svg{
+  // color: #274EA1;
+  }
+  
+  ::ng-deep .custom-pagination .ant-pagination-prev .ant-pagination-item-link.ant-pagination-item-link-disabled .anticon svg {
+  color: #274EA1;
+  }
+  
+  ::ng-deep .custom-pagination .ant-pagination-item.ant-pagination-item-active a{
+    background-color: #274EA1;
+    border-radius: 28px;
+    -webkit-border-radius: 28px;
+    -moz-border-radius: 28px;
+    -ms-border-radius: 28px;
+    -o-border-radius: 28px;
+    color: white !important;
+  }
+  
+  ::ng-deep .custom-pagination .ant-pagination-disabled {
+    color: #bfbfbf; 
+  }
+  
+  .number_bdsc{
+    color: rgba(39, 78, 161, 1);
+    size: 14px;
+    line-height: 16.41px;
+    align-items: center;
+    font-weight: 500;
+  }
