@@ -279,6 +279,7 @@
                   formControlName="supposedStartTime"
                   style="height: 48px !important; width: 100%"
                   nzFormat="HH:mm"
+                  (ngModelChange)="onTimeChange($event)"
                 ></nz-time-picker>
                 <div class="error-container">
                   <div
@@ -617,3 +618,23 @@
     </ng-template>
 </nz-modal>
 
+<nz-modal [(nzVisible)]="isConfirm" (nzOnCancel)="closeConfirm()" (nzOnOk)="handleSubmitConfirm()"
+    [nzContent]="modalContentDone" [nzFooter]="null" [nzStyle]="{'min-width' : '464px', 'min-height':'236px'}">
+    <ng-template #modalContentDone>
+        <div >
+            <div style="text-align: center;"><span style="font-size: 24px; color: rgba(37, 44, 50, 1); font-weight: 500;">Gửi yêu cầu BDSC?</span></div>
+            
+            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 20px"> 
+                <span>
+                    <button class="button-infor" nz-button style="color: #274EA1;" nzType="default" type="button"
+                        (click)="closeConfirm()">Hủy</button>
+                </span>
+                <span>
+                    <button class="button-infor" nz-button style="color: #ffffff; background-color: #274EA1;" nzType="default" type="button"
+                        (click)="handleSubmitConfirm()">Xác nhận</button>
+                </span>
+            </div>
+        </div>
+        
+    </ng-template>
+</nz-modal>

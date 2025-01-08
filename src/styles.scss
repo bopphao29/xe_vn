@@ -321,3 +321,24 @@ nz-time-picker.ng-invalid.ng-touched {
   padding: 4px 10px 4px 10px;
   border-radius: 21px;
 }
+
+.header-modal{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0px 45px 0px;
+}
+
+.footer-modal{
+  display: flex;
+      gap: 8px;
+      justify-content: space-between;
+      margin-top: 60px;
+}
+
+.footer-modal-center{
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 60px;
+}

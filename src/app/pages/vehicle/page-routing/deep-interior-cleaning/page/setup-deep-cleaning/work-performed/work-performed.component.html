@@ -61,7 +61,7 @@
             </div>
     
           </div>            
-            <div style="display: flex; gap: 8px; justify-content: space-between; margin-top: 20px"> 
+            <div class="footer-modal"> 
                 <span>
                     <button class="button-status" nz-button style="color: #274EA1;" nzType="default"
                         (click)="handleCancelisWorkPerformed()">{{'common.cancelButton' | translate}}</button>
@@ -79,7 +79,7 @@
 <nz-modal [(nzVisible)]="isDeleteworkPerformed" (nzOnCancel)="handleCancelDeleteworkPerformed()" (nzOnOk)="handleSubmitDeleteworkPerformed()" [nzCentered]="true" [nzClosable]="false" 
     [nzContent]="modalContenDeleteworkPerformed" [nzFooter]="null" [nzStyle]="{'min-width' : '464px', 'min-height':'335px', 'width':'464px'}"  nzClassName="status_vehicle_modal">
     <ng-template #modalContenDeleteworkPerformed>
-        <div class="headmodal">
+        <div class="headmodal header-modal">
             <span style="justify-content: center; align-items: center; font-size: 24px; color: rgba(37, 44, 50, 1);" nz-icon nzType="check-circle" nzTheme="outline">{{'common.statusVehicle' | translate}}</span>
         </div>
         <div >
@@ -91,7 +91,7 @@
             </div>
     
           </div>            
-            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 20px"> 
+            <div class="footer-modal"> 
                 <span>
                     <button class="button-status" nz-button style="color: #274EA1;" nzType="default"
                         (click)="handleCancelDeleteworkPerformed()">{{'common.cancelButton' | translate}}</button>
