@@ -168,24 +168,6 @@ export class SetupRequestMrComponent implements OnInit {
     if (this.id) {
       this.getDetailMR(this.id);
     }
-
-    this.form.get('supposedStartTime')?.valueChanges.subscribe((value: Date) => {
-      if (value) {
-        const updatedTime = new Date(value);
-        updatedTime.setMinutes(0); // Đặt phút là 00
-        updatedTime.setSeconds(0); // Đặt giây là 00 (nếu cần)
-        this.form.get('supposedStartTime')?.setValue(updatedTime, { emitEvent: false });
-      }
-    });
-
-    this.form.get('supposedEndTime')?.valueChanges.subscribe((value: Date) => {
-      if (value) {
-        const updatedTime = new Date(value);
-        updatedTime.setMinutes(0); // Đặt phút là 00
-        updatedTime.setSeconds(0); // Đặt giây là 00 (nếu cần)
-        this.form.get('supposedEndTime')?.setValue(updatedTime, { emitEvent: false });
-      }
-    });
   }
 
   isFromRequestMr: boolean = false;
@@ -355,6 +337,17 @@ export class SetupRequestMrComponent implements OnInit {
     });
   }
 
+  isConfirm : boolean = false
+  closeConfirm(){
+    this.isConfirm = false
+  }
+
+  handleSubmitConfirm(){
+    this.isConfirm = true
+  }
+
+  
+
   convertStringToDate(timeString: string): Date {
     const [hours, minutes] = timeString.split(':').map(Number);
     const date = new Date();
@@ -466,6 +459,25 @@ export class SetupRequestMrComponent implements OnInit {
   isDone : boolean = false
   endClick(){
     this.form.reset()
+    this.isDone = false
+    this.listVS = []
+      this.listWP =[]
+      this.lstRS = []
+      this.lstTC = []
+  }
+
+  selectedTime: Date | null = null;
+
+  onTimeChange(value: Date | null): void {
+    if (value) {
+      const selectedHours = value.getHours();
+      const selectedMinutes = value.getMinutes();
+
+      if (selectedMinutes === 0) {
+        console.log('Giờ đã chọn:', selectedHours);
+        // Tùy chỉnh logic của bạn ở đây nếu cần
+      }
+    }
   }
 
   handleSubmitDone(){

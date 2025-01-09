@@ -419,6 +419,22 @@ export class SetupDeepCleaningComponent implements OnInit {
     }
     return '';
   }
+  isDone: boolean = false
+
+  endClick(){
+    this.form.reset()
+    this.isDone = false
+    this.listVS = []
+      this.listWP =[]
+      this.lstTC = []
+  }
+
+  handleSubmitDone(){
+    this.isDone = false
+    this.routes.navigate(['vehicle', 'deep-interior-cleaning'], {
+      queryParams: { tab: 'listDCL' }, // Điều hướng tới `list-request`
+    });
+  }
 
   onSubmit() {
     this.form.markAllAsTouched();

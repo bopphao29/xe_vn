@@ -47,7 +47,7 @@
 <nz-modal [(nzVisible)]="isItemCheck" (nzOnCancel)="handleCancelisItemCheck()" (nzOnOk)="handleSubmitisItemCheck()" [nzCentered]="true" [nzClosable]="false" 
     [nzContent]="modalContentisItemCheck" [nzFooter]="null" [nzStyle]="{'min-width' : '464px', 'min-height':'335px', 'width':'464px'}"  nzClassName="status_vehicle_modal">
     <ng-template #modalContentisItemCheck>
-        <div class="headmodal">
+        <div class="headmodal header-modal">
             <span style="justify-content: center; align-items: center; font-size: 24px; color: rgba(37, 44, 50, 1);" nz-icon nzType="check-circle" nzTheme="outline">
                 {{ isEditMode ? ('common.changeTitle' | translate) : ('vehicle.testItem' | translate) }}
             </span>
@@ -61,7 +61,7 @@
             </div>
     
           </div>            
-            <div style="display: flex; gap: 8px; justify-content: space-between; margin-top: 20px"> 
+            <div class="footer-modal"> 
                 <span>
                     <button class="button-status" nz-button style="color: #274EA1;" nzType="default"
                         (click)="handleCancelisItemCheck()">{{'common.cancelButton' | translate}}</button>
@@ -91,7 +91,7 @@
             </div>
     
           </div>            
-            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 20px"> 
+            <div class="footer-modal"> 
                 <span>
                     <button class="button-status" nz-button style="color: #274EA1;" nzType="default"
                         (click)="handleCancelDeleteItemCheck()">{{'common.cancelButton' | translate}}</button>
