@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -12,10 +19,15 @@ export class ButtonComponent implements OnChanges {
   @Input() title!: string;
   @Input() icon!: string;
   @Input() isDelete: boolean = false;
+  @Output() click = new EventEmitter<void>();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes) {
       console.log(changes);
     }
+  }
+
+  onClick() {
+    this.click.emit();
   }
 }
