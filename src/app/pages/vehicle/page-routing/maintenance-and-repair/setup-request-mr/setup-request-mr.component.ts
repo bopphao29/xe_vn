@@ -96,6 +96,11 @@ export class SetupRequestMrComponent implements OnInit {
       this.isEdit = true;
     });
 
+    const state = history.state;
+    if(state && state.isEdit) {
+      this.isEdit = state.isEdit
+    }
+
     this.checkIsFromRequestMr();
 
     this.form = this.fb.group({
@@ -185,7 +190,6 @@ export class SetupRequestMrComponent implements OnInit {
   replacementSupplies: { supplyId: number; quantity: number; unit: string }[] =
     [];
   receiveData(data: any[], name: string): void {
-    // Trích xuất và chuyển đổi dữ liệu thành { name: "..." }
     const processedData = data.map((item) => ({ name: item[name] }));
     const processedDataRS = data.map((item) => ({
       supplyId: item['supplyId'],
@@ -195,9 +199,9 @@ export class SetupRequestMrComponent implements OnInit {
     // Thay thế mảng hiện tại với mảng mới từ con
     if (name === 'vehicleStatus') {
       this.vehicleStatus = processedData; // Thay thế mảng vehicleStatus
-    } else if (name === 'testItem') {
+    } else if (name === 'testItemInput') {
       this.testItem = processedData; // Thay thế mảng itemCheck
-    } else if (name === 'workPerformed') {
+    } else if (name === 'workPerformedInput') {
       this.workPerformed = processedData; // Thay thế mảng workPerformed
     } else {
       this.replacementSupplies = processedDataRS;
@@ -271,6 +275,8 @@ export class SetupRequestMrComponent implements OnInit {
   lstRS: any[] = [];
   lstTC: any[] = [];
 
+  
+
   getForMaintenance(page: number, size: number) {
     this.vehicleService
       .getForMaintenance(page, size, this.Idroute)
@@ -278,7 +284,7 @@ export class SetupRequestMrComponent implements OnInit {
         this.listForMaintenanceCopy = response.data?.content;
         this.total = response.data.totalElements;
         this.vehicleService
-          .getForMaintenance(page, this.total, this.Idroute)
+          .getForMaintenance(0, this.total, this.Idroute)
           .subscribe((response: any) => {
             this.listForMaintenance = response.data?.content;
             console.log(this.listForMaintenance);
@@ -346,7 +352,7 @@ export class SetupRequestMrComponent implements OnInit {
     this.isConfirm = true
   }
 
-  
+
 
   convertStringToDate(timeString: string): Date {
     const [hours, minutes] = timeString.split(':').map(Number);
@@ -486,6 +492,29 @@ export class SetupRequestMrComponent implements OnInit {
       queryParams: { tab: 'list-request' }, // Điều hướng tới `list-request`
     });
   }
+
+  listVS1 : any[] =[]
+  listWP1: any[] = [];
+  lstRS1: any[] = [];
+  lstTC1: any[] = [];
+  updateVS(updatedList: any[]): void {
+    this.listVS1 = updatedList; // Cập nhật danh sách listVS
+  }
+
+  updateWP(updatedList: any[]): void {
+    this.listWP1 = updatedList; // Cập nhật danh sách listVS
+  }
+
+  updateRS(updatedList: any[]): void {
+    this.lstRS1 = updatedList; // Cập nhật danh sách listVS
+  }
+
+  updateTC(updatedList: any[]): void {
+    this.lstTC1 = updatedList; // Cập nhật danh sách listVS
+  }
+
+
+  
   onSubmit() {
     this.form.markAllAsTouched();
     // const dsts = this.form.getRawValue()
@@ -493,10 +522,10 @@ export class SetupRequestMrComponent implements OnInit {
       this.form.value.supposedStartTime
     );
     const supposedEndTime = this.formatTime(this.form.value.supposedEndTime);
-    const allVS = [...this.listVS, ...this.vehicleStatus]
-    const allWP = [...this.listWP, ...this.workPerformed]
-    const allTC = [...this.lstTC, ...this.testItem]
-    const allRS = [...this.lstRS, ...this.replacementSupplies]
+    const allVS = [...this.vehicleStatus]
+    const allWP = [...this.workPerformed]
+    const allTC = [...this.testItem]
+    const allRS = [...this.replacementSupplies]
 
 
     if (this.form.invalid) {

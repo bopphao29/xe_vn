@@ -27,6 +27,8 @@ import { VehicalServiceService } from '../../../../../../shared/services/vehical
 })
 export class ItemCheckComponent implements OnInit{
     @Input() parentData: any[] = [];
+  @Output() updateList = new EventEmitter<any[]>();
+
   
   @Output() dataEmitter = new EventEmitter<any[]>()
   data : any[] = []
@@ -104,10 +106,14 @@ updateDisplayedData(): void {
   this.displayedData = this.testItemList.slice(startIndex, endIndex);
 }
 
-editVehicleStatus(item: { id: number; testItemInput: string }): void {
+selectedItemId: number | null = null; 
+
+edit(item: { id: number; testItemInput: string }): void {
   this.testItemInput = item.testItemInput; // Gán giá trị từ item vào biến ngModel
   this.isItemCheck = true; // Mở modal
   this.isEditMode = true; // Chuyển sang chế độ sửa
+  this.selectedItemId = item.id; // Lưu `id` của mục được chọn
+
 }
 
 
@@ -127,9 +133,10 @@ handleCancelisItemCheck(): void {
 
 handleSubmitisItemCheck(): void {
     if (this.testItemInput.trim()) {
-      if (this.isEditMode) {
-        // Cập nhật đối tượng đã chọn trong danh sách
-        const index = this.testItemList.findIndex(item => item.id === this.testItemList.length); // Tìm đối tượng cũ dựa vào id
+      if (this.isEditMode && this.selectedItemId !== null) {
+        const index = this.testItemList.findIndex(
+          (item) => item.id === this.selectedItemId
+        );
         if (index !== -1) {
           this.testItemList[index].testItemInput = this.testItemInput; // Cập nhật trạng thái xe
         }
@@ -145,6 +152,7 @@ handleSubmitisItemCheck(): void {
     }
     this.isItemCheck = false; // Đóng modal
     this.isEditMode = false; // Đặt lại chế độ
+    this.selectedItemId = null,
     this.sendDataToParent()
   }  
   
@@ -154,13 +162,14 @@ handleSubmitisItemCheck(): void {
     // Mở modal xóa và điền thông tin vào
     this.isDeleteItemCheck = true;
     this.itemCheckToDelete = item; // Lưu thông tin đối tượng cần xóa
-    this.testItemInput = item.testItem; // Điền trạng thái xe vào modal
+    this.testItemInput = item.testItemInput; // Điền trạng thái xe vào modal
   }
   
   handleCancelDeleteItemCheck(): void {
     // Đóng modal xóa
     this.isDeleteItemCheck = false;
     this.itemCheckToDelete = null; // Xóa thông tin đối tượng cần xóa
+
   }
   
   handleSubmitDeleteItemCheck(): void {
@@ -173,6 +182,8 @@ handleSubmitisItemCheck(): void {
       // Cập nhật danh sách hiển thị
       this.updateDisplayedData();
       this.total = this.testItemList.length; // Cập nhật tổng số mục
+      this.testItemList = this.testItemList
+      
     }
   
     // Đóng modal xóa
@@ -184,6 +195,7 @@ handleSubmitisItemCheck(): void {
   sendDataToParent(){
     console.log(this.testItemList)
     this.dataEmitter.emit(this.testItemList)
+    this.updateList.emit(this.testItemList);
   }
   
 }

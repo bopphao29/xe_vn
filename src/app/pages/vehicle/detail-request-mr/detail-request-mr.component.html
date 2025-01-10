@@ -114,7 +114,7 @@
             <span>Phát sinh</span>
           </button>
         </span>
-        <span class="mx-2">
+        <span class="mx-2" *ngIf="inforMR?.approvalStatus != 2">
           <button
             class="button-infor"
             nz-button
@@ -186,7 +186,7 @@
             <span style="color: rgba(239, 68, 68, 1)">Xóa</span>
           </button>
         </span>
-        <span class="mx-2">
+        <span class="mx-2" *ngIf="inforMR?.approvalStatus != 2 && inforMR?.status != 3">
           <button
             class="button-infor"
             nz-button
@@ -445,7 +445,7 @@
                 </td>
               </tr>
               <tr>
-                <td class="opinion" colspan="2">
+                <td class="opinion" colspan="2" style="background-color: rgba(252, 252, 252, 1);">
                   Ý kiến của người duyệt:
                   {{
                     inforMR?.vehicleStatusNote
@@ -501,7 +501,7 @@
                 </td>
               </tr>
               <tr>
-                <td class="opinion" colspan="2">
+                <td class="opinion" colspan="2" style="background-color: rgba(252, 252, 252, 1);">
                   Ý kiến của người duyệt:
                   {{ inforMR?.testItemNote ? inforMR.testItemNote : "..." }}
                 </td>
@@ -550,7 +550,7 @@
                 </td>
               </tr>
               <tr>
-                <td class="opinion" colspan="2">
+                <td class="opinion" colspan="2" style="background-color: rgba(252, 252, 252, 1);">
                   Ý kiến của người duyệt
                   {{
                     inforMR?.workPerformedNote
@@ -587,18 +587,17 @@
               </tr>
               <tr
                 *ngFor="
-                  let data of inforMR?.replacementSupplyNote;
+                  let data of inforMR?.lstReplacementSupplies;
                   let i = index
                 "
               >
                 <td class="col-table-1">{{ i + 1 }}</td>
-                <td class="col-table-2">{{ data?.supplyId }}</td>
+                <td class="col-table-2">{{ data?.name }}</td>
                 <td class="col-table-3">{{ data?.quantity }}</td>
                 <td class="col-table-3">{{ data?.unit || "" }}</td>
-                <td class="col-table-3">
+                <td class="col-table-3"  *ngIf="isComplete">
                   <div class="flex justify-content-end">
                     <input
-                      *ngIf="isComplete"
                       [(ngModel)]="data.selected"
                       type="checkbox"
                       (change)="selectItem($event, data)"
@@ -608,11 +607,11 @@
               </tr>
 
               <tr>
-                <td class="opinion" colspan="5">
-                  Ý kiến của người duyệt:
+                <td class="opinion" [attr.colspan]="isComplete ? 5 : 4" style="background-color: rgba(252, 252, 252, 1);">
+                  Ý kiến của người duyệt
                   {{
                     inforMR?.replacementSupplyNote
-                      ? inforMR.replacementSupplyNote
+                      ? ":" + inforMR.replacementSupplyNote
                       : "..."
                   }}
                 </td>

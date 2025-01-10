@@ -12,17 +12,11 @@
         <td class="button_action list-col-2" style="text-align: center">
           <div>
             <a
-              [ngClass]="{
-                'disabled-input': !item.isAdd && isEdit
-              }"
               (click)="editVehicleStatus(item)"
               class="mx-1 button_show_detail"
               >Sửa</a
             >
             <a
-              [ngClass]="{
-                'disabled-input': !item.isAdd && isEdit
-              }"
               (click)="openDeleteModal(item)"
               class="mx-1 button_show_detail-delete"
               >Xóa</a
@@ -186,6 +180,7 @@
             placeholder="Nhập"
             type="text"
             [(ngModel)]="statusVehicle"
+            [disabled]="true"
           />
         </div>
       </div>

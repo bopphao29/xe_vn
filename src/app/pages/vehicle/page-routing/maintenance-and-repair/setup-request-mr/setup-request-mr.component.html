@@ -539,6 +539,7 @@
             <nz-tab nzTitle="{{ 'vehicle.vehicleStatus' | translate }}">
               <app-car-status
                 [parentData]="listVS"
+                (updateList)="updateVS($event)"
                 (dataEmitter)="receiveData($event, 'vehicleStatus')"
                 [isFromRequestMr]="isFromRequestMr"
                 [isEdit]="isEdit"
@@ -547,18 +548,22 @@
             <nz-tab nzTitle="{{ 'vehicle.itemCheck' | translate }}">
               <app-item-check
                 [parentData]="lstTC"
-                (dataEmitter)="receiveData($event, 'testItem')"
+                (updateList)="updateTC($event)"
+                (dataEmitter)="receiveData($event, 'testItemInput')"
               ></app-item-check>
             </nz-tab>
             <nz-tab nzTitle="{{ 'vehicle.workPerformed' | translate }}">
               <app-work-performed
                 [parentData]="listWP"
-                (dataEmitter)="receiveData($event, 'workPerformed')"
+                (updateList)="updateWP($event)"
+
+                (dataEmitter)="receiveData($event, 'workPerformedInput')"
               ></app-work-performed>
             </nz-tab>
             <nz-tab nzTitle="{{ 'vehicle.replacementSupplies' | translate }}">
               <app-replacement-supplies
                 [parentData]="lstRS"
+                (updateList)="updateRS($event)"
                 (dataEmitter)="receiveData($event, 'replacementSupplies')"
               ></app-replacement-supplies>
             </nz-tab>

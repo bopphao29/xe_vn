@@ -308,6 +308,8 @@ export class DetailRequestMrComponent implements OnInit {
   getDetailMR(id: number, type: number) {
     this.vehicleServices.getDetailMR(id, type).subscribe((response: any) => {
       this.inforMR = response.data;
+      console.log(this.inforMR, "abc");
+      console.log(response.data,"bcd");
       this.inforMR.lstVehicleStatus = Array.isArray(
         this.inforMR.lstVehicleStatus
       )
@@ -332,10 +334,10 @@ export class DetailRequestMrComponent implements OnInit {
             selected: false,
           }))
         : [];
-      this.inforMR.replacementSupplyNote = Array.isArray(
-        this.inforMR.replacementSupplyNote
+      this.inforMR.lstReplacementSupplies = Array.isArray(
+        this.inforMR.lstReplacementSupplies
       )
-        ? this.inforMR.replacementSupplyNote.map((item: any) => ({
+        ? this.inforMR.lstReplacementSupplies.map((item: any) => ({
             ...item,
             selected: false,
           }))
@@ -345,7 +347,11 @@ export class DetailRequestMrComponent implements OnInit {
   }
 
   onFix() {
-    this.router.navigate(['/vehicle/detail-mr-change/' + this.id]);
+    this.router.navigate(['/vehicle/detail-mr-change/' + this.id], {
+      state: {
+        isEdit: false
+      }
+    });
   }
 
   onSave() {

@@ -330,7 +330,7 @@ export class SetupDeepCleaningComponent implements OnInit {
         this.listForMaintenanceCopy = response.data?.content;
         this.total = response.data.totalElements;
         this.vehicleService
-          .getForMaintenance(page, this.total, this.Idroute)
+          .getForMaintenance(0, this.total, this.Idroute)
           .subscribe((response: any) => {
             this.listForMaintenance = response.data?.content;
           });

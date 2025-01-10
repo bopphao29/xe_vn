@@ -607,7 +607,7 @@ disableBeforeDateDriver(name: string): (currentDate: Date | null) => boolean {
     const dataForm = {
       ...this.form.value,
       // firstStartDate : this.datePipe.transform(firstStartDate, formmatDate),
-      image: (this.fileCompressed.file && this.form.get('image')?.value) ? this.fileCompressed.file[0].name : null,
+      image: (this.fileCompressed.file && this.fileCompressed.file[0].name ) ? this.fileCompressed.file[0].name : null,
       roadMaintenanceFee: this.getRawValue(),
     }
 

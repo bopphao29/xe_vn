@@ -101,14 +101,19 @@ export class ListRequestMrComponent implements OnInit{
       })
     }
 
-  startDate : Date = new Date()
-  endDate : Date = new Date()
+  startDate : Date | null = new Date()
+  endDate : Date | null = new Date()
   search(){
     const formmatDate = 'yyyy-MM-dd'
 
     const rangeDate = this.form.get('rangeDate')?.value
-    this.startDate = rangeDate ? rangeDate[0] : null 
-    this.endDate = rangeDate ? rangeDate[1] : null
+    if(rangeDate != null){
+      this.startDate =  rangeDate[0]
+      this.endDate = rangeDate[1]
+    }else{
+      this.startDate =  null 
+      this.endDate =  null
+    }
     this.form.updateValueAndValidity();
     const dataForm = {
       ...this.form.value,
