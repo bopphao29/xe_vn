@@ -4,7 +4,7 @@
   </span>
 </div>
 
-<div class="flex flex-col justify-center gap-[48px]">
+<div class="flex flex-col justify-center gap-[48px]" [formGroup]="form">
   <div class="flex justify-center gap-[12px]">
     <div class="input-item">
       <span class="required-star"
@@ -17,6 +17,7 @@
         class="w-full"
         style="width: 100%"
         nzPlaceHolder="Giờ ra thực tế"
+        formControlName="applyTime"
       ></nz-time-picker>
     </div>
     <div class="input-item">
@@ -30,6 +31,7 @@
         class="w-full"
         style="width: 100%"
         nzPlaceHolder="Ngày ra thực tế"
+        formControlName="applyDate"
       ></nz-date-picker>
     </div>
   </div>
@@ -68,39 +70,86 @@
           </th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
+      <tbody formArrayName="fuelPrices">
+        <tr
+          *ngFor="let fuelPrice of fuelPrices.controls; let i = index"
+          [formGroupName]="i"
+        >
           <td style="font-size: 14px" class="roboto-500">
-            {{ "operation.setup_fuel_price.area_1" | translate }}
+            {{ "operation.setup_fuel_price.area_" + region[i] | translate }}
           </td>
           <td>
-            <input class="input-form" placeholder="SĐT" type="text" />
+            <input
+              class="input-form"
+              (input)="validateText($event)"
+              placeholder="SĐT"
+              type="text"
+              formControlName="ron92"
+            />
           </td>
           <td>
-            <input class="input-form" placeholder="SĐT" type="text" />
+            <input
+              class="input-form"
+              (input)="validateText($event)"
+              placeholder="SĐT"
+              type="text"
+              formControlName="ron95"
+            />
           </td>
           <td>
-            <input class="input-form" placeholder="SĐT" type="text" />
+            <input
+              class="input-form"
+              (input)="validateText($event)"
+              placeholder="SĐT"
+              type="text"
+              formControlName="diesel005"
+            />
           </td>
           <td>
-            <input class="input-form" placeholder="SĐT" type="text" />
+            <input
+              class="input-form"
+              (input)="validateText($event)"
+              placeholder="SĐT"
+              type="text"
+              formControlName="diesel0001"
+            />
           </td>
         </tr>
-        <tr>
+        <!-- <tr>
           <td style="font-size: 14px" class="roboto-500">
             {{ "operation.setup_fuel_price.area_2" | translate }}
           </td>
           <td>
-            <input class="input-form" placeholder="SĐT" type="text" />
+            <input
+              class="input-form"
+              (input)="validateText($event)"
+              placeholder="SĐT"
+              type="text"
+            />
           </td>
           <td>
-            <input class="input-form" placeholder="SĐT" type="text" />
+            <input
+              class="input-form"
+              (input)="validateText($event)"
+              placeholder="SĐT"
+              type="text"
+            />
           </td>
           <td>
-            <input class="input-form" placeholder="SĐT" type="text" />
+            <input
+              class="input-form"
+              (input)="validateText($event)"
+              placeholder="SĐT"
+              type="text"
+            />
           </td>
           <td>
-            <input class="input-form" placeholder="SĐT" type="text" />
+            <input
+              class="input-form"
+              (input)="validateText($event)"
+              placeholder="SĐT"
+              type="text"
+            />
           </td>
         </tr>
         <tr>
@@ -108,29 +157,75 @@
             {{ "operation.setup_fuel_price.area_3" | translate }}
           </td>
           <td>
-            <input class="input-form" placeholder="SĐT" type="text" />
+            <input
+              class="input-form"
+              (input)="validateText($event)"
+              placeholder="SĐT"
+              type="text"
+            />
           </td>
           <td>
-            <input class="input-form" placeholder="SĐT" type="text" />
+            <input
+              class="input-form"
+              (input)="validateText($event)"
+              placeholder="SĐT"
+              type="text"
+            />
           </td>
           <td>
-            <input class="input-form" placeholder="SĐT" type="text" />
+            <input
+              class="input-form"
+              (input)="validateText($event)"
+              placeholder="SĐT"
+              type="text"
+            />
           </td>
           <td>
-            <input class="input-form" placeholder="SĐT" type="text" />
+            <input
+              class="input-form"
+              (input)="validateText($event)"
+              placeholder="SĐT"
+              type="text"
+            />
           </td>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
   </div>
 
   <div class="flex justify-center gap-[12px]">
-    <button class="btn btn-cancel">Hủy</button>
+    <button class="btn btn-cancel" (click)="closeModal()">Hủy</button>
     <app-button
       [title]="'Xóa'"
       [icon]="'delete'"
       [isDelete]="true"
     ></app-button>
-    <button class="btn btn-save">Lưu</button>
+    <button
+      class="flex justify-center items-center gap-[12px]"
+      style="
+        width: 160px;
+        height: 48px;
+        background: #fcfcfc;
+        border: 1px solid #ef4444;
+        color: #ef4444;
+        border-radius: 8px;
+      "
+      (click)="onDelete()"
+    >
+      <svg
+        width="21"
+        height="21"
+        viewBox="0 0 21 21"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M6.33337 18C5.87504 18 5.48268 17.8368 5.15629 17.5104C4.8299 17.184 4.66671 16.7917 4.66671 16.3333V5.5H3.83337V3.83333H8.00004V3H13V3.83333H17.1667V5.5H16.3334V16.3333C16.3334 16.7917 16.1702 17.184 15.8438 17.5104C15.5174 17.8368 15.125 18 14.6667 18H6.33337ZM8.00004 14.6667H9.66671V7.16667H8.00004V14.6667ZM11.3334 14.6667H13V7.16667H11.3334V14.6667Z"
+          fill="#EF4444"
+        />
+      </svg>
+      <span>Xóa</span>
+    </button>
+    <button class="btn btn-save" (click)="onEdit()">Lưu</button>
   </div>
 </div>
