@@ -91,14 +91,14 @@ export class VehicalServiceService {
     );
   }
 
-  getForMaintenance(page: number, size: number, routerId: any) {
+  getForMaintenance(page: number, size: number, routeId: any) {
     const params =
       'page=' +
       page.toString() +
       '&size=' +
       size.toString() +
-      '&routerId=' +
-      routerId;
+      '&routeId=' +
+      routeId;
     return this.httpClient.get(
       this.url + 'api/vehicles/get-for-maintenance?' + params
     );

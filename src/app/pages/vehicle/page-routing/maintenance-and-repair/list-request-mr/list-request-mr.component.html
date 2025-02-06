@@ -84,7 +84,7 @@
                         <td class="list-col-2">{{data.phoneNumber || '-'}}</td>
                         <td class="list-col-2">{{data.createdBy || '-'}}</td>
                         
-                        <td class="list-col-2">{{(data.createdBy | date: 'dd/MM/yyyy')  || '-'}}</td>
+                        <td class="list-col-2">{{(data.createdDate | date: ' HH:mm dd/MM/yyyy')  || '-'}}</td>
                         <td class="list-col-3">
                             {{data.statusStr}}
                         </td>

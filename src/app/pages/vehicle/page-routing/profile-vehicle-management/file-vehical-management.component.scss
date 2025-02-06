@@ -232,9 +232,9 @@
 }
 
 .prepare-to-expire-item:hover {
-  background-color: darkgray;
+  background-color: rgba(36, 113, 202, 0.1);
   span{
-    color: lightgoldenrodyellow;
+    color: rgb(53, 89, 166);
     span{
       color: red;
     }
@@ -242,7 +242,7 @@
 }
 
 .active-button:active{
-  background-color: darkgray;
+  background-color: rgba(26, 105, 197, 0.1);
   color: lightgoldenrodyellow;
 }
 
@@ -252,11 +252,11 @@
 }
 
 .prepare-to-expire-item.active-button {
-  background-color: darkgray;
+  background-color: rgba(26, 105, 197, 0.1);
 }
 
 .prepare-to-expire-item.active-button .prepare-to-expire-button span:first-child {
-  color: rgb(255, 255, 255); 
+  color: rgba(39, 78, 161, 1); 
 }
 
 .prepare-to-expire-item.active-button .prepare-to-expire-button span:last-child {

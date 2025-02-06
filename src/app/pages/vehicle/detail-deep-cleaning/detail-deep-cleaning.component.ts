@@ -152,7 +152,7 @@ isValidDate: boolean = false;
   onComplete() {
     this.router.navigate(['/vehicle/detail-mr-complete/' + this.id], {
       state: {
-        isFromRequestMr: true,
+        isFromRequestMr: false,
       },
     });
   }

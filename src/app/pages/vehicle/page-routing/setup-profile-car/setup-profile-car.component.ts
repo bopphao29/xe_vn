@@ -93,9 +93,8 @@ export class SetupProfileCarComponent implements OnInit {
     private uploadImageService: UploadImageService,
     private routes: Router,
     private validateService: ValidateIntoPageService,
-    private routerVehicle: routerLink
-  ) // private formatDateToApiPipe: FormatDateService,
-  // private datePipe: DatePipe
+    private routerVehicle: routerLink // private formatDateToApiPipe: FormatDateService,
+  ) // private datePipe: DatePipe
 
   {}
 

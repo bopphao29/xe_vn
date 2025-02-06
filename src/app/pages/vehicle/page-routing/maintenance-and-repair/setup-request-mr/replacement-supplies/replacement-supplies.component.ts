@@ -29,7 +29,7 @@ import { VehicalServiceService } from '../../../../../../shared/services/vehical
 })
 export class ReplacementSuppliesComponent implements OnInit{
     @Input() parentData: any[] = [];
-    
+    @Output() updateList = new EventEmitter<any[]>();
     @Output() dataEmitter = new EventEmitter<any[]>()
 
     ngOnChanges(changes: SimpleChanges) {
@@ -81,13 +81,17 @@ updateDisplayedData(): void {
   const endIndex = startIndex + this.pageSize;
   this.displayedData = this.replacementSuppliesList.slice(startIndex, endIndex);
 }
+selectedItemId: number | null = null; 
 
-editreplacementSupplies(item: { id: number; supplyId: number; quantity: number ;unit: string }): void {
+
+edit(item: { id: number; supplyId: number; quantity: number ;unit: string }): void {
   this.supplyId = item.supplyId; // Gán giá trị từ item vào biến ngModel
   this.quantity = item.quantity
   this.unit = item.unit
+  this.isEditMode = true;
   this.isreplacementSupplies = true; // Mở modal
-  this.isEditMode = true; // Chuyển sang chế độ sửa
+  this.selectedItemId = item.id;
+
 }
 
 
@@ -158,14 +162,15 @@ getSupplyName(supplyId: number): string {
 
 handleSubmitisreplacementSupplies(): void {
     if (this.supplyId) {
-      if (this.isEditMode) {
-        // Cập nhật đối tượng đã chọn trong danh sách
-        const index = this.replacementSuppliesList.findIndex(item => item.id === this.replacementSuppliesList.length); // Tìm đối tượng cũ dựa vào id
+      if (this.isEditMode && this.selectedItemId !== null) {
+        const index = this.replacementSuppliesList.findIndex(
+          (item) => item.id === this.selectedItemId
+        );
         if (index !== -1) {
           this.replacementSuppliesList[index].supplyId = this.supplyId; 
           this.replacementSuppliesList[index].quantity = this.quantity; 
           this.replacementSuppliesList[index].unit = this.unit; 
-        }
+        } 
       } else {
         // Thêm mới
         this.replacementSuppliesList.push({
@@ -180,11 +185,14 @@ handleSubmitisreplacementSupplies(): void {
     }
     this.isreplacementSupplies = false; // Đóng modal
     this.isEditMode = false; // Đặt lại chế độ
+    this.selectedItemId = null
+
     this.sendDataToParent()
 
   }  
   sendDataToParent() {
     this.dataEmitter.emit(this.replacementSuppliesList)
+    this.updateList.emit(this.replacementSuppliesList);
 
   }
 
@@ -216,6 +224,8 @@ handleSubmitisreplacementSupplies(): void {
       // Cập nhật danh sách hiển thị
       this.updateDisplayedData();
       this.total = this.replacementSuppliesList.length; // Cập nhật tổng số mục
+      this.replacementSuppliesList = this.replacementSuppliesList 
+
     }
   
     // Đóng modal xóa

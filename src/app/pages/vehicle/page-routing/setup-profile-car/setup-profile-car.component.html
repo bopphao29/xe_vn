@@ -259,7 +259,7 @@
         <div class="input-wrapper">
           <div class="">
               <label class="label-form" ><span class="required-star" >*</span> {{'vehicle.firstRegistrationDate' | translate}} </label>
-              <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableBeforeDate('firstSubcriptionDate')" formControlName="firstRegistrationDate" class="w-full" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
+              <nz-date-picker nzFormat="dd/MM/yyyy" [nzDisabledDate]="disableBeforeDate('firstSubscriptionDate')" formControlName="firstRegistrationDate" class="w-full" style="width: 100%; height: 48px !important;" nzPlaceHolder="{{'Chọn ngày' | translate}}"></nz-date-picker>
                   <div class="error-container">
                       <div *ngIf="form.get('firstRegistrationDate')?.invalid && (form.get('firstRegistrationDate')?.dirty) || form.get('firstRegistrationDate')?.touched">
                           <span class="validate_input" *ngIf="form.get('firstRegistrationDate')?.errors?.['required']">{{'required.cannotBlank' | translate}}</span>

@@ -26,6 +26,8 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 })
 export class WorkPerformedComponent implements OnInit{
   @Input() parentData: any[] = [];
+  @Output() updateList = new EventEmitter<any[]>();
+
   
   @Output() dataEmitter = new EventEmitter<any[]>()
   constructor(
@@ -51,10 +53,12 @@ export class WorkPerformedComponent implements OnInit{
   isWorkPerformed : boolean = false
   isDeleteworkPerformed: boolean = false
   workPerformedInput: string = ''
-  workPerformedList: Array<{ id: number; workPerformedInput: string }> = [];
+  workPerformedList: Array<any> = [];
 
   sendDataToParent(){
     this.dataEmitter.emit(this.workPerformedList)
+    this.updateList.emit(this.workPerformedList);
+
   }
 //phan trang
 displayedData: Array<{ id: number; workPerformedInput: string }> = []; // Dữ liệu hiển thị
@@ -104,10 +108,13 @@ updateDisplayedData(): void {
   this.displayedData = this.workPerformedList.slice(startIndex, endIndex);
 }
 
-editWorkPerformed(item: { id: number; workPerformedInput: string }): void {
+selectedItemId: number | null = null; 
+
+edit(item: { id: number; workPerformedInput: string }): void {
   this.workPerformedInput = item.workPerformedInput; // Gán giá trị từ item vào biến ngModel
   this.isWorkPerformed = true; // Mở modal
   this.isEditMode = true; // Chuyển sang chế độ sửa
+  this.selectedItemId = item.id;
 }
 
 
@@ -127,9 +134,10 @@ handleCancelisWorkPerformed(): void {
 
 handleSubmitisWorkPerformed(): void {
     if (this.workPerformedInput.trim()) {
-      if (this.isEditMode) {
-        // Cập nhật đối tượng đã chọn trong danh sách
-        const index = this.workPerformedList.findIndex(item => item.id === this.workPerformedList.length); // Tìm đối tượng cũ dựa vào id
+      if (this.isEditMode && this.selectedItemId !== null) {
+        const index = this.workPerformedList.findIndex(
+          (item) => item.id === this.selectedItemId
+        );
         if (index !== -1) {
           this.workPerformedList[index].workPerformedInput = this.workPerformedInput; // Cập nhật trạng thái xe
         }
@@ -140,11 +148,14 @@ handleSubmitisWorkPerformed(): void {
           workPerformedInput: this.workPerformedInput
         });
       }
+      this.workPerformedList = this.workPerformedList
       this.total = this.workPerformedList.length; // Cập nhật tổng số mục
       this.updateDisplayedData(); // Cập nhật danh sách hiển thị
     }
     this.isWorkPerformed = false; // Đóng modal
     this.isEditMode = false; // Đặt lại chế độ
+    this.selectedItemId = null
+    
     this.sendDataToParent()
 
   }  
@@ -155,7 +166,7 @@ handleSubmitisWorkPerformed(): void {
     // Mở modal xóa và điền thông tin vào
     this.isDeleteworkPerformed = true;
     this.workPerformedDelete = item; // Lưu thông tin đối tượng cần xóa
-    this.workPerformedInput = item.workPerformed; // Điền trạng thái xe vào modal
+    this.workPerformedInput = item.workPerformedInput; // Điền trạng thái xe vào modal
   }
   
   handleCancelDeleteworkPerformed(): void {
@@ -174,6 +185,7 @@ handleSubmitisWorkPerformed(): void {
       // Cập nhật danh sách hiển thị
       this.updateDisplayedData();
       this.total = this.workPerformedList.length; // Cập nhật tổng số mục
+      this.workPerformedList = this.workPerformedList 
     }
   
     // Đóng modal xóa

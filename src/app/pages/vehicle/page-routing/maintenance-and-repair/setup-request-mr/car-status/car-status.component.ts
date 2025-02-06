@@ -38,6 +38,7 @@ export class CarStatusComponent implements OnInit {
   @Output() dataEmitter = new EventEmitter<any[]>();
   @Input() isFromRequestMr: boolean = false;
   @Input() isEdit: boolean = false;
+  @Output() updateList = new EventEmitter<any[]>();
 
   data: any[] = [];
 
@@ -123,12 +124,14 @@ export class CarStatusComponent implements OnInit {
     this.displayedData = this.statusVehicleList.slice(startIndex, endIndex);
   }
 
-  editVehicleStatus(item: { id: number; vehicleStatus: string }): void {
-    this.statusVehicle = item.vehicleStatus; // Gán giá trị từ item vào biến ngModel
-    this.isStatusVehicle = true; // Mở modal
-    this.isEditMode = true; // Chuyển sang chế độ sửa
-  }
+  selectedVehicleId: number | null = null; 
 
+  editVehicleStatus(vehicle: any): void {
+    this.isEditMode = true;
+    this.isStatusVehicle = true; // Mở modal
+    this.statusVehicle = vehicle.vehicleStatus; // Hiển thị trạng thái hiện tại trong input
+    this.selectedVehicleId = vehicle.id; // Lưu `id` của mục được chọn
+  }
   isEditMode = false;
   onAdd() {
     this.statusVehicle = '';
@@ -143,11 +146,12 @@ export class CarStatusComponent implements OnInit {
 
   handleSubmitStatusVehicle(): void {
     if (this.statusVehicle.trim()) {
-      if (this.isEditMode) {
-        // Cập nhật đối tượng đã chọn trong danh sách
+      if (this.isEditMode && this.selectedVehicleId !== null) {
+        // Tìm mục cần sửa dựa trên `selectedVehicleId`
         const index = this.statusVehicleList.findIndex(
-          (item) => item.id === this.statusVehicleList.length
-        ); // Tìm đối tượng cũ dựa vào id
+          (item) => item.id === this.selectedVehicleId
+        );
+  
         if (index !== -1) {
           this.statusVehicleList[index].vehicleStatus = this.statusVehicle; // Cập nhật trạng thái xe
         }
@@ -162,14 +166,18 @@ export class CarStatusComponent implements OnInit {
       this.total = this.statusVehicleList.length; // Cập nhật tổng số mục
       this.updateDisplayedData(); // Cập nhật danh sách hiển thị
     }
-    this.isStatusVehicle = false; // Đóng modal
-    this.isEditMode = false; // Đặt lại chế độ
+  
+    // Reset trạng thái modal và chế độ sửa
+    this.isStatusVehicle = false;
+    this.isEditMode = false;
+    this.selectedVehicleId = null; // Xóa `id` được chọn
     this.sendDataToParent();
-    console.log(this.statusVehicleList);
   }
+  
 
   sendDataToParent(): void {
     this.dataEmitter.emit(this.statusVehicleList); // Gửi dữ liệu ra ngoài
+    this.updateList.emit(this.statusVehicleList);
   }
 
   statusVehicleToDelete: any = null; // Lưu đối tượng cần xóa
@@ -197,6 +205,7 @@ export class CarStatusComponent implements OnInit {
       // Cập nhật danh sách hiển thị
       this.updateDisplayedData();
       this.total = this.statusVehicleList.length; // Cập nhật tổng số mục
+      this.statusVehicleList = this.statusVehicleList
     }
 
     // Đóng modal xóa
