@@ -1,41 +1,8 @@
-.bg_css{
-  background-position:  center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-image: url("../../../assets/images/backgound_header.png");
-}
-
-.btn-logout {
-    border-radius: 8px;
-    padding: 14px 57px;
-    border: 1px solid #274EA1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 20px;
-    color: #274EA1;
-    height: 48px;
-    width: 180px;
-    cursor: pointer;
-}
-
-.btn-logout:hover{
-    border-color: #274EA1;
-    background-color: #274EA1;
-    color: white;
-}
-
-.container {
-    display: flex;
-    align-items: center;
-  }
-  
-  .item {
-    margin-right: 15px;
-    white-space: wrap;
-  }
+// .bg_css{
+//   background-position: center;
+//   background-size: cover;
+//   background-repeat: no-repeat;
+// }
   
   .group {
     position: relative;
@@ -54,6 +21,24 @@
   
   .group:hover .dropdown {
     display: block;
+  }
+
+  .group:hover .group-hover\:opacity-100 {
+    opacity: 1 !important;
+    transition: opacity 0.3s ease;
+  }
+  
+  .group:hover .group-hover\:visible {
+    visibility: visible !important;
+    transition: visibility 0.3s ease;
+  }
+  
+  .group-hover\:opacity-100 {
+    opacity: 0 !important;
+  }
+  
+  .group-hover\:visible {
+    visibility: hidden !important;
   }
   
 .backdrop {
@@ -108,24 +93,6 @@
 // .w-screen{
 //     width: 180px !important;
 // }
-
-.group:hover .group-hover\:opacity-100 {
-    opacity: 1 !important;
-    transition: opacity 0.3s ease;
-  }
-  
-  .group:hover .group-hover\:visible {
-    visibility: visible !important;
-    transition: visibility 0.3s ease;
-  }
-  
-  .group-hover\:opacity-100 {
-    opacity: 0 !important;
-  }
-  
-  .group-hover\:visible {
-    visibility: hidden !important;
-  }
   
   .text-activeLink {
     color: #274EA1 !important;
@@ -144,3 +111,4 @@
   .left-21 {
     left: calc(var(--spacing)* -21) !important;
 }
+
